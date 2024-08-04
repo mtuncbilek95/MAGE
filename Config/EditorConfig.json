@@ -1,0 +1,11 @@
+{
+  "EditorConfig": {
+    "EditorTitle": "MAGE Editor",
+    "EditorVersion": "v0.0.1",
+    "EditorWindow": {
+      "Resolution": [ 1600 , 980 ],
+      "WindowMode": 0,
+      "SyncMode": 3
+    }
+  }
+}

@@ -2,6 +2,8 @@
 
 #include <Engine/Application/Application.h>
 #include <Editor/API/ImGuiWindowAPI.h>
+#include <Engine/Graphics/API/GraphicsAPI.h>
+#include <Engine/Graphics/Swapchain/Swapchain.h>
 
 #include <Editor/GuiWindow/Built-in/DockWindow.h>
 #include <Editor/GuiWindow/Built-in/ContentWindow.h>
@@ -35,6 +37,11 @@ namespace MAGE
 
 	void ImGuiWindowModule::Update() noexcept
 	{
+		auto swapchain = GraphicsAPI::GetAPI()->GetSwapchain();
+
+		if (swapchain->GetImageSize().x == 0 || swapchain->GetImageSize().y == 0)
+			return;
+
 		auto windows = mImGuiAPI->GetGuiWindows();
 
 		for (auto& window : windows)

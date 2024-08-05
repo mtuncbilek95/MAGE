@@ -30,6 +30,9 @@ namespace MAGE
 		{
 			mGraphicsAPI->GetSwapchain()->ResizeSwapchain(WindowAPI::GetAPI()->GetDefaultWindow()->GetWindowResolution());
 
+			if (WindowAPI::GetAPI()->GetDefaultWindow()->GetWindowResolution().x == 0 || WindowAPI::GetAPI()->GetDefaultWindow()->GetWindowResolution().y == 0)
+				return;
+
 			auto fence = GraphicsAPI::GetAPI()->GetDevice()->CreateGraphicsFence(false);
 			auto cmdPool = GraphicsAPI::GetAPI()->GetDevice()->CreateCommandPool({ CmdPoolType::Graphics });
 			auto cmdBuffer = GraphicsAPI::GetAPI()->GetDevice()->CreateCommandBuffer({ cmdPool.get()});

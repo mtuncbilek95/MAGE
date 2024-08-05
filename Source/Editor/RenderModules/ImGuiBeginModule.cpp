@@ -56,6 +56,9 @@ namespace MAGE
 
 	void ImGuiBeginModule::Update() noexcept
 	{
+		if(mSwapchain->GetImageSize().x == 0 || mSwapchain->GetImageSize().y == 0)
+			return;
+
 		u32 index = mSwapchain->AcquireNextImage(mFence.get(), nullptr);
 		mDevice->WaitFence(mFence.get());
 		mDevice->ResetFence(mFence.get());

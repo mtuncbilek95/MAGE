@@ -7,6 +7,10 @@
 #include <vulkan/vulkan_win32.h>
 #endif
 
+#if defined(MAGE_LINUX)
+#include <vulkan/vulkan_xlib.h>
+#endif
+
 #include <Engine/Vulkan/Device/VDevice.h>
 #include <Engine/Vulkan/Queue/VQueue.h>
 #include <Engine/Vulkan/Sync/VFence.h>
@@ -33,6 +37,14 @@ namespace MAGE
 		surfaceInfo.pNext = nullptr;
 
 		CORE_ASSERT(vkCreateWin32SurfaceKHR(mInstance, &surfaceInfo, nullptr, &mSurface) == VK_SUCCESS, "VSwapchain", "Failed to create win32 surface");
+#endif
+
+#if defined(MAGE_LINUX)
+		VkXlibSurfaceCreateInfoKHR surfaceInfo = {};
+		surfaceInfo.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
+		surfaceInfo.dpy = WindowAPI::GetAPI()->GetDefaultWindow()->GetDisplayHandle();
+		surfaceInfo.window = WindowAPI::GetAPI()->GetDefaultWindow()->GetWindowHandle();
+		surfaceInfo.pNext = nullptr;
 #endif
 
 		VkSurfaceCapabilitiesKHR surfaceCapabilities;
@@ -66,6 +78,9 @@ namespace MAGE
 				SetNewImageSize({ surfaceCapabilities.currentExtent.width, surfaceCapabilities.currentExtent.height });
 			}
 		}
+
+		if (desc.ImageSize.x == 0 || desc.ImageSize.y == 0)
+			SetNewImageSize({ surfaceCapabilities.maxImageExtent.width, surfaceCapabilities.maxImageExtent.height });
 
 		u32 presentModeCount = 0;
 		CORE_ASSERT(vkGetPhysicalDeviceSurfacePresentModesKHR(mAdapter, mSurface, &presentModeCount, nullptr) == VK_SUCCESS,
@@ -203,6 +218,9 @@ namespace MAGE
 
 	void VSwapchain::ResizeSwapchainImpl(Vec2u newSize)
 	{
+		if (newSize.x == 0 || newSize.y == 0)
+			return;
+
 		mImageViews.clear();
 		mImageViews.shrink_to_fit();
 
@@ -210,7 +228,9 @@ namespace MAGE
 			image->GetAs<VTextureImage>()->NullifyTexture();
 
 		vkDeviceWaitIdle(mDevice);
-		vkDestroySwapchainKHR(mDevice, mSwapchain, nullptr);
+
+		if(mSwapchain != VK_NULL_HANDLE)
+			vkDestroySwapchainKHR(mDevice, mSwapchain, nullptr);
 
 		VkSurfaceCapabilitiesKHR surfaceCapabilities;
 		CORE_ASSERT(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(mAdapter, mSurface, &surfaceCapabilities) == VK_SUCCESS, "VSwapchain",
@@ -268,7 +288,7 @@ namespace MAGE
 		swapchainInfo.minImageCount = GetBufferCount();
 		swapchainInfo.imageFormat = VkUtils::GetVkFormat(GetImageFormat());
 		swapchainInfo.imageColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
-		swapchainInfo.imageExtent = { newSize.x, newSize.y };
+		swapchainInfo.imageExtent = { GetImageSize().x, GetImageSize().y};
 		swapchainInfo.imageArrayLayers = 1;
 		swapchainInfo.imageUsage = VkUtils::GetVkImageUsageFlags(GetTextureUsage());
 		swapchainInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;

@@ -13,6 +13,11 @@
 #include <GLFW/glfw3native.h>
 #endif
 
+#if defined(MAGE_LINUX)
+#define GLFW_EXPOSE_NATIVE_X11
+#include <GLFW/glfw3native.h>
+#endif
+
 namespace MAGE
 {
 	class PlatformWindow : public IObject
@@ -43,6 +48,11 @@ namespace MAGE
 #if defined(MAGE_WINDOWS)
 		HWND GetWindowHandle() const { return glfwGetWin32Window(mGLFWHandle); }
 		HINSTANCE GetInstanceHandle() const { return GetModuleHandle(NULL); }
+#endif
+
+#if defined(MAGE_LINUX)
+		Display* GetDisplayHandle() const { return glfwGetX11Display(); }
+		Window GetWindowHandle() const { return glfwGetX11Window(mGLFWHandle); }
 #endif
 
 		GLFWwindow* GetGLFWHandle() const { return mGLFWHandle; }

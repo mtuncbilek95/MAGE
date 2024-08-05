@@ -28,6 +28,9 @@ namespace MAGE
 
 	void ImGuiEndModule::Update() noexcept
 	{
+		if (mSwapchain->GetImageSize().x == 0 || mSwapchain->GetImageSize().y == 0)
+			return;
+
 		ImGui::Render();
 
 		if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -74,6 +77,9 @@ namespace MAGE
 
 	void ImGuiEndModule::OnPostUpdate() noexcept
 	{
+		if (mSwapchain->GetImageSize().x == 0 || mSwapchain->GetImageSize().y == 0)
+			return;
+
 		mCmdBuffer->EndRendering();
 
 		u32 index = mSwapchain->GetImageIndex();

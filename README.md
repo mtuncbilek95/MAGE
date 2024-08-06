@@ -9,3 +9,6 @@ You need to download Vulkan SDK in order to run the engine from source code. The
 
 ### On Linux
 # SAMET PUT A SCREENSHOT IN HERE OR EXPLAIN HOW TO DO IT.
+
+## AFTER VULKAN SDK
+Please only use main/master branch because this will be the only branch that will be able to work properly.

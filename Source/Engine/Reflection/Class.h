@@ -6,6 +6,5 @@ namespace MAGE
 {
 	class Class
 	{
-
 	};
 }

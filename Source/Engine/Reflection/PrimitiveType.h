@@ -4,25 +4,23 @@
 
 namespace MAGE
 {
-	enum class FieldType
+	enum class PrimitiveType
 	{
-		i8,
+		Bool,
 		u8,
-		i16,
+		i8,
 		u16,
-		i32,
+		i16,
 		u32,
-		i64,
+		i32,
 		u64,
+		i64,
 		f32,
 		f64,
-		String,
-		Boolean,
-		Enum,
 		Class,
+		Enum,
 		Struct,
-		Array,
-		Pointer,
-		Interface
+		String,
+		Array
 	};
 }

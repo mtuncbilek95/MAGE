@@ -18,12 +18,12 @@ namespace MAGE
 		ImGuiRenderer* GetEditorRenderer() { return mEditorRenderer.get(); }
 
 	private:
-		WeakPtr<ImGuiRenderer> CreateEditor()
+		ImGuiRenderer* CreateEditor()
 		{
 			if (!mEditorRenderer)
 				mEditorRenderer = MakeShared<ImGuiRenderer>();
 
-			return mEditorRenderer;
+			return mEditorRenderer.get();
 		}
 
 	private:

@@ -25,7 +25,7 @@ namespace MAGE
 	bool ImGuiRenderModule::OnInitialize() noexcept
 	{
 		auto tempEditor = mImGuiAPI->CreateEditor();
-		if (tempEditor.expired())
+		if (tempEditor == nullptr)
 			return false;
 
 		return true;

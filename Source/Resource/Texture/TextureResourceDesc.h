@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
 #include <Engine/Graphics/Texture/TextureFormat.h>
 #include <Engine/Graphics/Texture/TextureUsageFlags.h>
 #include <Engine/Graphics/Texture/TextureType.h>
@@ -9,18 +8,12 @@
 
 namespace MAGE
 {
-	class GraphicsMemory;
-	struct TextureImageDesc
+	struct TextureResourceDesc
 	{
 		Vec3u ImageSize;
-		u32 MipLevels;
-		u32 ArrayLayers;
 		TextureFormat ImageFormat;
-		TextureUsageFlags UsageFlags;
 		TextureType ImageType;
 		SampleCount Samples;
 		TextureCreateFlags CreateFlags;
-
-		GraphicsMemory* pRequestMemory;
 	};
 }

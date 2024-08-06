@@ -2,6 +2,7 @@
 
 #include <Engine/Core/Core.h>
 #include <Resource/Core/ResourceSubObject.h>
+#include <Resource/Texture/TextureResourceDesc.h>
 
 #include <Engine/Graphics/Sync/Fence.h>
 #include <Engine/Graphics/Texture/TextureImage.h>
@@ -21,12 +22,13 @@ namespace MAGE
 
 	public:
 		TextureResource();
-		~TextureResource() override = default;
+		~TextureResource() override;
 
 		void ConnectMemory(s64 deviceMemSize, s64 hostMemSize);
-		void CreateImage(const TextureImageDesc& desc);
+		void CreateImage(const TextureResourceDesc& desc);
 		void CreateView(TextureAspectFlags AspectFlags, TextureViewType ViewType);
-		void FillData(MemoryBuffer buffer, u32 arrayIndex, u32 mipIndex);
+		void FillData(MemoryBuffer buffer, u32 arrayIndex, u32 mipIndex, u64 offset);
+		void UpdateBarrier(TextureImageBarrier barrier);
 
 		TextureView* GetView(u32 arrayLevel, u32 mipLevel);
 

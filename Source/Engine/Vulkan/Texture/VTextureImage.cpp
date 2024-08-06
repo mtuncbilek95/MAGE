@@ -33,7 +33,7 @@ namespace MAGE
 		u64 memoryOffset = desc.pRequestMemory->Allocate(info.size + info.alignment);
 		u64 alignedOffset = memoryOffset + (memoryOffset % info.alignment == 0 ? 0 : (info.alignment - (memoryOffset % info.alignment)));
 
-		auto memPtr = desc.pRequestMemory->GetAs<VMemory>();
+		VMemory* memPtr = desc.pRequestMemory->GetAs<VMemory>();
 		CORE_ASSERT(vkBindImageMemory(mDevice, mTexture, memPtr->GetVkDeviceMemory(), alignedOffset) == VK_SUCCESS, "VTextureImage", "Failed to bind image memory!");
 
 		mOffset = memoryOffset;

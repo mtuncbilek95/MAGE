@@ -17,7 +17,7 @@ namespace MAGE
 		virtual void Stop() noexcept override;
 
 	protected:
-		virtual bool OnInitialize() noexcept override;
+		virtual b8 OnInitialize() noexcept override;
 		virtual void OnPreUpdate() noexcept override;
 		virtual void OnPostUpdate() noexcept override;
 

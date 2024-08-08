@@ -8,12 +8,12 @@ namespace MAGE
 {
     struct RasterizerStateDesc
     {
-        bool bDepthBiasEnabled;
+        b8 bDepthBiasEnabled;
         f32 DepthBiasClamp;
         f32 DepthBiasFactor;
         f32 DepthBiasSlope;
         PolygonMode FillMode;
         FaceCullMode CullFlags;
-        bool bFrontCounterClockwise;
+        b8 bFrontCounterClockwise;
     };
 }

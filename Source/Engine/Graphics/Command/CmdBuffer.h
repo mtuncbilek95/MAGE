@@ -48,10 +48,12 @@ namespace MAGE
 		void SetTextureBarrier(TextureImage* pTexture, TextureImageBarrier& desc);
 		void SetBufferBarrier(GraphicsBuffer* pBuffer, BufferMemoryBarrier& desc);
 
+		void ExecuteCachedCommand(CmdBuffer* cmdBuffers[], u32 count);
+
 		CmdPool* GetOwnerPool() const noexcept { return mOwnerPool; }
 		GraphicsBuffer* GetBoundIndexBuffer() const noexcept { return mBoundIndexBuffer; }
 		Pipeline* GetBoundPipeline() const noexcept { return mBoundPipeline; }
-		bool IsRecording() const noexcept { return mRecording; }
+		b8 IsRecording() const noexcept { return mRecording; }
 
 	protected:
 		virtual void BeginRecordingImpl() = 0;
@@ -72,10 +74,12 @@ namespace MAGE
 		virtual void SetTextureBarrierImpl(TextureImage* pTexture, TextureImageBarrier& desc) = 0;
 		virtual void SetBufferBarrierImpl(GraphicsBuffer* pBuffer, BufferMemoryBarrier& desc) = 0;
 
+		virtual void ExecuteCachedCommandImpl(CmdBuffer* cmdBuffers[], u32 count) = 0;
+
 	private:
 		CmdPool* mOwnerPool;
 		GraphicsBuffer* mBoundIndexBuffer;
 		Pipeline* mBoundPipeline;
-		bool mRecording;
+		b8 mRecording;
 	};
 }

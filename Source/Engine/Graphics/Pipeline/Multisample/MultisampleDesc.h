@@ -7,7 +7,7 @@ namespace MAGE
 {
     struct MultisampleDesc
     {
-        bool bSampleShadingEnabled;
+        b8 bSampleShadingEnabled;
         SampleCount Samples;
     };
 }

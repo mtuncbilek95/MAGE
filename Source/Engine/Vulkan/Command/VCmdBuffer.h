@@ -29,6 +29,7 @@ namespace MAGE
 		virtual void DrawIndexedImpl(u32 indexCount, u32 indexOffset, u32 vertexOffset, u32 instanceOffset, u32 instanceCount) override;
 		virtual void SetViewportsImpl(ViewportDesc pViewports[], u8 count) override;
 		virtual void SetScissorsImpl(ScissorDesc pScissors[], u8 count) override;
+		virtual void ExecuteCachedCommandImpl(CmdBuffer* cmdBuffers[], u32 count) override;
 
 		virtual void CopyBufferToBufferImpl(GraphicsBuffer* pSourceBuffer, GraphicsBuffer* pDestinationBuffer, BufferBufferCopyDesc& desc) override;
 		virtual void CopyBufferToTextureImpl(GraphicsBuffer* pSourceBuffer, TextureImage* pDestinationTexture, BufferTextureCopyDesc& desc) override;

@@ -9,12 +9,12 @@ namespace MAGE
 	class Fence : public DeviceObject
 	{
 	public:
-		Fence(bool bSignalled, GraphicsDevice* pDevice) : DeviceObject(pDevice), mSignalled(bSignalled) {}
+		Fence(b8 bSignalled, GraphicsDevice* pDevice) : DeviceObject(pDevice), mSignalled(bSignalled) {}
 		~Fence() override = default;
 
-		bool IsSignalled() const { return mSignalled; }
+		b8 IsSignalled() const { return mSignalled; }
 
 	private:
-		bool mSignalled;
+		b8 mSignalled;
 	};
 }

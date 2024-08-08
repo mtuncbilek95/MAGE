@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	VFence::VFence(bool bSignalled, VDevice* pDevice) : Fence(bSignalled, pDevice), mDevice(pDevice->GetVkDevice())
+	VFence::VFence(b8 bSignalled, VDevice* pDevice) : Fence(bSignalled, pDevice), mDevice(pDevice->GetVkDevice())
 	{
 		VkFenceCreateInfo fenceInfo = {};
 		fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;

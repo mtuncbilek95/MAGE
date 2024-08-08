@@ -259,7 +259,7 @@ namespace MAGE
 		return MakeShared<VPipeline>(desc, this);
 	}
 
-	SharedPtr<Fence> VDevice::CreateGraphicsFenceImpl(bool bSignalled)
+	SharedPtr<Fence> VDevice::CreateGraphicsFenceImpl(b8 bSignalled)
 	{
 		return MakeShared<VFence>(bSignalled, this);
 	}

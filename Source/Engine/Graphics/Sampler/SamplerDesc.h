@@ -14,10 +14,10 @@ namespace MAGE
 		SamplerFilter MagFilter;
 		SamplerFilter MinFilter;
 		SamplerAddressMode AddressMode;
-		bool bAnisotropyEnabled;
+		b8 bAnisotropyEnabled;
 		u32 MaxAnisotropy;
 		SamplerBorderColor BorderColor;
-		bool bCompareEnabled;
+		b8 bCompareEnabled;
 		CompareOperation CompareOp;
 		SamplerMapMode MapMode;
 		f32 MipLODBias;

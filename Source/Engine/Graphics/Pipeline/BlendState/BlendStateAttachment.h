@@ -9,7 +9,7 @@ namespace MAGE
 {
     struct BlendStateAttachment
     {
-        bool bEnabled;
+        b8 bEnabled;
         BlendFactor SourceColorFactor;
         BlendFactor DestinationColorFactor;
         BlendOperation ColorOperation;

@@ -31,6 +31,6 @@ namespace MAGE
 
 	private:
 		DArray<SharedPtr<ApplicationModule>> mTotalModules;
-		bool mQuitRequested = false;
+		b8 mQuitRequested = false;
 	};
 }

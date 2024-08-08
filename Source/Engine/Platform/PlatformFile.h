@@ -11,20 +11,20 @@ namespace MAGE
 	class PlatformFile final
 	{
 	public:
-		static bool Exists(const String& path);
-		static bool Create(const String& path);
-		static bool Delete(const String& path);
-		static bool Write(const String& path, const String& data, const u64 offset = 0);
-		static bool Write(const String& path, const MemoryBuffer& buffer, const u64 offset = 0);
-		static bool Read(const String& path, String& contentOut, const u64 startByte = 0, const u64 endByte = 0);
-		static bool Read(const String& path, MemoryOwnedBuffer& view, const u64 startByte = 0, const u64 endByte = 0);
-		static bool Copy(const String& source, const String& destination);
-		static bool Move(const String& source, const String& destination);
-		static bool Rename(const String& source, const String& destination);
-		static bool GetSize(const String& path, u64& sizeOut);
-		static bool GetName(const String& path, String& nameOut);
-		static bool GetExtension(const String& path, String& extensionOut);
-		static bool GetDirectory(const String& path, String& directoryOut);
+		static b8 Exists(const String& path);
+		static b8 Create(const String& path);
+		static b8 Delete(const String& path);
+		static b8 Write(const String& path, const String& data, const u64 offset = 0);
+		static b8 Write(const String& path, const MemoryBuffer& buffer, const u64 offset = 0);
+		static b8 Read(const String& path, String& contentOut, const u64 startByte = 0, const u64 endByte = 0);
+		static b8 Read(const String& path, MemoryOwnedBuffer& view, const u64 startByte = 0, const u64 endByte = 0);
+		static b8 Copy(const String& source, const String& destination);
+		static b8 Move(const String& source, const String& destination);
+		static b8 Rename(const String& source, const String& destination);
+		static b8 GetSize(const String& path, u64& sizeOut);
+		static b8 GetName(const String& path, String& nameOut);
+		static b8 GetExtension(const String& path, String& extensionOut);
+		static b8 GetDirectory(const String& path, String& directoryOut);
 
 	public:
 		PlatformFile() = delete;

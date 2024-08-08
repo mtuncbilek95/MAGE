@@ -58,7 +58,7 @@ namespace MAGE
 		struct ExtensionEntry
 		{
 			const char* ExtensionName;
-			bool bSupported;
+			b8 bSupported;
 		};
 
 		// Fill the wanted extensions

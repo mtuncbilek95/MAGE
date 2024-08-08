@@ -15,7 +15,7 @@ namespace MAGE
 			QueueFamily() : QueueCapacity(0), FamilyIndex(255), RequestedCount(0)
 			{}
 
-			bool HasFreeQueue() const { return FreeQueues.size() > 0; }
+			b8 HasFreeQueue() const { return FreeQueues.size() > 0; }
 
 			VkQueue GetFreeQueue()
 			{
@@ -72,7 +72,7 @@ namespace MAGE
 		virtual SharedPtr<DescriptorPool> CreateDescriptorPoolImpl(const DescriptorPoolDesc& desc) override;
 		virtual SharedPtr<DescriptorSet> CreateDescriptorSetImpl(const DescriptorSetDesc& desc) override;
 		virtual SharedPtr<Pipeline> CreateGraphicsPipelineImpl(const GraphicsPipelineDesc& desc) override;
-		virtual SharedPtr<Fence> CreateGraphicsFenceImpl(bool bSignalled) override;
+		virtual SharedPtr<Fence> CreateGraphicsFenceImpl(b8 bSignalled) override;
 		virtual SharedPtr<Semaphore> CreateGraphicsSemaphoreImpl() override;
 		virtual SharedPtr<CmdPool> CreateCommandPoolImpl(const CmdPoolDesc& desc) override;
 		virtual SharedPtr<CmdBuffer> CreateCommandBufferImpl(const CmdBufferDesc& desc) override;

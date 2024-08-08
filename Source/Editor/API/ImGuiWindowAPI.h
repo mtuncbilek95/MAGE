@@ -45,11 +45,11 @@ namespace MAGE
 
 		DArray<SharedPtr<GuiWindow>>& GetGuiWindows() { return mGuiWindows; }
 
-		bool IsRequestQuit() { return mRequestQuit; }
+		b8 IsRequestQuit() { return mRequestQuit; }
 		void RequestQuit() { mRequestQuit = true; }
 
 	private:
 		DArray<SharedPtr<GuiWindow>> mGuiWindows;
-		bool mRequestQuit = false;
+		b8 mRequestQuit = false;
 	};
 }

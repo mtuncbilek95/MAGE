@@ -7,7 +7,7 @@
 
 namespace MAGE
 {
-	bool Win32File::Exists(const String& path)
+	b8 Win32File::Exists(const String& path)
 	{
 #if defined(MAGE_WINDOWS)
 		DWORD dwAttrib = GetFileAttributesA(path.c_str());
@@ -19,7 +19,7 @@ namespace MAGE
 #endif 
 	}
 
-	bool Win32File::Create(const String& path)
+	b8 Win32File::Create(const String& path)
 	{
 #if defined(MAGE_WINDOWS)
 		// Create the file
@@ -37,7 +37,7 @@ namespace MAGE
 #endif 
 	}
 
-	bool Win32File::Delete(const String& path)
+	b8 Win32File::Delete(const String& path)
 	{
 #if defined(MAGE_WINDOWS)
 		// Delete the file
@@ -47,7 +47,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32File::Write(const String& path, const String& data, const u64 offset)
+	b8 Win32File::Write(const String& path, const String& data, const u64 offset)
 	{
 #if defined(MAGE_WINDOWS)
 		HANDLE hFile;
@@ -86,7 +86,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32File::Write(const String& path, const MemoryBuffer& buffer, const u64 offset)
+	b8 Win32File::Write(const String& path, const MemoryBuffer& buffer, const u64 offset)
 	{
 #if defined(MAGE_WINDOWS)
 		HANDLE hFile;
@@ -106,7 +106,7 @@ namespace MAGE
 
 		// Write the data to the file
 		DWORD bytesWritten;
-		const bool result = WriteFile(hFile, buffer.GetData(), buffer.GetSize(), &bytesWritten, NULL);
+		const b8 result = WriteFile(hFile, buffer.GetData(), buffer.GetSize(), &bytesWritten, NULL);
 
 		// Close the file
 		CloseHandle(hFile);
@@ -116,7 +116,7 @@ namespace MAGE
 #endif
 }
 
-	bool Win32File::Read(const String& path, String& contentOut, const u64 startByte, const u64 endByte)
+	b8 Win32File::Read(const String& path, String& contentOut, const u64 startByte, const u64 endByte)
 	{
 #if defined(MAGE_WINDOWS)
 		HANDLE hFile;
@@ -148,7 +148,7 @@ namespace MAGE
 		// Read the file
 		DWORD bytesRead;
 		char* buffer = new char[acceptedRange + 1];
-		const bool result = ReadFile(hFile, buffer, acceptedRange, &bytesRead, NULL);
+		const b8 result = ReadFile(hFile, buffer, acceptedRange, &bytesRead, NULL);
 
 		// Check if the file was read
 		if (!result)
@@ -173,7 +173,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32File::Read(const String& path, MemoryOwnedBuffer& view, const u64 startByte, const u64 endByte)
+	b8 Win32File::Read(const String& path, MemoryOwnedBuffer& view, const u64 startByte, const u64 endByte)
 	{
 #if defined(MAGE_WINDOWS)
 		HANDLE hFile;
@@ -205,7 +205,7 @@ namespace MAGE
 		// Read the file
 		DWORD bytesRead;
 		char* buffer = new char[acceptedRange + 1];
-		const bool result = ReadFile(hFile, buffer, acceptedRange, &bytesRead, NULL);
+		const b8 result = ReadFile(hFile, buffer, acceptedRange, &bytesRead, NULL);
 		buffer[acceptedRange] = '\0';
 
 		// Check if the file was read
@@ -231,7 +231,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32File::Copy(const String& source, const String& destination)
+	b8 Win32File::Copy(const String& source, const String& destination)
 	{
 #if defined(MAGE_WINDOWS)
 		// Check if the source file exists
@@ -245,7 +245,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32File::Move(const String& source, const String& destination)
+	b8 Win32File::Move(const String& source, const String& destination)
 	{
 #if defined(MAGE_WINDOWS)
 		// Check if the source file exists
@@ -259,7 +259,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32File::Rename(const String& source, const String& destination)
+	b8 Win32File::Rename(const String& source, const String& destination)
 	{
 #if defined(MAGE_WINDOWS)
 		// Check if the source file exists
@@ -273,7 +273,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32File::GetSize(const String& path, u64& sizeOut)
+	b8 Win32File::GetSize(const String& path, u64& sizeOut)
 	{
 #if defined(MAGE_WINDOWS)
 		HANDLE hFile;
@@ -300,7 +300,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32File::GetName(const String& path, String& nameOut)
+	b8 Win32File::GetName(const String& path, String& nameOut)
 	{
 #if defined(MAGE_WINDOWS)
 
@@ -318,7 +318,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32File::GetExtension(const String& path, String& extensionOut)
+	b8 Win32File::GetExtension(const String& path, String& extensionOut)
 	{
 #if defined(MAGE_WINDOWS)
 		// Get the extension of the file
@@ -334,7 +334,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32File::GetDirectory(const String& path, String& directoryOut)
+	b8 Win32File::GetDirectory(const String& path, String& directoryOut)
 	{
 #if defined(MAGE_WINDOWS)
 		// Get the directory of the file

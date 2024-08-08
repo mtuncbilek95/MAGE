@@ -1,6 +1,6 @@
 #define GENERATE_ENUM_FLAG(EnumType, primitiveType) \
 FORCEINLINE static EnumType operator | (EnumType a, EnumType b) { return static_cast<EnumType>(static_cast<primitiveType>(a) | static_cast<primitiveType>(b)); } \
-FORCEINLINE static bool operator & (EnumType a, EnumType b) { return (static_cast<primitiveType>(a) & static_cast<primitiveType>(b)) != 0; }
+FORCEINLINE static b8 operator & (EnumType a, EnumType b) { return (static_cast<primitiveType>(a) & static_cast<primitiveType>(b)) != 0; }
 #define __declspec(dllexport)
 #define FORCEINLINE inline
 

@@ -101,7 +101,7 @@ namespace MAGE
 		mWindowMode = mode;
 	}
 
-	void PlatformWindow::SetVisible(bool visible)
+	void PlatformWindow::SetVisible(b8 visible)
 	{
 		if (visible)
 			Show();

@@ -65,7 +65,7 @@ namespace MAGE
 	{
 	}
 
-	bool ImGuiWindowModule::OnInitialize() noexcept
+	b8 ImGuiWindowModule::OnInitialize() noexcept
 	{
 		return true;
 	}

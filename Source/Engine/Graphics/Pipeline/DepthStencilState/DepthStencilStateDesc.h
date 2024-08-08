@@ -8,9 +8,9 @@ namespace MAGE
 {
     struct DepthStencilStateDesc
     {
-        bool bDepthTestEnabled;
-        bool bDepthWriteEnabled;
-        bool bStencilTestEnabled;
+        b8 bDepthTestEnabled;
+        b8 bDepthWriteEnabled;
+        b8 bStencilTestEnabled;
         CompareOperation DepthTestOperation;
         StencilFaceDesc StencilFrontFace;
         StencilFaceDesc StencilBackFace;

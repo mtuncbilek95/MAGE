@@ -89,5 +89,10 @@ namespace MAGE
 		SetBufferBarrierImpl(pBuffer, desc);
 	}
 
+	void CmdBuffer::ExecuteCachedCommand(CmdBuffer* cmdBuffers[], u32 count)
+	{
+		ExecuteCachedCommandImpl(cmdBuffers, count);
+	}
+
 
 }

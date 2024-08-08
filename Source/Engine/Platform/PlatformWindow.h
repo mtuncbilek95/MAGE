@@ -40,10 +40,10 @@ namespace MAGE
 		const Vec2i& GetWindowPosition() const { return mWindowPosition; }
 		const String& GetWindowTitle() const { return mWindowTitle; }
 		const WindowMode& GetWindowMode() const { return mWindowMode; }
-		const bool IsVisible() const { return mVisible; }
-		const bool IsMinimized() const { return glfwGetWindowAttrib(mGLFWHandle, GLFW_ICONIFIED); }
-		const bool IsMaximized() const { return glfwGetWindowAttrib(mGLFWHandle, GLFW_MAXIMIZED); }
-		const bool IsClosed() const { return glfwWindowShouldClose(mGLFWHandle); }
+		const b8 IsVisible() const { return mVisible; }
+		const b8 IsMinimized() const { return glfwGetWindowAttrib(mGLFWHandle, GLFW_ICONIFIED); }
+		const b8 IsMaximized() const { return glfwGetWindowAttrib(mGLFWHandle, GLFW_MAXIMIZED); }
+		const b8 IsClosed() const { return glfwWindowShouldClose(mGLFWHandle); }
 
 #if defined(MAGE_WINDOWS)
 		HWND GetWindowHandle() const { return glfwGetWin32Window(mGLFWHandle); }
@@ -61,14 +61,14 @@ namespace MAGE
 		void SetWindowPosition(const Vec2i& position);
 		void SetWindowTitle(const String& title);
 		void SetWindowMode(const WindowMode& mode);
-		void SetVisible(bool visible);
+		void SetVisible(b8 visible);
 
 	private:
 		Vec2u mWindowSize;
 		Vec2i mWindowPosition;
 		String mWindowTitle;
 		WindowMode mWindowMode;
-		bool mVisible;
+		b8 mVisible;
 
 		GLFWwindow* mGLFWHandle;
 	};

@@ -43,7 +43,7 @@ namespace MAGE
 		va_end(args);
 	}
 
-	void GlobalConsole::Assert(bool condition, const char* title, const char* message, ...)
+	void GlobalConsole::Assert(b8 condition, const char* title, const char* message, ...)
 	{
 		if (!condition)
 		{

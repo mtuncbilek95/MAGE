@@ -8,7 +8,7 @@ namespace MAGE
 {
     struct BlendStateDesc
     {
-        bool bLogicOperationEnabled;
+        b8 bLogicOperationEnabled;
         LogicOperation LogicOperation;
         DArray<BlendStateAttachment> Attachments;
     };

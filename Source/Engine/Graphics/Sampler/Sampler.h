@@ -20,10 +20,10 @@ namespace MAGE
 		SamplerFilter GetMagFilter() const { return mMagFilter; }
 		SamplerFilter GetMinFilter() const { return mMinFilter; }
 		SamplerAddressMode GetAddressMode() const { return mAddressMode; }
-		bool IsAnisotropyEnabled() const { return mAnisotropyEnabled; }
+		b8 IsAnisotropyEnabled() const { return mAnisotropyEnabled; }
 		u32 GetMaxAnisotropy() const { return mMaxAnisotropy; }
 		SamplerBorderColor GetBorderColor() const { return mBorderColor; }
-		bool IsCompareEnabled() const { return mCompareEnabled; }
+		b8 IsCompareEnabled() const { return mCompareEnabled; }
 		CompareOperation GetCompareOp() const { return mCompareOp; }
 		SamplerMapMode GetMapMode() const { return mMapMode; }
 		f32 GetMipLODBias() const { return mMipLODBias; }
@@ -37,10 +37,10 @@ namespace MAGE
 		SamplerFilter mMagFilter;
 		SamplerFilter mMinFilter;
 		SamplerAddressMode mAddressMode;
-		bool mAnisotropyEnabled;
+		b8 mAnisotropyEnabled;
 		u32 mMaxAnisotropy;
 		SamplerBorderColor mBorderColor;
-		bool mCompareEnabled;
+		b8 mCompareEnabled;
 		CompareOperation mCompareOp;
 		SamplerMapMode mMapMode;
 		f32 mMipLODBias;

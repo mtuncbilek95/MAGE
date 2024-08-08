@@ -6,6 +6,7 @@
 
 namespace MAGE
 {
+	class Application;
 	class ApplicationModule : public IObject
 	{
 		friend class Application;
@@ -23,7 +24,7 @@ namespace MAGE
 		virtual void Stop() noexcept = 0;
 
 	protected:
-		virtual bool OnInitialize() noexcept = 0;
+		virtual b8 OnInitialize() noexcept = 0;
 		virtual void OnPreUpdate() noexcept = 0;
 		virtual void OnPostUpdate() noexcept = 0;
 

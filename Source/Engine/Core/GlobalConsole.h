@@ -18,7 +18,7 @@ namespace MAGE
 	public:
 		static void Print(const char* message, ...);
 		static void Log(ConsoleType type, const char* message, ...);
-		static void Assert(bool condition, const char* title, const char* message, ...);
+		static void Assert(b8 condition, const char* title, const char* message, ...);
 
 	public:
 		GlobalConsole() = delete;

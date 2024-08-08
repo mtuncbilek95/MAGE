@@ -20,8 +20,8 @@ namespace MAGE
 
 		String ToString();
 
-		bool operator==(const Guid& other) const;
-		bool operator!=(const Guid& other) const;
+		b8 operator==(const Guid& other) const;
+		b8 operator!=(const Guid& other) const;
 
 	private:
 		u32 mA;

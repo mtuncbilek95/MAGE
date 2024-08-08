@@ -28,12 +28,12 @@ namespace MAGE
 		return buffer;
 	}
 
-	bool Guid::operator==(const Guid& other) const
+	b8 Guid::operator==(const Guid& other) const
 	{
 		return other.mA == mA && other.mB == mB && other.mC == mC && other.mD == mD;
 	}
 
-	bool Guid::operator!=(const Guid& other) const
+	b8 Guid::operator!=(const Guid& other) const
 	{
 		return !(other == *this);
 	}

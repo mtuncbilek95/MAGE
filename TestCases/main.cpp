@@ -10,6 +10,8 @@
 #include <Engine/Serialization/JBool.h>
 #include <Engine/Serialization/API/JSerializer.h>
 
+#include <Engine/Reflection/ObjectMacros.h>
+
 using namespace MAGE;
 
 int main(i32 argC, char** argV)

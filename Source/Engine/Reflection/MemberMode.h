@@ -4,9 +4,10 @@
 
 namespace MAGE
 {
-	struct EnumValue
+	enum class MemberMode
 	{
-		String EnumName;
-		i64 EnumValue;
+		Composed,
+		Object,
+		Array
 	};
 }

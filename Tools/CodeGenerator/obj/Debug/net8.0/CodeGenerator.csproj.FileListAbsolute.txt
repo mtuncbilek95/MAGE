@@ -1,0 +1,15 @@
+D:\Projects\MAGE\Tools\CodeGenerator\bin\Debug\net8.0\CodeGenerator.exe
+D:\Projects\MAGE\Tools\CodeGenerator\bin\Debug\net8.0\CodeGenerator.deps.json
+D:\Projects\MAGE\Tools\CodeGenerator\bin\Debug\net8.0\CodeGenerator.runtimeconfig.json
+D:\Projects\MAGE\Tools\CodeGenerator\bin\Debug\net8.0\CodeGenerator.dll
+D:\Projects\MAGE\Tools\CodeGenerator\bin\Debug\net8.0\CodeGenerator.pdb
+D:\Projects\MAGE\Tools\CodeGenerator\obj\Debug\net8.0\CodeGenerator.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\MAGE\Tools\CodeGenerator\obj\Debug\net8.0\CodeGenerator.AssemblyInfoInputs.cache
+D:\Projects\MAGE\Tools\CodeGenerator\obj\Debug\net8.0\CodeGenerator.AssemblyInfo.cs
+D:\Projects\MAGE\Tools\CodeGenerator\obj\Debug\net8.0\CodeGenerator.csproj.CoreCompileInputs.cache
+D:\Projects\MAGE\Tools\CodeGenerator\obj\Debug\net8.0\CodeGenerator.sourcelink.json
+D:\Projects\MAGE\Tools\CodeGenerator\obj\Debug\net8.0\CodeGenerator.dll
+D:\Projects\MAGE\Tools\CodeGenerator\obj\Debug\net8.0\refint\CodeGenerator.dll
+D:\Projects\MAGE\Tools\CodeGenerator\obj\Debug\net8.0\CodeGenerator.pdb
+D:\Projects\MAGE\Tools\CodeGenerator\obj\Debug\net8.0\CodeGenerator.genruntimeconfig.cache
+D:\Projects\MAGE\Tools\CodeGenerator\obj\Debug\net8.0\ref\CodeGenerator.dll

@@ -75,7 +75,7 @@ namespace MAGE
 		mGraphicsAPI->GetDevice()->WaitIdle();
 	}
 
-	bool GraphicsModule::OnInitialize() noexcept
+	b8 GraphicsModule::OnInitialize() noexcept
 	{
 		GraphicsInstanceDesc instanceDesc = {};
 		instanceDesc.AppName = "Editor"; // TODO: Get from config

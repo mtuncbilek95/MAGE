@@ -206,6 +206,18 @@ namespace MAGE
 		vkCmdSetScissor(mVkCmdBuffer, 0, count, scissors);
 	}
 
+	void VCmdBuffer::ExecuteCachedCommandImpl(CmdBuffer* cmdBuffers[], u32 count)
+	{
+		VkCommandBuffer vkCmdBuffers[16];
+		for (u32 i = 0; i < count; i++)
+		{
+			auto pVCmdBuffer = cmdBuffers[i]->GetAs<VCmdBuffer>();
+			vkCmdBuffers[i] = pVCmdBuffer->GetVkCmdBuffer();
+		}
+
+		vkCmdExecuteCommands(mVkCmdBuffer, count, vkCmdBuffers);
+	}
+
 	void VCmdBuffer::CopyBufferToBufferImpl(GraphicsBuffer* pSourceBuffer, GraphicsBuffer* pDestinationBuffer, BufferBufferCopyDesc& desc)
 	{
 		auto pVSourceBuffer = pSourceBuffer->GetAs<VBuffer>();

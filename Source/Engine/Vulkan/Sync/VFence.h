@@ -11,7 +11,7 @@ namespace MAGE
 	class VFence : public Fence
 	{
 	public:
-		VFence(bool bSignalled, VDevice* pDevice);
+		VFence(b8 bSignalled, VDevice* pDevice);
 		~VFence() override = default;
 
 		VkFence GetVkFence() const { return mFence; }

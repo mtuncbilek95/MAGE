@@ -63,7 +63,7 @@ namespace MAGE
 		SharedPtr<DescriptorPool> CreateDescriptorPool(const DescriptorPoolDesc& desc);
 		SharedPtr<DescriptorSet> CreateDescriptorSet(const DescriptorSetDesc& desc);
 		SharedPtr<Pipeline> CreateGraphicsPipeline(const GraphicsPipelineDesc& desc);
-		SharedPtr<Fence> CreateGraphicsFence(bool bSignalled);
+		SharedPtr<Fence> CreateGraphicsFence(b8 bSignalled);
 		SharedPtr<Semaphore> CreateGraphicsSemaphore();
 		SharedPtr<CmdPool> CreateCommandPool(const CmdPoolDesc& desc);
 		SharedPtr<CmdBuffer> CreateCommandBuffer(const CmdBufferDesc& desc);
@@ -96,7 +96,7 @@ namespace MAGE
 		virtual SharedPtr<DescriptorPool> CreateDescriptorPoolImpl(const DescriptorPoolDesc& desc) = 0;
 		virtual SharedPtr<DescriptorSet> CreateDescriptorSetImpl(const DescriptorSetDesc& desc) = 0;
 		virtual SharedPtr<Pipeline> CreateGraphicsPipelineImpl(const GraphicsPipelineDesc& desc) = 0;
-		virtual SharedPtr<Fence> CreateGraphicsFenceImpl(bool bSignalled) = 0;
+		virtual SharedPtr<Fence> CreateGraphicsFenceImpl(b8 bSignalled) = 0;
 		virtual SharedPtr<Semaphore> CreateGraphicsSemaphoreImpl() = 0;
 		virtual SharedPtr<CmdPool> CreateCommandPoolImpl(const CmdPoolDesc& desc) = 0;
 		virtual SharedPtr<CmdBuffer> CreateCommandBufferImpl(const CmdBufferDesc& desc) = 0;

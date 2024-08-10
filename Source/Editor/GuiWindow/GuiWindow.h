@@ -19,18 +19,18 @@ namespace MAGE
 		const Vec2f& GetPosition() const { return mPosition; }
 		const Vec2f& GetWindowSize() const { return mWindowSize; }
 
-		bool IsOpen() const { return mIsOpen; }
-		bool IsDirty() const { return mIsDirty; }
+		b8 IsOpen() const { return mIsOpen; }
+		b8 IsDirty() const { return mIsDirty; }
 
-		void SetOpen(bool open) { mIsOpen = open; }
-		void SetDirty(bool dirty) { mIsDirty = dirty; }
+		void SetOpen(b8 open) { mIsOpen = open; }
+		void SetDirty(b8 dirty) { mIsDirty = dirty; }
 
 	protected:
 		String mWindowName;
 		Vec2f mPosition;
 		Vec2f mWindowSize;
 
-		bool mIsOpen;
-		bool mIsDirty;
+		b8 mIsOpen;
+		b8 mIsDirty;
 	};
 }

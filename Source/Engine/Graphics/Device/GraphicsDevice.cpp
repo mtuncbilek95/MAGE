@@ -66,7 +66,7 @@ namespace MAGE
 		return CreateGraphicsPipelineImpl(desc);
 	}
 
-	SharedPtr<Fence> GraphicsDevice::CreateGraphicsFence(bool bSignalled)
+	SharedPtr<Fence> GraphicsDevice::CreateGraphicsFence(b8 bSignalled)
 	{
 		return CreateGraphicsFenceImpl(bSignalled);
 	}

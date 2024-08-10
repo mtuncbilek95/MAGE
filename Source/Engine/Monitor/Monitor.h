@@ -18,12 +18,12 @@ namespace MAGE
 		const String& GetMonitorName() const { return mMonitorName; }
 		const Vec2u& GetMonitorResolution() const { return mMonitorResolution; }
 		const Vec2i& GetMonitorPosition() const { return mMonitorPosition; }
-		const bool IsPrimary() const { return mIsPrimary; }
+		const b8 IsPrimary() const { return mIsPrimary; }
 
 	private:
 		String mMonitorName;
 		Vec2u mMonitorResolution;
 		Vec2i mMonitorPosition;
-		bool mIsPrimary;
+		b8 mIsPrimary;
 	};
 }

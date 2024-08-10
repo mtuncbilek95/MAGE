@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	enum class PrimitiveType
+	enum class TypeMode
 	{
 		Bool,
 		u8,
@@ -18,9 +18,8 @@ namespace MAGE
 		f32,
 		f64,
 		Class,
-		Enum,
 		Struct,
-		String,
-		Array
+		Enum,
+		String
 	};
 }

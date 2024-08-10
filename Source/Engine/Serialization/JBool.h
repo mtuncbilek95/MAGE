@@ -8,15 +8,15 @@ namespace MAGE
 	class JBool : public JNode
 	{
 	public:
-		JBool(const String& name, bool value) : JNode(name), mValue(value) {}
+		JBool(const String& name, b8 value) : JNode(name), mValue(value) {}
 		~JBool() = default;
 
-		void SetValue(bool value) { mValue = value; }
+		void SetValue(b8 value) { mValue = value; }
 
-		FORCEINLINE bool GetValue() const { return mValue; }
+		FORCEINLINE b8 GetValue() const { return mValue; }
 		NodeType GetType() const override { return NodeType::Boolean; }
 
 	private:
-		bool mValue;
+		b8 mValue;
 	};
 }

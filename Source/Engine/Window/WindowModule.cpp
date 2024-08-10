@@ -53,7 +53,7 @@ namespace MAGE
 		mWindowAPI->GetDefaultWindow()->Hide();
 	}
 
-	bool WindowModule::OnInitialize() noexcept
+	b8 WindowModule::OnInitialize() noexcept
 	{
 		auto tempRefWindow = mWindowAPI->InitializeWindow(GetJson());
 		if (tempRefWindow.expired())

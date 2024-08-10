@@ -108,7 +108,7 @@ namespace MAGE
 	{
 	}
 
-	bool ImGuiBeginModule::OnInitialize() noexcept
+	b8 ImGuiBeginModule::OnInitialize() noexcept
 	{
 		mDevice = GraphicsAPI::GetAPI()->GetDevice();
 

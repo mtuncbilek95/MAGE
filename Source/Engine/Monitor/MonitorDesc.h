@@ -9,6 +9,6 @@ namespace MAGE
 		String MonitorName;
 		Vec2u MonitorResolution;
 		Vec2i MonitorPosition;
-		bool IsPrimary;
+		b8 IsPrimary;
 	};
 }

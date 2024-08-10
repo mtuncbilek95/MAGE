@@ -10,7 +10,7 @@ namespace MAGE
 	{
 		struct SubMemory
 		{
-			bool bOwned;
+			b8 bOwned;
 			u64 SizeInBytes;
 		};
 	public:

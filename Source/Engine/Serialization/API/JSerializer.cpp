@@ -95,7 +95,7 @@ namespace MAGE
 			}
 			case nlohmann::detail::value_t::boolean:
 			{
-				auto child = new JBool(key, value.get<bool>());
+				auto child = new JBool(key, value.get<b8>());
 				object->AddChild(key, std::move(child));
 				continue;
 			}
@@ -154,7 +154,7 @@ namespace MAGE
 			}
 			case nlohmann::detail::value_t::boolean:
 			{
-				auto child = new JBool(key, value.get<bool>());
+				auto child = new JBool(key, value.get<b8>());
 				array->AddNode(std::move(child));
 				continue;
 			}

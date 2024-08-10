@@ -7,7 +7,7 @@
 
 namespace MAGE
 {
-	bool Win32Directory::Exists(const String& path)
+	b8 Win32Directory::Exists(const String& path)
 	{
 #if defined(MAGE_WINDOWS)
 		DWORD dwAttrib = GetFileAttributesA(path.c_str());
@@ -19,7 +19,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32Directory::Create(const String& path)
+	b8 Win32Directory::Create(const String& path)
 	{
 #if defined(MAGE_WINDOWS)
 		// Create the directory
@@ -29,7 +29,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32Directory::Delete(const String& path)
+	b8 Win32Directory::Delete(const String& path)
 	{
 #if defined(MAGE_WINDOWS)
 		// Delete the directory
@@ -39,7 +39,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32Directory::Copy(const String& source, const String& destination)
+	b8 Win32Directory::Copy(const String& source, const String& destination)
 	{
 #if defined(MAGE_WINDOWS)
 		// Copy the directory
@@ -49,7 +49,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32Directory::Move(const String& source, const String& destination)
+	b8 Win32Directory::Move(const String& source, const String& destination)
 	{
 #if defined(MAGE_WINDOWS)
 		// Move the directory
@@ -59,7 +59,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32Directory::Rename(const String& source, const String& destination)
+	b8 Win32Directory::Rename(const String& source, const String& destination)
 	{
 #if defined(MAGE_WINDOWS)
 		// Rename the directory
@@ -69,7 +69,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32Directory::GetFiles(const String& path, DArray<String>& files)
+	b8 Win32Directory::GetFiles(const String& path, DArray<String>& files)
 	{
 #if defined(MAGE_WINDOWS)
 		// Check if the directory exists
@@ -104,7 +104,7 @@ namespace MAGE
 #endif
 	}
 
-	bool Win32Directory::GetDirectories(const String& path, DArray<String>& directories)
+	b8 Win32Directory::GetDirectories(const String& path, DArray<String>& directories)
 	{
 #if defined(MAGE_WINDOWS)
 		// Check if the directory exists
@@ -140,7 +140,7 @@ namespace MAGE
 
 	}
 
-	bool Win32Directory::GetFilesWithExtension(const String& path, const String& extension, DArray<String>& files)
+	b8 Win32Directory::GetFilesWithExtension(const String& path, const String& extension, DArray<String>& files)
 	{
 #if defined(MAGE_WINDOWS)
 		// Check if the directory exists

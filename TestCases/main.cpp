@@ -10,7 +10,7 @@
 #include <Engine/Serialization/JBool.h>
 #include <Engine/Serialization/API/JSerializer.h>
 
-#include <Engine/Reflection/ObjectMacros.h>
+#include <Engine/Platform/PlatformHardware.h>
 
 using namespace MAGE;
 

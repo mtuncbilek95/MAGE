@@ -1,7 +1,7 @@
 #include "PlatformFile.h"
 
 #if defined(MAGE_WINDOWS)
-#include <Engine/Win32/Win32File.h>
+#include "Win32/Win32File.h"
 typedef MAGE::Win32File PlatformDependency;
 #endif
 

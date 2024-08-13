@@ -15,7 +15,7 @@ namespace MAGE
 		WeakPtr<PlatformWindow> InitializeWindow(const WindowDesc& desc)
 		{
 			if(mDefaultWindow == nullptr)
-				return mDefaultWindow = PlatformWindow::InitializeWindow(desc);
+				return mDefaultWindow = MakeShared<PlatformWindow>(desc);
 
 			return mDefaultWindow;
 		}

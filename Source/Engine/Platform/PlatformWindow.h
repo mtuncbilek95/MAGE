@@ -2,7 +2,7 @@
 
 #include <Engine/Core/Definitions.h>
 #include <Engine/Core/StdFix.h>
-#include <Engine/Object/IObject.h >
+#include <Engine/Object/IObject.h>
 #include <Engine/Window/WindowDesc.h>
 
 #define GLFW_INCLUDE_NONE
@@ -10,13 +10,13 @@
 
 #if defined(MAGE_WINDOWS)
 #define GLFW_EXPOSE_NATIVE_WIN32
-#include <GLFW/glfw3native.h>
 #endif
 
 #if defined(MAGE_LINUX)
 #define GLFW_EXPOSE_NATIVE_X11
-#include <GLFW/glfw3native.h>
 #endif
+
+#include <GLFW/glfw3native.h>
 
 namespace MAGE
 {

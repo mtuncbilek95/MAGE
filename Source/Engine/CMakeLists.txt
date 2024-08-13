@@ -23,7 +23,7 @@ target_link_libraries(Engine PUBLIC nlohmann_json::nlohmann_json)
 if(WIN32)
 	target_compile_definitions(Engine PUBLIC ENGINE_API=__declspec\(dllexport\))
 elseif (UNIX)
-# add macro for linux
+	target_compile_definitions(Engine PUBLIC ENGINE_API=__attribute__\(\(visibility\(\"default\"\)\)\))
 endif()
 # ------------------------------------------------------------
 

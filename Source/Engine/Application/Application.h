@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Engine/Core/Core.h>
-#include <Engine/Object/IObject.h >
+#include <Engine/Object/IObject.h>
 #include <Engine/Application/ApplicationModule.h>
 
 namespace MAGE

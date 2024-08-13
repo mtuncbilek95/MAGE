@@ -17,7 +17,8 @@ target_link_libraries(Editor PUBLIC Imgui)
 
 # -------------------- MACRO DEFINITIONS ---------------------
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
-else()
-	message(FATAL_ERROR "[CMAKE ERROR] -- UNSUPPORTED COMPILER. PLEASE CHECK YOUR COMPILER AND PLATFORM.")
+	target_compile_definitions("Editor" PUBLIC EDITOR_API=__declspec\(dllexport\))
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "g++" AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+	target_compile_definitions("Resource" PUBLIC EDITOR_API=__attribute__\(\(visibility\(\"default\"\)\)\))
 endif()
 # ------------------------------------------------------------

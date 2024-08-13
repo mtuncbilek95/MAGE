@@ -18,7 +18,7 @@ target_link_libraries("Resource" PUBLIC stb)
 # -------------------- MACRO DEFINITIONS ---------------------
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
 	target_compile_definitions("Resource" PUBLIC RESOURCE_API=__declspec\(dllexport\))
-else()
-	message(FATAL_ERROR "[CMAKE ERROR] -- UNSUPPORTED COMPILER. PLEASE CHECK YOUR COMPILER AND PLATFORM.")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "g++" AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+	target_compile_definitions("Resource" PUBLIC RESOURCE_API=__attribute__\(\(visibility\(\"default\"\)\)\))
 endif()
 # ------------------------------------------------------------

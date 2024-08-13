@@ -5,6 +5,9 @@
 typedef MAGE::Win32Directory PlatformDependency;
 #endif
 
+#if defined(MAGE_LINUX)
+#endif
+
 namespace MAGE
 {
 	b8 PlatformDirectory::Exists(const String& path)

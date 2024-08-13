@@ -21,7 +21,7 @@ namespace MAGE
 			CORE_LOG(M_WARNING, "Thread count initialized as 0, defaulting to 2 threads.");
 			mWorkerThreads.push_back(MakeShared<WorkerThread>());
 			mWorkerThreads.push_back(MakeShared<WorkerThread>());
-			return;
+			return true;
 		}
 
 		if (PlatformHardware::GetCPUThreadCount() < threadCount)
@@ -29,13 +29,15 @@ namespace MAGE
 			CORE_LOG(M_WARNING, "Thread count initialized as %d, but the system only has %d threads. Defaulting to 2 threads", threadCount, PlatformHardware::GetCPUThreadCount());
 			mWorkerThreads.push_back(MakeShared<WorkerThread>());
 			mWorkerThreads.push_back(MakeShared<WorkerThread>());
-			return;
+			return true;
 		}
 
 		for (u16 i = 0; i < threadCount; i++)
 		{
 			mWorkerThreads.push_back(MakeShared<WorkerThread>());
 		}
+
+		return false;
 	}
 
 	void CommonJobSystem::AddJob(ThreadJob* job)

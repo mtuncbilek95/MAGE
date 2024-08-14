@@ -17,6 +17,12 @@ SetupVulkan(Engine)
 target_link_libraries(Engine PUBLIC glfw)
 target_link_libraries(Engine PUBLIC glm::glm)
 target_link_libraries(Engine PUBLIC nlohmann_json::nlohmann_json)
+
+if(LINUX)
+#	message(STATUS "Currently cannot support wayland. So platform uses std library.")
+	include(SetupLinux)
+	SetupLinux(Engine)
+endif()
 # ------------------------------------------------------------
 
 # -------------------- MACRO DEFINITIONS ---------------------

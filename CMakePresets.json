@@ -2,11 +2,7 @@
   "version": 3,
   "configurePresets": [
     {
-      "name": "windows-base",
-      "hidden": true,
-      "generator": "Ninja",
       "binaryDir": "${sourceDir}/Build/Win32/${presetName}",
-      "installDir": "${sourceDir}/Install/Win32/${presetName}",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "cl.exe",
         "CMAKE_CXX_COMPILER": "cl.exe"
@@ -15,7 +11,11 @@
         "type": "equals",
         "lhs": "${hostSystemName}",
         "rhs": "Windows"
-      }
+      },
+      "generator": "Ninja",
+      "hidden": true,
+      "installDir": "${sourceDir}/Install/Win32/${presetName}",
+      "name": "windows-base"
     },
     {
       "name": "Debug",

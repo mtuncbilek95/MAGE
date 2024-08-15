@@ -5,9 +5,12 @@ include(SetupVulkan)
 # ------------------------------------------------------------
 
 # ---------------------- FILE ADDITION -----------------------
-file(GLOB_RECURSE SUBDIRECTORIES "${CMAKE_SOURCE_DIR}/Source/Engine/*.cpp" "${CMAKE_SOURCE_DIR}/Source/Engine/*.h")
-source_group(TREE "${CMAKE_SOURCE_DIR}/Source/Engine" FILES ${SUBDIRECTORIES})
-add_library(Engine STATIC main.cpp ${SUBDIRECTORIES})
+include(FilterFolders)
+set(BASE_DIRECTORY "${CMAKE_SOURCE_DIR}/Source/Engine") # Base directory for the engine
+FilterOS(FILTERED_DIRS ${BASE_DIRECTORY}) # Filter out the directories that are not needed for current OS
+source_group(TREE "${CMAKE_SOURCE_DIR}/Source/Engine" FILES ${FILTERED_FILES})
+
+add_library(Engine STATIC main.cpp ${FILTERED_DIRS})
 # ------------------------------------------------------------
 
 # ------------------- INCLUDE DIRECTORIES --------------------

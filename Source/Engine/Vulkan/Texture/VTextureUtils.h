@@ -11,6 +11,7 @@
 #include <Engine/Graphics/Texture/TextureLayout.h>
 
 #include <vulkan/vulkan.h>
+#include <magic_enum.hpp>
 
 namespace MAGE
 {
@@ -30,6 +31,111 @@ namespace MAGE
 				return VK_IMAGE_TYPE_MAX_ENUM;
 			}
 		}
+
+		static HashMap<TextureFormat, VkFormat> GetVkFormatMap()
+		{
+			HashMap<TextureFormat, VkFormat> formatMap;
+
+			for (auto format : magic_enum::enum_values<TextureFormat>())
+			{
+				if (format == TextureFormat::Unknown)
+					formatMap[format] = VK_FORMAT_UNDEFINED;
+				else if (format == TextureFormat::RGBA32_Float)
+					formatMap[format] = VK_FORMAT_R32G32B32A32_SFLOAT;
+				else if (format == TextureFormat::RGBA32_UInt)
+					formatMap[format] = VK_FORMAT_R32G32B32A32_UINT;
+				else if (format == TextureFormat::RGBA32_Int)
+					formatMap[format] = VK_FORMAT_R32G32B32A32_SINT;
+				else if (format == TextureFormat::RGB32_Float)
+					formatMap[format] = VK_FORMAT_R32G32B32_SFLOAT;
+				else if (format == TextureFormat::RGB32_UInt)
+					formatMap[format] = VK_FORMAT_R32G32B32_UINT;
+				else if (format == TextureFormat::RGB32_Int)
+					formatMap[format] = VK_FORMAT_R32G32B32_SINT;
+				else if (format == TextureFormat::RGBA16_Float)
+					formatMap[format] = VK_FORMAT_R16G16B16A16_SFLOAT;
+				else if (format == TextureFormat::RGBA16_UNorm)
+					formatMap[format] = VK_FORMAT_R16G16B16A16_UNORM;
+				else if (format == TextureFormat::RGBA16_UInt)
+					formatMap[format] = VK_FORMAT_R16G16B16A16_UINT;
+				else if (format == TextureFormat::RGBA16_Norm)
+					formatMap[format] = VK_FORMAT_R16G16B16A16_SNORM;
+				else if (format == TextureFormat::RGBA16_Int)
+					formatMap[format] = VK_FORMAT_R16G16B16A16_SINT;
+				else if (format == TextureFormat::RG32_Float)
+					formatMap[format] = VK_FORMAT_R32G32_SFLOAT;
+				else if (format == TextureFormat::RG32_UInt)
+					formatMap[format] = VK_FORMAT_R32G32_UINT;
+				else if (format == TextureFormat::RG32_Int)
+					formatMap[format] = VK_FORMAT_R32G32_SINT;
+				else if (format == TextureFormat::RGBA8_UNorm)
+					formatMap[format] = VK_FORMAT_R8G8B8A8_UNORM;
+				else if (format == TextureFormat::RGBA8_UInt)
+					formatMap[format] = VK_FORMAT_R8G8B8A8_UINT;
+				else if (format == TextureFormat::RGBA8_Norm)
+					formatMap[format] = VK_FORMAT_R8G8B8A8_SNORM;
+				else if (format == TextureFormat::RGBA8_Int)
+					formatMap[format] = VK_FORMAT_R8G8B8A8_SINT;
+				else if (format == TextureFormat::RGBA8_SRGB)
+					formatMap[format] = VK_FORMAT_R8G8B8A8_SRGB;
+				else if (format == TextureFormat::RG16_Float)
+					formatMap[format] = VK_FORMAT_R16G16_SFLOAT;
+				else if (format == TextureFormat::RG16_UNorm)
+					formatMap[format] = VK_FORMAT_R16G16_UNORM;
+				else if (format == TextureFormat::RG16_UInt)
+					formatMap[format] = VK_FORMAT_R16G16_UINT;
+				else if (format == TextureFormat::RG16_Norm)
+					formatMap[format] = VK_FORMAT_R16G16_SNORM;
+				else if (format == TextureFormat::RG16_Int)
+					formatMap[format] = VK_FORMAT_R16G16_SINT;
+				else if (format == TextureFormat::D32_Float)
+					formatMap[format] = VK_FORMAT_D32_SFLOAT;
+				else if (format == TextureFormat::R32_Float)
+					formatMap[format] = VK_FORMAT_R32_SFLOAT;
+				else if (format == TextureFormat::R32_UInt)
+					formatMap[format] = VK_FORMAT_R32_UINT;
+				else if (format == TextureFormat::R32_Int)
+					formatMap[format] = VK_FORMAT_R32_SINT;
+				else if (format == TextureFormat::D24_UNorm_S8_UInt)
+					formatMap[format] = VK_FORMAT_D24_UNORM_S8_UINT;
+				else if (format == TextureFormat::D32_Float_S8_UInt)
+					formatMap[format] = VK_FORMAT_D32_SFLOAT_S8_UINT;
+				else if (format == TextureFormat::RG8_UNorm)
+					formatMap[format] = VK_FORMAT_R8G8_UNORM;
+				else if (format == TextureFormat::RG8_UInt)
+					formatMap[format] = VK_FORMAT_R8G8_UINT;
+				else if (format == TextureFormat::RG8_Norm)
+					formatMap[format] = VK_FORMAT_R8G8_SNORM;
+				else if (format == TextureFormat::RG8_Int)
+					formatMap[format] = VK_FORMAT_R8G8_SINT;
+				else if (format == TextureFormat::R16_Float)
+					formatMap[format] = VK_FORMAT_R16_SFLOAT;
+				else if (format == TextureFormat::D16_UNorm)
+					formatMap[format] = VK_FORMAT_D16_UNORM;
+				else if (format == TextureFormat::R16_UNorm)
+					formatMap[format] = VK_FORMAT_R16_UNORM;
+				else if (format == TextureFormat::R16_UInt)
+					formatMap[format] = VK_FORMAT_R16_UINT;
+				else if (format == TextureFormat::R16_Norm)
+					formatMap[format] = VK_FORMAT_R16_SNORM;
+				else if (format == TextureFormat::R16_Int)
+					formatMap[format] = VK_FORMAT_R16_SINT;
+				else if (format == TextureFormat::R8_UNorm)
+					formatMap[format] = VK_FORMAT_R8_UNORM;
+				else if (format == TextureFormat::R8_UInt)
+					formatMap[format] = VK_FORMAT_R8_UINT;
+				else if (format == TextureFormat::R8_Norm)
+					formatMap[format] = VK_FORMAT_R8_SNORM;
+				else if (format == TextureFormat::R8_Int)
+					formatMap[format] = VK_FORMAT_R8_SINT;
+				else if (format == TextureFormat::A8_UNorm)
+					formatMap[format] = VK_FORMAT_A8_UNORM_KHR;
+			}
+
+			return formatMap;
+		}
+
+		const static HashMap<TextureFormat, VkFormat> VkFormatMap = GetVkFormatMap();
 
 		static VkFormat GetVkFormat(TextureFormat format)
 		{

@@ -17,7 +17,11 @@ namespace MAGE
 		imageInfo.extent.depth = desc.ImageSize.z;
 		imageInfo.mipLevels = desc.MipLevels;
 		imageInfo.arrayLayers = desc.ArrayLayers;
-		imageInfo.format = VkUtils::GetVkFormat(desc.ImageFormat);
+		
+		auto format = VkUtils::VkFormatMap.find(desc.ImageFormat);
+		CORE_ASSERT(format != VkUtils::VkFormatMap.end(), "VTextureImage", "Failed to find format!");
+		imageInfo.format = format->second;
+
 		imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
 		imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 		imageInfo.usage = VkUtils::GetVkImageUsageFlags(desc.UsageFlags);

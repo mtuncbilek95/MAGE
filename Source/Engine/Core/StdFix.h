@@ -3,6 +3,9 @@
 #include <string>
 using String = std::string;
 
+#include <string_view>
+using StringView = std::string_view;
+
 #include <vector>
 template<typename T>
 using Vector = std::vector<T>;
@@ -29,6 +32,9 @@ using HashSet = std::unordered_set<T>;
 #include <list>
 template<typename T>
 using List = std::list<T>;
+
+template<typename T>
+using Hash = std::hash<T>;
 
 #include <memory>
 template<typename T>

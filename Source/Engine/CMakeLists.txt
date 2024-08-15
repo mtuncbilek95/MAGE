@@ -17,11 +17,9 @@ add_library(Engine STATIC main.cpp ${FILTERED_DIRS})
 target_include_directories(Engine PRIVATE "${CMAKE_SOURCE_DIR}/Source")
 
 SetupVulkan(Engine)
-target_link_libraries(Engine PUBLIC glfw)
-target_link_libraries(Engine PUBLIC glm::glm)
-target_link_libraries(Engine PUBLIC nlohmann_json::nlohmann_json)
+target_link_libraries(Engine PUBLIC glfw glm::glm nlohmann_json::nlohmann_json magic_enum meta)
 
-if(LINUX)
+if(UNIX)
 #	message(STATUS "Currently cannot support wayland. So platform uses std library.")
 	include(SetupLinux)
 	SetupLinux(Engine)

@@ -12,7 +12,11 @@ namespace MAGE
 		imageViewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 		imageViewInfo.image = desc.pTexture->GetAs<VTextureImage>()->GetVkTexture();
 		imageViewInfo.viewType = VkUtils::GetVkTextureViewType(desc.ViewType);
-		imageViewInfo.format = VkUtils::GetVkFormat(desc.pTexture->GetImageFormat());
+
+		auto format = VkUtils::VkFormatMap.find(desc.pTexture->GetImageFormat());
+		CORE_ASSERT(format != VkUtils::VkFormatMap.end(), "VTextureImage", "Failed to find format!");
+		imageViewInfo.format = format->second;
+
 		imageViewInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
 		imageViewInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
 		imageViewInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;

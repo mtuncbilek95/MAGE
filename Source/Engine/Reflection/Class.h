@@ -2,15 +2,15 @@
 
 #include <Engine/Core/Core.h>
 
+#include <meta/meta.hpp>
+
 namespace MAGE
 {
 	class Type;
 
 	/**
 	 * @class Class
-	 * 
 	 * @brief This class is the root for all reflection objects.
-	 * 
 	 */
 	class Class
 	{

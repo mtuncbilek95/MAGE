@@ -2,7 +2,7 @@
 
 namespace MAGE
 {
-	RendererJobSystem::RendererJobSystem(u32 threadCount, WorkerThreadPriority priority)
+	RendererJobSystem::RendererJobSystem(u32 threadCount, WorkerThreadPriority priority) : JobSystem(threadCount, priority)
 	{
 		CORE_ASSERT(threadCount > 0, "RendererJobSystem", "JobSystem must have at least one thread");
 

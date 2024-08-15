@@ -1,14 +1,7 @@
 # M.A.G.E
 Modern & Advanced Graphics Engine
 
-## BEFORE YOU START
-You need to download Vulkan SDK in order to run the engine from source code. There are couple additional features we need to run the game engine while installing Vulkan.
-
-### On Windows
-![image](https://github.com/user-attachments/assets/f509e9d6-8a85-4ed6-94ba-51fbe80b6caa)
-
-### On Linux
-Requested dependencies
+## REQUESTED DEPENDENCIES ON LINUX
 ```shell
 sudo apt update && sudo apt upgrade -y
 
@@ -17,8 +10,59 @@ sudo apt install build-essentials g++ gcc cmake cmake-extra-modules libxi-dev li
 
 ## GOOD TO KNOW WHILE WORKING
 
-- The Engine is written in C++20 and uses Vulkan API for rendering.
+- The Engine is written in C++20 and uses Vulkan API for rendering (Will support DX12 in future).
 - The Engine is still in development and not ready for production.
+- Development has been suspended till the runtime reflection is available to use on this game engine.
 
 - While running build generator for cmake, you will see a part where the cmake shows the excluded files. When working with Linux the excluded files needs to belong Win32API and 
 vice versa. This has been added to CMake with the aim of reducing macro controllers and boosting the compilation speed.
+
+```terminal
+1> [CMake] -- ----------------- Excluded files: -----------------
+1> [CMake] --   D:/Projects/MAGE/Source/Engine/Platform/Linux/LinuxDirectory.cpp
+1> [CMake] --   D:/Projects/MAGE/Source/Engine/Platform/Linux/LinuxDirectory.h
+1> [CMake] --   D:/Projects/MAGE/Source/Engine/Platform/Linux/LinuxGuid.cpp
+1> [CMake] --   D:/Projects/MAGE/Source/Engine/Platform/Linux/LinuxGuid.h
+1> [CMake] --   D:/Projects/MAGE/Source/Engine/Platform/Linux/LinuxPath.cpp
+1> [CMake] --   D:/Projects/MAGE/Source/Engine/Platform/Linux/LinuxPath.h
+1> [CMake] -- ----------------- End of excluded files -----------------
+```
+
+## IMPLEMENTED FEATURES
+- [x] Win32 Platform
+- [x] GAL (Graphics Abstraction Layer)
+- [x] Vulkan GAL Implementation
+- [x] Application Module System
+- [x] Job System for multi-thread behaviour
+- [x] Runtime Shader Compiler
+- [x] Custom Memory Allocator
+- [ ] JSON Serialization (W.I.P)
+- [ ] Runtime Type Reflection (W.I.P)
+- [ ] Resource Control Mechanism
+- [ ] Entity Component System
+- [ ] Editor Integration with ImGui
+- [ ] Scripting
+- [ ] Physics Engine Implementation
+- [ ] Audio Engine Implementation
+
+## DEPENDENCIES
+### Platform
+- [x] GLFW (Window Control Unit)
+- [x] ImGui (Immediate GUI Library)
+
+### Resource
+- [x] Assimp (Mesh Loader)
+- [x] EnTT (Entity Component System)
+- [x] Stb (Image Loader)
+
+### Utils
+- [x] Glm (Mathematic Library)
+- [x] Nlohmann (JSON Serialization)
+- [x] Magic Enum (Compile Time Enum Reflection)
+- [ ] Tracy (Frame Profiler)
+
+### SDK
+- [ ] FMod (Audio SDK)
+- [x] Vulkan (Graphics SDK)
+- [ ] DX12 (Graphics SDK)
+- [ ] Nvidia Physx (Physics SDK)

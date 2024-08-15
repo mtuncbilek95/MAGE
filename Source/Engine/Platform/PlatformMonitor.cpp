@@ -10,12 +10,12 @@
 
 namespace MAGE
 {
-	DArray<Monitor> PlatformMonitor::GetAllMonitors()
+	Vector<Monitor> PlatformMonitor::GetAllMonitors()
 	{
 		i32 monitorCount;
 		GLFWmonitor** monitorsAsGLFW = glfwGetMonitors(&monitorCount);
 
-		DArray<Monitor> monitors(monitorCount);
+		Vector<Monitor> monitors(monitorCount);
 
 		for (i32 i = 0; i < monitorCount; i++)
 		{

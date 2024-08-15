@@ -7,7 +7,7 @@ namespace MAGE
 	class PlatformCriticalSection
 	{
 	public:
-		static SharedPtr<PlatformCriticalSection> Create();
+		static SharedPtr<PlatformCriticalSection> CreateCS();
 
 	public:
 		PlatformCriticalSection() = default;

@@ -6,33 +6,28 @@
 
 namespace MAGE
 {
-	typedef std::function<void()> JobFunc;
-
 	class PlatformCriticalSection;
 	class ThreadJob
 	{
 		friend class PlatformThread;
 
 	public:
-		ThreadJob();
+		ThreadJob(VoidFunction job);
 		~ThreadJob() = default;
 
-		ThreadJobState GetState();
-		void Run();
-		void RequestJobQuit();
+		void Execute()
+		{
+			SetState(ThreadJobState::Running);
+			mFunction();
+			SetState(ThreadJobState::Finished);
+		}
 
-	protected:
-		virtual void Execute() = 0;
+		ThreadJobState GetState() noexcept;
+		void SetState(ThreadJobState state) noexcept;
 
 	private:
-		void SetOwner(PlatformThread* pOwnerThread) { mOwnerThread = pOwnerThread; }
-		void SetState(ThreadJobState state);
-
-		PlatformThread* mOwnerThread;
+		VoidFunction mFunction;
+		ThreadJobState mState;
 		SharedPtr<PlatformCriticalSection> mCriticalSection;
-		ThreadJobState mState = ThreadJobState::Idle;
-
-		JobFunc mJobFunc;
-		b8 mQuitRequested = false;
 	};
 }

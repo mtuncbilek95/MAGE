@@ -3,9 +3,7 @@
 #include <Engine/Core/Core.h>
 #include <Engine/Platform/PlatformCriticalSection.h>
 
-#if defined(MAGE_WINDOWS)
 #include <Windows.h>
-#endif
 
 namespace MAGE
 {

@@ -3,8 +3,6 @@
 #include <Engine/Core/Definitions.h>
 #include <Engine/Core/StdFix.h>
 
-#if defined(MAGE_WINDOWS)
-
 namespace MAGE
 {
 	class Win32Path final
@@ -20,5 +18,3 @@ namespace MAGE
 		~Win32Path() = delete;
 	};
 }
-
-#endif

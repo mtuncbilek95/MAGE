@@ -8,7 +8,7 @@ namespace MAGE
 	class PlatformMonitor
 	{
 	public:
-		static DArray<Monitor> GetAllMonitors();
+		static Vector<Monitor> GetAllMonitors();
 		static Monitor GetPrimaryMonitor();
 
 	public:

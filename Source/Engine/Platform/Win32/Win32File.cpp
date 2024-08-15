@@ -1,27 +1,20 @@
 #include "Win32File.h"
 
-#if defined(MAGE_WINDOWS)
 #include <Windows.h>
 #include <stdio.h>
-#endif
 
 namespace MAGE
 {
 	b8 Win32File::Exists(const String& path)
 	{
-#if defined(MAGE_WINDOWS)
 		DWORD dwAttrib = GetFileAttributesA(path.c_str());
 
 		// If the file is found return true
 		return (dwAttrib != INVALID_FILE_ATTRIBUTES && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
-#else
-		return false;
-#endif 
 	}
 
 	b8 Win32File::Create(const String& path)
 	{
-#if defined(MAGE_WINDOWS)
 		// Create the file
 		HANDLE hFile = CreateFileA(path.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
@@ -32,24 +25,16 @@ namespace MAGE
 		// Close the file
 		CloseHandle(hFile);
 		return true;
-#else
-		return false;
-#endif 
 	}
 
 	b8 Win32File::Delete(const String& path)
 	{
-#if defined(MAGE_WINDOWS)
 		// Delete the file
 		return DeleteFileA(path.c_str()) != 0;
-#else
-		return false;
-#endif
 	}
 
 	b8 Win32File::Write(const String& path, const String& data, const u64 offset)
 	{
-#if defined(MAGE_WINDOWS)
 		HANDLE hFile;
 		hFile = CreateFileA(path.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 
@@ -81,14 +66,10 @@ namespace MAGE
 		// Close the file
 		CloseHandle(hFile);
 		return true;
-#else
-		return false;
-#endif
 	}
 
 	b8 Win32File::Write(const String& path, const MemoryBuffer& buffer, const u64 offset)
 	{
-#if defined(MAGE_WINDOWS)
 		HANDLE hFile;
 
 		// Check if the file exists
@@ -111,14 +92,10 @@ namespace MAGE
 		// Close the file
 		CloseHandle(hFile);
 		return result;
-#else
-		return false;
-#endif
-}
+	}
 
 	b8 Win32File::Read(const String& path, String& contentOut, const u64 startByte, const u64 endByte)
 	{
-#if defined(MAGE_WINDOWS)
 		HANDLE hFile;
 
 		// Check if the file exists
@@ -168,14 +145,10 @@ namespace MAGE
 		// Free the buffer
 		delete[] buffer;
 		return true;
-#else
-		return false;
-#endif
 	}
 
 	b8 Win32File::Read(const String& path, MemoryOwnedBuffer& view, const u64 startByte, const u64 endByte)
 	{
-#if defined(MAGE_WINDOWS)
 		HANDLE hFile;
 
 		// Check if the file exists
@@ -226,56 +199,40 @@ namespace MAGE
 		delete[] buffer;
 
 		return true;
-#else
-		return false;
-#endif
 	}
 
 	b8 Win32File::Copy(const String& source, const String& destination)
 	{
-#if defined(MAGE_WINDOWS)
 		// Check if the source file exists
 		if (!Exists(source))
 			return false;
 
 		// Copy the file
 		return CopyFileA(source.c_str(), destination.c_str(), TRUE) != 0;
-#else
-		return false;
-#endif
 	}
 
 	b8 Win32File::Move(const String& source, const String& destination)
 	{
-#if defined(MAGE_WINDOWS)
 		// Check if the source file exists
 		if (!Exists(source))
 			return false;
 
 		// Move the file
 		return MoveFileA(source.c_str(), destination.c_str()) != 0;
-#else
-		return false;
-#endif
 	}
 
 	b8 Win32File::Rename(const String& source, const String& destination)
 	{
-#if defined(MAGE_WINDOWS)
 		// Check if the source file exists
 		if (!Exists(source))
 			return false;
 
 		// Rename the file
 		return MoveFileA(source.c_str(), destination.c_str()) != 0;
-#else
-		return false;
-#endif
 	}
 
 	b8 Win32File::GetSize(const String& path, u64& sizeOut)
 	{
-#if defined(MAGE_WINDOWS)
 		HANDLE hFile;
 
 		// Check if the file exists
@@ -295,15 +252,10 @@ namespace MAGE
 		// Close the file
 		CloseHandle(hFile);
 		return true;
-#else
-		return false;
-#endif
 	}
 
 	b8 Win32File::GetName(const String& path, String& nameOut)
 	{
-#if defined(MAGE_WINDOWS)
-
 		// Get the name of the file
 		String name = path;
 		// find the last slash as '/' or '\'
@@ -313,14 +265,10 @@ namespace MAGE
 
 		nameOut = name;
 		return true;
-#else
-		return false;
-#endif
 	}
 
 	b8 Win32File::GetExtension(const String& path, String& extensionOut)
 	{
-#if defined(MAGE_WINDOWS)
 		// Get the extension of the file
 		String extension = path;
 		size_t lastDot = extension.find_last_of(".");
@@ -329,14 +277,10 @@ namespace MAGE
 
 		extensionOut = extension;
 		return true;
-#else
-		return false;
-#endif
 	}
 
 	b8 Win32File::GetDirectory(const String& path, String& directoryOut)
 	{
-#if defined(MAGE_WINDOWS)
 		// Get the directory of the file
 		String directory = path;
 		size_t lastSlash = directory.find_last_of("/\\");
@@ -345,8 +289,5 @@ namespace MAGE
 
 		directoryOut = directory;
 		return true;
-#else
-		return false;
-#endif
 	}
 }

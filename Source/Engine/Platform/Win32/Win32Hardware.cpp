@@ -1,8 +1,6 @@
 #include "Win32Hardware.h"
 
-#if defined(MAGE_WINDOWS)
 #include <Windows.h>
-#endif
 
 namespace MAGE
 {

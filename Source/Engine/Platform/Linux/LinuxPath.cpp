@@ -1,6 +1,7 @@
 #include "LinuxPath.h"
 
 #include <filesystem>
+#if defined(MAGE_LINUX)
 
 namespace MAGE
 {
@@ -30,3 +31,4 @@ namespace MAGE
         return "/tmp";
     }
 }
+#endif

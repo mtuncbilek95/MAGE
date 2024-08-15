@@ -40,17 +40,17 @@ namespace MAGE
 		return PlatformDependency::Rename(source, destination);
 	}
 
-	b8 PlatformDirectory::GetFiles(const String& path, DArray<String>& files)
+	b8 PlatformDirectory::GetFiles(const String& path, Vector<String>& files)
 	{
 		return PlatformDependency::GetFiles(path, files);
 	}
 
-	b8 PlatformDirectory::GetDirectories(const String& path, DArray<String>& directories)
+	b8 PlatformDirectory::GetDirectories(const String& path, Vector<String>& directories)
 	{
 		return PlatformDependency::GetDirectories(path, directories);
 	}
 
-	b8 PlatformDirectory::GetFilesWithExtension(const String& path, const String& extension, DArray<String>& files)
+	b8 PlatformDirectory::GetFilesWithExtension(const String& path, const String& extension, Vector<String>& files)
 	{
 		return PlatformDependency::GetFilesWithExtension(path, extension, files);
 	}

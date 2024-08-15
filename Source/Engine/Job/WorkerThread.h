@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Engine/Core/Core.h>
+#include <Engine/Job/WorkerThreadPriority.h>
+#include <Engine/Thread/ThreadJob.h>
 #include <Engine/Platform/PlatformThread.h>
 #include <Engine/Platform/PlatformCriticalSection.h>
 
@@ -15,16 +17,22 @@ namespace MAGE
 	class WorkerThread
 	{
 	public:
-		WorkerThread();
+		WorkerThread(WorkerThreadPriority priority = WorkerThreadPriority::Normal);
 		~WorkerThread();
 
+		void AddJob(VoidFunction job);
+		void AddJob(SharedPtr<ThreadJob> job);
+		void RequestQuit();
+
+	private:
 		void ThreadLoop();
-		void AddJob(ThreadJob* job);
 
 	private:
 		SharedPtr<PlatformThread> mThread;
 		SharedPtr<PlatformCriticalSection> mCriticalSection;
-		ThreadJob* mCurrentJob;
-		// TODO: Add a queue in the WorkerThread class later
+		ThreadJob mLoopJob;
+		Queue<SharedPtr<ThreadJob>> mJobQueue;
+
+		bool mQuitRequested = false;
 	};
 }

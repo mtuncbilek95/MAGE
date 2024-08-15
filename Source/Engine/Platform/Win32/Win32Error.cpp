@@ -1,14 +1,11 @@
 #include "Win32Error.h"
 
-#if defined(MAGE_WINDOWS)
 #include <Windows.h>
-#endif
 
 namespace MAGE
 {
 	String Win32Error::GetPlatformError()
 	{
-#if defined(MAGE_WINDOWS)
 		// Retrieve the system error message for the last-error code
 		DWORD errorCode = GetLastError();
 		if (errorCode == 0)
@@ -26,8 +23,5 @@ namespace MAGE
 		LocalFree(messageBuffer);
 
 		return message;
-#else
-		return String();
-#endif
 	}
 }

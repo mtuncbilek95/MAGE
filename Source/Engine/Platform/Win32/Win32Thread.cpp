@@ -1,38 +1,35 @@
 #include "Win32Thread.h"
 
+#include <Engine/Thread/ThreadJob.h>
+
 namespace MAGE
 {
 	void Win32Thread::SleepCurrentThread(u64 ms)
 	{
-#if defined(MAGE_WINDOWS)
-		Sleep((DWORD)ms);
-#endif
+		Sleep(ms);
 	}
 
 	u64 Win32Thread::GetCurrentThreadID()
 	{
-#if defined(MAGE_WINDOWS)
 		return GetCurrentThreadId();
-#endif
 	}
 
-	void Win32Thread::SetCurrentThreadPriority(u32 priority)
+	Win32Thread::Win32Thread(ThreadJob* pJob) : PlatformThread(pJob)
 	{
-#if defined(MAGE_WINDOWS)
-		SetThreadPriority(GetCurrentThread(), priority);
-#endif
+		mThreadHandle = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)HandleThread, pJob, 0, nullptr);
 	}
 
-	Win32Thread::Win32Thread(u64 stackSize, ThreadJob* pJob) : PlatformThread(stackSize, pJob)
+	void Win32Thread::SetPriorityImpl(int priority)
 	{
-#if defined(MAGE_WINDOWS)
-		mThreadHandle = CreateThread(nullptr, stackSize, (LPTHREAD_START_ROUTINE)HandleThread, pJob, 0, nullptr);
-#endif
+		SetThreadPriority(mThreadHandle, priority);
 	}
 
 	void Win32Thread::HandleThread(void* pParam)
 	{
-		ThreadJob* pJob = static_cast<ThreadJob*>(pParam);
-		//pJob->Execute();
+		if (pParam)
+		{
+			ThreadJob* pJob = static_cast<ThreadJob*>(pParam);
+			pJob->Execute();
+		}
 	}
 }

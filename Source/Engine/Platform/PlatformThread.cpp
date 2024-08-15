@@ -9,7 +9,16 @@ typedef MAGE::Win32Thread PlatformDependency;
 
 namespace MAGE
 {
-	void PlatformThread::Sleep(u64 ms)
+	SharedPtr<PlatformThread> PlatformThread::CreatePlatformThread(ThreadJob* pJob)
+	{
+#if defined(MAGE_WINDOWS)
+		return MakeShared<Win32Thread>(pJob);
+#elif defined(MAGE_LINUX)
+		return nullptr; // TODO: Implement Linux thread
+#endif
+	}
+
+	void PlatformThread::SleepThread(u64 ms)
 	{
 		PlatformDependency::SleepCurrentThread(ms);
 	}
@@ -19,19 +28,12 @@ namespace MAGE
 		return PlatformDependency::GetCurrentThreadID();
 	}
 
-	void PlatformThread::SetCurrentThreadPriority(JobPriority priority)
+	PlatformThread::PlatformThread(ThreadJob* pJob) : mJob(pJob)
 	{
-		PlatformDependency::SetCurrentThreadPriority((u32)priority);
 	}
 
-	PlatformThread::PlatformThread(u64 stackSize, ThreadJob* pJob) : mStackSize(stackSize)
-		, mJob(pJob)
+	void PlatformThread::SetPriority(int priority)
 	{
-		mJob->SetOwner(this);
-	}
-
-	SharedPtr<PlatformThread> PlatformThread::Handle(u64 stackSize, ThreadJob* pJob)
-	{
-		return SharedPtr<PlatformThread>(new PlatformDependency(stackSize, pJob));
+		SetPriorityImpl(priority);
 	}
 }

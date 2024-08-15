@@ -1,8 +1,6 @@
 #include "Win32Time.h"
 
-#if defined(MAGE_WINDOWS)
 #include <Windows.h>
-#endif
 
 namespace MAGE
 {

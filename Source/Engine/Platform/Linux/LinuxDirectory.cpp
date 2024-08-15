@@ -32,17 +32,17 @@ namespace MAGE
         return false;
     }
 
-    b8 LinuxDirectory::GetFiles(const String& path, DArray<String>& files)
+    b8 LinuxDirectory::GetFiles(const String& path, Vector<String>& files)
     {
         return false;
     }
 
-    b8 LinuxDirectory::GetDirectories(const String& path, DArray<String>& directories)
+    b8 LinuxDirectory::GetDirectories(const String& path, Vector<String>& directories)
     {
         return false;
     }
 
-    b8 LinuxDirectory::GetFilesWithExtension(const String& path, const String& extension, DArray<String>& files)
+    b8 LinuxDirectory::GetFilesWithExtension(const String& path, const String& extension, Vector<String>& files)
     {
         return false;
     }

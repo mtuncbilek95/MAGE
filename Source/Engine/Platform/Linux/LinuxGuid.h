@@ -8,5 +8,5 @@ namespace MAGE
     {
     public:
         static void GenerateGuid(Guid& guidOut);
-    }
+    };
 }

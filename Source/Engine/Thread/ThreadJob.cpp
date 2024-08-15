@@ -4,36 +4,20 @@
 
 namespace MAGE
 {
-	ThreadJob::ThreadJob() : mState(ThreadJobState::Idle), mOwnerThread(nullptr), mQuitRequested(false)
+	ThreadJob::ThreadJob(VoidFunction job) : mFunction(job), mState(ThreadJobState::Idle)
 	{
-		mCriticalSection = PlatformCriticalSection::Create();
+		mCriticalSection = PlatformCriticalSection::CreateCS();
 	}
 
-	ThreadJobState ThreadJob::GetState()
+	ThreadJobState ThreadJob::GetState() noexcept
 	{
-		ThreadJobState state;
 		mCriticalSection->Enter();
-		state = mState;
+		ThreadJobState state = mState;
 		mCriticalSection->Exit();
-
 		return state;
 	}
 
-	void ThreadJob::Run()
-	{
-		SetState(ThreadJobState::Running);
-		Execute();
-		SetState(ThreadJobState::Finished);
-	}
-
-	void ThreadJob::RequestJobQuit()
-	{
-		mCriticalSection->Enter();
-		mQuitRequested = true;
-		mCriticalSection->Exit();
-	}
-
-	void ThreadJob::SetState(ThreadJobState state)
+	void ThreadJob::SetState(ThreadJobState state) noexcept
 	{
 		mCriticalSection->Enter();
 		mState = state;

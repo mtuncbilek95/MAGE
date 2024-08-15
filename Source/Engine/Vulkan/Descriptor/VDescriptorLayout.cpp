@@ -8,8 +8,8 @@ namespace MAGE
 	VDescriptorLayout::VDescriptorLayout(const DescriptorLayoutDesc& desc, VDevice* pDevice) : DescriptorLayout(desc, pDevice),
 		mVkDescriptorSetLayout(VK_NULL_HANDLE), mDevice(pDevice->GetVkDevice())
 	{
-		DArray<VkDescriptorSetLayoutBinding> bindings;
-		DArray<VkDescriptorBindingFlags> bindingFlags;
+		Vector<VkDescriptorSetLayoutBinding> bindings;
+		Vector<VkDescriptorBindingFlags> bindingFlags;
 
 		for (const DescriptorLayoutEntry& entry : desc.Entries)
 		{

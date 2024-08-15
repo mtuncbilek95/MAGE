@@ -9,6 +9,6 @@ namespace MAGE
     struct InputLayoutDesc
     {
         MeshTopology Topology;
-        DArray<InputBinding> Bindings;
+        Vector<InputBinding> Bindings;
     };
 }

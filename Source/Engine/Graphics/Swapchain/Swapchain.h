@@ -56,8 +56,8 @@ namespace MAGE
 
 		void SetNewImageSize(Vec2u newSize) { mImageSize = newSize; }
 
-		DArray<SharedPtr<TextureImage>> mImages;
-		DArray<SharedPtr<TextureView>> mImageViews;
+		Vector<SharedPtr<TextureImage>> mImages;
+		Vector<SharedPtr<TextureView>> mImageViews;
 		GraphicsQueue* mRequestQueue;
 		u32 mImageIndex = 0;
 

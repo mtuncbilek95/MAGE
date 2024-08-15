@@ -43,13 +43,13 @@ namespace MAGE
 			}
 		}
 
-		DArray<SharedPtr<GuiWindow>>& GetGuiWindows() { return mGuiWindows; }
+		Vector<SharedPtr<GuiWindow>>& GetGuiWindows() { return mGuiWindows; }
 
 		b8 IsRequestQuit() { return mRequestQuit; }
 		void RequestQuit() { mRequestQuit = true; }
 
 	private:
-		DArray<SharedPtr<GuiWindow>> mGuiWindows;
+		Vector<SharedPtr<GuiWindow>> mGuiWindows;
 		b8 mRequestQuit = false;
 	};
 }

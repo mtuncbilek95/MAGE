@@ -51,7 +51,7 @@ namespace MAGE
 
 	void VCmdBuffer::BeginRenderingImpl(const DynamicPassDesc& desc)
 	{
-		DArray<VkRenderingAttachmentInfo> attachmentInfos;
+		Vector<VkRenderingAttachmentInfo> attachmentInfos;
 
 		for (u32 i = 0; i < desc.ColorAttachments.size(); i++)
 		{

@@ -35,7 +35,7 @@ namespace MAGE
 		CORE_ASSERT(queueFamilyCount > 0, "VDevice", "No queue families found");
 
 		// Get the queue families
-		DArray<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+		Vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
 		vkGetPhysicalDeviceQueueFamilyProperties(mAdapter, &queueFamilyCount, queueFamilies.data());
 
 		// Find the queue families for graphics, compute and transfer
@@ -68,7 +68,7 @@ namespace MAGE
 
 		// Queue priorities
 		f32 queuePriorities[] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
-		DArray<VkDeviceQueueCreateInfo> queueCreateInfos = {};
+		Vector<VkDeviceQueueCreateInfo> queueCreateInfos = {};
 
 		// Graphics Queue Create Info
 		VkDeviceQueueCreateInfo graphicsQueueCreateInfo = {};
@@ -95,7 +95,7 @@ namespace MAGE
 		queueCreateInfos.push_back(transferQueueCreateInfo);
 
 		// Add all the wanted device extensions
-		DArray<const char*> extensions;
+		Vector<const char*> extensions;
 		extensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 		extensions.push_back(VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME);
 		extensions.push_back(VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME);
@@ -104,7 +104,7 @@ namespace MAGE
 		//Check if the device supports the extensions
 		u32 extensionCount = 0;
 		vkEnumerateDeviceExtensionProperties(mAdapter, nullptr, &extensionCount, nullptr);
-		DArray<VkExtensionProperties> availableExtensions(extensionCount);
+		Vector<VkExtensionProperties> availableExtensions(extensionCount);
 		vkEnumerateDeviceExtensionProperties(mAdapter, nullptr, &extensionCount, availableExtensions.data());
 
 		// Get all the device features related to adapter

@@ -8,7 +8,7 @@ namespace MAGE
 {
 	struct DescriptorLayoutDesc
 	{
-		DArray<DescriptorLayoutEntry> Entries;
+		Vector<DescriptorLayoutEntry> Entries;
 		DescriptorLayoutFlags Flags;
 	};
 }

@@ -7,7 +7,7 @@ namespace MAGE
 	VDescriptorPool::VDescriptorPool(const DescriptorPoolDesc& desc, VDevice* pDevice) : DescriptorPool(desc, pDevice),
 		mVkDescriptorPool(VK_NULL_HANDLE), mDevice(pDevice->GetVkDevice())
 	{
-		DArray<VkDescriptorPoolSize> poolSizes;
+		Vector<VkDescriptorPoolSize> poolSizes;
 
 		for (auto& poolSize : desc.PoolSizes)
 		{

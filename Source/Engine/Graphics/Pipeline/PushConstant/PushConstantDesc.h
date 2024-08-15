@@ -14,6 +14,6 @@ namespace MAGE
 
 	struct PushConstantDesc
 	{
-		DArray<PushConstantRange> PushConstantRanges;
+		Vector<PushConstantRange> PushConstantRanges;
 	};
 }

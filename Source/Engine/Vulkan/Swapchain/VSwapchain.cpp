@@ -56,7 +56,7 @@ namespace MAGE
 			"Failed to get surface formats");
 		CORE_ASSERT(formatCount > 0, "VSwapchain", "No surface formats found");
 
-		DArray<VkSurfaceFormatKHR> surfaceFormats(formatCount);
+		Vector<VkSurfaceFormatKHR> surfaceFormats(formatCount);
 		CORE_ASSERT(vkGetPhysicalDeviceSurfaceFormatsKHR(mAdapter, mSurface, &formatCount, surfaceFormats.data()) == VK_SUCCESS, "VSwapchain",
 			"Failed to get surface formats");
 
@@ -87,7 +87,7 @@ namespace MAGE
 			"CreateSurfaceSwapchain", "Failed to get present modes");
 		CORE_ASSERT(presentModeCount > 0, "VSwapchan", "No present modes found");
 
-		DArray<VkPresentModeKHR> presentModes(presentModeCount);
+		Vector<VkPresentModeKHR> presentModes(presentModeCount);
 		CORE_ASSERT(vkGetPhysicalDeviceSurfacePresentModesKHR(mAdapter, mSurface, &presentModeCount, presentModes.data()) == VK_SUCCESS,
 			"CreateSurfaceSwapchain", "Failed to get present modes");
 
@@ -129,7 +129,7 @@ namespace MAGE
 		CORE_ASSERT(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, nullptr) == VK_SUCCESS, "VSwapchan", "Failed to get swapchain images");
 		CORE_ASSERT(imageCount > 0, "VSwapchan", "No swapchain images found");
 
-		DArray<VkImage> images(imageCount);
+		Vector<VkImage> images(imageCount);
 		CORE_ASSERT(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, images.data()) == VK_SUCCESS, "VSwapchan", "Failed to get swapchain images");
 
 
@@ -241,7 +241,7 @@ namespace MAGE
 			"Failed to get surface formats");
 		CORE_ASSERT(formatCount > 0, "VSwapchain", "No surface formats found");
 
-		DArray<VkSurfaceFormatKHR> surfaceFormats(formatCount);
+		Vector<VkSurfaceFormatKHR> surfaceFormats(formatCount);
 		CORE_ASSERT(vkGetPhysicalDeviceSurfaceFormatsKHR(mAdapter, mSurface, &formatCount, surfaceFormats.data()) == VK_SUCCESS, "VSwapchain",
 			"Failed to get surface formats");
 
@@ -269,7 +269,7 @@ namespace MAGE
 			"CreateSurfaceSwapchain", "Failed to get present modes");
 		CORE_ASSERT(presentModeCount > 0, "VSwapchan", "No present modes found");
 
-		DArray<VkPresentModeKHR> presentModes(presentModeCount);
+		Vector<VkPresentModeKHR> presentModes(presentModeCount);
 		CORE_ASSERT(vkGetPhysicalDeviceSurfacePresentModesKHR(mAdapter, mSurface, &presentModeCount, presentModes.data()) == VK_SUCCESS,
 			"CreateSurfaceSwapchain", "Failed to get present modes");
 
@@ -310,7 +310,7 @@ namespace MAGE
 		CORE_ASSERT(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, nullptr) == VK_SUCCESS, "VSwapchan", "Failed to get swapchain images");
 		CORE_ASSERT(imageCount > 0, "VSwapchan", "No swapchain images found");
 
-		DArray<VkImage> images(imageCount);
+		Vector<VkImage> images(imageCount);
 		CORE_ASSERT(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, images.data()) == VK_SUCCESS, "VSwapchan", "Failed to get swapchain images");
 
 		// Nevertheless, we need to fill the VulkanTexture data

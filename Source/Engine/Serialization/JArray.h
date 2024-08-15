@@ -33,9 +33,9 @@ namespace MAGE
 
 		s64 GetSize() const { return mNodes.size(); }
 
-		DArray<JNode*>& GetNodes() { return mNodes; }
+		Vector<JNode*>& GetNodes() { return mNodes; }
 
 	private:
-		DArray<JNode*> mNodes;
+		Vector<JNode*> mNodes;
 	};
 }

@@ -62,7 +62,7 @@ namespace MAGE
 		};
 
 		// Fill the wanted extensions
-		DArray<ExtensionEntry> extensions(EXTENSION_SIZE);
+		Vector<ExtensionEntry> extensions(EXTENSION_SIZE);
 		extensions[0] = { VK_KHR_SURFACE_EXTENSION_NAME, false };
 		extensions[1] = { VK_KHR_WIN32_SURFACE_EXTENSION_NAME, false };
 
@@ -81,7 +81,7 @@ namespace MAGE
 		CORE_ASSERT(extensionCount > 0, "VInstance", "No instance extension properties found");
 
 		// Get all the available extensions for the current computer
-		DArray<VkExtensionProperties> allExtensions(extensionCount);
+		Vector<VkExtensionProperties> allExtensions(extensionCount);
 		CORE_ASSERT(vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, allExtensions.data()) == VK_SUCCESS,
 			"VInstance", "Failed to enumerate instance extension properties");
 
@@ -99,8 +99,8 @@ namespace MAGE
 		}
 
 		// Seperate the names of working and not working extensions
-		DArray<const char*> workingExtensions;
-		DArray<const char*> brokenExtensions;
+		Vector<const char*> workingExtensions;
+		Vector<const char*> brokenExtensions;
 
 		for (auto& extension : extensions)
 		{
@@ -117,12 +117,12 @@ namespace MAGE
 		CORE_ASSERT(layerCount > 0, "VInstance", "No instance layer properties found");
 
 		// Get all the available layers for the current computer
-		DArray<VkLayerProperties> allLayers(layerCount);
+		Vector<VkLayerProperties> allLayers(layerCount);
 		CORE_ASSERT(vkEnumerateInstanceLayerProperties(&layerCount, allLayers.data()) == VK_SUCCESS,
 			"VInstance", "Failed to enumerate instance layer properties");
 
 		// Get all the wanted layers for debugging
-		DArray<const char*> layers;
+		Vector<const char*> layers;
 #if defined(MAGE_DEBUG)
 		layers.push_back("VK_LAYER_KHRONOS_validation");
 		layers.push_back("VK_LAYER_LUNARG_screenshot");
@@ -180,7 +180,7 @@ namespace MAGE
 		Map<String, Pair<VkPhysicalDevice, u32>> allDevices;
 
 		// Get the physical devices
-		DArray<VkPhysicalDevice> devices(deviceCount);
+		Vector<VkPhysicalDevice> devices(deviceCount);
 		CORE_ASSERT(vkEnumeratePhysicalDevices(mVkInstance, &deviceCount, devices.data()) == VK_SUCCESS, "VInstance", "Failed to enumerate physical devices");
 
 		for (auto& device : devices)
@@ -202,7 +202,7 @@ namespace MAGE
 			vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
 			CORE_ASSERT(queueFamilyCount > 0, "VInstance", "No queue family properties found");
 
-			DArray<VkQueueFamilyProperties> queueFamilyProperties(queueFamilyCount);
+			Vector<VkQueueFamilyProperties> queueFamilyProperties(queueFamilyCount);
 			vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilyProperties.data());
 
 			// Hold device on allDevices

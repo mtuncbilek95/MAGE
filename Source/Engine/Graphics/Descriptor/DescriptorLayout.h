@@ -12,9 +12,9 @@ namespace MAGE
 		DescriptorLayout(const DescriptorLayoutDesc& desc,GraphicsDevice* device) : DeviceObject(device), mEntries(desc.Entries) {}
 		virtual ~DescriptorLayout() override = default;
 
-		const DArray<DescriptorLayoutEntry>& GetEntries() const noexcept { return mEntries; }
+		const Vector<DescriptorLayoutEntry>& GetEntries() const noexcept { return mEntries; }
 
 	private:
-		DArray<DescriptorLayoutEntry> mEntries;
+		Vector<DescriptorLayoutEntry> mEntries;
 	};
 }

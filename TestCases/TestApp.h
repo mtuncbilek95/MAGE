@@ -1,6 +1,7 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
+#include "Engine/Core/Core.h"
+#include <Engine/Platform/API/PlatformAPI.h>
 #include <Engine/Application/Application.h>
 
 #include <Engine/Window/WindowModule.h>

@@ -7,6 +7,6 @@ namespace MAGE
 {
 	struct DescriptorSetCopyDesc
 	{
-		DArray<DescriptorSetCopyEntry> Entries;
+		Vector<DescriptorSetCopyEntry> Entries;
 	};
 }

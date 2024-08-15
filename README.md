@@ -15,5 +15,10 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install build-essentials g++ gcc cmake cmake-extra-modules libxi-dev libxcursor-dev libxinerama-dev libxrandr-dev waylandpp-dev libwayland-server0 libwayland-client++1 libuuid1 uuid-dev -y
 ```
 
-## AFTER VULKAN SDK
-Please only use main/master branch because this will be the only branch that will be able to work properly.
+## GOOD TO KNOW WHILE WORKING
+
+- The Engine is written in C++20 and uses Vulkan API for rendering.
+- The Engine is still in development and not ready for production.
+
+- While running build generator for cmake, you will see a part where the cmake shows the excluded files. When working with Linux the excluded files needs to belong Win32API and 
+vice versa. This has been added to CMake with the aim of reducing macro controllers and boosting the compilation speed.

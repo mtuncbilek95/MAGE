@@ -47,6 +47,6 @@ namespace MAGE
 
 		GraphicsDevice* mDevice;
 
-		DArray<DArray<MipData>> mMipData;
+		Vector<Vector<MipData>> mMipData;
 	};
 }

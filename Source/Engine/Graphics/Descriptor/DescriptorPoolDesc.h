@@ -10,7 +10,7 @@ namespace MAGE
 	struct DescriptorPoolDesc
 	{
 		u64 MaxSets;
-		DArray<DescriptorPoolSize> PoolSizes;
+		Vector<DescriptorPoolSize> PoolSizes;
 		DescriptorPoolFlags Flags;
 	};
 }

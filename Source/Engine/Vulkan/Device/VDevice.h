@@ -41,7 +41,7 @@ namespace MAGE
 			u8 QueueCapacity;
 			u8 FamilyIndex;
 			u8 RequestedCount;
-			DArray<VkQueue> FreeQueues;
+			Vector<VkQueue> FreeQueues;
 		};
 
 	public:

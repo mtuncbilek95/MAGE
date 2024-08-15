@@ -23,12 +23,12 @@ namespace MAGE
         MultisampleDesc Multisample;
         RasterizerStateDesc RasterizerState;
         ResourceLayoutDesc ResourceLayout;
-        DArray<Shader*> GraphicsShaders;
+        Vector<Shader*> GraphicsShaders;
         PushConstantDesc PushConstants;
         ViewportDesc Viewport;
         ScissorDesc Scissor;
         u32 ColorAttachmentCount;
-        DArray<TextureFormat> ColorAttachmentFormats;
+        Vector<TextureFormat> ColorAttachmentFormats;
         TextureFormat DepthAttachmentFormat;
         TextureFormat StencilAttachmentFormat;
 	};

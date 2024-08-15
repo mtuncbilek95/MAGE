@@ -10,6 +10,6 @@ namespace MAGE
     {
         b8 bLogicOperationEnabled;
         LogicOperation LogicOperation;
-        DArray<BlendStateAttachment> Attachments;
+        Vector<BlendStateAttachment> Attachments;
     };
 }

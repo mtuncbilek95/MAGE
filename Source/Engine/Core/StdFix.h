@@ -5,7 +5,7 @@ using String = std::string;
 
 #include <vector>
 template<typename T>
-using DArray = std::vector<T>;
+using Vector = std::vector<T>;
 
 #include <map>
 template<typename K, typename V>
@@ -41,6 +41,7 @@ using WeakPtr = std::weak_ptr<T>;
 #include <functional>
 template<typename T>
 using Function = std::function<T>;
+using VoidFunction = Function<void()>;
 
 #include <deque>
 template<typename T>
@@ -95,6 +96,5 @@ using Vec4b = glm::bvec4;
 using Vec2s = glm::vec<2, short>;
 using Vec3s = glm::vec<3, short>;
 using Vec4s = glm::vec<4, short>;
-
 
 namespace Math = glm;

@@ -9,6 +9,6 @@ namespace MAGE
     struct InputBinding
     {
         InputBindingStepRate StepRate;
-        DArray<InputElement> Elements;
+        Vector<InputElement> Elements;
     };
 }

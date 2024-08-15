@@ -15,7 +15,7 @@ namespace MAGE
 		mVkPipeline(VK_NULL_HANDLE), mVkPipelineLayout(VK_NULL_HANDLE)
 	{
 		// Shader stage on pipeline
-		DArray<VkPipelineShaderStageCreateInfo> shaderStages;
+		Vector<VkPipelineShaderStageCreateInfo> shaderStages;
 		for (const auto& shader : desc.GraphicsShaders)
 		{
 			VkPipelineShaderStageCreateInfo stageInfo = {};
@@ -28,8 +28,8 @@ namespace MAGE
 		}
 
 		// Vertex input state
-		DArray<VkVertexInputBindingDescription> bindings;
-		DArray<VkVertexInputAttributeDescription> attributes;
+		Vector<VkVertexInputBindingDescription> bindings;
+		Vector<VkVertexInputAttributeDescription> attributes;
 		for (u8 bindIndex = 0; bindIndex < desc.InputLayout.Bindings.size(); bindIndex++)
 		{
 			const auto& element = desc.InputLayout.Bindings[bindIndex];
@@ -70,7 +70,7 @@ namespace MAGE
 		vertexInputInfo.pVertexAttributeDescriptions = attributes.data();
 
 		// Dynamic state
-		DArray<VkDynamicState> dynamicStates = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR };
+		Vector<VkDynamicState> dynamicStates = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR };
 		VkPipelineDynamicStateCreateInfo dynamicState = {};
 		dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
 		dynamicState.dynamicStateCount = static_cast<u32>(dynamicStates.size());
@@ -125,7 +125,7 @@ namespace MAGE
 		multisampling.alphaToOneEnable = VK_FALSE;
 
 		// ColorBlendAttachment
-		DArray<VkPipelineColorBlendAttachmentState> colorAttachments;
+		Vector<VkPipelineColorBlendAttachmentState> colorAttachments;
 
 		for (u8 i = 0; i < desc.BlendState.Attachments.size(); i++)
 		{
@@ -168,14 +168,14 @@ namespace MAGE
 		depthStencil.maxDepthBounds = 1.0f; // Optional
 
 		// Descriptor Set Layouts
-		DArray<VkDescriptorSetLayout> layouts(desc.ResourceLayout.ResourceLayouts.size());
+		Vector<VkDescriptorSetLayout> layouts(desc.ResourceLayout.ResourceLayouts.size());
 
 		for (u32 i = 0; i < desc.ResourceLayout.ResourceLayouts.size(); i++)
 		{
 			layouts[i] = desc.ResourceLayout.ResourceLayouts[i]->GetAs<VDescriptorLayout>()->GetVkDescriptorLayout();
 		}
 
-		DArray<VkFormat> formats;
+		Vector<VkFormat> formats;
 		for (auto& format : desc.ColorAttachmentFormats)
 			formats.push_back(VkUtils::GetVkFormat(format));
 
@@ -188,7 +188,7 @@ namespace MAGE
 		renderingInfo.pNext = nullptr;
 		renderingInfo.viewMask = 0;
 
-		DArray<VkPushConstantRange> pushConstants;
+		Vector<VkPushConstantRange> pushConstants;
 
 		for (PushConstantRange pushConstant : desc.PushConstants.PushConstantRanges)
 		{

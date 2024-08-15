@@ -34,6 +34,6 @@ namespace MAGE
 		}
 
 	private:
-		DArray<EventBlock<EventType>> mListeners;
+		Vector<EventBlock<EventType>> mListeners;
 	};
 }

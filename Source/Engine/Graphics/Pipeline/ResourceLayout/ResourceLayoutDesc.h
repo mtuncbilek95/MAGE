@@ -7,6 +7,6 @@ namespace MAGE
 {
     struct ResourceLayoutDesc
     {
-        DArray<DescriptorLayout*> ResourceLayouts;
+        Vector<DescriptorLayout*> ResourceLayouts;
     };
 }

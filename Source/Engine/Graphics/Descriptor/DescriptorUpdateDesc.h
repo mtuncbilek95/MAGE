@@ -7,6 +7,6 @@ namespace MAGE
 {
 	struct DescriptorUpdateDesc
 	{
-		DArray<DescriptorSetUpdateEntry> Entries;
+		Vector<DescriptorSetUpdateEntry> Entries;
 	};
 }

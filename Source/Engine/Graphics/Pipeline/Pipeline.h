@@ -24,12 +24,12 @@ namespace MAGE
         const MultisampleDesc& GetMultisample() const { return mMultisample; }
         const RasterizerStateDesc& GetRasterizerState() const { return mRasterizerState; }
         const ResourceLayoutDesc& GetResourceLayout() const { return mResourceLayout; }
-        const DArray<Shader*>& GetGraphicsShaders() const { return mGraphicsShaders; }
+        const Vector<Shader*>& GetGraphicsShaders() const { return mGraphicsShaders; }
         const PushConstantDesc& GetPushConstants() const { return mPushConstants; }
         const ViewportDesc& GetViewport() const { return mViewport; }
         const ScissorDesc& GetScissor() const { return mScissor; }
         u32 GetColorAttachmentCount() const { return mColorAttachmentCount; }
-        const DArray<TextureFormat>& GetColorAttachmentFormats() const { return mColorAttachmentFormats; }
+        const Vector<TextureFormat>& GetColorAttachmentFormats() const { return mColorAttachmentFormats; }
         TextureFormat GetDepthAttachmentFormat() const { return mDepthAttachmentFormat; }
         TextureFormat GetStencilAttachmentFormat() const { return mStencilAttachmentFormat; }
 
@@ -41,12 +41,12 @@ namespace MAGE
         MultisampleDesc mMultisample;
         RasterizerStateDesc mRasterizerState;
         ResourceLayoutDesc mResourceLayout;
-        DArray<Shader*> mGraphicsShaders;
+        Vector<Shader*> mGraphicsShaders;
         PushConstantDesc mPushConstants;
         ViewportDesc mViewport;
         ScissorDesc mScissor;
         u32 mColorAttachmentCount;
-        DArray<TextureFormat> mColorAttachmentFormats;
+        Vector<TextureFormat> mColorAttachmentFormats;
         TextureFormat mDepthAttachmentFormat;
         TextureFormat mStencilAttachmentFormat;
 

@@ -15,10 +15,10 @@ namespace MAGE
 		virtual ~DescriptorPool() override = default;
 
 		u64 GetMaxSets() const noexcept { return mMaxSets; }
-		const DArray<DescriptorPoolSize>& GetPoolSizes() const noexcept { return mPoolSizes; }
+		const Vector<DescriptorPoolSize>& GetPoolSizes() const noexcept { return mPoolSizes; }
 
 	private:
 		u64 mMaxSets;
-		DArray<DescriptorPoolSize> mPoolSizes;
+		Vector<DescriptorPoolSize> mPoolSizes;
 	};
 }

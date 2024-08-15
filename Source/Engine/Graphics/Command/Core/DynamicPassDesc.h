@@ -11,7 +11,7 @@ namespace MAGE
 		Vec2i Offset;
 		u32 layerCount;
 		u32 viewMask;
-		DArray<DynamicPassAttachmentDesc> ColorAttachments;
+		Vector<DynamicPassAttachmentDesc> ColorAttachments;
 		DynamicPassAttachmentDesc DepthAttachment;
 		DynamicPassAttachmentDesc StencilAttachment;
 	};

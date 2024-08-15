@@ -30,7 +30,7 @@ namespace MAGE
 		virtual void OnInitialize() noexcept = 0;
 
 	private:
-		DArray<SharedPtr<ApplicationModule>> mTotalModules;
+		Vector<SharedPtr<ApplicationModule>> mTotalModules;
 		b8 mQuitRequested = false;
 	};
 }

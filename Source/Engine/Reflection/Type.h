@@ -66,8 +66,8 @@ namespace MAGE
 		String mName;
 		TypeMode mType;
 		u32 mSize;
-		DArray<Member*> mMembers; // Only used for structs/classes
-		DArray<EnumValue> mEnumValues; // Only used for enums
+		Vector<Member*> mMembers; // Only used for structs/classes
+		Vector<EnumValue> mEnumValues; // Only used for enums
 		Type* mSuperType; // Used for checking the inheritance hierarchy
 	};
 }

@@ -1,7 +1,7 @@
 # M.A.G.E
 Modern & Advanced Graphics Engine
 
-## REQUESTED DEPENDENCIES ON LINUX
+## REQUESTED DEPENDENCIES ON LINUX (W.I.P by [Mehmet Samet Hakut](https://github.com/hakut))
 ```shell
 sudo apt update && sudo apt upgrade -y
 

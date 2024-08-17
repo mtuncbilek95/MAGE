@@ -73,12 +73,6 @@ namespace CodeGenerator
                 }
             }
 
-            System.Console.WriteLine("Type names: ");
-            foreach (string typeName in typeNames)
-            {
-                System.Console.WriteLine(typeName);
-            }
-
             return typeNames;
         }
 
@@ -106,13 +100,12 @@ namespace CodeGenerator
                     var updatedLines = lines.ToList();
 
                     string newInclude = $"#include \"{fileName}.gen.h\"";
-                    // Insert the new #include after the last one
-                    updatedLines.Insert(lastIncludeIndex + 1, newInclude);
+
+                    if(!updatedLines.Contains(newInclude))
+                        updatedLines.Insert(lastIncludeIndex + 1, newInclude);
 
                     // Write the updated content back to the file
                     File.WriteAllLines(filePath, updatedLines);
-
-                    Console.WriteLine($"Added {newInclude} after the last #include directive.");
                 }
 
                 strings = CatchGenerateNames(filePath); 

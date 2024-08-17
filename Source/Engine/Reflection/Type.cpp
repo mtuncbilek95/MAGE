@@ -6,7 +6,7 @@ namespace MAGE
 {
 	Member* Type::GetMember(const String& name) const
 	{
-		for (Member* member : mMembers)
+		for (auto& member : mMembers)
 			if (member->GetName() == name)
 				return member;
 

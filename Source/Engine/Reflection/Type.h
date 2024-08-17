@@ -25,23 +25,22 @@ namespace MAGE
 		FORCEINLINE const String& GetName() const { return mName; }
 		FORCEINLINE TypeMode GetType() const { return mType; }
 		FORCEINLINE s64 GetSize() const { return mSize; }
-
 		FORCEINLINE Member* GetMember(const String& name) const;
 
 		FORCEINLINE const EnumValue& GetEnumValue(const String& name) const
 		{
-			for (const EnumValue& value : mEnumValues)
-				if (value.EnumName == name)
-					return value;
+			for(auto& val : mEnumValues)
+				if (val.EnumName == name)
+					return val;
 
 			return EnumValue();
 		}
 
 		FORCEINLINE const String& GetEnumName(const i64 value)
 		{
-			for (const EnumValue& enumValue : mEnumValues)
-				if (enumValue.EnumValue == value)
-					return enumValue.EnumName;
+			for (auto& val : mEnumValues)
+				if (val.EnumValue == value)
+					return val.EnumName;
 
 			return "";
 		}

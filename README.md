@@ -31,6 +31,7 @@ vice versa. This has been added to CMake with the aim of reducing macro controll
 ## IMPLEMENTED FEATURES
 - [x] Unit Test Environment (Catch2)
 - [x] Win32 Platform
+- [ ] Linux Platform (W.I.P @hakut)
 - [x] GAL (Graphics Abstraction Layer)
 - [x] Vulkan GAL Implementation
 - [x] Application Module System

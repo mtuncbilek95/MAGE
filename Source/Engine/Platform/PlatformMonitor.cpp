@@ -1,12 +1,7 @@
 #include "PlatformMonitor.h"
 
-#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-
-#if defined(MAGE_WINDOWS)
-#define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
-#endif
 
 namespace MAGE
 {

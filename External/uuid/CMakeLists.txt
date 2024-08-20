@@ -4,9 +4,11 @@ include(FetchContent)
 
 # EnTT Library
 FetchContent_Declare(
-    entt
+    uuid
     EXCLUDE_FROM_ALL
-    GIT_REPOSITORY https://github.com/skypjack/entt.git
+    GIT_REPOSITORY https://github.com/libstud/libstud-uuid.git
     GIT_TAG v3.13.2
     GIT_SHALLOW TRUE
 )
+
+FetchContent_MakeAvailable(uuid)

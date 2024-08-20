@@ -19,6 +19,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake")
 # --------------------- SETUP CONFIG -------------------------
 include(SetupConfig)
 SetupConfig()
+
+option(ENABLE_CATCH_TEST "Enable testing" OFF) # This one needs to be set ON in Build/${BuildType-OS}/CMakeCache.txt
 # ------------------------------------------------------------
 
 # ----------------------- SUBDIRECTORIES ---------------------
@@ -26,6 +28,11 @@ add_subdirectory("External")
 add_subdirectory("Source/Engine")
 add_subdirectory("Source/Resource")
 add_subdirectory("Source/Editor")
+
+if(ENABLE_CATCH_TEST)
+    enable_testing()
+    add_subdirectory(UnitTest)
+endif()
 
 add_subdirectory("TestCases")
 # ------------------------------------------------------------

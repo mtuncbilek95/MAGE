@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.26 FATAL_ERROR)
 
 # ----------------------- INCLUDES ---------------------------
 include(SetupVulkan)
+include(SetupGLFW)
 # ------------------------------------------------------------
 
 # ---------------------- FILE ADDITION -----------------------
@@ -17,12 +18,14 @@ add_library(Engine STATIC main.cpp ${FILTERED_DIRS})
 target_include_directories(Engine PRIVATE "${CMAKE_SOURCE_DIR}/Source")
 
 SetupVulkan(Engine)
-target_link_libraries(Engine PUBLIC glfw glm::glm nlohmann_json::nlohmann_json magic_enum meta)
+SetupGLFW(Engine)
+target_link_libraries(Engine PUBLIC glfw glm::glm nlohmann_json::nlohmann_json magic_enum)
 
 if(UNIX)
 #	message(STATUS "Currently cannot support wayland. So platform uses std library.")
 	include(SetupLinux)
 	SetupLinux(Engine)
+	target_link_libraries(Engine PUBLIC uuid)
 endif()
 # ------------------------------------------------------------
 

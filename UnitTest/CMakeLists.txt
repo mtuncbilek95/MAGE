@@ -1,0 +1,35 @@
+cmake_minimum_required(VERSION 3.26)
+
+# ----------------------- INCLUDES ---------------------------
+include(SetupVulkan)
+include(SetupGLFW)
+# ------------------------------------------------------------
+
+# ---------------------- FILE ADDITION -----------------------
+include(FilterFolders)
+set(BASE_DIRECTORY "${CMAKE_SOURCE_DIR}/UnitTest") # Base directory for the engine
+FilterOS(FILTERED_DIRS ${BASE_DIRECTORY}) # Filter out the directories that are not needed for current OS
+source_group(TREE "${CMAKE_SOURCE_DIR}/UnitTest" FILES ${FILTERED_FILES})
+
+add_executable(UnitTest ${FILTERED_DIRS})
+# ------------------------------------------------------------
+
+# ------------------- INCLUDE DIRECTORIES --------------------
+target_include_directories(UnitTest PRIVATE "${CMAKE_SOURCE_DIR}/Source")
+
+target_link_libraries(UnitTest PRIVATE Engine)
+target_link_libraries(UnitTest PRIVATE Catch2::Catch2WithMain)
+
+SetupVulkan(UnitTest)
+SetupGLFW(UnitTest)
+
+if(UNIX)
+	include(SetupLinux)
+	SetupLinux(UnitTest)
+endif()
+
+list(APPEND CMAKE_MODULE_PATH ${Catch2_SOURCE_DIR}/extras)
+list(APPEND CMAKE_MODULE_PATH ${Catch2_SOURCE_DIR}/contrib)
+include(CTest)
+include(Catch)
+catch_discover_tests(UnitTest)

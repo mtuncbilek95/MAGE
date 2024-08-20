@@ -40,6 +40,7 @@ vice versa. This has been added to CMake with the aim of reducing macro controll
 - [x] Custom Memory Allocator
 - [ ] JSON Serialization (W.I.P)
 - [ ] Runtime Type Reflection (W.I.P)
+- [ ] Encryption
 - [ ] Resource Control Mechanism
 - [ ] Entity Component System
 - [ ] Editor Integration with ImGui

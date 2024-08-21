@@ -5,7 +5,7 @@ Modern & Advanced Graphics Engine
 ```shell
 sudo apt update && sudo apt upgrade -y
 
-sudo apt install build-essentials g++ gcc cmake cmake-extra-modules libxi-dev libxcursor-dev libxinerama-dev libxrandr-dev waylandpp-dev libwayland-server0 libwayland-client++1 libuuid1 uuid-dev -y
+sudo apt install build-essential cmake cmake-extras gcc g++ libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev -y
 ```
 
 ## GOOD TO KNOW WHILE WORKING

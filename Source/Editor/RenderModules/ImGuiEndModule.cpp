@@ -35,8 +35,12 @@ namespace MAGE
 
 		if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
+#if defined(MAGE_WINDOWS)
 			ImGui::UpdatePlatformWindows();
 			ImGui::RenderPlatformWindowsDefault();
+#elif defined(MAGE_LINUX)
+			ImGui::UpdatePlatformWindows();
+#endif
 		}
 
 		ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), mCmdBuffer->GetAs<VCmdBuffer>()->GetVkCmdBuffer());

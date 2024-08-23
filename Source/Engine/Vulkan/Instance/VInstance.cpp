@@ -1,5 +1,6 @@
 #include "VInstance.h"
 
+
 #if defined(MAGE_WINDOWS)
 #if !defined(NOMINMAX)
 #define NOMINMAX
@@ -9,10 +10,9 @@
 #include <vulkan/vulkan_win32.h>
 #endif
 
-#if defined(MAGE_DEBUG)
-#define EXTENSION_SIZE 5
-#else
-#define EXTENSION_SIZE 2
+#if defined(MAGE_LINUX)
+#include <X11/Xlib.h>
+#include <vulkan/vulkan_xlib.h>
 #endif
 
 namespace MAGE
@@ -62,19 +62,19 @@ namespace MAGE
 		};
 
 		// Fill the wanted extensions
-		Vector<ExtensionEntry> extensions(EXTENSION_SIZE);
-		extensions[0] = { VK_KHR_SURFACE_EXTENSION_NAME, false };
+		Vector<ExtensionEntry> extensions;
+		extensions.push_back({ VK_KHR_SURFACE_EXTENSION_NAME, false });
 
 #if defined(MAGE_WINDOWS)
-		extensions[1] = { VK_KHR_WIN32_SURFACE_EXTENSION_NAME, false };
+		extensions.push_back({ VK_KHR_WIN32_SURFACE_EXTENSION_NAME, false });
 #elif defined(MAGE_LINUX)
-		extensions[1] = { VK_KHR_XCB_SURFACE_EXTENSION_NAME, false };
+		extensions.push_back({ VK_KHR_XLIB_SURFACE_EXTENSION_NAME, false });
 #endif
 
 #if defined(MAGE_DEBUG)
-		extensions[2] = { VK_EXT_DEBUG_UTILS_EXTENSION_NAME, false };
-		extensions[3] = { VK_EXT_DEBUG_REPORT_EXTENSION_NAME, false };
-		extensions[4] = { VK_EXT_DEBUG_UTILS_EXTENSION_NAME, false };
+		extensions.push_back({ VK_EXT_DEBUG_UTILS_EXTENSION_NAME, false });
+		extensions.push_back({ VK_EXT_DEBUG_REPORT_EXTENSION_NAME, false });
+		extensions.push_back({ VK_EXT_DEBUG_UTILS_EXTENSION_NAME, false });
 #endif // MAGE_DEBUG
 
 		// Check the total number of available extensions for the current computer
@@ -89,7 +89,7 @@ namespace MAGE
 			"VInstance", "Failed to enumerate instance extension properties");
 
 		// Check if the wanted extensions are supported
-		for (u8 i = 0; i < EXTENSION_SIZE; ++i)
+		for (u8 i = 0; i < extensions.size(); ++i)
 		{
 			for (auto& extension : allExtensions)
 			{

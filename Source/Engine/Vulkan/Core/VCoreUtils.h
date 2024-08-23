@@ -28,7 +28,7 @@ namespace MAGE
 				return VK_COMPARE_OP_NOT_EQUAL;
 			case CompareOperation::GreaterEqual:
 				return VK_COMPARE_OP_GREATER_OR_EQUAL;
-			case CompareOperation::Always:
+			case CompareOperation::CO_Always:
 				return VK_COMPARE_OP_ALWAYS;
 			default:
 				return VK_COMPARE_OP_NEVER;

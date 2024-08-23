@@ -8,6 +8,6 @@ namespace MAGE
 	{
 		Store,
 		DontCare,
-		None
+		ASO_None
 	};
 }

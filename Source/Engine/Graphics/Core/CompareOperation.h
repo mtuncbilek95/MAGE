@@ -1,18 +1,18 @@
 #pragma once
 
-namespace MAGE
-{
-		enum class CompareOperation : u32
-		{
-			Never,
-			Less,
-			Equal,
-			LessEqual,
-			Greater,
-			NotEqual,
-			GreaterEqual,
-			Always
-		};
+#include <Engine/Core/Core.h>
 
-	GENERATE_ENUM_FLAG(MAGE::CompareOperation, u32);
+namespace MAGE {
+    enum class CompareOperation : u32 {
+        Never,
+        Less,
+        Equal,
+        LessEqual,
+        Greater,
+        NotEqual,
+        GreaterEqual,
+        CO_Always
+    };
+
+    GENERATE_ENUM_FLAG(MAGE::CompareOperation, u32);
 }

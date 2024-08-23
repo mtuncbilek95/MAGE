@@ -6,7 +6,7 @@ namespace MAGE
 {
 	enum class ResolveModeFlags : u8
 	{
-		None,
+		RMF_None,
 		SampleZero,
 		Average,
 		Min,

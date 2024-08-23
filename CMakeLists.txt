@@ -25,7 +25,7 @@ option(ENABLE_CATCH_TEST "Enable testing" OFF) # This one needs to be set ON in 
 # ----------------------- SUBDIRECTORIES ---------------------
 add_subdirectory("External")
 add_subdirectory("Source/Engine")
-#add_subdirectory("Source/Resource")
+add_subdirectory("Source/Resource")
 add_subdirectory("Source/Editor")
 
 if(ENABLE_CATCH_TEST)

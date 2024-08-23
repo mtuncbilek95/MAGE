@@ -21,20 +21,20 @@ namespace MAGE
 		va_list args;
 		va_start(args, message);
 
-		Time time = PlatformTime::CurrentDateTime();
+		const auto [Day, Month, Year, Hour, Minute, Second, Millisecond] = PlatformTime::CurrentDateTime();
 		switch (type)
 		{
 		case ConsoleType::Info:
-			printf("[%02d.%02d.%02d][%02d:%02d:%02d][\033[36mDebug\033[39m] -- ", time.Day, time.Month, time.Year, time.Hour, time.Minute, time.Second);
+			printf("[%02d.%02d.%02d][%02d:%02d:%02d][\033[36mDebug\033[39m] -- ", Day, Month, Year, Hour, Minute, Second);
 			break;
 		case ConsoleType::Verbose:
-			printf("[%02d.%02d.%02d][%02d:%02d:%02d][\033[32mTrace\033[39m] -- ", time.Day, time.Month, time.Year, time.Hour, time.Minute, time.Second);
+			printf("[%02d.%02d.%02d][%02d:%02d:%02d][\033[32mTrace\033[39m] -- ", Day, Month, Year, Hour, Minute, Second);
 			break;
 		case ConsoleType::Warning:
-			printf("[%02d.%02d.%02d][%02d:%02d:%02d][\033[33mWarning\033[39m] -- ", time.Day, time.Month, time.Year, time.Hour, time.Minute, time.Second);
+			printf("[%02d.%02d.%02d][%02d:%02d:%02d][\033[33mWarning\033[39m] -- ", Day, Month, Year, Hour, Minute, Second);
 			break;
 		case ConsoleType::Error:
-			printf("[%02d.%02d.%02d][%02d:%02d:%02d][\033[31mError\033[39m] -- ", time.Day, time.Month, time.Year, time.Hour, time.Minute, time.Second);
+			printf("[%02d.%02d.%02d][%02d:%02d:%02d][\033[31mError\033[39m] -- ", Day, Month, Year, Hour, Minute, Second);
 			break;
 		}
 
@@ -83,7 +83,7 @@ namespace MAGE
 				message++;
 			}
 
-			PlatformMessage::ShowMessage("Assertion Failed", msg.c_str(), Mb_Ok | Mb_IconError);
+			PlatformMessage::ShowMessage("Assertion Failed", msg, Mb_Ok | Mb_IconError);
 
 			printf("\n");
 			va_end(args);

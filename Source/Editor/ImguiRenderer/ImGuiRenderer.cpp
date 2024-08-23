@@ -7,14 +7,18 @@
 #include <backends/imgui_impl_vulkan.h>
 #include <backends/imgui_impl_glfw.h>
 
-#include <Engine/Vulkan/Instance/VInstance.h>q
+#include <Engine/Vulkan/Instance/VInstance.h>
 #include <Engine/Vulkan/Device/VDevice.h>
 #include <Engine/Vulkan/Queue/VQueue.h>
 #include <Engine/Vulkan/Descriptor/VDescriptorPool.h>
 
 #include <Editor/Utils/ImGuiUtils.h>
 
+#if defined(MAGE_WINDOWS)
 constexpr VkFormat format[1] = { VK_FORMAT_R8G8B8A8_UNORM };
+#elif defined(MAGE_LINUX)
+constexpr VkFormat format[1] = { VK_FORMAT_B8G8R8A8_UNORM };
+#endif
 
 namespace MAGE
 {
@@ -44,10 +48,10 @@ namespace MAGE
 
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-		io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
-		io.BackendFlags |= ImGuiBackendFlags_RendererHasViewports;
+		//io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
+		//io.BackendFlags |= ImGuiBackendFlags_RendererHasViewports;
 
 		// Win32 should trigger the scale factor.
 		io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);

@@ -15,10 +15,10 @@ namespace MAGE
 		virtual ~IEditorObject() = default;
 
 		template<typename T>
-		FORCEINLINE SharedPtr<T> GetSharedPtrAs() { return std::static_pointer_cast<T>(shared_from_this()); }
-		FORCEINLINE SharedPtr<IEditorObject> GetSharedPtr() { return shared_from_this(); }
+		SharedPtr<T> GetSharedPtrAs() { return std::static_pointer_cast<T>(shared_from_this()); }
+		SharedPtr<IEditorObject> GetSharedPtr() { return shared_from_this(); }
 
-		FORCEINLINE Guid GetGuid() const { return mGuid; }
+		Guid GetGuid() const { return mGuid; }
 
 		virtual void Shutdown() {};
 

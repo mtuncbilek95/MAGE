@@ -6,7 +6,7 @@ namespace MAGE
 {
 	enum FaceCullMode
 	{
-		None,
+		FCM_None,
 		Front,
 		Back,
 		All,

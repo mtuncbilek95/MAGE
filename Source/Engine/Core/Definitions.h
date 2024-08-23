@@ -36,7 +36,7 @@ typedef double f64;
 typedef bool b8;
 #endif
 
-#define u64_max 0xFFFFFFFFFFFFFFFF
+constexpr u64 u64_max = 0xFFFFFFFFFFFFFFFF;
 #define u32_max 0xFFFFFFFF
 #define u16_max 0xFFFF
 #define u8_max 0xFF
@@ -47,11 +47,11 @@ typedef bool b8;
 #define BYTE_TO_KB(bt) (bt / 1024.0f)
 
 #define GENERATE_ENUM_FLAG(EnumType, PrimitiveType) \
-    EnumType operator | (EnumType a, EnumType b) \
+    inline EnumType operator | (EnumType a, EnumType b) \
     { \
         return static_cast<EnumType>(static_cast<PrimitiveType>(a) | static_cast<PrimitiveType>(b)); \
     } \
-    b8 operator & (EnumType a, EnumType b) \
+    inline b8 operator & (EnumType a, EnumType b) \
     { \
         return (static_cast<PrimitiveType>(a) & static_cast<PrimitiveType>(b)) != 0; \
     }

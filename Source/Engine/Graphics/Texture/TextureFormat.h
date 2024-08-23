@@ -31,6 +31,12 @@ namespace MAGE
         RGBA8_Int,
         RGBA8_SRGB,
 
+        BGRA8_UNorm,
+        BGRA8_UInt,
+        BGRA8_Norm,
+        BGRA8_Int,
+        BGRA8_SRGB,
+
         RG16_Float,
         RG16_UNorm,
         RG16_UInt,
@@ -61,6 +67,6 @@ namespace MAGE
         R8_UInt,
         R8_Norm,
         R8_Int,
-        A8_UNorm
+        A8_UNorm,
     };
 }

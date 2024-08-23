@@ -6,7 +6,7 @@ namespace MAGE
 {
 	enum class DescriptorLayoutFlags : u8
 	{
-        None = 0,
+        DLF_None = 0,
         PushDescriptor = 1 << 0,
         UpdateAfterBind = 1 << 1,
         HostOnly = 1 << 2,

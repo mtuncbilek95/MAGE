@@ -87,7 +87,11 @@ namespace MAGE
 
 		SwapchainDesc swapchainDesc = {};
 		swapchainDesc.BufferCount = 2; // TODO: Get from config
+#if defined(MAGE_WINDOWS)
 		swapchainDesc.ImageFormat = TextureFormat::RGBA8_UNorm; // TODO: Get from config
+#elif defined(MAGE_LINUX)
+		swapchainDesc.ImageFormat = TextureFormat::BGRA8_UNorm; // TODO: Get from config
+#endif
 		swapchainDesc.TextureUsage = TextureUsageFlags::ColorAttachment; // TODO: Get from config
 		swapchainDesc.VSync = PresentMode::FullVSync; // TODO: Get from config
 		swapchainDesc.ImageSize = WindowAPI::GetAPI()->GetDefaultWindow()->GetWindowResolution();

@@ -14,7 +14,10 @@ namespace MAGE
 	{
 		nlohmann::json pJson;
 		String path = PlatformAPI::GetAPI()->GetEngineSourcePath() + "Config/EditorConfig.json";
+
+		PlatformFile::Exists(path);
 		String jString;
+
 		PlatformFile::Read(path, jString);
 		pJson = nlohmann::json::parse(jString);
 

@@ -51,7 +51,7 @@ namespace MAGE
 		{
 			switch (mode)
 			{
-			case FaceCullMode::None: return VK_CULL_MODE_NONE;
+			case FaceCullMode::FCM_None: return VK_CULL_MODE_NONE;
 			case FaceCullMode::Front: return VK_CULL_MODE_FRONT_BIT;
 			case FaceCullMode::Back: return VK_CULL_MODE_BACK_BIT;
 			case FaceCullMode::All: return VK_CULL_MODE_FRONT_AND_BACK;

@@ -6,7 +6,7 @@ namespace MAGE
 {
 	enum class DescriptorPoolFlags : u8
 	{
-		None = 1 << 0,
+		DPF_None = 1 << 0,
 		FreeDescriptorSet = 1 << 1,
 		UpdateAfterBind = 1 << 2,
 		HostOnly = 1 << 3,

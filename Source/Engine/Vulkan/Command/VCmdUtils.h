@@ -46,7 +46,7 @@ namespace MAGE
 		{
 			switch (flags)
 			{
-			case ResolveModeFlags::None:
+			case ResolveModeFlags::RMF_None:
 				return VK_RESOLVE_MODE_NONE;
 			case ResolveModeFlags::SampleZero:
 				return VK_RESOLVE_MODE_SAMPLE_ZERO_BIT;

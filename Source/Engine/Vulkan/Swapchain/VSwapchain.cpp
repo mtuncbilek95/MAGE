@@ -46,6 +46,8 @@ namespace MAGE
 		surfaceInfo.dpy = WindowAPI::GetAPI()->GetDefaultWindow()->GetDisplayHandle();
 		surfaceInfo.window = WindowAPI::GetAPI()->GetDefaultWindow()->GetWindowHandle();
 		surfaceInfo.pNext = nullptr;
+
+		CORE_ASSERT(vkCreateXlibSurfaceKHR(mInstance, &surfaceInfo, nullptr, &mSurface) == VK_SUCCESS, "VSwapchain", "Failed to create xcb surface");
 #endif
 
 		VkSurfaceCapabilitiesKHR surfaceCapabilities;
@@ -86,7 +88,7 @@ namespace MAGE
 		u32 presentModeCount = 0;
 		CORE_ASSERT(vkGetPhysicalDeviceSurfacePresentModesKHR(mAdapter, mSurface, &presentModeCount, nullptr) == VK_SUCCESS,
 			"CreateSurfaceSwapchain", "Failed to get present modes");
-		CORE_ASSERT(presentModeCount > 0, "VSwapchan", "No present modes found");
+		CORE_ASSERT(presentModeCount > 0, "VSwapchain", "No present modes found");
 
 		Vector<VkPresentModeKHR> presentModes(presentModeCount);
 		CORE_ASSERT(vkGetPhysicalDeviceSurfacePresentModesKHR(mAdapter, mSurface, &presentModeCount, presentModes.data()) == VK_SUCCESS,
@@ -94,12 +96,12 @@ namespace MAGE
 
 		auto pVkQueue = desc.pRequestQueue->GetAs<VQueue>();
 		u32 presentQueueFamilyIndex = pVkQueue->GetQueueIndex();
-		CORE_ASSERT(presentQueueFamilyIndex != UINT32_MAX, "VSwapchan", "Failed to get present queue family index");
+		CORE_ASSERT(presentQueueFamilyIndex != UINT32_MAX, "VSwapchain", "Failed to get present queue family index");
 		VkBool32 presentSupport = false;
 		CORE_ASSERT(vkGetPhysicalDeviceSurfaceSupportKHR(mAdapter, presentQueueFamilyIndex, mSurface, &presentSupport) == VK_SUCCESS,
-			"VSwapchan", "Failed to get present support");
+			"VSwapchain", "Failed to get present support");
 
-		CORE_ASSERT(presentSupport, "VSwapchan", "Present support not found");
+		CORE_ASSERT(presentSupport, "VSwapchain", "Present support not found");
 
 		// Create the swapchain
 		VkSwapchainCreateInfoKHR swapchainInfo = {};
@@ -127,11 +129,11 @@ namespace MAGE
 		CORE_ASSERT(vkCreateSwapchainKHR(mDevice, &swapchainInfo, nullptr, &mSwapchain) == VK_SUCCESS, "VSwapchain", "Failed to create swapchain");
 
 		u32 imageCount = 0;
-		CORE_ASSERT(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, nullptr) == VK_SUCCESS, "VSwapchan", "Failed to get swapchain images");
-		CORE_ASSERT(imageCount > 0, "VSwapchan", "No swapchain images found");
+		CORE_ASSERT(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, nullptr) == VK_SUCCESS, "VSwapchain", "Failed to get swapchain images");
+		CORE_ASSERT(imageCount > 0, "VSwapchain", "No swapchain images found");
 
 		Vector<VkImage> images(imageCount);
-		CORE_ASSERT(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, images.data()) == VK_SUCCESS, "VSwapchan", "Failed to get swapchain images");
+		CORE_ASSERT(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, images.data()) == VK_SUCCESS, "VSwapchain", "Failed to get swapchain images");
 
 
 		// Nevertheless, we need to fill the VulkanTexture data
@@ -268,7 +270,7 @@ namespace MAGE
 		u32 presentModeCount = 0;
 		CORE_ASSERT(vkGetPhysicalDeviceSurfacePresentModesKHR(mAdapter, mSurface, &presentModeCount, nullptr) == VK_SUCCESS,
 			"CreateSurfaceSwapchain", "Failed to get present modes");
-		CORE_ASSERT(presentModeCount > 0, "VSwapchan", "No present modes found");
+		CORE_ASSERT(presentModeCount > 0, "VSwapchain", "No present modes found");
 
 		Vector<VkPresentModeKHR> presentModes(presentModeCount);
 		CORE_ASSERT(vkGetPhysicalDeviceSurfacePresentModesKHR(mAdapter, mSurface, &presentModeCount, presentModes.data()) == VK_SUCCESS,
@@ -276,12 +278,12 @@ namespace MAGE
 
 		auto pVkQueue = mRequestQueue->GetAs<VQueue>();
 		u32 presentQueueFamilyIndex = pVkQueue->GetQueueIndex();
-		CORE_ASSERT(presentQueueFamilyIndex != UINT32_MAX, "VSwapchan", "Failed to get present queue family index");
+		CORE_ASSERT(presentQueueFamilyIndex != UINT32_MAX, "VSwapchain", "Failed to get present queue family index");
 		VkBool32 presentSupport = false;
 		CORE_ASSERT(vkGetPhysicalDeviceSurfaceSupportKHR(mAdapter, presentQueueFamilyIndex, mSurface, &presentSupport) == VK_SUCCESS,
-			"VSwapchan", "Failed to get present support");
+			"VSwapchain", "Failed to get present support");
 
-		CORE_ASSERT(presentSupport, "VSwapchan", "Present support not found");
+		CORE_ASSERT(presentSupport, "VSwapchain", "Present support not found");
 
 		VkSwapchainCreateInfoKHR swapchainInfo = {};
 		swapchainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
@@ -308,11 +310,11 @@ namespace MAGE
 		CORE_ASSERT(vkCreateSwapchainKHR(mDevice, &swapchainInfo, nullptr, &mSwapchain) == VK_SUCCESS, "VSwapchain", "Failed to create swapchain");
 
 		u32 imageCount = 0;
-		CORE_ASSERT(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, nullptr) == VK_SUCCESS, "VSwapchan", "Failed to get swapchain images");
-		CORE_ASSERT(imageCount > 0, "VSwapchan", "No swapchain images found");
+		CORE_ASSERT(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, nullptr) == VK_SUCCESS, "VSwapchain", "Failed to get swapchain images");
+		CORE_ASSERT(imageCount > 0, "VSwapchain", "No swapchain images found");
 
 		Vector<VkImage> images(imageCount);
-		CORE_ASSERT(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, images.data()) == VK_SUCCESS, "VSwapchan", "Failed to get swapchain images");
+		CORE_ASSERT(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, images.data()) == VK_SUCCESS, "VSwapchain", "Failed to get swapchain images");
 
 		// Nevertheless, we need to fill the VulkanTexture data
 		for (u32 i = 0; i < imageCount; i++)

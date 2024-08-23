@@ -30,10 +30,10 @@ namespace MAGE
 		const Vec2i& GetWindowPosition() const { return mWindowPosition; }
 		const String& GetWindowTitle() const { return mWindowTitle; }
 		const WindowMode& GetWindowMode() const { return mWindowMode; }
-		const b8 IsVisible() const { return mVisible; }
-		const b8 IsMinimized() const { return glfwGetWindowAttrib(mGLFWHandle, GLFW_ICONIFIED); }
-		const b8 IsMaximized() const { return glfwGetWindowAttrib(mGLFWHandle, GLFW_MAXIMIZED); }
-		const b8 IsClosed() const { return glfwWindowShouldClose(mGLFWHandle); }
+		b8 IsVisible() const { return mVisible; }
+		b8 IsMinimized() const { return glfwGetWindowAttrib(mGLFWHandle, GLFW_ICONIFIED); }
+		b8 IsMaximized() const { return glfwGetWindowAttrib(mGLFWHandle, GLFW_MAXIMIZED); }
+		b8 IsClosed() const { return glfwWindowShouldClose(mGLFWHandle); }
 
 #if defined(MAGE_WINDOWS)
 		HWND GetWindowHandle() const { return glfwGetWin32Window(mGLFWHandle); }

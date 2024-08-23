@@ -12,7 +12,7 @@
 
 namespace MAGE
 {
-	class RESOURCE_API TextureResource : public ResourceSubObject
+	class TextureResource : public ResourceSubObject
 	{
 		struct MipData
 		{

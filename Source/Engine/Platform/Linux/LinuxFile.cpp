@@ -73,6 +73,7 @@ namespace MAGE {
     }
 
     b8 LinuxFile::Read(const String &path, String &contentOut, const u64 startByte, const u64 endByte) {
+
         const i32 fd = open(path.c_str(), O_RDONLY);
         if (fd == -1) {
             return false;
@@ -84,8 +85,21 @@ namespace MAGE {
             return false;
         }
 
+        // Determine the file size
+        s64 fileSize = lseek(fd, 0, SEEK_END);
+        if (fileSize == -1) {
+            close(fd);
+            return false;
+        }
+
+        // Seek back to the start byte
+        if (lseek(fd, startByte, SEEK_SET) == -1) {
+            close(fd);
+            return false;
+        }
+
         // Calculate the number of bytes to read
-        const u64 bytesToRead = endByte - startByte;
+        const u64 bytesToRead = static_cast<u64>(fileSize) - startByte;
         if (bytesToRead <= 0) {
             close(fd);
             return false;
@@ -95,6 +109,7 @@ namespace MAGE {
         const auto buffer = new i8[bytesToRead];
         const s64 bytesRead = read(fd, buffer, bytesToRead);
         if (bytesRead == -1) {
+            printf("Fourth\n");
             delete[] buffer;
             close(fd);
             return false;
@@ -103,8 +118,6 @@ namespace MAGE {
         // Resize the contentOut string to the amount of data read
         contentOut.assign(buffer, bytesRead);
 
-        // Clean up
-        delete[] buffer;
         close(fd);
         return true;
     }

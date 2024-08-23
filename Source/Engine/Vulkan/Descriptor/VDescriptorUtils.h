@@ -53,7 +53,7 @@ namespace MAGE
 		{
 			VkDescriptorSetLayoutCreateFlags vkFlags = 0;
 
-			if (flags == DescriptorLayoutFlags::None)
+			if (flags == DescriptorLayoutFlags::DLF_None)
 				return vkFlags;
 			if (flags & DescriptorLayoutFlags::PushDescriptor)
 				vkFlags |= VK_DESCRIPTOR_SET_LAYOUT_CREATE_PUSH_DESCRIPTOR_BIT_KHR;
@@ -77,7 +77,7 @@ namespace MAGE
 		{
 			VkDescriptorPoolCreateFlags vkFlags = 0;
 
-			if (flags == DescriptorPoolFlags::None)
+			if (flags == DescriptorPoolFlags::DPF_None)
 				return vkFlags;
 			if (flags & DescriptorPoolFlags::FreeDescriptorSet)
 				vkFlags |= VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;

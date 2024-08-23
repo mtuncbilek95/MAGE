@@ -6,7 +6,7 @@ namespace MAGE
 {
 	enum class TextureUsageFlags : u16
 	{
-		None = 0,
+		TUF_None = 0,
 		SampledImage = 1 << 0,
 		StorageImage = 1 << 1,
 		ColorAttachment = 1 << 2,

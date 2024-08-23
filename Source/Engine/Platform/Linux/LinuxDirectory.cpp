@@ -42,21 +42,21 @@ namespace MAGE
         if (!Exists(source) || Exists(destination)) {
             return false;
         }
-        int src = open(source.c_str(),O_RDONLY);
+        i32 src = open(source.c_str(),O_RDONLY);
         if (src == -1) {
             perror("opening source dir");
             return false;
         }
-        int dst = open(destination.c_str(),O_WRONLY | O_CREAT,0755);
-        if (dst == -1) {
+        i32 dst = open(destination.c_str(),O_WRONLY | O_CREAT,0755);
+        if (dst == -1) {    
             perror("opening/creating destination dir");
             close(src);
             return false;
         }
-        char buffer[BYTE_SIZE];
-        ssize_t bytes_read;
+        i8 buffer[BYTE_SIZE];
+        i64  bytes_read;
         while ((bytes_read = read(src,buffer,sizeof(buffer))) > 0) {
-            ssize_t bytes_written = write(dst,buffer,bytes_read);
+            i64  bytes_written = write(dst,buffer,bytes_read);
             if(bytes_read != bytes_written) {
                 perror("Write error");
                 close(src);
@@ -90,7 +90,15 @@ namespace MAGE
 
     b8 LinuxDirectory::Rename(const String& source, const String& destination)
     {
-        Move(source,destination);
+        if (!Exists(source) || Exists(destination)) {
+            return false;
+        }
+        const char* src = source.c_str();
+        const char* dst = destination.c_str();
+        if (rename(src,dst) == 0) {
+            return true;
+        }
+        return false;
     }
 
     b8 LinuxDirectory::GetFiles(const String& path, Vector<String>& files)

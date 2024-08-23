@@ -5,6 +5,11 @@
 typedef MAGE::Win32File PlatformDependency;
 #endif
 
+#if defined(MAGE_LINUX)
+#include "Linux/LinuxFile.h"
+typedef MAGE::LinuxFile PlatformDependency;
+#endif
+
 namespace MAGE
 {
 	b8 PlatformFile::Exists(const String& path)

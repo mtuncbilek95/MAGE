@@ -8,7 +8,6 @@ project("MAGE")
 if(POLICY CMP0141)
   cmake_policy(SET CMP0141 NEW)
   cmake_policy(SET CMP0077 NEW)
-  set(CMAKE_CXX_STANDARD 20)
 endif()
 # ------------------------------------------------------------
 
@@ -26,7 +25,7 @@ option(ENABLE_CATCH_TEST "Enable testing" OFF) # This one needs to be set ON in 
 # ----------------------- SUBDIRECTORIES ---------------------
 add_subdirectory("External")
 add_subdirectory("Source/Engine")
-add_subdirectory("Source/Resource")
+#add_subdirectory("Source/Resource")
 add_subdirectory("Source/Editor")
 
 if(ENABLE_CATCH_TEST)

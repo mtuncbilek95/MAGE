@@ -1,34 +1,27 @@
 #include "LinuxPath.h"
 
-#include <filesystem>
-#if defined(MAGE_LINUX)
+#include <unistd.h>
 
-namespace MAGE
-{
-    String LinuxPath::GetExecutableDir()
-    {
+namespace MAGE {
+    String LinuxPath::GetExecutableDir() {
         char buffer[1024];
-        s64 len = readlink("/proc/self/exe", buffer, sizeof(buffer) - 1);
+        const s64 len = readlink("/proc/self/exe", buffer, sizeof(buffer) - 1);
 
         CORE_ASSERT(len != -1, "LinuxPath", "Failed to get executable directory");
 
         buffer[len] = '\0';
-        return String(buffer);
+        return String{buffer};
     }
 
-    String LinuxPath::GetProgramFilesDir()
-    {
+    String LinuxPath::GetProgramFilesDir() {
         return "/usr/bin";
     }
 
-    String LinuxPath::GetAppDataDir()
-    {
+    String LinuxPath::GetAppDataDir() {
         return "/usr/share";
     }
 
-    String LinuxPath::GetTempDir()
-    {
+    String LinuxPath::GetTempDir() {
         return "/tmp";
     }
 }
-#endif

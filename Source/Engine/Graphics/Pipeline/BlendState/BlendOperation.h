@@ -1,15 +1,11 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-
-namespace MAGE
-{
-    enum class BlendOperation : u8
-    {
+namespace MAGE {
+    enum BlendOperation {
         Add,
         Subtract,
-        Max,
+        ReverseSubtract,
         Min,
-        ReverseSubtract
+        Max
     };
 }

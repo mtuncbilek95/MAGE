@@ -13,8 +13,8 @@ namespace MAGE
 		MemoryOwnedBuffer(MemoryOwnedBuffer&& other) noexcept;
 		~MemoryOwnedBuffer();
 
-		FORCEINLINE void* GetData() const { return mData; }
-		FORCEINLINE u64 GetSize() const { return mSize; }
+		void* GetData() const { return mData; }
+		u64 GetSize() const { return mSize; }
 
 		MemoryOwnedBuffer& operator=(const MemoryOwnedBuffer& other);
 		MemoryOwnedBuffer& operator=(MemoryOwnedBuffer&& other) noexcept;

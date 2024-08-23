@@ -13,5 +13,5 @@ namespace MAGE
 		MetaAspect = 1 << 3
 	};
 
-	GENERATE_ENUM_FLAG(TextureAspectFlags, u8);
+	GENERATE_ENUM_FLAG(MAGE::TextureAspectFlags, u8);
 }

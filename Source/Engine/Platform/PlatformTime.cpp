@@ -5,6 +5,11 @@
 typedef MAGE::Win32Time PlatformDependency;
 #endif
 
+#if defined(MAGE_LINUX)
+#include "Linux/LinuxTime.h"
+typedef MAGE::LinuxTime PlatformDependency;
+#endif
+
 namespace MAGE
 {
 	Time PlatformTime::CurrentDateTime()

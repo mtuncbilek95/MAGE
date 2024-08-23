@@ -14,5 +14,5 @@ namespace MAGE
 		TransferDst = 1 << 5,
 	};
 
-	GENERATE_ENUM_FLAG(GraphicsBufferUsage, u8);
+	GENERATE_ENUM_FLAG(MAGE::GraphicsBufferUsage, u8);
 }

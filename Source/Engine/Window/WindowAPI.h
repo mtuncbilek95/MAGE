@@ -1,16 +1,15 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
 #include <Engine/Object/API.h>
 #include <Engine/Platform/PlatformWindow.h>
 
 namespace MAGE
 {
-	class WindowAPI : public API<WindowAPI>
+	class WindowAPI final : public API<WindowAPI>
 	{
 	public:
 		WindowAPI() = default;
-		~WindowAPI() = default;
+		~WindowAPI() override = default;
 
 		WeakPtr<PlatformWindow> InitializeWindow(const WindowDesc& desc)
 		{

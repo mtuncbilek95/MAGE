@@ -11,7 +11,7 @@ namespace MAGE
         StencilOperation FailOperation;
         StencilOperation PassOperation;
         StencilOperation DepthFailOperation;
-        CompareOperation CompareOperation;
+        CompareOperation StencilCompareOperation;
         u32 CompareMask;
         u32 WriteMask;
         u32 Reference;

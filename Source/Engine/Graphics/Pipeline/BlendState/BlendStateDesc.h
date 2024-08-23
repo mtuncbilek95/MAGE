@@ -9,7 +9,7 @@ namespace MAGE
     struct BlendStateDesc
     {
         b8 bLogicOperationEnabled;
-        LogicOperation LogicOperation;
+        LogicOperation LogicOp;
         Vector<BlendStateAttachment> Attachments;
     };
 }

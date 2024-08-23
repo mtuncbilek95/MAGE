@@ -15,10 +15,6 @@ namespace MAGE
 		mGraphicsAPI = GraphicsAPI::GetAPI();
 	}
 
-	GraphicsModule::~GraphicsModule()
-	{
-	}
-
 	void GraphicsModule::Start() noexcept
 	{
 	}
@@ -83,12 +79,10 @@ namespace MAGE
 		instanceDesc.AppVersion = Vec3b(1, 0, 0); // TODO: Get from config
 		instanceDesc.EngineVersion = Vec3b(1, 0, 0); // TODO: Get from config
 
-		auto tempRefInstance = mGraphicsAPI->CreateInstance(instanceDesc);
-		if (tempRefInstance == nullptr)
+		if (const auto tempRefInstance = mGraphicsAPI->CreateInstance(instanceDesc); tempRefInstance == nullptr)
 			return false;
 
-		auto tempRefDevice = mGraphicsAPI->CreateDevice();
-		if (tempRefDevice == nullptr)
+		if (const auto tempRefDevice = mGraphicsAPI->CreateDevice(); tempRefDevice == nullptr)
 			return false;
 
 		SwapchainDesc swapchainDesc = {};
@@ -99,8 +93,7 @@ namespace MAGE
 		swapchainDesc.ImageSize = WindowAPI::GetAPI()->GetDefaultWindow()->GetWindowResolution();
 		swapchainDesc.pRequestQueue = mGraphicsAPI->GetGraphicsQueue();
 
-		auto tempRefSwapchain = mGraphicsAPI->CreateSwapchain(swapchainDesc);
-		if (tempRefSwapchain == nullptr)
+		if (const auto tempRefSwapchain = mGraphicsAPI->CreateSwapchain(swapchainDesc); tempRefSwapchain == nullptr)
 			return false;
 
 		return true;

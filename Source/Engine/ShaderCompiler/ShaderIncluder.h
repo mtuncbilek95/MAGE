@@ -18,11 +18,11 @@ namespace MAGE
 		ShaderIncluder() = default;
 		~ShaderIncluder() override = default;
 
-		shaderc_include_result* GetInclude(const char* requestedSource, shaderc_include_type type, const char* requestingSource, s64 includeDepth) override;
+		shaderc_include_result* GetInclude(const char* requestedSource, shaderc_include_type type, const char* requestingSource, size_t includeDepth) override;
 		void ReleaseInclude(shaderc_include_result* data) override;
 
 	private:
-		String ResolveInclude(const String& includePath);
+		[[nodiscard]] String ResolveInclude(const String& includePath) const;
 
 	private:
 		String mIncludePath;

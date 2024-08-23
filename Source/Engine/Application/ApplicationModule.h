@@ -15,9 +15,9 @@ namespace MAGE
 		ApplicationModule() = default;
 		virtual ~ApplicationModule() override = default;
 
-		FORCEINLINE Application* GetOwnerApp() { return mOwnerApp; }
-		FORCEINLINE const String& GetModuleName() const { return mModuleName; }
-		FORCEINLINE ApplicationModuleState GetState() const { return mState; }
+		Application* GetOwnerApp() const { return mOwnerApp; }
+		const String& GetModuleName() const { return mModuleName; }
+		ApplicationModuleState GetState() const { return mState; }
 
 		virtual void Start() noexcept = 0;
 		virtual void Update() noexcept = 0;

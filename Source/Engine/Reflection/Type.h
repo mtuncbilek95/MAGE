@@ -39,7 +39,7 @@ namespace MAGE
 		FORCEINLINE const String& GetEnumName(const i64 value)
 		{
 			for (auto& val : mEnumValues)
-				if (val.EnumValue == value)
+				if (val.EnumVal == value)
 					return val.EnumName;
 
 			return "";

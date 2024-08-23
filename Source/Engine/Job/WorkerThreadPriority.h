@@ -14,6 +14,8 @@ namespace MAGE
 		AboveNormal = 1,
 		Highest = 2,
 		Realtime = 15
+#elif defined(MAGE_LINUX)
+		Normal
 #endif
 	};
 }

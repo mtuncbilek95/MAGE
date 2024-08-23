@@ -2,6 +2,10 @@
 
 #include <format>
 
+#if defined (MAGE_LINUX)
+#include <charconv>
+#endif
+
 namespace MAGE
 {
 	Guid::Guid() : mA(0), mB(0), mC(0), mD(0)

@@ -22,18 +22,13 @@ SetupGLFW(Engine)
 target_link_libraries(Engine PUBLIC glfw glm::glm nlohmann_json::nlohmann_json magic_enum)
 
 if(UNIX)
-#	message(STATUS "Currently cannot support wayland. So platform uses std library.")
-	include(SetupLinux)
-	SetupLinux(Engine)
 	target_link_libraries(Engine PUBLIC uuid)
 endif()
 # ------------------------------------------------------------
 
 # -------------------- MACRO DEFINITIONS ---------------------
 if(WIN32)
-	target_compile_definitions(Engine PUBLIC ENGINE_API=__declspec\(dllexport\))
 elseif (UNIX)
-	target_compile_definitions(Engine PUBLIC ENGINE_API=__attribute__\(\(visibility\(\"default\"\)\)\))
 endif()
 # ------------------------------------------------------------
 

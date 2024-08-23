@@ -14,5 +14,5 @@ namespace MAGE
 		Compute = 1 << 5
 	};
 
-	GENERATE_ENUM_FLAG(ShaderStage, u8);
+	GENERATE_ENUM_FLAG(MAGE::ShaderStage, u8);
 }

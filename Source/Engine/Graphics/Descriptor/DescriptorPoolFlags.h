@@ -6,13 +6,13 @@ namespace MAGE
 {
 	enum class DescriptorPoolFlags : u8
 	{
-		None = 0,
-		FreeDescriptorSet = 1 << 0,
-		UpdateAfterBind = 1 << 1,
-		HostOnly = 1 << 2,
-		OverallAllocationSets = 1 << 3,
-		OverallAllocationPool = 1 << 4
+		None = 1 << 0,
+		FreeDescriptorSet = 1 << 1,
+		UpdateAfterBind = 1 << 2,
+		HostOnly = 1 << 3,
+		OverallAllocationSets = 1 << 4,
+		OverallAllocationPool = 1 << 5
 	};
 
-	GENERATE_ENUM_FLAG(DescriptorPoolFlags, u8);
+	GENERATE_ENUM_FLAG(MAGE::DescriptorPoolFlags, u8);
 }

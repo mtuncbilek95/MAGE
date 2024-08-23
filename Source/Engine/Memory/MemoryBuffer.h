@@ -30,8 +30,8 @@ namespace MAGE
 			return *this;
 		}
 
-		FORCEINLINE void* GetData() const { return mBuffer; }
-		FORCEINLINE u64 GetSize() const { return mSize; }
+		void* GetData() const { return mBuffer; }
+		u64 GetSize() const { return mSize; }
 
 	private:
 		void* mBuffer;

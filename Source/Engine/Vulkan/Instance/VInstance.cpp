@@ -64,12 +64,15 @@ namespace MAGE
 		// Fill the wanted extensions
 		Vector<ExtensionEntry> extensions(EXTENSION_SIZE);
 		extensions[0] = { VK_KHR_SURFACE_EXTENSION_NAME, false };
+
+#if defined(MAGE_WINDOWS)
 		extensions[1] = { VK_KHR_WIN32_SURFACE_EXTENSION_NAME, false };
+#elif defined(MAGE_LINUX)
+		extensions[1] = { VK_KHR_XCB_SURFACE_EXTENSION_NAME, false };
+#endif
 
 #if defined(MAGE_DEBUG)
 		extensions[2] = { VK_EXT_DEBUG_UTILS_EXTENSION_NAME, false };
-#if defined(MAGE_WINDOWS)
-#endif // MAGE_WINDOWS
 		extensions[3] = { VK_EXT_DEBUG_REPORT_EXTENSION_NAME, false };
 		extensions[4] = { VK_EXT_DEBUG_UTILS_EXTENSION_NAME, false };
 #endif // MAGE_DEBUG

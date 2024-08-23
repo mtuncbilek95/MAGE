@@ -11,7 +11,7 @@ namespace MAGE
 	 * 
 	 * @brief Member class is the root primitive member of any class or struct. 
 	 */
-	class ENGINE_API Member final
+	class Member final
 	{
 		friend class TypeDispatcher;
 	public:

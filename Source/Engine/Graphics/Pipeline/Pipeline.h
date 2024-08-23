@@ -16,7 +16,7 @@ namespace MAGE
             mPushConstants(desc.PushConstants), mViewport(desc.Viewport), mScissor(desc.Scissor), mColorAttachmentCount(desc.ColorAttachmentCount),
             mColorAttachmentFormats(desc.ColorAttachmentFormats), mDepthAttachmentFormat(desc.DepthAttachmentFormat), 
             mStencilAttachmentFormat(desc.StencilAttachmentFormat), mBindPoint(PipelineBindPoint::Graphics) {}
-		virtual ~Pipeline() override = default;
+		~Pipeline() override = default;
 
         const BlendStateDesc& GetBlendState() const { return mBlendState; }
         const DepthStencilStateDesc& GetDepthStencilState() const { return mDepthStencilState; }

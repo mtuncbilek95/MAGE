@@ -1,5 +1,7 @@
 #pragma once
 
+#include <type_traits>
+
 #if defined(_WIN64)
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -44,10 +46,12 @@ typedef bool b8;
 #define BYTE_TO_MB(bt) (bt / 1024.0f / 1024.0f)
 #define BYTE_TO_KB(bt) (bt / 1024.0f)
 
-#define GENERATE_ENUM_FLAG(EnumType, primitiveType) \
-FORCEINLINE static EnumType operator | (EnumType a, EnumType b) { return static_cast<EnumType>(static_cast<primitiveType>(a) | static_cast<primitiveType>(b)); } \
-FORCEINLINE static b8 operator & (EnumType a, EnumType b) { return static_cast<b8>(static_cast<primitiveType>(a) & static_cast<primitiveType>(b)); }
-
-
-
-
+#define GENERATE_ENUM_FLAG(EnumType, PrimitiveType) \
+    EnumType operator | (EnumType a, EnumType b) \
+    { \
+        return static_cast<EnumType>(static_cast<PrimitiveType>(a) | static_cast<PrimitiveType>(b)); \
+    } \
+    b8 operator & (EnumType a, EnumType b) \
+    { \
+        return (static_cast<PrimitiveType>(a) & static_cast<PrimitiveType>(b)) != 0; \
+    }

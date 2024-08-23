@@ -3,7 +3,6 @@
 #include <Engine/Window/WindowAPI.h>
 #include <Engine/Graphics/API/GraphicsAPI.h>
 #include <Engine/Platform/API/PlatformAPI.h>
-#include <Engine/Platform/PlatformMonitor.h>
 
 #include <backends/imgui_impl_vulkan.h>
 #include <backends/imgui_impl_glfw.h>
@@ -15,7 +14,7 @@
 
 #include <Editor/Utils/ImGuiUtils.h>
 
-const VkFormat format[1] = { VK_FORMAT_R8G8B8A8_UNORM };
+constexpr VkFormat format[1] = { VK_FORMAT_R8G8B8A8_UNORM };
 
 namespace MAGE
 {

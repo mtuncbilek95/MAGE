@@ -20,19 +20,25 @@ namespace MAGE
 
 	void PlatformThread::SleepThread(u64 ms)
 	{
+#if defined(MAGE_WINDOWS)
 		PlatformDependency::SleepCurrentThread(ms);
+#endif
 	}
 
 	u64 PlatformThread::GetCurrentThreadID()
 	{
+#if defined(MAGE_WINDOWS)
 		return PlatformDependency::GetCurrentThreadID();
+#elif defined(MAGE_LINUX)
+		return 0; // TODO: Implement Linux thread
+#endif
 	}
 
 	PlatformThread::PlatformThread(ThreadJob* pJob) : mJob(pJob)
 	{
 	}
 
-	void PlatformThread::SetPriority(int priority)
+	void PlatformThread::SetPriority(const int priority)
 	{
 		SetPriorityImpl(priority);
 	}

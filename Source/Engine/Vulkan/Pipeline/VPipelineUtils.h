@@ -198,7 +198,7 @@ namespace MAGE
 			state.failOp = GetVkStencilOp(desc.FailOperation);
 			state.passOp = GetVkStencilOp(desc.PassOperation);
 			state.depthFailOp = GetVkStencilOp(desc.DepthFailOperation);
-			state.compareOp = GetVkCompareOp(desc.CompareOperation);
+			state.compareOp = GetVkCompareOp(desc.StencilCompareOperation);
 			state.compareMask = desc.CompareMask;
 			state.writeMask = desc.WriteMask;
 			state.reference = desc.Reference;

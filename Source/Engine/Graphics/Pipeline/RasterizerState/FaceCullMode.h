@@ -4,11 +4,11 @@
 
 namespace MAGE
 {
-	enum class FaceCullMode : u8
+	enum FaceCullMode
 	{
-		None = 1,
-		Front = 2,
-		Back = 4,
-		All = Front | Back
+		None,
+		Front,
+		Back,
+		All,
 	};
 }

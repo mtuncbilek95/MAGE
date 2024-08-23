@@ -19,7 +19,7 @@ namespace MAGE
 		pJson = nlohmann::json::parse(jString);
 
 		WindowDesc windowDesc = {};
-		windowDesc.WindowMode = static_cast<WindowMode>(pJson.at("EditorConfig").at("EditorWindow").at("WindowMode").get<int>());
+		windowDesc.CurrentWindowMode = static_cast<WindowMode>(pJson.at("EditorConfig").at("EditorWindow").at("WindowMode").get<int>());
 		windowDesc.WindowSize = Vec2i(100, 100);
 		windowDesc.WindowSize = Vec2u(pJson.at("EditorConfig").at("EditorWindow").at("Resolution")[0].get<int>(), pJson.at("EditorConfig").at("EditorWindow").at("Resolution")[1].get<int>());
 		windowDesc.WindowTitle = pJson.at("EditorConfig").at("EditorTitle").get<String>() + " - " + pJson.at("EditorConfig").at("EditorVersion").get<String>();

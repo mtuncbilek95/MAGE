@@ -25,5 +25,5 @@ namespace MAGE
 		MemoryWrite = 1 << 15
 	};
 
-	GENERATE_ENUM_FLAG(GraphicsMemoryAccessFlags, u32);
+	GENERATE_ENUM_FLAG(MAGE::GraphicsMemoryAccessFlags, u32);
 }

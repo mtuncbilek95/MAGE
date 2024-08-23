@@ -10,10 +10,10 @@ namespace MAGE
 		virtual ~IObject() = default;
 
 		template<typename T>
-		FORCEINLINE SharedPtr<T> GetSharedPtrAs() { return std::static_pointer_cast<T>(shared_from_this()); }
+		SharedPtr<T> GetSharedPtrAs() { return std::static_pointer_cast<T>(shared_from_this()); }
 		template<typename T>
-		FORCEINLINE T* GetAs() { return dynamic_cast<T*>(this); }
-		FORCEINLINE SharedPtr<IObject> GetSharedPtr() { return shared_from_this(); }
+		T* GetAs() { return dynamic_cast<T*>(this); }
+		SharedPtr<IObject> GetSharedPtr() { return shared_from_this(); }
 
 		virtual void Shutdown() {};
 	};

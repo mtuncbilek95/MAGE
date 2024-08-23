@@ -1,14 +1,12 @@
 #include "ShaderIncluder.h"
 
 #include <Engine/Platform/PlatformFile.h>
-
 #include <stdexcept>
 
 namespace MAGE
 {
-	shaderc_include_result* ShaderIncluder::GetInclude(const char* requestedSource, shaderc_include_type type, const char* requestingSource, s64 includeDepth) 
-	{
-		IncludeData* data = new IncludeData();
+	shaderc_include_result* ShaderIncluder::GetInclude(const char* requestedSource, shaderc_include_type type, const char* requestingSource, size_t includeDepth) {
+		auto* data = new IncludeData();
 		data->FullPath = ResolveInclude(requestedSource);
 
 		if(!PlatformFile::Read(data->FullPath, data->Content))
@@ -29,8 +27,7 @@ namespace MAGE
 		delete static_cast<IncludeData*>(data->user_data);
 	}
 
-	String ShaderIncluder::ResolveInclude(const String& includePath)
-	{
+	String ShaderIncluder::ResolveInclude(const String& includePath) const {
 		std::string path = mIncludePath + includePath;
 		if (!PlatformFile::Exists(path))
 			throw std::runtime_error("Include file not found: " + path);

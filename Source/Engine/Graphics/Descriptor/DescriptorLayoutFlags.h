@@ -16,5 +16,5 @@ namespace MAGE
         IndirectBindable = 1 << 6,
 	};
 
-	GENERATE_ENUM_FLAG(DescriptorLayoutFlags, u8);
+	GENERATE_ENUM_FLAG(MAGE::DescriptorLayoutFlags, u8);
 }

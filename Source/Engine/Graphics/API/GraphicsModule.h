@@ -6,20 +6,23 @@
 namespace MAGE
 {
 	class GraphicsAPI;
-	class GraphicsModule : public ApplicationModule
+	class GraphicsModule final : public ApplicationModule
 	{
 	public:
 		GraphicsModule();
-		virtual ~GraphicsModule() override;
+		~GraphicsModule() override = default;
 
-		virtual void Start() noexcept override;
-		virtual void Update() noexcept override;
-		virtual void Stop() noexcept override;
+		void Start() noexcept override;
+		void Update() noexcept override;
+
+		void Stop() noexcept override;
 
 	protected:
-		virtual b8 OnInitialize() noexcept override;
-		virtual void OnPreUpdate() noexcept override;
-		virtual void OnPostUpdate() noexcept override;
+		b8 OnInitialize() noexcept override;
+
+		void OnPreUpdate() noexcept override;
+
+		void OnPostUpdate() noexcept override;
 
 	private:
 		GraphicsAPI* mGraphicsAPI;

@@ -12,5 +12,5 @@ namespace MAGE
 		HostCached = 1 << 3
 	};
 
-	GENERATE_ENUM_FLAG(GraphicsMemoryType, u8);
+	GENERATE_ENUM_FLAG(MAGE::GraphicsMemoryType, u8);
 }

@@ -8,7 +8,7 @@ namespace MAGE
 	class RendererJobSystem : public JobSystem
 	{
 	public:
-		RendererJobSystem(u32 threadCount = 4, WorkerThreadPriority priority = WorkerThreadPriority::Realtime);
+		RendererJobSystem(u32 threadCount = 4, WorkerThreadPriority priority = WorkerThreadPriority::Normal);
 		~RendererJobSystem() override = default;
 	};
 }

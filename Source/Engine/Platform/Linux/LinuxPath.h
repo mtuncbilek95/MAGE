@@ -4,7 +4,6 @@
 
 namespace MAGE
 {
-#if defined(MAGE_LINUX)
     class LinuxPath
     {
     public:
@@ -13,5 +12,4 @@ namespace MAGE
         static String GetAppDataDir();
         static String GetTempDir();
     };
-#endif
 }

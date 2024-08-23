@@ -45,8 +45,8 @@ namespace MAGE
 	class GraphicsDevice : public IObject
 	{
 	public:
-		GraphicsDevice(GraphicsInstance* pInstance);
-		virtual ~GraphicsDevice() override = default;
+		explicit GraphicsDevice(GraphicsInstance* pInstance);
+		~GraphicsDevice() override = default;
 
 		GraphicsInstance* GetInstance() const { return mInstance; }
 

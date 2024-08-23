@@ -17,5 +17,5 @@ namespace MAGE
 		TransferDestination = 1 << 7
 	};
 
-	GENERATE_ENUM_FLAG(TextureUsageFlags, u16);
+	GENERATE_ENUM_FLAG(MAGE::TextureUsageFlags, u16);
 }

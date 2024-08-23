@@ -10,7 +10,7 @@
 
 namespace MAGE
 {
-	class PlatformWindow : public IObject
+	class PlatformWindow final : public IObject
 	{
 		friend class GraphicsDevice;
 		friend class WindowAPI;
@@ -18,8 +18,8 @@ namespace MAGE
 		static SharedPtr<PlatformWindow> InitializeWindow(const WindowDesc& desc);
 
 	public:
-		PlatformWindow(const WindowDesc& desc);
-		virtual ~PlatformWindow() override;
+		explicit PlatformWindow(const WindowDesc& desc);
+		~PlatformWindow() override;
 
 		void Show();
 		void Hide();

@@ -13,5 +13,5 @@ namespace MAGE
 		VariableDescriptorCount = 1 << 3
 	};
 
-	GENERATE_ENUM_FLAG(DescriptorSetFlags, u8);
+	GENERATE_ENUM_FLAG(MAGE::DescriptorSetFlags, u8);
 }

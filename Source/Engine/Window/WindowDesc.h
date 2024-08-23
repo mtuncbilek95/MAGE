@@ -11,6 +11,6 @@ namespace MAGE
 		Vec2u WindowSize;
 		Vec2i WindowPosition;
 		String WindowTitle;
-		WindowMode WindowMode;
+		WindowMode CurrentWindowMode;
 	};
 }

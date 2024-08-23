@@ -5,6 +5,11 @@
 typedef MAGE::Win32Hardware PlatformDependency;
 #endif
 
+#if defined(MAGE_LINUX)
+#include "Linux/LinuxHardware.h"
+typedef MAGE::LinuxHardware PlatformDependency;
+#endif
+
 namespace MAGE
 {
 	u16 PlatformHardware::GetCPUThreadCount()

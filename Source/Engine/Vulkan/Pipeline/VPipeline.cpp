@@ -146,7 +146,7 @@ namespace MAGE
 		VkPipelineColorBlendStateCreateInfo colorBlending = {};
 		colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 		colorBlending.logicOpEnable = desc.BlendState.bLogicOperationEnabled;
-		colorBlending.logicOp = VkUtils::GetVkLogicOperation(desc.BlendState.LogicOperation); // Optional
+		colorBlending.logicOp = VkUtils::GetVkLogicOperation(desc.BlendState.LogicOp); // Optional
 		colorBlending.attachmentCount = colorAttachments.size();
 		colorBlending.pAttachments = colorAttachments.data();
 		colorBlending.blendConstants[0] = 0.0f; // Optional

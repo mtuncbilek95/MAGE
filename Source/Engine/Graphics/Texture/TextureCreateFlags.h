@@ -21,5 +21,5 @@ namespace MAGE
 		Protected = 1 << 11
 	};
 
-	GENERATE_ENUM_FLAG(TextureCreateFlags, u32);
+	GENERATE_ENUM_FLAG(MAGE::TextureCreateFlags, u32);
 }

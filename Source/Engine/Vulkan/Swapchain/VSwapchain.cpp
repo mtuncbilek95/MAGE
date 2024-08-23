@@ -8,6 +8,7 @@
 #endif
 
 #if defined(MAGE_LINUX)
+#include <X11/Xlib.h>
 #include <vulkan/vulkan_xlib.h>
 #endif
 

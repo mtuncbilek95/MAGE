@@ -5,6 +5,11 @@
 typedef MAGE::Win32Path PlatformDependency;
 #endif
 
+#if defined(MAGE_LINUX)
+#include "Linux/LinuxPath.h"
+typedef MAGE::LinuxPath PlatformDependency;
+#endif
+
 namespace MAGE
 {
 	String PlatformPath::GetExecutableDir()

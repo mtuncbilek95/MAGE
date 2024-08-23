@@ -12,7 +12,6 @@
 #include <Engine/Graphics/Pipeline/Core/ViewportDesc.h>
 #include <Engine/Graphics/Pipeline/Core/ScissorDesc.h>
 
-
 namespace MAGE
 {
 	struct GraphicsPipelineDesc

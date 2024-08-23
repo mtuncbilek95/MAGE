@@ -6,6 +6,8 @@ typedef MAGE::Win32Directory PlatformDependency;
 #endif
 
 #if defined(MAGE_LINUX)
+#include "Linux/LinuxDirectory.h"
+typedef MAGE::LinuxDirectory PlatformDependency;
 #endif
 
 namespace MAGE

@@ -7,6 +7,6 @@ namespace MAGE
 	struct EnumValue
 	{
 		String EnumName;
-		i64 EnumValue;
+		i64 EnumVal;
 	};
 }

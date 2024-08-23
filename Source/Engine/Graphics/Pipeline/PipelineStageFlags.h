@@ -24,5 +24,5 @@ namespace MAGE
 		AllCommands = 1 << 15
     };
 
-    GENERATE_ENUM_FLAG(PipelineStageFlags, u32);
+	GENERATE_ENUM_FLAG(MAGE::PipelineStageFlags, u32);
 }

@@ -4,14 +4,14 @@
 
 namespace MAGE
 {
-	class RESOURCE_API ResourceSubObject
+	class ResourceSubObject
 	{
 		friend class ResourceObject;
 	public:
 		ResourceSubObject() = default;
 		virtual ~ResourceSubObject() = default;
 
-		FORCEINLINE ResourceObject* GetResourceObject() const { return mResourceObject; }
+		class ResourceObject* GetResourceObject() const { return mResourceObject; }
 
 	private:
 		void SetResourceOwner(ResourceObject* resourceObject) { mResourceObject = resourceObject; }

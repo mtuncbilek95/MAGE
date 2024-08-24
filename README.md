@@ -1,7 +1,7 @@
 # M.A.G.E
 Modern & Advanced Graphics Engine
 
-## REQUESTED DEPENDENCIES ON LINUX (W.I.P by [Mehmet Samet Hakut](https://github.com/hakut))
+## REQUESTED DEPENDENCIES ON LINUX
 ```shell
 sudo apt update && sudo apt upgrade -y
 
@@ -31,7 +31,7 @@ vice versa. This has been added to CMake with the aim of reducing macro controll
 ## IMPLEMENTED FEATURES
 - [x] Unit Test Environment (Catch2)
 - [x] Win32 Platform
-- [ ] Linux Platform (W.I.P @hakut)
+- [ ] Linux Platform
 - [x] GAL (Graphics Abstraction Layer)
 - [x] Vulkan GAL Implementation
 - [x] Application Module System

@@ -1,7 +1,6 @@
 #include "GlobalConsole.h"
 
 #include <cstdarg>
-#include <cassert>
 
 #include <Engine/Platform/PlatformMessage.h>
 #include <Engine/Platform/PlatformTime.h>
@@ -10,7 +9,7 @@ namespace MAGE
 {
 	void GlobalConsole::Print(const char* message, ...)
 	{
-		va_list args;
+		char* args;
 		va_start(args, message);
 		vprintf(message, args);
 		va_end(args);
@@ -18,22 +17,22 @@ namespace MAGE
 
 	void GlobalConsole::Log(ConsoleType type, const char* message, ...)
 	{
-		va_list args;
+		char* args;
 		va_start(args, message);
 
 		const auto [Day, Month, Year, Hour, Minute, Second, Millisecond] = PlatformTime::CurrentDateTime();
 		switch (type)
 		{
-		case ConsoleType::Info:
+		case ConsoleType::CT_Info:
 			printf("[%02d.%02d.%02d][%02d:%02d:%02d][\033[36mDebug\033[39m] -- ", Day, Month, Year, Hour, Minute, Second);
 			break;
-		case ConsoleType::Verbose:
+		case ConsoleType::CT_Verbose:
 			printf("[%02d.%02d.%02d][%02d:%02d:%02d][\033[32mTrace\033[39m] -- ", Day, Month, Year, Hour, Minute, Second);
 			break;
-		case ConsoleType::Warning:
+		case ConsoleType::CT_Warning:
 			printf("[%02d.%02d.%02d][%02d:%02d:%02d][\033[33mWarning\033[39m] -- ", Day, Month, Year, Hour, Minute, Second);
 			break;
-		case ConsoleType::Error:
+		case ConsoleType::CT_Error:
 			printf("[%02d.%02d.%02d][%02d:%02d:%02d][\033[31mError\033[39m] -- ", Day, Month, Year, Hour, Minute, Second);
 			break;
 		}
@@ -47,7 +46,7 @@ namespace MAGE
 	{
 		if (!condition)
 		{
-			va_list args;
+			char* args;
 			va_start(args, message);
 			printf("\033[31m[%s]\033[39m -- ", title);
 			vprintf(message, args);

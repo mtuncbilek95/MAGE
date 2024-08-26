@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdexcept>
 #include <Engine/Core/Core.h>
 #include <Engine/Reflection/TypeMode.h>
 #include <Engine/Reflection/EnumValue.h>
@@ -33,20 +34,19 @@ namespace MAGE
 				if (val.EnumName == name)
 					return val;
 
-			return EnumValue();
+			throw std::runtime_error("Enum value not found");
 		}
 
 		FORCEINLINE const String& GetEnumName(const i64 value)
 		{
-			for (auto& val : mEnumValues)
-				if (val.EnumVal == value)
-					return val.EnumName;
+			for (auto&[EnumName, EnumVal] : mEnumValues)
+				if (EnumVal == value)
+					return EnumName;
 
-			return "";
+			throw std::runtime_error("Enum value not found");
 		}
 
-		b8 IsSubClassOf(const Type* type)
-		{
+		b8 IsSubClassOf(const Type* type) const {
 			if (type == nullptr)
 				return false;
 

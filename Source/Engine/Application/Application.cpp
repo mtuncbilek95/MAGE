@@ -27,7 +27,7 @@ namespace MAGE
 			}
 		}
 
-		for (auto& module : mTotalModules)
+		for (const auto& module : mTotalModules)
 		{
 			if (module->GetState() == ApplicationModuleState::Validated)
 			{
@@ -37,7 +37,7 @@ namespace MAGE
 
 		while (!mQuitRequested)
 		{
-			for (auto& module : mTotalModules)
+			for (const auto& module : mTotalModules)
 			{
 				if (module->GetState() == ApplicationModuleState::Validated)
 				{
@@ -45,7 +45,7 @@ namespace MAGE
 				}
 			}
 
-			for (auto& module : mTotalModules)
+			for (const auto& module : mTotalModules)
 			{
 				if (module->GetState() == ApplicationModuleState::Validated)
 				{
@@ -53,7 +53,7 @@ namespace MAGE
 				}
 			}
 
-			for (auto& module : mTotalModules)
+			for (const auto& module : mTotalModules)
 			{
 				if (module->GetState() == ApplicationModuleState::Validated)
 				{

@@ -18,7 +18,7 @@ namespace MAGE
 		u16& GetC() { return mC; }
 		u64& GetD() { return mD; }
 
-		String ToString();
+		String ToString() const;
 
 		b8 operator==(const Guid& other) const;
 		b8 operator!=(const Guid& other) const;

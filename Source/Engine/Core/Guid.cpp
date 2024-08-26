@@ -1,6 +1,6 @@
 #include "Guid.h"
 
-#include <format>
+#include <charconv>
 
 #if defined (MAGE_LINUX)
 #include <charconv>
@@ -25,8 +25,7 @@ namespace MAGE
 		std::from_chars_result result = std::from_chars(str.data(), str.data() + str.size(), mA, 16);
 	}
 
-	String Guid::ToString()
-	{
+	String Guid::ToString() const {
 		char buffer[64];
 		std::snprintf(buffer, sizeof(buffer), "%08x-%04x-%04x-%04x-%012llx", mA, mB, mC, (u16)mD, mD >> 16);
 		return buffer;

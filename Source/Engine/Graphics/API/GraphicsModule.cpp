@@ -29,9 +29,9 @@ namespace MAGE
 			if (WindowAPI::GetAPI()->GetDefaultWindow()->GetWindowResolution().x == 0 || WindowAPI::GetAPI()->GetDefaultWindow()->GetWindowResolution().y == 0)
 				return;
 
-			auto fence = GraphicsAPI::GetAPI()->GetDevice()->CreateGraphicsFence(false);
-			auto cmdPool = GraphicsAPI::GetAPI()->GetDevice()->CreateCommandPool({ CmdPoolType::Graphics });
-			auto cmdBuffer = GraphicsAPI::GetAPI()->GetDevice()->CreateCommandBuffer({ cmdPool.get()});
+			const auto fence = GraphicsAPI::GetAPI()->GetDevice()->CreateGraphicsFence(false);
+			const auto cmdPool = GraphicsAPI::GetAPI()->GetDevice()->CreateCommandPool({ CmdPoolType::Graphics });
+			const auto cmdBuffer = GraphicsAPI::GetAPI()->GetDevice()->CreateCommandBuffer({ cmdPool.get()});
 
 			cmdBuffer->BeginRecording();
 
@@ -58,7 +58,7 @@ namespace MAGE
 
 			cmdBuffer->EndRecording();
 
-			PipelineStageFlags waitStage = PipelineStageFlags::ColorAttachmentOutput;
+			auto waitStage = PipelineStageFlags::ColorAttachmentOutput;
 			mGraphicsAPI->GetDevice()->SubmitQueue(mGraphicsAPI->GetGraphicsQueue(), cmdBuffer.get(), 1, nullptr, 0, nullptr, 0, fence.get(), &waitStage);
 
 			mGraphicsAPI->GetDevice()->WaitFence(fence.get());
@@ -86,14 +86,14 @@ namespace MAGE
 			return false;
 
 		SwapchainDesc swapchainDesc = {};
-		swapchainDesc.BufferCount = 2; // TODO: Get from config
+		swapchainDesc.BufferCount = 2;
 #if defined(MAGE_WINDOWS)
-		swapchainDesc.ImageFormat = TextureFormat::RGBA8_UNorm; // TODO: Get from config
+		swapchainDesc.ImageFormat = TextureFormat::RGBA8_UNorm;
 #elif defined(MAGE_LINUX)
-		swapchainDesc.ImageFormat = TextureFormat::BGRA8_UNorm; // TODO: Get from config
+		swapchainDesc.ImageFormat = TextureFormat::BGRA8_UNorm;
 #endif
-		swapchainDesc.TextureUsage = TextureUsageFlags::ColorAttachment; // TODO: Get from config
-		swapchainDesc.VSync = PresentMode::FullVSync; // TODO: Get from config
+		swapchainDesc.TextureUsage = TextureUsageFlags::ColorAttachment;
+		swapchainDesc.VSync = PresentMode::FullVSync;
 		swapchainDesc.ImageSize = WindowAPI::GetAPI()->GetDefaultWindow()->GetWindowResolution();
 		swapchainDesc.pRequestQueue = mGraphicsAPI->GetGraphicsQueue();
 

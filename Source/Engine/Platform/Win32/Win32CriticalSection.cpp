@@ -4,7 +4,7 @@ namespace MAGE
 {
 	Win32CriticalSection::Win32CriticalSection()
 	{
-		CORE_ASSERT(InitializeCriticalSectionAndSpinCount(&mCriticalSection, u64_max), "Win32CriticalSection", "Failed to initialize critical section");
+		CORE_ASSERT(InitializeCriticalSectionAndSpinCount(&mCriticalSection, u32_max), "Win32CriticalSection", "Failed to initialize critical section");
 	}
 
 	b8 Win32CriticalSection::TryEnter()

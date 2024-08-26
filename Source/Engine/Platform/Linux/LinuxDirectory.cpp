@@ -132,10 +132,10 @@ namespace MAGE {
         if (dir == nullptr) {
             return false;
         }
-        struct dirent *d;
+        dirent *d;
         while ((d = readdir(dir)) != nullptr) {
             if (d->d_name[0] == '.') continue;
-            if (d->d_type == DT_REG && strncmp(extension.c_str(), d->d_name, sizeof(extension.c_str())) == 0)
+            if (d->d_type == DT_REG && strncmp(extension.c_str(), d->d_name, sizeof(const char*)) == 0)
                 files.emplace_back(d->d_name);
         }
         closedir(dir);

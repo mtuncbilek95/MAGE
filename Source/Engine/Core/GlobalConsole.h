@@ -1,16 +1,15 @@
 #pragma once
 
 #include "Definitions.h"
-#include "StdFix.h"
 
 namespace MAGE
 {
 	enum class ConsoleType
 	{
-		Info,
-		Verbose,
-		Warning,
-		Error
+		CT_Info,
+		CT_Verbose,
+		CT_Warning,
+		CT_Error
 	};
 
 	class GlobalConsole final

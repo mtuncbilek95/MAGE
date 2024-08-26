@@ -10,27 +10,35 @@ namespace MAGE
 	{
 		char buffer[MAX_PATH];
 		GetModuleFileNameA(NULL, buffer, MAX_PATH);
-		return String(buffer);
+		String path = buffer;
+		std::ranges::replace(path, '\\', '/');
+		return path;
 	}
 
 	String Win32Path::GetProgramFilesDir()
 	{
 		char buffer[MAX_PATH];
 		SHGetFolderPathA(NULL, CSIDL_PROGRAM_FILES, NULL, 0, buffer);
-		return String(buffer);
+		String path = buffer;
+		std::ranges::replace(path, '\\', '/');
+		return path;
 	}
 
 	String Win32Path::GetAppDataDir()
 	{
 		char buffer[MAX_PATH];
 		SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, buffer);
-		return String(buffer);
+		String path = buffer;
+		std::ranges::replace(path, '\\', '/');
+		return path;
 	}
 
 	String Win32Path::GetTempDir()
 	{
 		char buffer[MAX_PATH];
 		GetTempPathA(MAX_PATH, buffer);
-		return String(buffer);
+		String path = buffer;
+		std::ranges::replace(path, '\\', '/');
+		return path;
 	}
 }

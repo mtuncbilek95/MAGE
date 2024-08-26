@@ -126,6 +126,7 @@ namespace MAGE
 		DWORD bytesRead;
 		char* buffer = new char[acceptedRange + 1];
 		const b8 result = ReadFile(hFile, buffer, acceptedRange, &bytesRead, NULL);
+		buffer[acceptedRange] = '\0';
 
 		// Check if the file was read
 		if (!result)
@@ -177,9 +178,8 @@ namespace MAGE
 
 		// Read the file
 		DWORD bytesRead;
-		char* buffer = new char[acceptedRange + 1];
+		char* buffer = new char[acceptedRange];
 		const b8 result = ReadFile(hFile, buffer, acceptedRange, &bytesRead, NULL);
-		buffer[acceptedRange] = '\0';
 
 		// Check if the file was read
 		if (!result)

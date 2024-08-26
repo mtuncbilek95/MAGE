@@ -1,5 +1,6 @@
 #include "VInstance.h"
 
+#include <algorithm>
 
 #if defined(MAGE_WINDOWS)
 #if !defined(NOMINMAX)

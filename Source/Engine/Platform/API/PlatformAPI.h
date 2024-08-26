@@ -3,6 +3,8 @@
 #include <Engine/Core/Core.h>
 #include <Engine/Object/API.h>
 
+#include <algorithm>
+
 namespace MAGE
 {
 	class PlatformAPI : public API<PlatformAPI>

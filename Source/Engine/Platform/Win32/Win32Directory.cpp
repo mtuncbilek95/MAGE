@@ -135,5 +135,4 @@ namespace MAGE
 		FindClose(hFind);
 		return true;
 	}
-
 }

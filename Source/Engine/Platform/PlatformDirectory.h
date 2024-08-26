@@ -3,8 +3,6 @@
 #include <Engine/Core/Definitions.h>
 #include <Engine/Core/StdFix.h>
 
-#include <Engine/Memory/MemoryBuffer.h>
-
 namespace MAGE
 {
 	class PlatformDirectory final

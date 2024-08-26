@@ -14,11 +14,11 @@ namespace MAGE
 		static u64 GetCurrentThreadID();
 
 	public:
-		PlatformThread(ThreadJob* pJob);
+		explicit PlatformThread(ThreadJob* pJob);
 		virtual ~PlatformThread() = default;
 
-		FORCEINLINE ThreadJob* GetJob() const { return mJob; }
-		FORCEINLINE void SetPriority(int priority);
+		ThreadJob* GetJob() const { return mJob; }
+		void SetPriority(int priority);
 
 	protected:
 		virtual void SetPriorityImpl(int priority) = 0;

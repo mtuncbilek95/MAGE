@@ -48,11 +48,12 @@ namespace MAGE
 
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+#if defined(MAGE_WINDOWS)
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-		//io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
-		//io.BackendFlags |= ImGuiBackendFlags_RendererHasViewports;
-
+		io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
+		io.BackendFlags |= ImGuiBackendFlags_RendererHasViewports;
+#endif
 		// Win32 should trigger the scale factor.
 		io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
 

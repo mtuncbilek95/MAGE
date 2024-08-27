@@ -21,9 +21,11 @@ SetupVulkan(Engine)
 SetupGLFW(Engine)
 target_link_libraries(Engine PUBLIC glfw glm::glm nlohmann_json::nlohmann_json magic_enum)
 
-if(UNIX)
-	target_link_libraries(Engine PUBLIC uuid)
+if(LINUX)
+    include(SetupLinux)
+    SetupLinux(Engine)
 endif()
+
 # ------------------------------------------------------------
 
 # -------------------- MACRO DEFINITIONS ---------------------

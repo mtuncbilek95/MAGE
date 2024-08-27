@@ -15,15 +15,15 @@ namespace MAGE
 	class CmdBuffer;
 	class DescriptorPool;
 
-	class ImGuiRenderer : public IObject
+	class ImGuiRenderer final : public IObject
 	{
 	public:
 		ImGuiRenderer();
-		~ImGuiRenderer();
+		~ImGuiRenderer() override;
 
-		CmdBuffer* GetCmdBuffer() { return mCmdBuffer.get(); }
-		CmdPool* GetCmdPool() { return mCmdPool.get(); }
-		GraphicsQueue* GetGraphicsQueue() { return mGraphicsQueue; }
+		CmdBuffer* GetCmdBuffer() const { return mCmdBuffer.get(); }
+		CmdPool* GetCmdPool() const { return mCmdPool.get(); }
+		GraphicsQueue* GetGraphicsQueue() const { return mGraphicsQueue; }
 
 	private:
 		void InitVk();

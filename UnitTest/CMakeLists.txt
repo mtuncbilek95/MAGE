@@ -23,11 +23,6 @@ target_link_libraries(UnitTest PRIVATE Catch2::Catch2WithMain)
 SetupVulkan(UnitTest)
 SetupGLFW(UnitTest)
 
-if(UNIX)
-	include(SetupLinux)
-	SetupLinux(UnitTest)
-endif()
-
 list(APPEND CMAKE_MODULE_PATH ${Catch2_SOURCE_DIR}/extras)
 list(APPEND CMAKE_MODULE_PATH ${Catch2_SOURCE_DIR}/contrib)
 include(CTest)

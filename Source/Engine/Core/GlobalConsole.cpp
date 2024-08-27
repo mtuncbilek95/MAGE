@@ -9,7 +9,7 @@ namespace MAGE
 {
 	void GlobalConsole::Print(const char* message, ...)
 	{
-		char* args;
+		va_list args;
 		va_start(args, message);
 		vprintf(message, args);
 		va_end(args);
@@ -17,7 +17,7 @@ namespace MAGE
 
 	void GlobalConsole::Log(ConsoleType type, const char* message, ...)
 	{
-		char* args;
+		va_list args;
 		va_start(args, message);
 
 		const auto [Day, Month, Year, Hour, Minute, Second, Millisecond] = PlatformTime::CurrentDateTime();
@@ -46,7 +46,7 @@ namespace MAGE
 	{
 		if (!condition)
 		{
-			char* args;
+			va_list args;
 			va_start(args, message);
 			printf("\033[31m[%s]\033[39m -- ", title);
 			vprintf(message, args);

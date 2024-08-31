@@ -1,4 +1,4 @@
-[example event parameter](https://github.com/mtuncbilek95/MAGE/actions/workflows/cmake-multi-platform.yml/badge.svg)
+![example event parameter](https://github.com/mtuncbilek95/MAGE/actions/workflows/cmake-multi-platform.yml/badge.svg)
 # M.A.G.E
 Modern & Advanced Graphics Engine
 

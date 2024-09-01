@@ -4,8 +4,8 @@ namespace MAGE
 {
 	enum class ApplicationModuleState
 	{
-		NeedValidation,
-		Validated,
-		Invalidated
+		AMS_NeedValidation,
+		AMS_Validated,
+		AMS_Invalidated
 	};
 }

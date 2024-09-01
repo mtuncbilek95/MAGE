@@ -31,23 +31,23 @@ namespace MAGE
 			TextureImageBarrier barrier = {};
 			barrier.ArrayIndex = 0;
 			barrier.MipIndex = 0;
-			barrier.SourceAccessMask = GraphicsMemoryAccessFlags::Unknown;
-			barrier.DestinationAccessMask = GraphicsMemoryAccessFlags::ColorAttachmentRead;
-			barrier.SourceQueue = GraphicsQueueType::Graphics;
-			barrier.DestinationQueue = GraphicsQueueType::Graphics;
-			barrier.OldLayout = TextureLayout::Undefined;
-			barrier.NewLayout = TextureLayout::Present;
-			barrier.SourceStageFlags = PipelineStageFlags::TopOfPipe;
-			barrier.DestinationStageFlags = PipelineStageFlags::ColorAttachmentOutput;
+			barrier.SourceAccessMask = GraphicsMemoryAccessFlags::GMAF_Unknown;
+			barrier.DestinationAccessMask = GraphicsMemoryAccessFlags::GMAF_ColorAttachmentRead;
+			barrier.SourceQueue = GraphicsQueueType::GQT_Graphics;
+			barrier.DestinationQueue = GraphicsQueueType::GQT_Graphics;
+			barrier.OldLayout = TextureLayout::TL_Undefined;
+			barrier.NewLayout = TextureLayout::TL_Present;
+			barrier.SourceStageFlags = PipelineStageFlags::PSF_TopOfPipe;
+			barrier.DestinationStageFlags = PipelineStageFlags::PSF_ColorAttachmentOutput;
 
-			barrier.AspectMask = TextureAspectFlags::ColorAspect;
+			barrier.AspectMask = TextureAspectFlags::TAF_ColorAspect;
 
 			mCmdBuffer->SetTextureBarrier(image, barrier);
 		}
 
 		mCmdBuffer->EndRecording();
 
-		PipelineStageFlags waitStage = PipelineStageFlags::ColorAttachmentOutput;
+		PipelineStageFlags waitStage = PipelineStageFlags::PSF_ColorAttachmentOutput;
 		mDevice->SubmitQueue(mGraphicsQueue, mCmdBuffer, 1, nullptr, 0, nullptr, 0, mFence.get(), &waitStage);
 
 		mDevice->WaitFence(mFence.get());
@@ -70,24 +70,24 @@ namespace MAGE
 		TextureImageBarrier barrier = {};
 		barrier.ArrayIndex = 0;
 		barrier.MipIndex = 0;
-		barrier.SourceAccessMask = GraphicsMemoryAccessFlags::ColorAttachmentRead;
-		barrier.DestinationAccessMask = GraphicsMemoryAccessFlags::ColorAttachmentWrite;
-		barrier.SourceQueue = GraphicsQueueType::Graphics;
-		barrier.DestinationQueue = GraphicsQueueType::Graphics;
-		barrier.OldLayout = TextureLayout::Present;
-		barrier.NewLayout = TextureLayout::ColorAttachment;
-		barrier.SourceStageFlags = PipelineStageFlags::ColorAttachmentOutput;
-		barrier.DestinationStageFlags = PipelineStageFlags::ColorAttachmentOutput;
+		barrier.SourceAccessMask = GraphicsMemoryAccessFlags::GMAF_ColorAttachmentRead;
+		barrier.DestinationAccessMask = GraphicsMemoryAccessFlags::GMAF_ColorAttachmentWrite;
+		barrier.SourceQueue = GraphicsQueueType::GQT_Graphics;
+		barrier.DestinationQueue = GraphicsQueueType::GQT_Graphics;
+		barrier.OldLayout = TextureLayout::TL_Present;
+		barrier.NewLayout = TextureLayout::TL_ColorAttachment;
+		barrier.SourceStageFlags = PipelineStageFlags::PSF_ColorAttachmentOutput;
+		barrier.DestinationStageFlags = PipelineStageFlags::PSF_ColorAttachmentOutput;
 
-		barrier.AspectMask = TextureAspectFlags::ColorAspect;
+		barrier.AspectMask = TextureAspectFlags::TAF_ColorAspect;
 
 		mCmdBuffer->SetTextureBarrier(image, barrier);
 
 		DynamicPassAttachmentDesc passColorAttachmentDesc = {};
 		passColorAttachmentDesc.ImageBuffer = mSwapchain->GetImageView(index);
-		passColorAttachmentDesc.ImageLayout = TextureLayout::ColorAttachment;
-		passColorAttachmentDesc.LoadOperation = AttachmentLoadOperation::Clear;
-		passColorAttachmentDesc.StoreOperation = AttachmentStoreOperation::Store;
+		passColorAttachmentDesc.ImageLayout = TextureLayout::TL_ColorAttachment;
+		passColorAttachmentDesc.LoadOperation = AttachmentLoadOperation::ALO_Clear;
+		passColorAttachmentDesc.StoreOperation = AttachmentStoreOperation::ASO_Store;
 		passColorAttachmentDesc.ClearColor = { 0.1f, 0.2f, 0.3f, 1.0f };
 
 		DynamicPassDesc passDesc = {};
@@ -129,7 +129,7 @@ namespace MAGE
 			return false;
 
 		CmdPoolDesc poolDesc = {};
-		poolDesc.PoolType = CmdPoolType::Graphics;
+		poolDesc.PoolType = CmdPoolType::CPT_Graphics;
 
 		mCmdBuffer = ImGuiAPI::GetAPI()->GetEditorRenderer()->GetCmdBuffer();
 

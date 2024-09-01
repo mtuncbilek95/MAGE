@@ -13,18 +13,18 @@ namespace MAGE
 		{
 			VkBufferUsageFlags flags = 0;
 
-			if (usage & GraphicsBufferUsage::Vertex)
+			if (usage & GraphicsBufferUsage::GBU_Vertex)
 				flags |= VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-			else if (usage & GraphicsBufferUsage::Index)
+			else if (usage & GraphicsBufferUsage::GBU_Index)
 				flags |= VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
-			else if (usage & GraphicsBufferUsage::Uniform)
+			else if (usage & GraphicsBufferUsage::GBU_Uniform)
 				flags |= VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
-			else if (usage & GraphicsBufferUsage::Storage)
+			else if (usage & GraphicsBufferUsage::GBU_Storage)
 				flags |= VK_BUFFER_USAGE_STORAGE_BUFFER_BIT;
 
-			if (usage & GraphicsBufferUsage::TransferDst)
+			if (usage & GraphicsBufferUsage::GBU_TransferDst)
 				flags |= VK_BUFFER_USAGE_TRANSFER_DST_BIT;
-			else if (usage & GraphicsBufferUsage::TransferSrc)
+			else if (usage & GraphicsBufferUsage::GBU_TransferSrc)
 				flags |= VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
 
 			return flags;

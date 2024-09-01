@@ -6,13 +6,13 @@ namespace MAGE
 {
     enum class StencilOperation : u8
     {
-        Keep,
-        Zero,
-        Replace,
-        IncrementAndClamp,
-        DecrementAndClamp,
-        Invert,
-        IncrementAndWrap,
-        DecrementAndWrap
+        SO_Keep,
+        SO_Zero,
+        SO_Replace,
+        SO_IncrementAndClamp,
+        SO_DecrementAndClamp,
+        SO_Invert,
+        SO_IncrementAndWrap,
+        SO_DecrementAndWrap
     };
 }

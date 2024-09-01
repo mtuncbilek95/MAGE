@@ -6,13 +6,13 @@ namespace MAGE
 {
 	enum class TextureViewType : u8
 	{
-		Undefined,
-		Texture1D,
-		Texture2D,
-		Texture3D,
-		TextureCube,
-		Texture1DArray,
-		Texture2DArray,
-		TextureCubeArray
+		TVT_Undefined,
+		TVT_Texture1D,
+		TVT_Texture2D,
+		TVT_Texture3D,
+		TVT_TextureCube,
+		TVT_Texture1DArray,
+		TVT_Texture2DArray,
+		TVT_TextureCubeArray
 	};
 }

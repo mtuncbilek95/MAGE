@@ -12,13 +12,13 @@ namespace MAGE
 		u32 queueFamilyIndex = {};
 		switch (desc.PoolType)
 		{
-		case CmdPoolType::Graphics:
+		case CmdPoolType::CPT_Graphics:
 			queueFamilyIndex = pDevice->GetGraphicsQueueFamilyIndex();
 			break;
-		case CmdPoolType::Compute:
+		case CmdPoolType::CPT_Compute:
 			queueFamilyIndex = pDevice->GetComputeQueueFamilyIndex();
 			break;
-		case CmdPoolType::Transfer:
+		case CmdPoolType::CPT_Transfer:
 			queueFamilyIndex = pDevice->GetTransferQueueFamilyIndex();
 			break;
 		default:

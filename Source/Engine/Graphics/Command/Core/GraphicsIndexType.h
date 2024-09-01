@@ -6,7 +6,7 @@ namespace MAGE
 {
 	enum class GraphicsIndexType : u8
 	{
-		Index16,
-		Index32
+		GIT_Index16,
+		GIT_Index32
 	};
 }

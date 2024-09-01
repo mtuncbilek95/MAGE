@@ -31,7 +31,7 @@ namespace MAGE
 		imgDesc.MipLevels = 1; // TODO: Need improvement
 		imgDesc.ArrayLayers = 1; // TODO: Need improvement
 		imgDesc.Samples = desc.Samples;
-		imgDesc.UsageFlags = TextureUsageFlags::SampledImage | TextureUsageFlags::TransferDestination;
+		imgDesc.UsageFlags = TextureUsageFlags::TUF_SampledImage | TextureUsageFlags::TUF_TransferDestination;
 		imgDesc.pRequestMemory = mDeviceMemory;
 
 		mImage = mDevice->CreateTextureImage(imgDesc);
@@ -67,7 +67,7 @@ namespace MAGE
 		bufferDesc.BlockLength = 1;
 		bufferDesc.BlockSize = buffer.Size();
 		bufferDesc.pRequestMemory = mHostMemory;
-		bufferDesc.Usage = GraphicsBufferUsage::TransferSrc;
+		bufferDesc.Usage = GraphicsBufferUsage::GBU_TransferSrc;
 
 		mMipData[arrayIndex][mipIndex].pStageBuffer = mDevice->CreateBuffer(bufferDesc);
 
@@ -86,7 +86,7 @@ namespace MAGE
 		mCmdBuffer->CopyBufferToTexture(mMipData[arrayIndex][mipIndex].pStageBuffer.get(), mImage.get(), copyDesc);
 		mCmdBuffer->EndRecording();
 
-		PipelineStageFlags waitStage = PipelineStageFlags::Transfer;
+		PipelineStageFlags waitStage = PipelineStageFlags::PSF_Transfer;
 		mDevice->SubmitQueue(GraphicsAPI::GetAPI()->GetGraphicsQueue(), mCmdBuffer.get(), 1, nullptr, 0, nullptr, 0, mFence.get(), &waitStage);
 		mDevice->WaitFence(mFence.get());
 		mDevice->ResetFence(mFence.get());
@@ -98,7 +98,7 @@ namespace MAGE
 		mCmdBuffer->SetTextureBarrier(mImage.get(), barrier);
 		mCmdBuffer->EndRecording();
 
-		PipelineStageFlags waitStage = PipelineStageFlags::ColorAttachmentOutput;
+		PipelineStageFlags waitStage = PipelineStageFlags::PSF_ColorAttachmentOutput;
 		mDevice->SubmitQueue(GraphicsAPI::GetAPI()->GetGraphicsQueue(), mCmdBuffer.get(), 1, nullptr, 0, nullptr, 0, mFence.get(), &waitStage);
 		mDevice->WaitFence(mFence.get());
 		mDevice->ResetFence(mFence.get());
@@ -115,7 +115,7 @@ namespace MAGE
 
 	void TextureResource::CreateInternal()
 	{
-		mCmdPool = mDevice->CreateCommandPool({ CmdPoolType::Graphics });
+		mCmdPool = mDevice->CreateCommandPool({ CmdPoolType::CPT_Graphics });
 		mCmdBuffer = mDevice->CreateCommandBuffer({ mCmdPool.get() });
 		mFence = mDevice->CreateGraphicsFence(false);
 	}

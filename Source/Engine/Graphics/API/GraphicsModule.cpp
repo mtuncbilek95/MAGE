@@ -34,7 +34,7 @@ namespace MAGE
 				return;
 
 			auto fence = GraphicsAPI::GetAPI()->GetDevice()->CreateGraphicsFence(false);
-			auto cmdPool = GraphicsAPI::GetAPI()->GetDevice()->CreateCommandPool({ CmdPoolType::Graphics });
+			auto cmdPool = GraphicsAPI::GetAPI()->GetDevice()->CreateCommandPool({ CmdPoolType::CPT_Graphics });
 			auto cmdBuffer = GraphicsAPI::GetAPI()->GetDevice()->CreateCommandBuffer({ cmdPool.get()});
 
 			cmdBuffer->BeginRecording();
@@ -46,23 +46,23 @@ namespace MAGE
 				TextureImageBarrier barrier = {};
 				barrier.ArrayIndex = 0;
 				barrier.MipIndex = 0;
-				barrier.SourceAccessMask = GraphicsMemoryAccessFlags::Unknown;
-				barrier.DestinationAccessMask = GraphicsMemoryAccessFlags::ColorAttachmentRead;
-				barrier.SourceQueue = GraphicsQueueType::Graphics;
-				barrier.DestinationQueue = GraphicsQueueType::Graphics;
-				barrier.OldLayout = TextureLayout::Undefined;
-				barrier.NewLayout = TextureLayout::Present;
-				barrier.SourceStageFlags = PipelineStageFlags::TopOfPipe;
-				barrier.DestinationStageFlags = PipelineStageFlags::ColorAttachmentOutput;
+				barrier.SourceAccessMask = GraphicsMemoryAccessFlags::GMAF_Unknown;
+				barrier.DestinationAccessMask = GraphicsMemoryAccessFlags::GMAF_ColorAttachmentRead;
+				barrier.SourceQueue = GraphicsQueueType::GQT_Graphics;
+				barrier.DestinationQueue = GraphicsQueueType::GQT_Graphics;
+				barrier.OldLayout = TextureLayout::TL_Undefined;
+				barrier.NewLayout = TextureLayout::TL_Present;
+				barrier.SourceStageFlags = PipelineStageFlags::PSF_TopOfPipe;
+				barrier.DestinationStageFlags = PipelineStageFlags::PSF_ColorAttachmentOutput;
 
-				barrier.AspectMask = TextureAspectFlags::ColorAspect;
+				barrier.AspectMask = TextureAspectFlags::TAF_ColorAspect;
 
 				cmdBuffer->SetTextureBarrier(image, barrier);
 			}
 
 			cmdBuffer->EndRecording();
 
-			PipelineStageFlags waitStage = PipelineStageFlags::ColorAttachmentOutput;
+			PipelineStageFlags waitStage = PipelineStageFlags::PSF_ColorAttachmentOutput;
 			mGraphicsAPI->GetDevice()->SubmitQueue(mGraphicsAPI->GetGraphicsQueue(), cmdBuffer.get(), 1, nullptr, 0, nullptr, 0, fence.get(), &waitStage);
 
 			mGraphicsAPI->GetDevice()->WaitFence(fence.get());
@@ -93,9 +93,9 @@ namespace MAGE
 
 		SwapchainDesc swapchainDesc = {};
 		swapchainDesc.BufferCount = 2; // TODO: Get from config
-		swapchainDesc.ImageFormat = TextureFormat::RGBA8_UNorm; // TODO: Get from config
-		swapchainDesc.TextureUsage = TextureUsageFlags::ColorAttachment; // TODO: Get from config
-		swapchainDesc.VSync = PresentMode::FullVSync; // TODO: Get from config
+		swapchainDesc.ImageFormat = TextureFormat::TF_RGBA8_UNorm; // TODO: Get from config
+		swapchainDesc.TextureUsage = TextureUsageFlags::TUF_ColorAttachment; // TODO: Get from config
+		swapchainDesc.VSync = PresentMode::PM_FullVSync; // TODO: Get from config
 		swapchainDesc.ImageSize = WindowAPI::GetAPI()->GetDefaultWindow()->GetWindowResolution();
 		swapchainDesc.pRequestQueue = mGraphicsAPI->GetGraphicsQueue();
 

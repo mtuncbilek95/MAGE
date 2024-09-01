@@ -6,7 +6,7 @@ namespace MAGE
 {
 	enum class FaceDirection : u8
 	{
-		Clockwise,
-		CounterClockwise
+		FD_Clockwise,
+		FD_CounterClockwise
 	};
 }

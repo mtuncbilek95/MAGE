@@ -196,11 +196,11 @@ namespace MAGE
 	{
 		switch (desc.QueueType)
 		{
-		case GraphicsQueueType::Graphics:
+		case GraphicsQueueType::GQT_Graphics:
 			return MakeShared<VQueue>(desc, mGraphicsQueueFamily.GetFreeQueue(), this);
-		case GraphicsQueueType::Compute:
+		case GraphicsQueueType::GQT_Compute:
 			return MakeShared<VQueue>(desc, mComputeQueueFamily.GetFreeQueue(), this);
-		case GraphicsQueueType::Transfer:
+		case GraphicsQueueType::GQT_Transfer:
 			return MakeShared<VQueue>(desc, mTransferQueueFamily.GetFreeQueue(), this);
 		default:
 			MAGE_ASSERT(false, "VDevice", "Unknown queue type");
@@ -393,7 +393,7 @@ namespace MAGE
 
 			switch (desc.Entries[i].Type)
 			{
-			case DescriptorType::Sampler:
+			case DescriptorType::DT_Sampler:
 			{
 				auto pSampler = desc.Entries[i].pResource->GetAs<VSampler>();
 
@@ -407,7 +407,7 @@ namespace MAGE
 				imageIndex++;
 				break;
 			}
-			case DescriptorType::CombinedImageSampler:
+			case DescriptorType::DT_CombinedImageSampler:
 			{
 				auto pView = desc.Entries[i].pResource->GetAs<VTextureView>();
 				auto pSampler = desc.Entries[i].pResource->GetAs<VSampler>();
@@ -422,7 +422,7 @@ namespace MAGE
 				imageIndex++;
 				break;
 			}
-			case DescriptorType::SampledImage:
+			case DescriptorType::DT_SampledImage:
 			{
 				auto pView = desc.Entries[i].pResource->GetAs<VTextureView>();
 
@@ -436,7 +436,7 @@ namespace MAGE
 				imageIndex++;
 				break;
 			}
-			case DescriptorType::StorageImage:
+			case DescriptorType::DT_StorageImage:
 			{
 				auto pView = desc.Entries[i].pResource->GetAs<VTextureView>();
 
@@ -450,17 +450,17 @@ namespace MAGE
 				imageIndex++;
 				break;
 			}
-			case DescriptorType::UniformTexelBuffer:
+			case DescriptorType::DT_UniformTexelBuffer:
 			{
 				// Add code for handling UniformTexelBuffer descriptor type
 				break;
 			}
-			case DescriptorType::StorageTexelBuffer:
+			case DescriptorType::DT_StorageTexelBuffer:
 			{
 				// Add code for handling StorageTexelBuffer descriptor type
 				break;
 			}
-			case DescriptorType::UniformBuffer:
+			case DescriptorType::DT_UniformBuffer:
 			{
 				auto pBuffer = desc.Entries[i].pResource->GetAs<VBuffer>();
 
@@ -474,7 +474,7 @@ namespace MAGE
 				bufferIndex++;
 				break;
 			}
-			case DescriptorType::StorageBuffer:
+			case DescriptorType::DT_StorageBuffer:
 			{
 				auto pBuffer = desc.Entries[i].pResource->GetAs<VBuffer>();
 
@@ -488,7 +488,7 @@ namespace MAGE
 				bufferIndex++;
 				break;
 			}
-			case DescriptorType::UniformBufferDynamic:
+			case DescriptorType::DT_UniformBufferDynamic:
 			{
 				auto pBuffer = desc.Entries[i].pResource->GetAs<VBuffer>();
 
@@ -502,12 +502,12 @@ namespace MAGE
 				bufferIndex++;
 				break;
 			}
-			case DescriptorType::StorageBufferDynamic:
+			case DescriptorType::DT_StorageBufferDynamic:
 			{
 				// Add code for handling StorageBufferDynamic descriptor type
 				break;
 			}
-			case DescriptorType::InputAttachment:
+			case DescriptorType::DT_InputAttachment:
 			{
 				// Add code for handling InputAttachment descriptor type
 				break;

@@ -6,15 +6,15 @@ namespace MAGE
 {
 	enum class TextureUsageFlags : u16
 	{
-		None = 0,
-		SampledImage = 1 << 0,
-		StorageImage = 1 << 1,
-		ColorAttachment = 1 << 2,
-		DepthStencilAttachment = 1 << 3,
-		TransientAttachment = 1 << 4,
-		InputAttachment = 1 << 5,
-		TransferSource = 1 << 6,
-		TransferDestination = 1 << 7
+		TUF_None = 0,
+		TUF_SampledImage = 1 << 0,
+		TUF_StorageImage = 1 << 1,
+		TUF_ColorAttachment = 1 << 2,
+		TUF_DepthStencilAttachment = 1 << 3,
+		TUF_TransientAttachment = 1 << 4,
+		TUF_InputAttachment = 1 << 5,
+		TUF_TransferSource = 1 << 6,
+		TUF_TransferDestination = 1 << 7
 	};
 
 	GENERATE_ENUM_FLAG(TextureUsageFlags, u16);

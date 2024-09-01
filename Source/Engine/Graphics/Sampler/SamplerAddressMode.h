@@ -6,10 +6,10 @@ namespace MAGE
 {
 	enum class SamplerAddressMode : u8
 	{
-		Repeat,
-		MirroredRepeat,
-		ClampToEdge,
-		ClampToBorder,
-		MirrorClampToEdge
+		SAM_Repeat,
+		SAM_MirroredRepeat,
+		SAM_ClampToEdge,
+		SAM_ClampToBorder,
+		SAM_MirrorClampToEdge
 	};
 }

@@ -4,16 +4,16 @@ namespace MAGE
 {
 	enum class DescriptorType : u8
 	{
-		Sampler,
-		CombinedImageSampler,
-		SampledImage,
-		StorageImage,
-		UniformTexelBuffer,
-		StorageTexelBuffer,
-		UniformBuffer,
-		StorageBuffer,
-		UniformBufferDynamic,
-		StorageBufferDynamic,
-		InputAttachment
+		DT_Sampler,
+		DT_CombinedImageSampler,
+		DT_SampledImage,
+		DT_StorageImage,
+		DT_UniformTexelBuffer,
+		DT_StorageTexelBuffer,
+		DT_UniformBuffer,
+		DT_StorageBuffer,
+		DT_UniformBufferDynamic,
+		DT_StorageBufferDynamic,
+		DT_InputAttachment
 	};
 }

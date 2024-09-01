@@ -17,7 +17,7 @@ namespace MAGE
 		{
 			SharedPtr<ModuleType> pModule = MakeShared<ModuleType>(std::forward<Args>(args)...);
 			pModule->SetOwnerApplication(this);
-			pModule->SetState(ApplicationModuleState::NeedValidation);
+			pModule->SetState(ApplicationModuleState::AMS_NeedValidation);
 			mTotalModules.push_back(pModule);
 		}
 

@@ -6,7 +6,7 @@ namespace MAGE
 {
 	enum class SamplerFilter : u8
 	{
-		Nearest,
-		Linear
+		SF_Nearest,
+		SF_Linear
 	};
 }

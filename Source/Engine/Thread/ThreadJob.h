@@ -17,9 +17,9 @@ namespace MAGE
 
 		void Execute()
 		{
-			SetState(ThreadJobState::Running);
+			SetState(ThreadJobState::TJS_Running);
 			mFunction();
-			SetState(ThreadJobState::Finished);
+			SetState(ThreadJobState::TJS_Finished);
 		}
 
 		ThreadJobState GetState() noexcept;

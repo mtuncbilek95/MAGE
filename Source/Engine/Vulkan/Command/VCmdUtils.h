@@ -18,14 +18,14 @@ namespace MAGE
 		{
 			switch (type)
 			{
-			case CmdPoolType::Graphics:
-				return GraphicsQueueType::Graphics;
-			case CmdPoolType::Compute:
-				return GraphicsQueueType::Compute;
-			case CmdPoolType::Transfer:
-				return GraphicsQueueType::Transfer;
+			case CmdPoolType::CPT_Graphics:
+				return GraphicsQueueType::GQT_Graphics;
+			case CmdPoolType::CPT_Compute:
+				return GraphicsQueueType::GQT_Compute;
+			case CmdPoolType::CPT_Transfer:
+				return GraphicsQueueType::GQT_Transfer;
 			default:
-				return GraphicsQueueType::Graphics;
+				return GraphicsQueueType::GQT_Graphics;
 			}
 		}
 
@@ -33,9 +33,9 @@ namespace MAGE
 		{
 			switch (type)
 			{
-			case GraphicsIndexType::Index16:
+			case GraphicsIndexType::GIT_Index16:
 				return VK_INDEX_TYPE_UINT16;
-			case GraphicsIndexType::Index32:
+			case GraphicsIndexType::GIT_Index32:
 				return VK_INDEX_TYPE_UINT32;
 			default:
 				return VK_INDEX_TYPE_UINT16;
@@ -46,15 +46,15 @@ namespace MAGE
 		{
 			switch (flags)
 			{
-			case ResolveModeFlags::None:
+			case ResolveModeFlags::RMF_None:
 				return VK_RESOLVE_MODE_NONE;
-			case ResolveModeFlags::SampleZero:
+			case ResolveModeFlags::RMF_SampleZero:
 				return VK_RESOLVE_MODE_SAMPLE_ZERO_BIT;
-			case ResolveModeFlags::Average:
+			case ResolveModeFlags::RMF_Average:
 				return VK_RESOLVE_MODE_AVERAGE_BIT;
-			case ResolveModeFlags::Min:
+			case ResolveModeFlags::RMF_Min:
 				return VK_RESOLVE_MODE_MIN_BIT;
-			case ResolveModeFlags::Max:
+			case ResolveModeFlags::RMF_Max:
 				return VK_RESOLVE_MODE_MAX_BIT;
 			default:
 				return VK_RESOLVE_MODE_NONE;
@@ -65,11 +65,11 @@ namespace MAGE
 		{
 			switch (op)
 			{
-			case AttachmentLoadOperation::Load:
+			case AttachmentLoadOperation::ALO_Load:
 				return VK_ATTACHMENT_LOAD_OP_LOAD;
-			case AttachmentLoadOperation::Clear:
+			case AttachmentLoadOperation::ALO_Clear:
 				return VK_ATTACHMENT_LOAD_OP_CLEAR;
-			case AttachmentLoadOperation::DontCare:
+			case AttachmentLoadOperation::ALO_DontCare:
 				return VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 			default:
 				return VK_ATTACHMENT_LOAD_OP_LOAD;
@@ -80,9 +80,9 @@ namespace MAGE
 		{
 			switch (op)
 			{
-			case AttachmentStoreOperation::Store:
+			case AttachmentStoreOperation::ASO_Store:
 				return VK_ATTACHMENT_STORE_OP_STORE;
-			case AttachmentStoreOperation::DontCare:
+			case AttachmentStoreOperation::ASO_DontCare:
 				return VK_ATTACHMENT_STORE_OP_DONT_CARE;
 			default:
 				return VK_ATTACHMENT_STORE_OP_STORE;

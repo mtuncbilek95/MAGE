@@ -263,13 +263,13 @@ namespace MAGE
 
 		switch (desc.SourceQueue)
 		{
-		case GraphicsQueueType::Graphics:
+		case GraphicsQueueType::GQT_Graphics:
 			srcIndex = pDevice->GetGraphicsQueueFamilyIndex();
 			break;
-		case GraphicsQueueType::Compute:
+		case GraphicsQueueType::GQT_Compute:
 			srcIndex = pDevice->GetComputeQueueFamilyIndex();
 			break;
-		case GraphicsQueueType::Transfer:
+		case GraphicsQueueType::GQT_Transfer:
 			srcIndex = pDevice->GetTransferQueueFamilyIndex();
 			break;
 		default:
@@ -279,13 +279,13 @@ namespace MAGE
 
 		switch (desc.DestinationQueue)
 		{
-		case GraphicsQueueType::Graphics:
+		case GraphicsQueueType::GQT_Graphics:
 			dstIndex = pDevice->GetGraphicsQueueFamilyIndex();
 			break;
-		case GraphicsQueueType::Compute:
+		case GraphicsQueueType::GQT_Compute:
 			dstIndex = pDevice->GetComputeQueueFamilyIndex();
 			break;
-		case GraphicsQueueType::Transfer:
+		case GraphicsQueueType::GQT_Transfer:
 			dstIndex = pDevice->GetTransferQueueFamilyIndex();
 			break;
 		default:
@@ -320,13 +320,13 @@ namespace MAGE
 
 		switch (desc.SourceQueue)
 		{
-		case GraphicsQueueType::Graphics:
+		case GraphicsQueueType::GQT_Graphics:
 			srcIndex = pDevice->GetGraphicsQueueFamilyIndex();
 			break;
-		case GraphicsQueueType::Compute:
+		case GraphicsQueueType::GQT_Compute:
 			srcIndex = pDevice->GetComputeQueueFamilyIndex();
 			break;
-		case GraphicsQueueType::Transfer:
+		case GraphicsQueueType::GQT_Transfer:
 			srcIndex = pDevice->GetTransferQueueFamilyIndex();
 			break;
 		default:
@@ -336,13 +336,13 @@ namespace MAGE
 
 		switch (desc.DestinationQueue)
 		{
-		case GraphicsQueueType::Graphics:
+		case GraphicsQueueType::GQT_Graphics:
 			dstIndex = pDevice->GetGraphicsQueueFamilyIndex();
 			break;
-		case GraphicsQueueType::Compute:
+		case GraphicsQueueType::GQT_Compute:
 			dstIndex = pDevice->GetComputeQueueFamilyIndex();
 			break;
-		case GraphicsQueueType::Transfer:
+		case GraphicsQueueType::GQT_Transfer:
 			dstIndex = pDevice->GetTransferQueueFamilyIndex();
 			break;
 		default:

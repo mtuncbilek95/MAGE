@@ -7,14 +7,14 @@ namespace MAGE
 {
 	enum class WindowEventType
 	{
-		None,
-		WindowClosed,
-		WindowMoved,
-		WindowResized,
-		WindowFocused,
-		WindowLostFocus,
-		WindowMinimized,
-		WindowMaximized,
-		FileDropped
+		WET_None,
+		WET_WindowClosed,
+		WET_WindowMoved,
+		WET_WindowResized,
+		WET_WindowFocused,
+		WET_WindowLostFocus,
+		WET_WindowMinimized,
+		WET_WindowMaximized,
+		WET_FileDropped
 	};
 }

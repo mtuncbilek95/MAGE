@@ -6,9 +6,9 @@ namespace MAGE
 {
 	enum class TextureType : u8
 	{
-		Undefined,
-		Texture1D,
-		Texture2D,
-		Texture3D
+		TT_Undefined,
+		TT_Texture1D,
+		TT_Texture2D,
+		TT_Texture3D
 	};
 }

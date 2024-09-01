@@ -138,8 +138,8 @@ namespace MAGE
 			textureDesc.MipLevels = 1;
 			textureDesc.ImageFormat = desc.ImageFormat;
 			textureDesc.ImageSize = { GetImageSize().x, GetImageSize().y, 1 };
-			textureDesc.Samples = SampleCount::Sample1;
-			textureDesc.ImageType = TextureType::Texture2D;
+			textureDesc.Samples = SampleCount::SC_Sample1;
+			textureDesc.ImageType = TextureType::TT_Texture2D;
 			textureDesc.UsageFlags = desc.TextureUsage;
 
 			auto pTexture = GetOwnerDevice()->GetAs<VDevice>()->CreateSwapchainImage(textureDesc, images[i]);
@@ -152,8 +152,8 @@ namespace MAGE
 			viewDesc.ArrayCount = 1;
 			viewDesc.MipLevel = 0;
 			viewDesc.MipCount = 1;
-			viewDesc.AspectFlags = TextureAspectFlags::ColorAspect;
-			viewDesc.ViewType = TextureViewType::Texture2D;
+			viewDesc.AspectFlags = TextureAspectFlags::TAF_ColorAspect;
+			viewDesc.ViewType = TextureViewType::TVT_Texture2D;
 
 			auto pTextureView = GetOwnerDevice()->GetAs<VDevice>()->CreateSwapchainImageView(viewDesc);
 			mImageViews.push_back(pTextureView);
@@ -318,8 +318,8 @@ namespace MAGE
 			textureDesc.MipLevels = 1;
 			textureDesc.ImageFormat = GetImageFormat();
 			textureDesc.ImageSize = { GetImageSize().x, GetImageSize().y, 1 };
-			textureDesc.Samples = SampleCount::Sample1;
-			textureDesc.ImageType = TextureType::Texture2D;
+			textureDesc.Samples = SampleCount::SC_Sample1;
+			textureDesc.ImageType = TextureType::TT_Texture2D;
 			textureDesc.UsageFlags = GetTextureUsage();
 
 			auto pTexture = GetOwnerDevice()->GetAs<VDevice>()->CreateSwapchainImage(textureDesc, images[i]);
@@ -332,8 +332,8 @@ namespace MAGE
 			viewDesc.ArrayCount = 1;
 			viewDesc.MipLevel = 0;
 			viewDesc.MipCount = 1;
-			viewDesc.AspectFlags = TextureAspectFlags::ColorAspect;
-			viewDesc.ViewType = TextureViewType::Texture2D;
+			viewDesc.AspectFlags = TextureAspectFlags::TAF_ColorAspect;
+			viewDesc.ViewType = TextureViewType::TVT_Texture2D;
 
 			auto pTextureView = GetOwnerDevice()->GetAs<VDevice>()->CreateSwapchainImageView(viewDesc);
 			mImageViews.push_back(pTextureView);

@@ -6,8 +6,8 @@ namespace MAGE
 {
 	enum class CmdPoolType : u8
 	{
-		Graphics = 1,
-		Compute = 2,
-		Transfer = 4
+		CPT_Graphics = 1,
+		CPT_Compute = 2,
+		CPT_Transfer = 4
 	};
 }

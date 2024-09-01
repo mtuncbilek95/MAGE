@@ -5,13 +5,13 @@ namespace MAGE
 	enum class WorkerThreadPriority
 	{
 #if defined(MAGE_WINDOWS)
-		Idle = -15,
-		Lowest = -2,
-		BelowNormal = -1,
-		Normal = 0,
-		AboveNormal = 1,
-		Highest = 2,
-		Realtime = 15
+		WTP_Idle = -15,
+		WTP_Lowest = -2,
+		WTP_BelowNormal = -1,
+		WTP_Normal = 0,
+		WTP_AboveNormal = 1,
+		WTP_Highest = 2,
+		WTP_Realtime = 15
 #endif
 	};
 }

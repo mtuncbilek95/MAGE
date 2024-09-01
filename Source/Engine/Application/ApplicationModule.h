@@ -34,7 +34,7 @@ namespace MAGE
 
 	private:
 		Application* mOwnerApp;
-		ApplicationModuleState mState = ApplicationModuleState::NeedValidation;
+		ApplicationModuleState mState = ApplicationModuleState::AMS_NeedValidation;
 		String mModuleName;
 	};
 }

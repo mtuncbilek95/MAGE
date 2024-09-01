@@ -6,8 +6,8 @@ namespace MAGE
 {
 	enum class AttachmentLoadOperation : u8
 	{
-		Load,
-		Clear,
-		DontCare
+		ALO_Load,
+		ALO_Clear,
+		ALO_DontCare
 	};
 }

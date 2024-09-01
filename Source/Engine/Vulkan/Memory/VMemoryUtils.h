@@ -14,13 +14,13 @@ namespace MAGE
 		{
 			VkMemoryPropertyFlags flags = 0;
 
-			if (memoryType & GraphicsMemoryType::DeviceLocal)
+			if (memoryType & GraphicsMemoryType::GMT_DeviceLocal)
 				flags |= VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-			if (memoryType & GraphicsMemoryType::HostVisible)
+			if (memoryType & GraphicsMemoryType::GMT_HostVisible)
 				flags |= VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT;
-			if (memoryType & GraphicsMemoryType::HostCoherent)
+			if (memoryType & GraphicsMemoryType::GMT_HostCoherent)
 				flags |= VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-			if (memoryType & GraphicsMemoryType::HostCached)
+			if (memoryType & GraphicsMemoryType::GMT_HostCached)
 				flags |= VK_MEMORY_PROPERTY_HOST_CACHED_BIT;
 
 			return flags;
@@ -30,40 +30,40 @@ namespace MAGE
 		{
             VkAccessFlags flagsOut = VkAccessFlags();
 
-            if (flags & GraphicsMemoryAccessFlags::Unknown)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_Unknown)
                 return VK_ACCESS_NONE;
 
-            if (flags & GraphicsMemoryAccessFlags::IndexRead)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_IndexRead)
                 flagsOut |= VK_ACCESS_INDEX_READ_BIT;
-            if (flags & GraphicsMemoryAccessFlags::VertexAttributeRead)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_VertexAttributeRead)
                 flagsOut |= VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT;
-            if (flags & GraphicsMemoryAccessFlags::UniformRead)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_UniformRead)
                 flagsOut |= VK_ACCESS_UNIFORM_READ_BIT;
-            if (flags & GraphicsMemoryAccessFlags::InputAttachmentRead)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_InputAttachmentRead)
                 flagsOut |= VK_ACCESS_INPUT_ATTACHMENT_READ_BIT;
-            if (flags & GraphicsMemoryAccessFlags::ShaderRead)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_ShaderRead)
                 flagsOut |= VK_ACCESS_SHADER_READ_BIT;
-            if (flags & GraphicsMemoryAccessFlags::ShaderWrite)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_ShaderWrite)
                 flagsOut |= VK_ACCESS_SHADER_WRITE_BIT;
-            if (flags & GraphicsMemoryAccessFlags::ColorAttachmentRead)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_ColorAttachmentRead)
                 flagsOut |= VK_ACCESS_COLOR_ATTACHMENT_READ_BIT;
-            if (flags & GraphicsMemoryAccessFlags::ColorAttachmentWrite)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_ColorAttachmentWrite)
                 flagsOut |= VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-            if (flags & GraphicsMemoryAccessFlags::DepthStencilAttachmentRead)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_DepthStencilAttachmentRead)
                 flagsOut |= VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT;
-            if (flags & GraphicsMemoryAccessFlags::DepthStencilAttachmentWrite)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_DepthStencilAttachmentWrite)
                 flagsOut |= VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
-            if (flags & GraphicsMemoryAccessFlags::TransferRead)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_TransferRead)
                 flagsOut |= VK_ACCESS_TRANSFER_READ_BIT;
-            if (flags & GraphicsMemoryAccessFlags::TransferWrite)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_TransferWrite)
                 flagsOut |= VK_ACCESS_TRANSFER_WRITE_BIT;
-            if (flags & GraphicsMemoryAccessFlags::HostRead)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_HostRead)
                 flagsOut |= VK_ACCESS_HOST_READ_BIT;
-            if (flags & GraphicsMemoryAccessFlags::HostWrite)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_HostWrite)
                 flagsOut |= VK_ACCESS_HOST_WRITE_BIT;
-            if (flags & GraphicsMemoryAccessFlags::MemoryRead)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_MemoryRead)
                 flagsOut |= VK_ACCESS_MEMORY_READ_BIT;
-            if (flags & GraphicsMemoryAccessFlags::MemoryWrite)
+            if (flags & GraphicsMemoryAccessFlags::GMAF_MemoryWrite)
                 flagsOut |= VK_ACCESS_MEMORY_WRITE_BIT;
 
             return flagsOut;

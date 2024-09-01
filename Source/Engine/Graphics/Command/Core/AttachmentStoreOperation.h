@@ -6,8 +6,8 @@ namespace MAGE
 {
 	enum class AttachmentStoreOperation : u8
 	{
-		Store,
-		DontCare,
-		None
+		ASO_Store,
+		ASO_DontCare,
+		ASO_None
 	};
 }

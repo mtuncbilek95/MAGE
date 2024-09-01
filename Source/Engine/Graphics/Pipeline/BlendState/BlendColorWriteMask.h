@@ -6,11 +6,11 @@ namespace MAGE
 {
     enum class BlendColorWriteMask : u8
     {
-        Red = 1,
-        Green = 2,
-        Blue = 4,
-        Alpha = 8,
-        All = Red | Green | Blue | Alpha
+        CWM_Red = 1 << 0,
+        CWM_Green = 1 << 1,
+        CWM_Blue = 1 << 2,
+        CWM_Alpha = 1 << 3,
+        CWM_All = 1 << 4
     };
 
     GENERATE_ENUM_FLAG(BlendColorWriteMask, u8);

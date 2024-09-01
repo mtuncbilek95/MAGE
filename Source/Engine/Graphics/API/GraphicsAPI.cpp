@@ -20,9 +20,9 @@ namespace MAGE
 	{
 		mDevice = MakeShared<VDevice>(mInstance->GetAs<VInstance>());
 
-		mGraphicsQueue = mDevice->CreateQueue({ GraphicsQueueType::Graphics, mDevice->GetAs<VDevice>()->GetGraphicsQueueFamilyIndex() });
-		mComputeQueue = mDevice->CreateQueue({ GraphicsQueueType::Compute, mDevice->GetAs<VDevice>()->GetComputeQueueFamilyIndex() });
-		mTransferQueue = mDevice->CreateQueue({ GraphicsQueueType::Transfer, mDevice->GetAs<VDevice>()->GetTransferQueueFamilyIndex() });
+		mGraphicsQueue = mDevice->CreateQueue({ GraphicsQueueType::GQT_Graphics, mDevice->GetAs<VDevice>()->GetGraphicsQueueFamilyIndex() });
+		mComputeQueue = mDevice->CreateQueue({ GraphicsQueueType::GQT_Compute, mDevice->GetAs<VDevice>()->GetComputeQueueFamilyIndex() });
+		mTransferQueue = mDevice->CreateQueue({ GraphicsQueueType::GQT_Transfer, mDevice->GetAs<VDevice>()->GetTransferQueueFamilyIndex() });
 
 		return mDevice;
 	}
@@ -36,7 +36,7 @@ namespace MAGE
 
 		// If no memory chunk has enough space, create a new one
 		u64 newSize = requestedSize > DEFAULT_MEMORY_SIZE ? requestedSize : DEFAULT_MEMORY_SIZE;
-		SharedPtr<GraphicsMemory> newMemory = mDevice->CreateMemory({ GraphicsMemoryType::DeviceLocal, newSize });
+		SharedPtr<GraphicsMemory> newMemory = mDevice->CreateMemory({ GraphicsMemoryType::GMT_DeviceLocal, newSize });
 		mDeviceMemChunks.push_back(newMemory);
 		return newMemory.get();
 	}
@@ -50,7 +50,7 @@ namespace MAGE
 
 		// If no memory chunk has enough space, create a new one
 		u64 newSize = requestedSize > DEFAULT_MEMORY_SIZE ? requestedSize : DEFAULT_MEMORY_SIZE;
-		SharedPtr<GraphicsMemory> newMemory = mDevice->CreateMemory({ GraphicsMemoryType::HostVisible, newSize });
+		SharedPtr<GraphicsMemory> newMemory = mDevice->CreateMemory({ GraphicsMemoryType::GMT_HostVisible, newSize });
 		mHostMemChunks.push_back(newMemory);
 		return newMemory.get();
 	}

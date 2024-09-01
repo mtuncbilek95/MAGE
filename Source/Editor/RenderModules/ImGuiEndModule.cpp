@@ -87,23 +87,23 @@ namespace MAGE
 		TextureImageBarrier postRenderBarrier = {};
 		postRenderBarrier.ArrayIndex = 0;
 		postRenderBarrier.MipIndex = 0;
-		postRenderBarrier.SourceAccessMask = GraphicsMemoryAccessFlags::ColorAttachmentWrite;
-		postRenderBarrier.SourceQueue = GraphicsQueueType::Graphics;
-		postRenderBarrier.SourceStageFlags = PipelineStageFlags::ColorAttachmentOutput;
-		postRenderBarrier.OldLayout = TextureLayout::ColorAttachment;
+		postRenderBarrier.SourceAccessMask = GraphicsMemoryAccessFlags::GMAF_ColorAttachmentWrite;
+		postRenderBarrier.SourceQueue = GraphicsQueueType::GQT_Graphics;
+		postRenderBarrier.SourceStageFlags = PipelineStageFlags::PSF_ColorAttachmentOutput;
+		postRenderBarrier.OldLayout = TextureLayout::TL_ColorAttachment;
 
-		postRenderBarrier.DestinationAccessMask = GraphicsMemoryAccessFlags::MemoryRead;
-		postRenderBarrier.DestinationQueue = GraphicsQueueType::Graphics;
-		postRenderBarrier.DestinationStageFlags = PipelineStageFlags::BottomOfPipe;
-		postRenderBarrier.NewLayout = TextureLayout::Present;
+		postRenderBarrier.DestinationAccessMask = GraphicsMemoryAccessFlags::GMAF_MemoryRead;
+		postRenderBarrier.DestinationQueue = GraphicsQueueType::GQT_Graphics;
+		postRenderBarrier.DestinationStageFlags = PipelineStageFlags::PSF_BottomOfPipe;
+		postRenderBarrier.NewLayout = TextureLayout::TL_Present;
 
-		postRenderBarrier.AspectMask = TextureAspectFlags::ColorAspect;
+		postRenderBarrier.AspectMask = TextureAspectFlags::TAF_ColorAspect;
 
 		mCmdBuffer->SetTextureBarrier(mSwapchain->GetImage(index), postRenderBarrier);
 
 		mCmdBuffer->EndRecording();
 
-		auto flag = PipelineStageFlags::ColorAttachmentOutput;
+		auto flag = PipelineStageFlags::PSF_ColorAttachmentOutput;
 		mDevice->SubmitQueue(mGraphicsQueue, mCmdBuffer, 1, nullptr, 0, nullptr, 0, mFence.get(), &flag);
 		mDevice->WaitFence(mFence.get());
 		mDevice->ResetFence(mFence.get());

@@ -6,10 +6,10 @@ namespace MAGE
 {
     enum class BlendOperation : u8
     {
-        Add,
-        Subtract,
-        Max,
-        Min,
-        ReverseSubtract
+        BO_Add,
+        BO_Subtract,
+        BO_Max,
+        BO_Min,
+        BO_ReverseSubtract
     };
 }

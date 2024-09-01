@@ -13,13 +13,13 @@ namespace MAGE
 		{
 			switch (mode)
 			{
-			case PresentMode::Immediate:
+			case PresentMode::PM_Immediate:
 				return VK_PRESENT_MODE_IMMEDIATE_KHR;
-			case PresentMode::VSyncImmediate:
+			case PresentMode::PM_VSyncImmediate:
 				return VK_PRESENT_MODE_FIFO_RELAXED_KHR;
-			case PresentMode::VSyncQueued:
+			case PresentMode::PM_VSyncQueued:
 				return VK_PRESENT_MODE_MAILBOX_KHR;
-			case PresentMode::FullVSync:
+			case PresentMode::PM_FullVSync:
 				return VK_PRESENT_MODE_FIFO_KHR;
 			default:
 				return VK_PRESENT_MODE_FIFO_KHR;

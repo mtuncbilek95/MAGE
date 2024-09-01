@@ -6,8 +6,8 @@ namespace MAGE
 {
 	enum class GraphicsQueueType
 	{
-		Graphics,
-		Compute,
-		Transfer
+		GQT_Graphics,
+		GQT_Compute,
+		GQT_Transfer
 	};
 }

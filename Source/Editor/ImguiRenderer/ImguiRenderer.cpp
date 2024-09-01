@@ -25,17 +25,17 @@ namespace MAGE
 
 		DescriptorPoolDesc poolDesc = {};
 		poolDesc.MaxSets = 1000;
-		poolDesc.Flags = DescriptorPoolFlags::FreeDescriptorSet;
+		poolDesc.Flags = DescriptorPoolFlags::DPF_FreeDescriptorSet;
 		poolDesc.PoolSizes = {
-			{DescriptorType::CombinedImageSampler, 1000},
-			{DescriptorType::UniformBuffer, 1000},
-			{DescriptorType::StorageBuffer, 1000},
-			{DescriptorType::StorageImage, 1000},
-			{DescriptorType::StorageTexelBuffer, 1000},
-			{DescriptorType::UniformTexelBuffer, 1000},
-			{DescriptorType::InputAttachment, 1000},
-			{DescriptorType::SampledImage, 1000},
-			{DescriptorType::Sampler, 1000}
+			{DescriptorType::DT_CombinedImageSampler, 1000},
+			{DescriptorType::DT_UniformBuffer, 1000},
+			{DescriptorType::DT_StorageBuffer, 1000},
+			{DescriptorType::DT_StorageImage, 1000},
+			{DescriptorType::DT_StorageTexelBuffer, 1000},
+			{DescriptorType::DT_UniformTexelBuffer, 1000},
+			{DescriptorType::DT_InputAttachment, 1000},
+			{DescriptorType::DT_SampledImage, 1000},
+			{DescriptorType::DT_Sampler, 1000}
 		};
 		
 		mDescriptorPool = device->CreateDescriptorPool(poolDesc);
@@ -107,7 +107,7 @@ namespace MAGE
 		ImGui_ImplVulkan_Init(&initInfo);
 
 		CmdPoolDesc poolDesc = {};
-		poolDesc.PoolType = CmdPoolType::Graphics;
+		poolDesc.PoolType = CmdPoolType::CPT_Graphics;
 		mCmdPool = device->CreateCommandPool(poolDesc);
 
 		CmdBufferDesc bufferDesc = {};

@@ -6,24 +6,24 @@ namespace MAGE
 {
     enum class BlendFactor : u8
     {
-        Zero,
-        One,
-        SrcColor,
-        OneMinusSrcColor,
-        DstColor,
-        OneMinusDstColor,
-        SrcAlpha,
-        OneMinusSrcAlpha,
-        DstAlpha,
-        OneMinusDstAlpha,
-        ConstantColor,
-        OneMinusConstantColor,
-        ConstantAlpha,
-        OneMinusConstantAlpha,
-        SrcAlphaSat,
-        Src1Color,
-        OneMinusSrc1Color,
-        Src1Alpha,
-        OneMinusSrc1Alpha
+        BF_Zero,
+        BF_One,
+        BF_SrcColor,
+        BF_OneMinusSrcColor,
+        BF_DstColor,
+        BF_OneMinusDstColor,
+        BF_SrcAlpha,
+        BF_OneMinusSrcAlpha,
+        BF_DstAlpha,
+        BF_OneMinusDstAlpha,
+        BF_ConstantColor,
+        BF_OneMinusConstantColor,
+        BF_ConstantAlpha,
+        BF_OneMinusConstantAlpha,
+        BF_SrcAlphaSat,
+        BF_Src1Color,
+        BF_OneMinusSrc1Color,
+        BF_Src1Alpha,
+        BF_OneMinusSrc1Alpha
     };
 }

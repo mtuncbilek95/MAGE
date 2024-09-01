@@ -6,8 +6,8 @@ namespace MAGE
 {
 	enum class PolygonMode : u8
 	{
-		Fill,
-		Line,
-		Point
+		PM_Fill,
+		PM_Line,
+		PM_Point
 	};
 }

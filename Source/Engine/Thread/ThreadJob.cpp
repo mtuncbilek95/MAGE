@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	ThreadJob::ThreadJob(VoidFunction job) : mFunction(job), mState(ThreadJobState::Idle)
+	ThreadJob::ThreadJob(VoidFunction job) : mFunction(job), mState(ThreadJobState::TJS_Idle)
 	{
 		mCriticalSection = PlatformCriticalSection::CreateCS();
 	}

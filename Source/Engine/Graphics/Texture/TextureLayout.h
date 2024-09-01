@@ -6,14 +6,14 @@ namespace MAGE
 {
 	enum class TextureLayout : u16
 	{
-		Undefined,
-		General,
-		ColorAttachment,
-		DepthStencilAttachment,
-		ShaderReadOnly,
-		TransferSource,
-		TransferDestination,
-		DepthAttachment,
-		Present
+		TL_Undefined,
+		TL_General,
+		TL_ColorAttachment,
+		TL_DepthStencilAttachment,
+		TL_ShaderReadOnly,
+		TL_TransferSource,
+		TL_TransferDestination,
+		TL_DepthAttachment,
+		TL_Present
 	};
 }

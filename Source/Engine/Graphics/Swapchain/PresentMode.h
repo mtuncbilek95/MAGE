@@ -6,9 +6,9 @@ namespace MAGE
 {
 	enum class PresentMode : u8
 	{
-		Immediate = 0, // VK_IMMEDIATE
-		VSyncImmediate = 1, // VK_FIFO_RELAXED
-		VSyncQueued = 2, // VK_MAILBOX
-		FullVSync = 3// VK_FIFO
+		PM_Immediate = 0, // VK_IMMEDIATE
+		PM_VSyncImmediate = 1, // VK_FIFO_RELAXED
+		PM_VSyncQueued = 2, // VK_MAILBOX
+		PM_FullVSync = 3// VK_FIFO
 	};
 }

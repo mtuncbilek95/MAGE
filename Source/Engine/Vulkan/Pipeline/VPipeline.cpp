@@ -117,7 +117,7 @@ namespace MAGE
 		rasterizer.depthBiasSlopeFactor = desc.RasterizerState.DepthBiasSlope;
 
 		// MultisampleState
-		if (desc.Multisample.bSampleShadingEnabled && desc.Multisample.Samples != SampleCount::Sample1)
+		if (desc.Multisample.bSampleShadingEnabled && desc.Multisample.Samples != SampleCount::SC_Sample1)
 			spdlog::warn("If you want to enable sample shading, you must set the sample count to something else rather than Sample1!");
 		VkPipelineMultisampleStateCreateInfo multisampling = {};
 		multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;

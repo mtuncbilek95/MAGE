@@ -6,11 +6,11 @@ namespace MAGE
 {
     enum class InputElementSemantic : u8
     {
-        Position,
-        Normal,
-        Tangent,
-        BiTangent,
-        Color,
-        TexCoord
+        IES_Position,
+        IES_Normal,
+        IES_Tangent,
+        IES_BiTangent,
+        IES_Color,
+        IES_TexCoord
     };
 }

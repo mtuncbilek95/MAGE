@@ -4,8 +4,8 @@ namespace MAGE
 {
 	enum class WindowMode
 	{
-		Windowed = 0,
-		Borderless = 1,
-		Fullscreen = 2
+		WM_Windowed = 0,
+		WM_Borderless = 1,
+		WM_Fullscreen = 2
 	};
 }

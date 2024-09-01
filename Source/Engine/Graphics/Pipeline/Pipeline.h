@@ -15,7 +15,7 @@ namespace MAGE
             mRasterizerState(desc.RasterizerState), mResourceLayout(desc.ResourceLayout), mGraphicsShaders(desc.GraphicsShaders), 
             mPushConstants(desc.PushConstants), mViewport(desc.Viewport), mScissor(desc.Scissor), mColorAttachmentCount(desc.ColorAttachmentCount),
             mColorAttachmentFormats(desc.ColorAttachmentFormats), mDepthAttachmentFormat(desc.DepthAttachmentFormat), 
-            mStencilAttachmentFormat(desc.StencilAttachmentFormat), mBindPoint(PipelineBindPoint::Graphics) {}
+            mStencilAttachmentFormat(desc.StencilAttachmentFormat), mBindPoint(PipelineBindPoint::PBP_Graphics) {}
 		virtual ~Pipeline() override = default;
 
         const BlendStateDesc& GetBlendState() const { return mBlendState; }

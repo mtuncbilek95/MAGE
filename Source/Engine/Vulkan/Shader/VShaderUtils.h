@@ -13,17 +13,17 @@ namespace MAGE
 		{
 			VkShaderStageFlags vkStage = 0;
 
-			if (stage & ShaderStage::Vertex)
+			if (stage & ShaderStage::SS_Vertex)
 				vkStage |= VK_SHADER_STAGE_VERTEX_BIT;
-			if (stage & ShaderStage::TessellationControl)
+			if (stage & ShaderStage::SS_TessellationControl)
 				vkStage |= VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
-			if (stage & ShaderStage::TessellationEvaluation)
+			if (stage & ShaderStage::SS_TessellationEvaluation)
 				vkStage |= VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
-			if (stage & ShaderStage::Geometry)
+			if (stage & ShaderStage::SS_Geometry)
 				vkStage |= VK_SHADER_STAGE_GEOMETRY_BIT;
-			if (stage & ShaderStage::Fragment)
+			if (stage & ShaderStage::SS_Fragment)
 				vkStage |= VK_SHADER_STAGE_FRAGMENT_BIT;
-			if (stage & ShaderStage::Compute)
+			if (stage & ShaderStage::SS_Compute)
 				vkStage |= VK_SHADER_STAGE_COMPUTE_BIT;
 
 			return vkStage;
@@ -33,17 +33,17 @@ namespace MAGE
 		{
 			switch (stage)
 			{
-			case ShaderStage::Vertex:
+			case ShaderStage::SS_Vertex:
 				return VK_SHADER_STAGE_VERTEX_BIT;
-			case ShaderStage::TessellationControl:
+			case ShaderStage::SS_TessellationControl:
 				return VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
-			case ShaderStage::TessellationEvaluation:
+			case ShaderStage::SS_TessellationEvaluation:
 				return VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
-			case ShaderStage::Geometry:
+			case ShaderStage::SS_Geometry:
 				return VK_SHADER_STAGE_GEOMETRY_BIT;
-			case ShaderStage::Fragment:
+			case ShaderStage::SS_Fragment:
 				return VK_SHADER_STAGE_FRAGMENT_BIT;
-			case ShaderStage::Compute:
+			case ShaderStage::SS_Compute:
 				return VK_SHADER_STAGE_COMPUTE_BIT;
 			default:
 				return VK_SHADER_STAGE_VERTEX_BIT;

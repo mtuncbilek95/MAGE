@@ -4,8 +4,8 @@ namespace MAGE
 {
 	enum class ThreadJobState
 	{
-		Idle,
-		Running,
-		Finished
+		TJS_Idle,
+		TJS_Running,
+		TJS_Finished
 	};
 }

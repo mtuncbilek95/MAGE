@@ -26,7 +26,7 @@ namespace MAGE
 
 		Monitor primaryMonitor = PlatformMonitor::GetPrimaryMonitor();
 
-		if (mWindowMode == WindowMode::Windowed)
+		if (mWindowMode == WindowMode::WM_Windowed)
 		{
 			glfwSetWindowAttrib(mGLFWHandle, GLFW_DECORATED, GLFW_TRUE);
 			glfwSetWindowAttrib(mGLFWHandle, GLFW_RESIZABLE, GLFW_TRUE);

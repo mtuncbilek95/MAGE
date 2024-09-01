@@ -6,12 +6,12 @@ namespace MAGE
 {
 	enum class ShaderStage : u8
 	{
-		Vertex = 1,
-		TessellationControl = 1 << 1,
-		TessellationEvaluation = 1 << 2,
-		Geometry = 1 << 3,
-		Fragment = 1 << 4,
-		Compute = 1 << 5
+		SS_Vertex = 1,
+		SS_TessellationControl = 1 << 1,
+		SS_TessellationEvaluation = 1 << 2,
+		SS_Geometry = 1 << 3,
+		SS_Fragment = 1 << 4,
+		SS_Compute = 1 << 5
 	};
 
 	GENERATE_ENUM_FLAG(ShaderStage, u8);

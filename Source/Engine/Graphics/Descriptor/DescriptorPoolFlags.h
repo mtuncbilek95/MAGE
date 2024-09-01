@@ -6,12 +6,12 @@ namespace MAGE
 {
 	enum class DescriptorPoolFlags : u8
 	{
-		None = 0,
-		FreeDescriptorSet = 1 << 0,
-		UpdateAfterBind = 1 << 1,
-		HostOnly = 1 << 2,
-		OverallAllocationSets = 1 << 3,
-		OverallAllocationPool = 1 << 4
+		DPF_None = 0,
+		DPF_FreeDescriptorSet = 1 << 0,
+		DPF_UpdateAfterBind = 1 << 1,
+		DPF_HostOnly = 1 << 2,
+		DPF_OverallAllocationSets = 1 << 3,
+		DPF_OverallAllocationPool = 1 << 4
 	};
 
 	GENERATE_ENUM_FLAG(DescriptorPoolFlags, u8);

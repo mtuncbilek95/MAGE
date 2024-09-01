@@ -6,8 +6,8 @@ namespace MAGE
 {
 	enum class PipelineBindPoint : u8
 	{
-		Graphics,
-		Compute,
-		RayTracing
+		PBP_Graphics,
+		PBP_Compute,
+		PBP_RayTracing
 	};
 }

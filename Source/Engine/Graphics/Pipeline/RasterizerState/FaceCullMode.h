@@ -6,9 +6,9 @@ namespace MAGE
 {
 	enum class FaceCullMode : u8
 	{
-		None = 1,
-		Front = 2,
-		Back = 4,
-		All = Front | Back
+		FCM_None = 1,
+		FCM_Front = 2,
+		FCM_Back = 4,
+		FCM_All = 8
 	};
 }

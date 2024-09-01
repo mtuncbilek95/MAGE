@@ -17,7 +17,7 @@ namespace MAGE
 	class WorkerThread
 	{
 	public:
-		WorkerThread(WorkerThreadPriority priority = WorkerThreadPriority::Normal);
+		WorkerThread(WorkerThreadPriority priority = WorkerThreadPriority::WTP_Normal);
 		~WorkerThread();
 
 		void AddJob(VoidFunction job);

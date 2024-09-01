@@ -16,8 +16,8 @@ namespace MAGE
 		{
 			switch (filter)
 			{
-			case SamplerFilter::Nearest: return VK_FILTER_NEAREST;
-			case SamplerFilter::Linear: return VK_FILTER_LINEAR;
+			case SamplerFilter::SF_Nearest: return VK_FILTER_NEAREST;
+			case SamplerFilter::SF_Linear: return VK_FILTER_LINEAR;
 			default: return VK_FILTER_MAX_ENUM;
 			}
 		}
@@ -26,8 +26,8 @@ namespace MAGE
 		{
 			switch (mode)
 			{
-			case SamplerMapMode::Nearest: return VK_SAMPLER_MIPMAP_MODE_NEAREST;
-			case SamplerMapMode::Linear: return VK_SAMPLER_MIPMAP_MODE_LINEAR;
+			case SamplerMapMode::SMM_Nearest: return VK_SAMPLER_MIPMAP_MODE_NEAREST;
+			case SamplerMapMode::SMM_Linear: return VK_SAMPLER_MIPMAP_MODE_LINEAR;
 			default: return VK_SAMPLER_MIPMAP_MODE_MAX_ENUM;
 			}
 		}
@@ -36,11 +36,11 @@ namespace MAGE
 		{
 			switch (mode)
 			{
-			case SamplerAddressMode::Repeat: return VK_SAMPLER_ADDRESS_MODE_REPEAT;
-			case SamplerAddressMode::MirroredRepeat: return VK_SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT;
-			case SamplerAddressMode::ClampToEdge: return VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-			case SamplerAddressMode::ClampToBorder: return VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER;
-			case SamplerAddressMode::MirrorClampToEdge: return VK_SAMPLER_ADDRESS_MODE_MIRROR_CLAMP_TO_EDGE;
+			case SamplerAddressMode::SAM_Repeat: return VK_SAMPLER_ADDRESS_MODE_REPEAT;
+			case SamplerAddressMode::SAM_MirroredRepeat: return VK_SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT;
+			case SamplerAddressMode::SAM_ClampToEdge: return VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+			case SamplerAddressMode::SAM_ClampToBorder: return VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER;
+			case SamplerAddressMode::SAM_MirrorClampToEdge: return VK_SAMPLER_ADDRESS_MODE_MIRROR_CLAMP_TO_EDGE;
 			default: return VK_SAMPLER_ADDRESS_MODE_MAX_ENUM;
 			}
 		}
@@ -49,9 +49,9 @@ namespace MAGE
 		{
 			switch (color)
 			{
-			case SamplerBorderColor::TransparentBlack: return VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK;
-			case SamplerBorderColor::OpaqueBlack: return VK_BORDER_COLOR_FLOAT_OPAQUE_BLACK;
-			case SamplerBorderColor::OpaqueWhite: return VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
+			case SamplerBorderColor::SBC_TransparentBlack: return VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK;
+			case SamplerBorderColor::SBC_OpaqueBlack: return VK_BORDER_COLOR_FLOAT_OPAQUE_BLACK;
+			case SamplerBorderColor::SBC_OpaqueWhite: return VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
 			default: return VK_BORDER_COLOR_MAX_ENUM;
 			}
 		}

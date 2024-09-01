@@ -6,11 +6,11 @@ namespace MAGE
 {
 	enum class TextureAspectFlags : u8
 	{
-		Undefined = 0,
-		ColorAspect = 1 << 0,
-		DepthAspect = 1 << 1,
-		StencilAspect = 1 << 2,
-		MetaAspect = 1 << 3
+		TAF_Undefined = 0,
+		TAF_ColorAspect = 1 << 0,
+		TAF_DepthAspect = 1 << 1,
+		TAF_StencilAspect = 1 << 2,
+		TAF_MetaAspect = 1 << 3
 	};
 
 	GENERATE_ENUM_FLAG(TextureAspectFlags, u8);

@@ -1,4 +1,6 @@
 # M.A.G.E
+![example event parameter](https://github.com/mtuncbilek95/MAGE/actions/workflows/windows-build.yml/badge.svg)
+
 Modern & Advanced Graphics Engine
 
 ## REQUESTED DEPENDENCIES ON LINUX

@@ -4,7 +4,7 @@
 Modern & Advanced Graphics Engine
 ## GOOD TO KNOW WHILE WORKING
 
-- The Engine is written in C++20 and uses Vulkan API for rendering (Will support DX12 in future).
+- The Engine is written in C++20 and uses Vulkan API `v1.3.290.0` for rendering (Will support DX12 in future).
 - The Engine is still in development and not ready for production.
 - Development has been suspended till the runtime reflection is available to use on this game engine.
 

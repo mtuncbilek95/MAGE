@@ -2,14 +2,6 @@
 ![example event parameter](https://github.com/mtuncbilek95/MAGE/actions/workflows/windows-build.yml/badge.svg)
 
 Modern & Advanced Graphics Engine
-
-## REQUESTED DEPENDENCIES ON LINUX
-```shell
-sudo apt update && sudo apt upgrade -y
-
-sudo apt install build-essentials g++ gcc cmake cmake-extra-modules libxi-dev libxcursor-dev libxinerama-dev libxrandr-dev waylandpp-dev libwayland-server0 libwayland-client++1 libuuid1 uuid-dev -y
-```
-
 ## GOOD TO KNOW WHILE WORKING
 
 - The Engine is written in C++20 and uses Vulkan API for rendering (Will support DX12 in future).
@@ -33,7 +25,7 @@ vice versa. This has been added to CMake with the aim of reducing macro controll
 ## IMPLEMENTED FEATURES
 - [x] Unit Test Environment (Catch2)
 - [x] Win32 Platform
-- [x] Linux Platform
+- [ ] Linux Platform
 - [x] GAL (Graphics Abstraction Layer)
 - [x] Vulkan GAL Implementation
 - [x] Application Module System
@@ -64,7 +56,10 @@ vice versa. This has been added to CMake with the aim of reducing macro controll
 - [x] Glm (Mathematic Library)
 - [x] Nlohmann (JSON Serialization)
 - [x] Magic Enum (Compile Time Enum Reflection)
+- [x] Spd Log (Immediate Logger)
+- [x] FMT (Format Configurator for Console)
 - [ ] Tracy (Frame Profiler)
+- [x] Catch2 (Unit Test Framework)
 
 ### SDK
 - [ ] FMod (Audio SDK)
@@ -73,7 +68,7 @@ vice versa. This has been added to CMake with the aim of reducing macro controll
 - [ ] Nvidia Physx (Physics SDK)
 
 ## THE AIM OF THE SYSTEM
-- Windows should work with DX12 no matter what
+- Windows should work with DX12 no matter what. But for now I don't want to burnout with DX12 so VulkanSDK continues.
 - Linux has no option other than VulkanSDK.
 - Main optimization workflow mostly will be on Windows since buying PS5 Dev Kit is not easy.
 - Current goal is not to create showreels but creating crash-less environment

@@ -1,7 +1,7 @@
 #include "PlatformTime.h"
 
 #if defined(MAGE_WINDOWS)
-#include "Engine/Win32/Win32Time.h"
+#include "Win32/Win32Time.h"
 typedef MAGE::Win32Time Dependency;
 #endif
 

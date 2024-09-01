@@ -1,7 +1,7 @@
 #include "PlatformHardware.h"
 
 #if defined(MAGE_WINDOWS)
-#include "Engine/Win32/Win32Hardware.h"
+#include "Win32/Win32Hardware.h"
 typedef MAGE::Win32Hardware Dependency;
 #endif
 

@@ -13,6 +13,4 @@ namespace MAGE
 		GBU_TransferSrc = 1 << 4,
 		GBU_TransferDst = 1 << 5,
 	};
-
-	GENERATE_ENUM_FLAG(GraphicsBufferUsage, u8);
 }

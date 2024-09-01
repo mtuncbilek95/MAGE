@@ -13,6 +13,4 @@ namespace MAGE
 		DPF_OverallAllocationSets = 1 << 3,
 		DPF_OverallAllocationPool = 1 << 4
 	};
-
-	GENERATE_ENUM_FLAG(DescriptorPoolFlags, u8);
 }

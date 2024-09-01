@@ -11,6 +11,4 @@ namespace MAGE
 		GMT_HostCoherent = 1 << 2,
 		GMT_HostCached = 1 << 3
 	};
-
-	GENERATE_ENUM_FLAG(GraphicsMemoryType, u8);
 }

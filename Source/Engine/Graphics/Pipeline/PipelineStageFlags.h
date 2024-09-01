@@ -23,6 +23,4 @@ namespace MAGE
 		PSF_AllGraphics = 1 << 14,
 		PSF_AllCommands = 1 << 15
     };
-
-    GENERATE_ENUM_FLAG(PipelineStageFlags, u32);
 }

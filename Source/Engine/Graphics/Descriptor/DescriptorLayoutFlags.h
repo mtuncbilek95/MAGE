@@ -15,6 +15,4 @@ namespace MAGE
         DLF_PerStageDescriptor = 1 << 5,
         DLF_IndirectBindable = 1 << 6,
 	};
-
-	GENERATE_ENUM_FLAG(DescriptorLayoutFlags, u8);
 }

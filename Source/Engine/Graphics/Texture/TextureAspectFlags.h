@@ -12,6 +12,4 @@ namespace MAGE
 		TAF_StencilAspect = 1 << 2,
 		TAF_MetaAspect = 1 << 3
 	};
-
-	GENERATE_ENUM_FLAG(TextureAspectFlags, u8);
 }

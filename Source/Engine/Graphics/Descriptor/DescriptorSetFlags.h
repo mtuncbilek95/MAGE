@@ -12,6 +12,4 @@ namespace MAGE
 		DSF_PartiallyBound = 1 << 2,
 		DSF_VariableDescriptorCount = 1 << 3
 	};
-
-	GENERATE_ENUM_FLAG(DescriptorSetFlags, u8);
 }

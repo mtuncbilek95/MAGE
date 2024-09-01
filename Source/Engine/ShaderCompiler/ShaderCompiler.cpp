@@ -26,10 +26,10 @@ namespace MAGE::ShaderCompiler
 		options.SetTargetEnvironment(shaderc_target_env_vulkan, shaderc_env_version_vulkan_1_3);
 
 		shaderc::PreprocessedSourceCompilationResult preResult = shaderCompiler.PreprocessGlsl(sourceCode, shaderc_glsl_infer_from_source, Entry.c_str(), options);
-		MAGE_ASSERT(preResult.GetCompilationStatus() == shaderc_compilation_status_success, "SPIRV", "Failed to process shader: %s", preResult.GetErrorMessage().c_str());
+		Helpers::MageAssert(preResult.GetCompilationStatus() == shaderc_compilation_status_success, "SPIRV", "Failed to process shader: %s", preResult.GetErrorMessage().c_str());
 
 		shaderc::CompilationResult<u32> result = shaderCompiler.CompileGlslToSpv(sourceCode, shaderc_glsl_infer_from_source, Entry.c_str(), options);
-		MAGE_ASSERT(result.GetCompilationStatus() == shaderc_compilation_status_success, "SPIRV", "Failed to compile shader: %s", result.GetErrorMessage().c_str());
+		Helpers::MageAssert(result.GetCompilationStatus() == shaderc_compilation_status_success, "SPIRV", "Failed to compile shader: %s", result.GetErrorMessage().c_str());
 
 		const u32 size = result.cend() - result.cbegin();
 		u8* data = new u8[size];

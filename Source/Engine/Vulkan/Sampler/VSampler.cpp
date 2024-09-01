@@ -28,6 +28,6 @@ namespace MAGE
 		samplerInfo.minLod = desc.MinLOD;
 		samplerInfo.maxLod = desc.MaxLOD;
 
-		MAGE_ASSERT(vkCreateSampler(mDevice, &samplerInfo, nullptr, &mSampler) == VK_SUCCESS, "VSampler", "Failed to create sampler!");
+		Helpers::MageAssert(vkCreateSampler(mDevice, &samplerInfo, nullptr, &mSampler) == VK_SUCCESS, "VSampler", "Failed to create sampler!");
 	}
 }

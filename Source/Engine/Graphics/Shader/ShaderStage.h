@@ -13,6 +13,4 @@ namespace MAGE
 		SS_Fragment = 1 << 4,
 		SS_Compute = 1 << 5
 	};
-
-	GENERATE_ENUM_FLAG(ShaderStage, u8);
 }

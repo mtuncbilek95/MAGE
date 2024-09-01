@@ -20,7 +20,7 @@ namespace MAGE
 		allocInfo.pSetLayouts = &layout;
 		allocInfo.pNext = nullptr;
 
-		MAGE_ASSERT(vkAllocateDescriptorSets(mDevice, &allocInfo, &mVkDescriptorSet) == VK_SUCCESS, "VulkanLayout", "Failed to allocate descriptor set");
+		Helpers::MageAssert(vkAllocateDescriptorSets(mDevice, &allocInfo, &mVkDescriptorSet) == VK_SUCCESS, "VulkanLayout", "Failed to allocate descriptor set");
 
 		mVkDescriptorPool = pool;
 		mVkDescriptorLayout = layout;

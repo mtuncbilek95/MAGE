@@ -14,6 +14,6 @@ namespace MAGE
 		createInfo.pCode = reinterpret_cast<const uint32_t*>(desc.ShaderCode.Data());
 		createInfo.flags = 0;
 
-		MAGE_ASSERT(vkCreateShaderModule(mDevice, &createInfo, nullptr, &mShaderModule) == VK_SUCCESS, "VShader", "Failed to create shader module");
+		Helpers::MageAssert(vkCreateShaderModule(mDevice, &createInfo, nullptr, &mShaderModule) == VK_SUCCESS, "VShader", "Failed to create shader module");
 	}
 }

@@ -24,6 +24,4 @@ namespace MAGE
 		GMAF_MemoryRead = 1 << 14,
 		GMAF_MemoryWrite = 1 << 15
 	};
-
-	GENERATE_ENUM_FLAG(GraphicsMemoryAccessFlags, u32);
 }

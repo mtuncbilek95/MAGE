@@ -16,6 +16,4 @@ namespace MAGE
 		TUF_TransferSource = 1 << 6,
 		TUF_TransferDestination = 1 << 7
 	};
-
-	GENERATE_ENUM_FLAG(TextureUsageFlags, u16);
 }

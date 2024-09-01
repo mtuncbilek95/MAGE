@@ -212,7 +212,7 @@ namespace MAGE
 		pipelineLayoutInfo.pushConstantRangeCount = pushConstants.size();
 		pipelineLayoutInfo.pPushConstantRanges = pushConstants.data();
 
-		MAGE_ASSERT(vkCreatePipelineLayout(mVkDevice, &pipelineLayoutInfo, nullptr, &mVkPipelineLayout) == VK_SUCCESS, "VPipeline", "Failed to create pipeline layout!");
+		Helpers::MageAssert(vkCreatePipelineLayout(mVkDevice, &pipelineLayoutInfo, nullptr, &mVkPipelineLayout) == VK_SUCCESS, "VPipeline", "Failed to create pipeline layout!");
 
 		// Create Pipeline
 		VkGraphicsPipelineCreateInfo pipelineInfo{};
@@ -232,6 +232,6 @@ namespace MAGE
 		pipelineInfo.subpass = 0;
 		pipelineInfo.pNext = &renderingInfo;
 
-		MAGE_ASSERT(vkCreateGraphicsPipelines(mVkDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &mVkPipeline) == VK_SUCCESS, "VPipeline", "Failed to create graphics pipeline!");
+		Helpers::MageAssert(vkCreateGraphicsPipelines(mVkDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &mVkPipeline) == VK_SUCCESS, "VPipeline", "Failed to create graphics pipeline!");
 	}
 }

@@ -1,8 +1,7 @@
-#define GENERATE_ENUM_FLAG(EnumType, primitiveType) \
 FORCEINLINE static EnumType operator | (EnumType a, EnumType b) { return static_cast<EnumType>(static_cast<primitiveType>(a) | static_cast<primitiveType>(b)); } \
 FORCEINLINE static b8 operator & (EnumType a, EnumType b) { return (static_cast<primitiveType>(a) & static_cast<primitiveType>(b)) != 0; }
 #define __declspec(dllexport)
 #define FORCEINLINE inline
 
-#define MAGE_ASSERT(condition, title, message, __VA_ARGS__) MAGE::GlobalConsole::Assert(condition, title, message, __VA_ARGS__)
-#define MAGE_ASSERT(condition, title, message, __VA_ARGS__) (condition)
+#define Helpers::MageAssert(condition, title, message, __VA_ARGS__) MAGE::GlobalConsole::Assert(condition, title, message, __VA_ARGS__)
+#define Helpers::MageAssert(condition, title, message, __VA_ARGS__) (condition)

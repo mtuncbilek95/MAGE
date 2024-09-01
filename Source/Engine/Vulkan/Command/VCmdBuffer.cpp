@@ -33,7 +33,7 @@ namespace MAGE
 		allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 		allocInfo.commandBufferCount = 1;
 
-		MAGE_ASSERT(vkAllocateCommandBuffers(mDevice, &allocInfo, &mVkCmdBuffer) == VK_SUCCESS, "VCmdBuffer", "Failed to allocate command buffer");
+		Helpers::MageAssert(vkAllocateCommandBuffers(mDevice, &allocInfo, &mVkCmdBuffer) == VK_SUCCESS, "VCmdBuffer", "Failed to allocate command buffer");
 	}
 
 	void VCmdBuffer::BeginRecordingImpl()
@@ -43,12 +43,12 @@ namespace MAGE
 		beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
 		beginInfo.pInheritanceInfo = nullptr;
 
-		MAGE_ASSERT(vkBeginCommandBuffer(mVkCmdBuffer, &beginInfo) == VK_SUCCESS, "VCmdBuffer", "Failed to begin recording command buffer");
+		Helpers::MageAssert(vkBeginCommandBuffer(mVkCmdBuffer, &beginInfo) == VK_SUCCESS, "VCmdBuffer", "Failed to begin recording command buffer");
 	}
 
 	void VCmdBuffer::EndRecordingImpl()
 	{
-		MAGE_ASSERT(vkEndCommandBuffer(mVkCmdBuffer) == VK_SUCCESS, "VCmdBuffer", "Failed to end recording command buffer");
+		Helpers::MageAssert(vkEndCommandBuffer(mVkCmdBuffer) == VK_SUCCESS, "VCmdBuffer", "Failed to end recording command buffer");
 	}
 
 	void VCmdBuffer::BeginRenderingImpl(const DynamicPassDesc& desc)

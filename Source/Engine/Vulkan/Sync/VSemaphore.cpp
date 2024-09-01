@@ -10,6 +10,6 @@ namespace MAGE
 		VkSemaphoreCreateInfo semaphoreInfo = {};
 		semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
-		MAGE_ASSERT(vkCreateSemaphore(mDevice, &semaphoreInfo, nullptr, &mSemaphore) == VK_SUCCESS, "VSemaphore", "Failed to create semaphore!");
+		Helpers::MageAssert(vkCreateSemaphore(mDevice, &semaphoreInfo, nullptr, &mSemaphore) == VK_SUCCESS, "VSemaphore", "Failed to create semaphore!");
 	}
 }

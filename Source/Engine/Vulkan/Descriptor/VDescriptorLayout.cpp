@@ -41,6 +41,6 @@ namespace MAGE
 		layoutInfo.flags = VkUtils::GetVkDescriptorSetLayoutFlags(desc.Flags);
 		layoutInfo.pNext = &bindingFlagsInfo;
 
-		MAGE_ASSERT(vkCreateDescriptorSetLayout(mDevice, &layoutInfo, nullptr, &mVkDescriptorSetLayout) == VK_SUCCESS, "VDescriptorLayout", "Failed to create descriptor set layout");
+		Helpers::MageAssert(vkCreateDescriptorSetLayout(mDevice, &layoutInfo, nullptr, &mVkDescriptorSetLayout) == VK_SUCCESS, "VDescriptorLayout", "Failed to create descriptor set layout");
 	}
 }

@@ -2,12 +2,6 @@
 
 #include "Engine/Core/Core.h"
 
-#define MAGE_ASSERT(condition, title, message, ...) \
-	if (!(condition)) \
-	{ \
-		MAGE::PlatformErrorMessage::ShowAssert(title, message, ##__VA_ARGS__); \
-	}
-
 namespace MAGE
 {
 	struct PlatformErrorMessage
@@ -15,4 +9,14 @@ namespace MAGE
 		static const String GetLastKnownError();
 		static void ShowAssert(const String& title, const String& message, ...);
 	};
+
+	namespace Helpers
+	{
+		template<typename...Args>
+		inline constexpr void MageAssert(bool condition, const String& title, const String& message, Args&&...args)
+		{
+			if (!condition)
+				MAGE::PlatformErrorMessage::ShowAssert(title, message, std::forward<Args>(args)...);
+		}
+	}
 }

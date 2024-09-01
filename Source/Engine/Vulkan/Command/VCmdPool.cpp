@@ -22,7 +22,7 @@ namespace MAGE
 			queueFamilyIndex = pDevice->GetTransferQueueFamilyIndex();
 			break;
 		default:
-			MAGE_ASSERT(false, "VCmdPool", "Invalid command pool type");
+			Helpers::MageAssert(false, "VCmdPool", "Invalid command pool type");
 		}
 
 		VkCommandPoolCreateInfo poolInfo = {};
@@ -31,6 +31,6 @@ namespace MAGE
 		poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 		poolInfo.pNext = nullptr;
 
-		MAGE_ASSERT(vkCreateCommandPool(mDevice, &poolInfo, nullptr, &mVkCommandPool) == VK_SUCCESS, "VCmdPool", "Failed to create command pool");
+		Helpers::MageAssert(vkCreateCommandPool(mDevice, &poolInfo, nullptr, &mVkCommandPool) == VK_SUCCESS, "VCmdPool", "Failed to create command pool");
 	}
 }

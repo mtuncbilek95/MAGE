@@ -11,6 +11,6 @@ namespace MAGE
 		fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
 		fenceInfo.flags = bSignalled ? VK_FENCE_CREATE_SIGNALED_BIT : 0;
 
-		MAGE_ASSERT(vkCreateFence(mDevice, &fenceInfo, nullptr, &mFence) == VK_SUCCESS, "VFence", "Failed to create fence!");
+		Helpers::MageAssert(vkCreateFence(mDevice, &fenceInfo, nullptr, &mFence) == VK_SUCCESS, "VFence", "Failed to create fence!");
 	}
 }

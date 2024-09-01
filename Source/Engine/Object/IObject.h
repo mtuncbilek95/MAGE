@@ -14,7 +14,5 @@ namespace MAGE
 		template<typename T>
 		FORCEINLINE T* GetAs() { return dynamic_cast<T*>(this); }
 		FORCEINLINE SharedPtr<IObject> GetSharedPtr() { return shared_from_this(); }
-
-		virtual void Shutdown() {};
 	};
 }

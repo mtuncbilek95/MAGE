@@ -27,6 +27,6 @@ namespace MAGE
 		poolInfo.flags = VkUtils::GetVkDescriptorPoolFlags(desc.Flags);
 		poolInfo.pNext = nullptr;
 
-		MAGE_ASSERT(vkCreateDescriptorPool(mDevice, &poolInfo, nullptr, &mVkDescriptorPool) == VK_SUCCESS, "VDescriptorPool", "Failed to create descriptor pool");
+		Helpers::MageAssert(vkCreateDescriptorPool(mDevice, &poolInfo, nullptr, &mVkDescriptorPool) == VK_SUCCESS, "VDescriptorPool", "Failed to create descriptor pool");
 	}
 }

@@ -12,6 +12,4 @@ namespace MAGE
         CWM_Alpha = 1 << 3,
         CWM_All = 1 << 4
     };
-
-    GENERATE_ENUM_FLAG(BlendColorWriteMask, u8);
 }

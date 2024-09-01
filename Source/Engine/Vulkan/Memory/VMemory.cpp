@@ -14,7 +14,7 @@ namespace MAGE
 		memoryAllocateInfo.allocationSize = desc.MemorySize;
 		memoryAllocateInfo.memoryTypeIndex = FindMemoryType(desc.MemoryType);
 
-		MAGE_ASSERT(vkAllocateMemory(mDevice, &memoryAllocateInfo, nullptr, &mVkDeviceMemory) == VK_SUCCESS, "VMemory", "Failed to allocate memory");
+		Helpers::MageAssert(vkAllocateMemory(mDevice, &memoryAllocateInfo, nullptr, &mVkDeviceMemory) == VK_SUCCESS, "VMemory", "Failed to allocate memory");
 	}
 
 	u32 VMemory::FindMemoryType(GraphicsMemoryType memoryType)
@@ -28,7 +28,7 @@ namespace MAGE
 			if ((memoryProperties.memoryTypes[i].propertyFlags & properties) == properties)
 				return i;
 
-		MAGE_ASSERT(false, "VMemory", "Failed to find suitable memory type");
+		Helpers::MageAssert(false, "VMemory", "Failed to find suitable memory type");
 		return u32_max;
 	}
 }

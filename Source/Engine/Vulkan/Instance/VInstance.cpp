@@ -72,13 +72,13 @@ namespace MAGE
 
 		// Check the total number of available extensions for the current computer
 		u32 extensionCount = 0;
-		MAGE_ASSERT(vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr) == VK_SUCCESS,
+		Helpers::MageAssert(vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr) == VK_SUCCESS,
 			"VInstance", "Failed to enumerate instance extension properties");
-		MAGE_ASSERT(extensionCount > 0, "VInstance", "No instance extension properties found");
+		Helpers::MageAssert(extensionCount > 0, "VInstance", "No instance extension properties found");
 
 		// Get all the available extensions for the current computer
 		Vector<VkExtensionProperties> allExtensions(extensionCount);
-		MAGE_ASSERT(vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, allExtensions.data()) == VK_SUCCESS,
+		Helpers::MageAssert(vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, allExtensions.data()) == VK_SUCCESS,
 			"VInstance", "Failed to enumerate instance extension properties");
 
 		// Check if the wanted extensions are supported
@@ -108,13 +108,13 @@ namespace MAGE
 
 		// Check the total number of available layers for the current computer
 		u32 layerCount = 0;
-		MAGE_ASSERT(vkEnumerateInstanceLayerProperties(&layerCount, nullptr) == VK_SUCCESS,
+		Helpers::MageAssert(vkEnumerateInstanceLayerProperties(&layerCount, nullptr) == VK_SUCCESS,
 			"VInstance", "Failed to enumerate instance layer properties");
-		MAGE_ASSERT(layerCount > 0, "VInstance", "No instance layer properties found");
+		Helpers::MageAssert(layerCount > 0, "VInstance", "No instance layer properties found");
 
 		// Get all the available layers for the current computer
 		Vector<VkLayerProperties> allLayers(layerCount);
-		MAGE_ASSERT(vkEnumerateInstanceLayerProperties(&layerCount, allLayers.data()) == VK_SUCCESS,
+		Helpers::MageAssert(vkEnumerateInstanceLayerProperties(&layerCount, allLayers.data()) == VK_SUCCESS,
 			"VInstance", "Failed to enumerate instance layer properties");
 
 		// Get all the wanted layers for debugging
@@ -143,7 +143,7 @@ namespace MAGE
 		createInfo.ppEnabledLayerNames = layers.data();
 		createInfo.flags = 0;
 
-		MAGE_ASSERT(vkCreateInstance(&createInfo, nullptr, &mVkInstance) == VK_SUCCESS, "VInstance", "Failed to create Vulkan instance");
+		Helpers::MageAssert(vkCreateInstance(&createInfo, nullptr, &mVkInstance) == VK_SUCCESS, "VInstance", "Failed to create Vulkan instance");
 
 #if defined(MAGE_DEBUG)
 		debugMessengerCreateProc = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(mVkInstance, "vkCreateDebugUtilsMessengerEXT"));
@@ -158,7 +158,7 @@ namespace MAGE
 		debugMessengerInfo.pfnUserCallback = DebugCallback;
 		debugMessengerInfo.pUserData = nullptr;
 
-		MAGE_ASSERT(debugMessengerCreateProc(mVkInstance, &debugMessengerInfo, nullptr, &mVkDebugger) == VK_SUCCESS, "VInstance", "Failed to create debug messenger");
+		Helpers::MageAssert(debugMessengerCreateProc(mVkInstance, &debugMessengerInfo, nullptr, &mVkDebugger) == VK_SUCCESS, "VInstance", "Failed to create debug messenger");
 #endif
 
 		// Get the best adapter for the current computer
@@ -169,15 +169,15 @@ namespace MAGE
 	{
 		// Get the physical devices count
 		u32 deviceCount = 0;
-		MAGE_ASSERT(vkEnumeratePhysicalDevices(mVkInstance, &deviceCount, nullptr) == VK_SUCCESS, "VInstance", "Failed to enumerate physical devices");
-		MAGE_ASSERT(deviceCount > 0, "VInstance", "No physical devices found");
+		Helpers::MageAssert(vkEnumeratePhysicalDevices(mVkInstance, &deviceCount, nullptr) == VK_SUCCESS, "VInstance", "Failed to enumerate physical devices");
+		Helpers::MageAssert(deviceCount > 0, "VInstance", "No physical devices found");
 
 		// Temporary struct to hold the device and its score
 		Map<String, Pair<VkPhysicalDevice, u32>> allDevices;
 
 		// Get the physical devices
 		Vector<VkPhysicalDevice> devices(deviceCount);
-		MAGE_ASSERT(vkEnumeratePhysicalDevices(mVkInstance, &deviceCount, devices.data()) == VK_SUCCESS, "VInstance", "Failed to enumerate physical devices");
+		Helpers::MageAssert(vkEnumeratePhysicalDevices(mVkInstance, &deviceCount, devices.data()) == VK_SUCCESS, "VInstance", "Failed to enumerate physical devices");
 
 		for (auto& device : devices)
 		{
@@ -196,7 +196,7 @@ namespace MAGE
 			// Get the device queue family properties
 			u32 queueFamilyCount = 0;
 			vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
-			MAGE_ASSERT(queueFamilyCount > 0, "VInstance", "No queue family properties found");
+			Helpers::MageAssert(queueFamilyCount > 0, "VInstance", "No queue family properties found");
 
 			Vector<VkQueueFamilyProperties> queueFamilyProperties(queueFamilyCount);
 			vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilyProperties.data());

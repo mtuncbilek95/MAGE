@@ -21,22 +21,22 @@
 
 #include "Engine/Platform/PlatformErrorMessage.h"
 
-#define QUEUE_COUNT 1
-
 #include <spdlog/spdlog.h>
+
+constexpr u8 QueueCount = 1;
 
 namespace MAGE
 {
 	VDevice::VDevice(VInstance* pInstance) : GraphicsDevice(pInstance), mAdapter(pInstance->GetVkAdapter()),
 		mInstance(pInstance->GetVkInstance()), mDevice(VK_NULL_HANDLE)
 	{
-		MAGE_ASSERT(mAdapter != VK_NULL_HANDLE, "VDevice", "Vulkan adapter is null");
-		MAGE_ASSERT(mInstance != VK_NULL_HANDLE, "VDevice", "Vulkan instance is null");
+		Helpers::MageAssert(mAdapter != VK_NULL_HANDLE, "VDevice", "Vulkan adapter is null");
+		Helpers::MageAssert(mInstance != VK_NULL_HANDLE, "VDevice", "Vulkan instance is null");
 
 		// Get the queue family count
 		u32 queueFamilyCount = 0;
 		vkGetPhysicalDeviceQueueFamilyProperties(mAdapter, &queueFamilyCount, nullptr);
-		MAGE_ASSERT(queueFamilyCount > 0, "VDevice", "No queue families found");
+		Helpers::MageAssert(queueFamilyCount > 0, "VDevice", "No queue families found");
 
 		// Get the queue families
 		Vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
@@ -50,21 +50,21 @@ namespace MAGE
 			{
 				mGraphicsQueueFamily.FamilyIndex = index;
 				mGraphicsQueueFamily.QueueCapacity = prop.queueCount;
-				mGraphicsQueueFamily.RequestedCount = QUEUE_COUNT > prop.queueCount ? prop.queueCount : QUEUE_COUNT;
+				mGraphicsQueueFamily.RequestedCount = QueueCount > prop.queueCount ? prop.queueCount : QueueCount;
 				spdlog::debug("Graphics Queue: {{ Index:{0}, Capacity:{1}, RequestedCount:{2} }}", index, prop.queueCount, mGraphicsQueueFamily.RequestedCount);
 			}
 			else if (prop.queueFlags & VK_QUEUE_COMPUTE_BIT && mComputeQueueFamily.FamilyIndex == 255)
 			{
 				mComputeQueueFamily.FamilyIndex = index;
 				mComputeQueueFamily.QueueCapacity = prop.queueCount;
-				mComputeQueueFamily.RequestedCount = QUEUE_COUNT > prop.queueCount ? prop.queueCount : QUEUE_COUNT;
+				mComputeQueueFamily.RequestedCount = QueueCount > prop.queueCount ? prop.queueCount : QueueCount;
 				spdlog::debug("Compute  Queue: {{ Index:{0}, Capacity:{1},  RequestedCount:{2} }}", index, prop.queueCount, mComputeQueueFamily.RequestedCount);
 			}
 			else if (prop.queueFlags & VK_QUEUE_TRANSFER_BIT && mTransferQueueFamily.FamilyIndex == 255)
 			{
 				mTransferQueueFamily.FamilyIndex = index;
 				mTransferQueueFamily.QueueCapacity = prop.queueCount;
-				mTransferQueueFamily.RequestedCount = QUEUE_COUNT > prop.queueCount ? prop.queueCount : QUEUE_COUNT;
+				mTransferQueueFamily.RequestedCount = QueueCount > prop.queueCount ? prop.queueCount : QueueCount;
 				spdlog::debug("Transfer Queue: {{ Index:{0}, Capacity:{1},  RequestedCount:{2} }}", index, prop.queueCount, mTransferQueueFamily.RequestedCount);
 			}
 			index++;
@@ -150,7 +150,7 @@ namespace MAGE
 		deviceInfo.flags = VkDeviceCreateFlags();
 		deviceInfo.pNext = &dynamicRenderingFeatures;
 
-		MAGE_ASSERT(vkCreateDevice(mAdapter, &deviceInfo, nullptr, &mDevice) == VK_SUCCESS, "VDevice", "Failed to create device");
+		Helpers::MageAssert(vkCreateDevice(mAdapter, &deviceInfo, nullptr, &mDevice) == VK_SUCCESS, "VDevice", "Failed to create device");
 
 		// Reserve the queues for graphics, compute and transfer and store them in the related families.
 		mGraphicsQueueFamily.FreeQueues.reserve(mGraphicsQueueFamily.RequestedCount);
@@ -203,7 +203,7 @@ namespace MAGE
 		case GraphicsQueueType::GQT_Transfer:
 			return MakeShared<VQueue>(desc, mTransferQueueFamily.GetFreeQueue(), this);
 		default:
-			MAGE_ASSERT(false, "VDevice", "Unknown queue type");
+			Helpers::MageAssert(false, "VDevice", "Unknown queue type");
 			return nullptr;
 		}
 	}

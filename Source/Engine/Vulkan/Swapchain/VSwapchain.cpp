@@ -33,7 +33,7 @@ namespace MAGE
 		surfaceInfo.hwnd = WindowAPI::GetAPI()->GetDefaultWindow()->GetWindowHandle();
 		surfaceInfo.pNext = nullptr;
 
-		MAGE_ASSERT(vkCreateWin32SurfaceKHR(mInstance, &surfaceInfo, nullptr, &mSurface) == VK_SUCCESS, "VSwapchain", "Failed to create win32 surface");
+		Helpers::MageAssert(vkCreateWin32SurfaceKHR(mInstance, &surfaceInfo, nullptr, &mSurface) == VK_SUCCESS, "VSwapchain", "Failed to create win32 surface");
 #endif
 
 #if defined(MAGE_LINUX)
@@ -45,16 +45,16 @@ namespace MAGE
 #endif
 
 		VkSurfaceCapabilitiesKHR surfaceCapabilities;
-		MAGE_ASSERT(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(mAdapter, mSurface, &surfaceCapabilities) == VK_SUCCESS, "VSwapchain",
+		Helpers::MageAssert(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(mAdapter, mSurface, &surfaceCapabilities) == VK_SUCCESS, "VSwapchain",
 			"Failed to get surface capabilities");
 
 		u32 formatCount;
-		MAGE_ASSERT(vkGetPhysicalDeviceSurfaceFormatsKHR(mAdapter, mSurface, &formatCount, nullptr) == VK_SUCCESS, "VSwapchain",
+		Helpers::MageAssert(vkGetPhysicalDeviceSurfaceFormatsKHR(mAdapter, mSurface, &formatCount, nullptr) == VK_SUCCESS, "VSwapchain",
 			"Failed to get surface formats");
-		MAGE_ASSERT(formatCount > 0, "VSwapchain", "No surface formats found");
+		Helpers::MageAssert(formatCount > 0, "VSwapchain", "No surface formats found");
 
 		Vector<VkSurfaceFormatKHR> surfaceFormats(formatCount);
-		MAGE_ASSERT(vkGetPhysicalDeviceSurfaceFormatsKHR(mAdapter, mSurface, &formatCount, surfaceFormats.data()) == VK_SUCCESS, "VSwapchain",
+		Helpers::MageAssert(vkGetPhysicalDeviceSurfaceFormatsKHR(mAdapter, mSurface, &formatCount, surfaceFormats.data()) == VK_SUCCESS, "VSwapchain",
 			"Failed to get surface formats");
 
 		VkColorSpaceKHR colorSpace = {};
@@ -80,22 +80,22 @@ namespace MAGE
 			SetNewImageSize({ surfaceCapabilities.maxImageExtent.width, surfaceCapabilities.maxImageExtent.height });
 
 		u32 presentModeCount = 0;
-		MAGE_ASSERT(vkGetPhysicalDeviceSurfacePresentModesKHR(mAdapter, mSurface, &presentModeCount, nullptr) == VK_SUCCESS,
+		Helpers::MageAssert(vkGetPhysicalDeviceSurfacePresentModesKHR(mAdapter, mSurface, &presentModeCount, nullptr) == VK_SUCCESS,
 			"CreateSurfaceSwapchain", "Failed to get present modes");
-		MAGE_ASSERT(presentModeCount > 0, "VSwapchan", "No present modes found");
+		Helpers::MageAssert(presentModeCount > 0, "VSwapchan", "No present modes found");
 
 		Vector<VkPresentModeKHR> presentModes(presentModeCount);
-		MAGE_ASSERT(vkGetPhysicalDeviceSurfacePresentModesKHR(mAdapter, mSurface, &presentModeCount, presentModes.data()) == VK_SUCCESS,
+		Helpers::MageAssert(vkGetPhysicalDeviceSurfacePresentModesKHR(mAdapter, mSurface, &presentModeCount, presentModes.data()) == VK_SUCCESS,
 			"CreateSurfaceSwapchain", "Failed to get present modes");
 
 		auto pVkQueue = desc.pRequestQueue->GetAs<VQueue>();
 		u32 presentQueueFamilyIndex = pVkQueue->GetQueueIndex();
-		MAGE_ASSERT(presentQueueFamilyIndex != UINT32_MAX, "VSwapchan", "Failed to get present queue family index");
+		Helpers::MageAssert(presentQueueFamilyIndex != UINT32_MAX, "VSwapchan", "Failed to get present queue family index");
 		VkBool32 presentSupport = false;
-		MAGE_ASSERT(vkGetPhysicalDeviceSurfaceSupportKHR(mAdapter, presentQueueFamilyIndex, mSurface, &presentSupport) == VK_SUCCESS,
+		Helpers::MageAssert(vkGetPhysicalDeviceSurfaceSupportKHR(mAdapter, presentQueueFamilyIndex, mSurface, &presentSupport) == VK_SUCCESS,
 			"VSwapchan", "Failed to get present support");
 
-		MAGE_ASSERT(presentSupport, "VSwapchan", "Present support not found");
+		Helpers::MageAssert(presentSupport, "VSwapchan", "Present support not found");
 
 		// Create the swapchain
 		VkSwapchainCreateInfoKHR swapchainInfo = {};
@@ -120,14 +120,14 @@ namespace MAGE
 		swapchainInfo.flags = VkSwapchainCreateFlagsKHR();
 		swapchainInfo.pNext = nullptr;
 
-		MAGE_ASSERT(vkCreateSwapchainKHR(mDevice, &swapchainInfo, nullptr, &mSwapchain) == VK_SUCCESS, "VSwapchain", "Failed to create swapchain");
+		Helpers::MageAssert(vkCreateSwapchainKHR(mDevice, &swapchainInfo, nullptr, &mSwapchain) == VK_SUCCESS, "VSwapchain", "Failed to create swapchain");
 
 		u32 imageCount = 0;
-		MAGE_ASSERT(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, nullptr) == VK_SUCCESS, "VSwapchan", "Failed to get swapchain images");
-		MAGE_ASSERT(imageCount > 0, "VSwapchan", "No swapchain images found");
+		Helpers::MageAssert(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, nullptr) == VK_SUCCESS, "VSwapchan", "Failed to get swapchain images");
+		Helpers::MageAssert(imageCount > 0, "VSwapchan", "No swapchain images found");
 
 		Vector<VkImage> images(imageCount);
-		MAGE_ASSERT(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, images.data()) == VK_SUCCESS, "VSwapchan", "Failed to get swapchain images");
+		Helpers::MageAssert(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, images.data()) == VK_SUCCESS, "VSwapchan", "Failed to get swapchain images");
 
 
 		// Nevertheless, we need to fill the VulkanTexture data
@@ -178,14 +178,14 @@ namespace MAGE
 		if (auto pF = pFence)
 		{
 			VkFence fence = pF->GetAs<VFence>()->GetVkFence();
-			MAGE_ASSERT(vkAcquireNextImageKHR(mDevice, mSwapchain, UINT64_MAX, VK_NULL_HANDLE, fence, &imageIndex) == VK_SUCCESS, "VSwapchain",
+			Helpers::MageAssert(vkAcquireNextImageKHR(mDevice, mSwapchain, UINT64_MAX, VK_NULL_HANDLE, fence, &imageIndex) == VK_SUCCESS, "VSwapchain",
 				"Failed to acquire next image");
 		}
 
 		if (auto pS = pSemaphore)
 		{
 			VkSemaphore semaphore = pS->GetAs<VSemaphore>()->GetVkSemaphore();
-			MAGE_ASSERT(vkAcquireNextImageKHR(mDevice, mSwapchain, UINT64_MAX, semaphore, VK_NULL_HANDLE, &imageIndex) == VK_SUCCESS, "VSwapchain",
+			Helpers::MageAssert(vkAcquireNextImageKHR(mDevice, mSwapchain, UINT64_MAX, semaphore, VK_NULL_HANDLE, &imageIndex) == VK_SUCCESS, "VSwapchain",
 				"Failed to acquire next image");
 		}
 		return imageIndex;
@@ -209,7 +209,7 @@ namespace MAGE
 
 		VkQueue queue = GraphicsAPI::GetAPI()->GetGraphicsQueue()->GetAs<VQueue>()->GetVkQueue();
 
-		MAGE_ASSERT(vkQueuePresentKHR(queue, &presentInfo) == VK_SUCCESS, "VSwapchain",
+		Helpers::MageAssert(vkQueuePresentKHR(queue, &presentInfo) == VK_SUCCESS, "VSwapchain",
 			"Failed to present image");
 	}
 
@@ -230,16 +230,16 @@ namespace MAGE
 			vkDestroySwapchainKHR(mDevice, mSwapchain, nullptr);
 
 		VkSurfaceCapabilitiesKHR surfaceCapabilities;
-		MAGE_ASSERT(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(mAdapter, mSurface, &surfaceCapabilities) == VK_SUCCESS, "VSwapchain",
+		Helpers::MageAssert(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(mAdapter, mSurface, &surfaceCapabilities) == VK_SUCCESS, "VSwapchain",
 			"Failed to get surface capabilities");
 
 		u32 formatCount;
-		MAGE_ASSERT(vkGetPhysicalDeviceSurfaceFormatsKHR(mAdapter, mSurface, &formatCount, nullptr) == VK_SUCCESS, "VSwapchain",
+		Helpers::MageAssert(vkGetPhysicalDeviceSurfaceFormatsKHR(mAdapter, mSurface, &formatCount, nullptr) == VK_SUCCESS, "VSwapchain",
 			"Failed to get surface formats");
-		MAGE_ASSERT(formatCount > 0, "VSwapchain", "No surface formats found");
+		Helpers::MageAssert(formatCount > 0, "VSwapchain", "No surface formats found");
 
 		Vector<VkSurfaceFormatKHR> surfaceFormats(formatCount);
-		MAGE_ASSERT(vkGetPhysicalDeviceSurfaceFormatsKHR(mAdapter, mSurface, &formatCount, surfaceFormats.data()) == VK_SUCCESS, "VSwapchain",
+		Helpers::MageAssert(vkGetPhysicalDeviceSurfaceFormatsKHR(mAdapter, mSurface, &formatCount, surfaceFormats.data()) == VK_SUCCESS, "VSwapchain",
 			"Failed to get surface formats");
 
 		VkColorSpaceKHR colorSpace = {};
@@ -262,22 +262,22 @@ namespace MAGE
 		}
 
 		u32 presentModeCount = 0;
-		MAGE_ASSERT(vkGetPhysicalDeviceSurfacePresentModesKHR(mAdapter, mSurface, &presentModeCount, nullptr) == VK_SUCCESS,
+		Helpers::MageAssert(vkGetPhysicalDeviceSurfacePresentModesKHR(mAdapter, mSurface, &presentModeCount, nullptr) == VK_SUCCESS,
 			"CreateSurfaceSwapchain", "Failed to get present modes");
-		MAGE_ASSERT(presentModeCount > 0, "VSwapchan", "No present modes found");
+		Helpers::MageAssert(presentModeCount > 0, "VSwapchan", "No present modes found");
 
 		Vector<VkPresentModeKHR> presentModes(presentModeCount);
-		MAGE_ASSERT(vkGetPhysicalDeviceSurfacePresentModesKHR(mAdapter, mSurface, &presentModeCount, presentModes.data()) == VK_SUCCESS,
+		Helpers::MageAssert(vkGetPhysicalDeviceSurfacePresentModesKHR(mAdapter, mSurface, &presentModeCount, presentModes.data()) == VK_SUCCESS,
 			"CreateSurfaceSwapchain", "Failed to get present modes");
 
 		auto pVkQueue = mRequestQueue->GetAs<VQueue>();
 		u32 presentQueueFamilyIndex = pVkQueue->GetQueueIndex();
-		MAGE_ASSERT(presentQueueFamilyIndex != UINT32_MAX, "VSwapchan", "Failed to get present queue family index");
+		Helpers::MageAssert(presentQueueFamilyIndex != UINT32_MAX, "VSwapchan", "Failed to get present queue family index");
 		VkBool32 presentSupport = false;
-		MAGE_ASSERT(vkGetPhysicalDeviceSurfaceSupportKHR(mAdapter, presentQueueFamilyIndex, mSurface, &presentSupport) == VK_SUCCESS,
+		Helpers::MageAssert(vkGetPhysicalDeviceSurfaceSupportKHR(mAdapter, presentQueueFamilyIndex, mSurface, &presentSupport) == VK_SUCCESS,
 			"VSwapchan", "Failed to get present support");
 
-		MAGE_ASSERT(presentSupport, "VSwapchan", "Present support not found");
+		Helpers::MageAssert(presentSupport, "VSwapchan", "Present support not found");
 
 		VkSwapchainCreateInfoKHR swapchainInfo = {};
 		swapchainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
@@ -301,14 +301,14 @@ namespace MAGE
 		swapchainInfo.flags = VkSwapchainCreateFlagsKHR();
 		swapchainInfo.pNext = nullptr;
 
-		MAGE_ASSERT(vkCreateSwapchainKHR(mDevice, &swapchainInfo, nullptr, &mSwapchain) == VK_SUCCESS, "VSwapchain", "Failed to create swapchain");
+		Helpers::MageAssert(vkCreateSwapchainKHR(mDevice, &swapchainInfo, nullptr, &mSwapchain) == VK_SUCCESS, "VSwapchain", "Failed to create swapchain");
 
 		u32 imageCount = 0;
-		MAGE_ASSERT(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, nullptr) == VK_SUCCESS, "VSwapchan", "Failed to get swapchain images");
-		MAGE_ASSERT(imageCount > 0, "VSwapchan", "No swapchain images found");
+		Helpers::MageAssert(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, nullptr) == VK_SUCCESS, "VSwapchan", "Failed to get swapchain images");
+		Helpers::MageAssert(imageCount > 0, "VSwapchan", "No swapchain images found");
 
 		Vector<VkImage> images(imageCount);
-		MAGE_ASSERT(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, images.data()) == VK_SUCCESS, "VSwapchan", "Failed to get swapchain images");
+		Helpers::MageAssert(vkGetSwapchainImagesKHR(mDevice, mSwapchain, &imageCount, images.data()) == VK_SUCCESS, "VSwapchan", "Failed to get swapchain images");
 
 		// Nevertheless, we need to fill the VulkanTexture data
 		for (u32 i = 0; i < imageCount; i++)

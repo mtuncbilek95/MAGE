@@ -6,8 +6,6 @@
 #include "Engine/Graphics/Queue/GraphicsQueue.h"
 #include "Engine/Graphics/Memory/GraphicsMemory.h"
 
-#define DEFAULT_MEMORY_SIZE MB_TO_BYTE(500)
-
 namespace MAGE
 {
 	SharedPtr<GraphicsInstance> GraphicsAPI::CreateInstance(const GraphicsInstanceDesc& desc)
@@ -35,7 +33,7 @@ namespace MAGE
 				return memory.get();
 
 		// If no memory chunk has enough space, create a new one
-		u64 newSize = requestedSize > DEFAULT_MEMORY_SIZE ? requestedSize : DEFAULT_MEMORY_SIZE;
+		u64 newSize = requestedSize > Helpers::MbToByte(500.0) ? requestedSize : Helpers::MbToByte(500.0);
 		SharedPtr<GraphicsMemory> newMemory = mDevice->CreateMemory({ GraphicsMemoryType::GMT_DeviceLocal, newSize });
 		mDeviceMemChunks.push_back(newMemory);
 		return newMemory.get();
@@ -49,7 +47,7 @@ namespace MAGE
 				return memory.get();
 
 		// If no memory chunk has enough space, create a new one
-		u64 newSize = requestedSize > DEFAULT_MEMORY_SIZE ? requestedSize : DEFAULT_MEMORY_SIZE;
+		u64 newSize = requestedSize > Helpers::MbToByte(500.0) ? requestedSize : Helpers::MbToByte(500.0);
 		SharedPtr<GraphicsMemory> newMemory = mDevice->CreateMemory({ GraphicsMemoryType::GMT_HostVisible, newSize });
 		mHostMemChunks.push_back(newMemory);
 		return newMemory.get();

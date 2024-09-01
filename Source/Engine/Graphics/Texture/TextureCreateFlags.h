@@ -20,6 +20,4 @@ namespace MAGE
 		TCF_Alias = 1 << 10,
 		TCF_Protected = 1 << 11
 	};
-
-	GENERATE_ENUM_FLAG(TextureCreateFlags, u32);
 }

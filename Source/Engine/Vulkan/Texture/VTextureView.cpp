@@ -15,7 +15,7 @@ namespace MAGE
 		imageViewInfo.viewType = VkUtils::GetVkTextureViewType(desc.ViewType);
 
 		auto format = VkUtils::VkFormatMap.find(desc.pTexture->GetImageFormat());
-		MAGE_ASSERT(format != VkUtils::VkFormatMap.end(), "VTextureImage", "Failed to find format!");
+		Helpers::MageAssert(format != VkUtils::VkFormatMap.end(), "VTextureImage", "Failed to find format!");
 		imageViewInfo.format = format->second;
 
 		imageViewInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
@@ -28,7 +28,7 @@ namespace MAGE
 		imageViewInfo.subresourceRange.baseArrayLayer = desc.ArrayLayer;
 		imageViewInfo.subresourceRange.layerCount = desc.ArrayCount;
 
-		MAGE_ASSERT(vkCreateImageView(mDevice, &imageViewInfo, nullptr, &mImageView) == VK_SUCCESS, "VTextureView", "Failed to create image view!");
+		Helpers::MageAssert(vkCreateImageView(mDevice, &imageViewInfo, nullptr, &mImageView) == VK_SUCCESS, "VTextureView", "Failed to create image view!");
 	}
 
 	VTextureView::~VTextureView()

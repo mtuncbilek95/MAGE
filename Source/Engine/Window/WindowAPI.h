@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Object/API.h>
-#include <Engine/Platform/PlatformWindow.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Object/API.h"
+#include "Engine/Platform/PlatformWindow.h"
 
 namespace MAGE
 {

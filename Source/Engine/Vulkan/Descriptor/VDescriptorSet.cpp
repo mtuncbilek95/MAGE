@@ -1,7 +1,9 @@
 #include "VDescriptorSet.h"
 
-#include <Engine/Vulkan/Descriptor/VDescriptorLayout.h>
-#include <Engine/Vulkan/Descriptor/VDescriptorPool.h>
+#include "Engine/Vulkan/Descriptor/VDescriptorLayout.h"
+#include "Engine/Vulkan/Descriptor/VDescriptorPool.h"
+
+#include "Engine/Platform/PlatformErrorMessage.h"
 
 namespace MAGE
 {
@@ -18,7 +20,7 @@ namespace MAGE
 		allocInfo.pSetLayouts = &layout;
 		allocInfo.pNext = nullptr;
 
-		CORE_ASSERT(vkAllocateDescriptorSets(mDevice, &allocInfo, &mVkDescriptorSet) == VK_SUCCESS, "VulkanLayout", "Failed to allocate descriptor set");
+		MAGE_ASSERT(vkAllocateDescriptorSets(mDevice, &allocInfo, &mVkDescriptorSet) == VK_SUCCESS, "VulkanLayout", "Failed to allocate descriptor set");
 
 		mVkDescriptorPool = pool;
 		mVkDescriptorLayout = layout;

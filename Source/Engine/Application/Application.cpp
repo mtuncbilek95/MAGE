@@ -1,13 +1,13 @@
 #include "Application.h"
 
-#if defined(MAGE_WINDOWS)
-#include <Windows.h>
-#endif
+#include <spdlog/spdlog.h>
 
 namespace MAGE
 {
 	void Application::Run()
 	{
+		spdlog::set_level(spdlog::level::debug);
+
 		OnInitialize();
 
 		for (auto& pModule : mTotalModules)
@@ -16,12 +16,12 @@ namespace MAGE
 			{
 				if (pModule->OnInitialize())
 				{
-					CORE_LOG(M_VERBOSE, "Module %s validated", pModule->GetModuleName().c_str());
+					spdlog::info("Module {} validated", pModule->GetModuleName());
 					pModule->SetState(ApplicationModuleState::Validated);
 				}
 				else
 				{
-					CORE_LOG(M_WARNING, "Module %s invalidated", pModule->GetModuleName().c_str());
+					spdlog::warn("Module {} invalidated", pModule->GetModuleName());
 					pModule->SetState(ApplicationModuleState::Invalidated);
 				}
 			}
@@ -74,6 +74,6 @@ namespace MAGE
 
 	void Application::QuitReason(const String& reason)
 	{
-		CORE_LOG(M_WARNING, "%s", reason.c_str());
+		spdlog::warn("{}", reason);
 	}
 }

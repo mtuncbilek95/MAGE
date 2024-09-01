@@ -1,10 +1,10 @@
 #pragma once
 
-#include <Engine/Graphics/Texture/TextureFormat.h>
-#include <Engine/Graphics/Texture/TextureUsageFlags.h>
-#include <Engine/Graphics/Texture/TextureType.h>
-#include <Engine/Graphics/Texture/SampleCount.h>
-#include <Engine/Graphics/Texture/TextureCreateFlags.h>
+#include "Engine/Graphics/Texture/TextureFormat.h"
+#include "Engine/Graphics/Texture/TextureUsageFlags.h"
+#include "Engine/Graphics/Texture/TextureType.h"
+#include "Engine/Graphics/Texture/SampleCount.h"
+#include "Engine/Graphics/Texture/TextureCreateFlags.h"
 
 namespace MAGE
 {

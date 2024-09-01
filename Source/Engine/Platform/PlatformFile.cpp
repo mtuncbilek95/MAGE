@@ -1,79 +1,64 @@
 #include "PlatformFile.h"
 
 #if defined(MAGE_WINDOWS)
-#include "Win32/Win32File.h"
-typedef MAGE::Win32File PlatformDependency;
+#include "Engine/Win32/Win32File.h"
+typedef MAGE::Win32File Dependency;
 #endif
 
 namespace MAGE
 {
 	b8 PlatformFile::Exists(const String& path)
 	{
-		return PlatformDependency::Exists(path);
+		return Dependency::Exists(path);
 	}
 
 	b8 PlatformFile::Create(const String& path)
 	{
-		return PlatformDependency::Create(path);
+		return Dependency::Create(path);
 	}
 
 	b8 PlatformFile::Delete(const String& path)
 	{
-		return PlatformDependency::Delete(path);
+		return Dependency::Delete(path);
 	}
 
-	b8 PlatformFile::Write(const String& path, const String& data, const u64 offset)
+	b8 PlatformFile::Copy(const String& source, const String& destination, bool bOverwrite)
 	{
-		return PlatformDependency::Write(path, data, offset);
-	}
-
-	b8 PlatformFile::Write(const String& path, const MemoryBuffer& buffer, const u64 offset)
-	{
-		return PlatformDependency::Write(path, buffer, offset);
-	}
-
-	b8 PlatformFile::Read(const String& path, String& contentOut, const u64 startByte, const u64 endByte)
-	{
-		return PlatformDependency::Read(path, contentOut, startByte, endByte);
-	}
-
-	b8 PlatformFile::Read(const String& path, MemoryOwnedBuffer& view, const u64 startByte, const u64 endByte)
-	{
-		return PlatformDependency::Read(path, view, startByte, endByte);
-	}
-
-	b8 PlatformFile::Copy(const String& source, const String& destination)
-	{
-		return PlatformDependency::Copy(source, destination);
+		return Dependency::Copy(source, destination, bOverwrite);
 	}
 
 	b8 PlatformFile::Move(const String& source, const String& destination)
 	{
-		return PlatformDependency::Move(source, destination);
+		return Dependency::Move(source, destination);
 	}
 
 	b8 PlatformFile::Rename(const String& source, const String& destination)
 	{
-		return PlatformDependency::Rename(source, destination);
+		return Dependency::Rename(source, destination);
 	}
 
-	b8 PlatformFile::GetSize(const String& path, u64& sizeOut)
+	b8 PlatformFile::Read(const String& path, String& outFile, bool nullTerminate)
 	{
-		return PlatformDependency::GetSize(path, sizeOut);
+		return Dependency::Read(path, outFile, nullTerminate);
 	}
 
-	b8 PlatformFile::GetName(const String& path, String& nameOut)
+	b8 PlatformFile::Read(const String& path, MemoryOwnedBuffer& outFile, bool nullTerminate)
 	{
-		return PlatformDependency::GetName(path, nameOut);
+		return Dependency::Read(path, outFile, nullTerminate);
 	}
 
-	b8 PlatformFile::GetExtension(const String& path, String& extensionOut)
+	b8 PlatformFile::Write(const String& path, const String& data, const u64 offset)
 	{
-		return PlatformDependency::GetExtension(path, extensionOut);
+		return Dependency::Write(path, data, offset);
 	}
 
-	b8 PlatformFile::GetDirectory(const String& path, String& directoryOut)
+	b8 PlatformFile::Write(const String& path, const MemoryBuffer& data, const u64 offset)
 	{
-		return PlatformDependency::GetDirectory(path, directoryOut);
+		return Dependency::Write(path, data, offset);
+	}
+
+	u64 PlatformFile::GetSize(const String& path)
+	{
+		return Dependency::GetSize(path);
 	}
 }

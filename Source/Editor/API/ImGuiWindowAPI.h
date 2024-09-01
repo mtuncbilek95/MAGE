@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Object/API.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Object/API.h"
 
-#include <Editor/GuiWindow/GuiWindow.h>
+#include "Editor/GuiWindow/GuiWindow.h"
 
 namespace MAGE
 {

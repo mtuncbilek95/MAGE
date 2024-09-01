@@ -1,14 +1,12 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Event/Event.h>
-
-#include <functional>
+#include "Engine/Core/Core.h"
+#include "Engine/Event/Event.h"
 
 namespace MAGE
 {
 	template<typename T>
-	using EventBlock = std::function<void(const T&)>;
+	using EventBlock = Function<void(const T&)>;
 
 	template<typename EventType>
 	class EventHandler

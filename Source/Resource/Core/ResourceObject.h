@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Resource/Core/IResource.h>
-#include <Resource/Core/ResourceSubObject.h>
+#include "Engine/Core/Core.h"
+#include "Resource/Core/IResource.h"
+#include "Resource/Core/ResourceSubObject.h"
 
 namespace MAGE
 {
@@ -18,7 +18,7 @@ namespace MAGE
 		FORCEINLINE ResourceSubObject* GetDataObject() const { return mDataObject.get(); }
 
 	private:
-		SharedPtr<ResourceSubObject> mDataObject;
+		SharedPtr"ResourceSubObject> mDataObject;
 		String mResourceName;
 		String mResourcePath;
 		u64 mResourceSize;

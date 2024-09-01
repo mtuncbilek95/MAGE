@@ -1,40 +1,32 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Memory/MemoryOwnedBuffer.h>
+#include "Engine/Core/Core.h"
 
 namespace MAGE
 {
-	class MemoryBuffer final
+	class MemoryOwnedBuffer;
+	class MemoryBuffer
 	{
+		typedef void* buf;
 	public:
 		MemoryBuffer();
-		MemoryBuffer(void* pData, const u64 size);
-		MemoryBuffer(const MemoryBuffer& other);
-		MemoryBuffer(const MemoryOwnedBuffer& pOwned);
-		~MemoryBuffer() = default;
+		MemoryBuffer(buf pData, u64 size);
+		MemoryBuffer(const MemoryBuffer& pOther);
+		MemoryBuffer(const MemoryOwnedBuffer& pOther);
+		~MemoryBuffer();
 
-		MemoryBuffer& operator=(const MemoryBuffer& other) noexcept
-		{
-			mBuffer = other.mBuffer;
-			mSize = other.mSize;
+		MemoryBuffer(MemoryBuffer&& pOther) = delete;
+		MemoryBuffer& operator=(MemoryBuffer&& pOther) = delete;
 
-			return *this;
-		}
+		MemoryBuffer& operator=(const MemoryBuffer& pOther);
 
-		MemoryBuffer& operator=(const MemoryOwnedBuffer& other) noexcept
-		{
-			mBuffer = other.GetData();
-			mSize = other.GetSize();
+		buf Data() const { return mBufferData; }
+		u64 Size() const { return mBufferSize; }
 
-			return *this;
-		}
-
-		FORCEINLINE void* GetData() const { return mBuffer; }
-		FORCEINLINE u64 GetSize() const { return mSize; }
+		operator bool() const { return mBufferData != nullptr; }
 
 	private:
-		void* mBuffer;
-		u64 mSize;
+		buf mBufferData;
+		u64 mBufferSize;
 	};
 }

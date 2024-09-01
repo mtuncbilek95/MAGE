@@ -1,7 +1,7 @@
 #include "TextureResource.h"
 
-#include <Engine/Graphics/API/GraphicsAPI.h>
-#include <Engine/Graphics/Device/GraphicsDevice.h>
+#include "Engine/Graphics/API/GraphicsAPI.h"
+#include "Engine/Graphics/Device/GraphicsDevice.h"
 
 namespace MAGE
 {
@@ -65,7 +65,7 @@ namespace MAGE
 	{
 		GraphicsBufferDesc bufferDesc = {};
 		bufferDesc.BlockLength = 1;
-		bufferDesc.BlockSize = buffer.GetSize();
+		bufferDesc.BlockSize = buffer.Size();
 		bufferDesc.pRequestMemory = mHostMemory;
 		bufferDesc.Usage = GraphicsBufferUsage::TransferSrc;
 
@@ -109,7 +109,7 @@ namespace MAGE
 		if (TextureView* view = mMipData[arrayIndex][mipIndex].pView.get())
 			return view;
 
-		CORE_LOG(M_ERROR, "TextureResource", "Failed to get view for requested mipmap... Returning nullptr!!!");
+		//CORE_LOG(M_ERROR, "TextureResource", "Failed to get view for requested mipmap... Returning nullptr!!!");
 		return nullptr;
 	}
 

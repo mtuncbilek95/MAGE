@@ -1,6 +1,7 @@
 #include "VSemaphore.h"
 
-#include <Engine/Vulkan/Device/VDevice.h>
+#include "Engine/Vulkan/Device/VDevice.h"
+#include "Engine/Platform/PlatformErrorMessage.h"
 
 namespace MAGE
 {
@@ -9,6 +10,6 @@ namespace MAGE
 		VkSemaphoreCreateInfo semaphoreInfo = {};
 		semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
-		CORE_ASSERT(vkCreateSemaphore(mDevice, &semaphoreInfo, nullptr, &mSemaphore) == VK_SUCCESS, "VSemaphore", "Failed to create semaphore!");
+		MAGE_ASSERT(vkCreateSemaphore(mDevice, &semaphoreInfo, nullptr, &mSemaphore) == VK_SUCCESS, "VSemaphore", "Failed to create semaphore!");
 	}
 }

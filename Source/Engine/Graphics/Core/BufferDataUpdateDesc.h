@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Memory/MemoryBuffer.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Memory/MemoryBuffer.h"
 
 namespace MAGE
 {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Monitor/MonitorDesc.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Monitor/MonitorDesc.h"
 
 namespace MAGE
 {

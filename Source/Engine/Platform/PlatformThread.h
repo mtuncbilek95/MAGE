@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
+#include "Engine/Core/Core.h"
 
 namespace MAGE
 {
@@ -17,8 +17,8 @@ namespace MAGE
 		PlatformThread(ThreadJob* pJob);
 		virtual ~PlatformThread() = default;
 
-		FORCEINLINE ThreadJob* GetJob() const { return mJob; }
-		FORCEINLINE void SetPriority(int priority);
+		ThreadJob* GetJob() const { return mJob; }
+		void SetPriority(int priority);
 
 	protected:
 		virtual void SetPriorityImpl(int priority) = 0;

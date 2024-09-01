@@ -1,13 +1,17 @@
 #include "VPipeline.h"
 #include "VPipelineUtils.h"
-#include "../Shader/VShaderUtils.h"
-#include "../Texture/VTextureUtils.h"
-#include "../Core/VCoreUtils.h"
-#include "../../Graphics/Texture/TextureUtils.h"
+#include "Engine/Vulkan/Shader/VShaderUtils.h"
+#include "Engine/Vulkan/Texture/VTextureUtils.h"
+#include "Engine/Vulkan/Core/VCoreUtils.h"
+#include "Engine/Graphics/Texture/TextureUtils.h"
 
-#include <Engine/Vulkan/Device/VDevice.h>
-#include <Engine/Vulkan/Shader/VShader.h>
-#include <Engine/Vulkan/Descriptor/VDescriptorLayout.h>
+#include "Engine/Vulkan/Device/VDevice.h"
+#include "Engine/Vulkan/Shader/VShader.h"
+#include "Engine/Vulkan/Descriptor/VDescriptorLayout.h"
+
+#include "Engine/Platform/PlatformErrorMessage.h"
+
+#include <spdlog/spdlog.h>
 
 namespace MAGE
 {
@@ -114,7 +118,7 @@ namespace MAGE
 
 		// MultisampleState
 		if (desc.Multisample.bSampleShadingEnabled && desc.Multisample.Samples != SampleCount::Sample1)
-			CORE_LOG(M_ERROR, "If you want to enable sample shading, you must set the sample count to something else rather than Sample1!");
+			spdlog::warn("If you want to enable sample shading, you must set the sample count to something else rather than Sample1!");
 		VkPipelineMultisampleStateCreateInfo multisampling = {};
 		multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
 		multisampling.sampleShadingEnable = desc.Multisample.bSampleShadingEnabled;
@@ -208,7 +212,7 @@ namespace MAGE
 		pipelineLayoutInfo.pushConstantRangeCount = pushConstants.size();
 		pipelineLayoutInfo.pPushConstantRanges = pushConstants.data();
 
-		CORE_ASSERT(vkCreatePipelineLayout(mVkDevice, &pipelineLayoutInfo, nullptr, &mVkPipelineLayout) == VK_SUCCESS, "VPipeline", "Failed to create pipeline layout!");
+		MAGE_ASSERT(vkCreatePipelineLayout(mVkDevice, &pipelineLayoutInfo, nullptr, &mVkPipelineLayout) == VK_SUCCESS, "VPipeline", "Failed to create pipeline layout!");
 
 		// Create Pipeline
 		VkGraphicsPipelineCreateInfo pipelineInfo{};
@@ -228,6 +232,6 @@ namespace MAGE
 		pipelineInfo.subpass = 0;
 		pipelineInfo.pNext = &renderingInfo;
 
-		CORE_ASSERT(vkCreateGraphicsPipelines(mVkDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &mVkPipeline) == VK_SUCCESS, "VPipeline", "Failed to create graphics pipeline!");
+		MAGE_ASSERT(vkCreateGraphicsPipelines(mVkDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &mVkPipeline) == VK_SUCCESS, "VPipeline", "Failed to create graphics pipeline!");
 	}
 }

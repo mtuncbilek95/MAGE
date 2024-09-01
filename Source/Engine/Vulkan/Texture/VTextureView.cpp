@@ -1,8 +1,9 @@
 #include "VTextureView.h"
 #include "VTextureUtils.h"
 
-#include <Engine/Vulkan/Device/VDevice.h>
-#include <Engine/Vulkan/Texture/VTextureImage.h>
+#include "Engine/Vulkan/Device/VDevice.h"
+#include "Engine/Vulkan/Texture/VTextureImage.h"
+#include "Engine/Platform/PlatformErrorMessage.h"
 
 namespace MAGE
 {
@@ -14,7 +15,7 @@ namespace MAGE
 		imageViewInfo.viewType = VkUtils::GetVkTextureViewType(desc.ViewType);
 
 		auto format = VkUtils::VkFormatMap.find(desc.pTexture->GetImageFormat());
-		CORE_ASSERT(format != VkUtils::VkFormatMap.end(), "VTextureImage", "Failed to find format!");
+		MAGE_ASSERT(format != VkUtils::VkFormatMap.end(), "VTextureImage", "Failed to find format!");
 		imageViewInfo.format = format->second;
 
 		imageViewInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
@@ -27,7 +28,7 @@ namespace MAGE
 		imageViewInfo.subresourceRange.baseArrayLayer = desc.ArrayLayer;
 		imageViewInfo.subresourceRange.layerCount = desc.ArrayCount;
 
-		CORE_ASSERT(vkCreateImageView(mDevice, &imageViewInfo, nullptr, &mImageView) == VK_SUCCESS, "VTextureView", "Failed to create image view!");
+		MAGE_ASSERT(vkCreateImageView(mDevice, &imageViewInfo, nullptr, &mImageView) == VK_SUCCESS, "VTextureView", "Failed to create image view!");
 	}
 
 	VTextureView::~VTextureView()

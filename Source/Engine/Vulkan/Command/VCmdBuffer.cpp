@@ -1,22 +1,24 @@
 #include "VCmdBuffer.h"
 #include "VCmdUtils.h"
-#include "../Core/VCoreUtils.h"
-#include "../Shader/VShaderUtils.h"
-#include "../Descriptor/VDescriptorUtils.h"
-#include "../Pipeline/VPipelineUtils.h"
-#include "../Texture/VTextureUtils.h"
-#include "../Buffer/VBufferUtils.h"
-#include "../Memory/VMemoryUtils.h"
+#include "Engine/Vulkan/Core/VCoreUtils.h"
+#include "Engine/Vulkan/Shader/VShaderUtils.h"
+#include "Engine/Vulkan/Descriptor/VDescriptorUtils.h"
+#include "Engine/Vulkan/Pipeline/VPipelineUtils.h"
+#include "Engine/Vulkan/Texture/VTextureUtils.h"
+#include "Engine/Vulkan/Buffer/VBufferUtils.h"
+#include "Engine/Vulkan/Memory/VMemoryUtils.h"
 
-#include <Engine/Vulkan/Device/VDevice.h>
-#include <Engine/Vulkan/Command/VCmdPool.h>
-#include <Engine/Vulkan/Texture/VTextureImage.h>
-#include <Engine/Vulkan/Texture/VTextureView.h>
-#include <Engine/Vulkan/Pipeline/VPipeline.h>
-#include <Engine/Vulkan/Buffer/VBuffer.h>
-#include <Engine/Vulkan/Descriptor/VDescriptorSet.h>
+#include "Engine/Vulkan/Device/VDevice.h"
+#include "Engine/Vulkan/Command/VCmdPool.h"
+#include "Engine/Vulkan/Texture/VTextureImage.h"
+#include "Engine/Vulkan/Texture/VTextureView.h"
+#include "Engine/Vulkan/Pipeline/VPipeline.h"
+#include "Engine/Vulkan/Buffer/VBuffer.h"
+#include "Engine/Vulkan/Descriptor/VDescriptorSet.h"
 
-#include <Engine/Graphics/API/GraphicsAPI.h>
+#include "Engine/Graphics/API/GraphicsAPI.h"
+
+#include "Engine/Platform/PlatformErrorMessage.h"
 
 namespace MAGE
 {
@@ -31,7 +33,7 @@ namespace MAGE
 		allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 		allocInfo.commandBufferCount = 1;
 
-		CORE_ASSERT(vkAllocateCommandBuffers(mDevice, &allocInfo, &mVkCmdBuffer) == VK_SUCCESS, "VCmdBuffer", "Failed to allocate command buffer");
+		MAGE_ASSERT(vkAllocateCommandBuffers(mDevice, &allocInfo, &mVkCmdBuffer) == VK_SUCCESS, "VCmdBuffer", "Failed to allocate command buffer");
 	}
 
 	void VCmdBuffer::BeginRecordingImpl()
@@ -41,12 +43,12 @@ namespace MAGE
 		beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
 		beginInfo.pInheritanceInfo = nullptr;
 
-		CORE_ASSERT(vkBeginCommandBuffer(mVkCmdBuffer, &beginInfo) == VK_SUCCESS, "VCmdBuffer", "Failed to begin recording command buffer");
+		MAGE_ASSERT(vkBeginCommandBuffer(mVkCmdBuffer, &beginInfo) == VK_SUCCESS, "VCmdBuffer", "Failed to begin recording command buffer");
 	}
 
 	void VCmdBuffer::EndRecordingImpl()
 	{
-		CORE_ASSERT(vkEndCommandBuffer(mVkCmdBuffer) == VK_SUCCESS, "VCmdBuffer", "Failed to end recording command buffer");
+		MAGE_ASSERT(vkEndCommandBuffer(mVkCmdBuffer) == VK_SUCCESS, "VCmdBuffer", "Failed to end recording command buffer");
 	}
 
 	void VCmdBuffer::BeginRenderingImpl(const DynamicPassDesc& desc)
@@ -170,7 +172,7 @@ namespace MAGE
 	void VCmdBuffer::PushConstantsImpl(MemoryBuffer buffer, u32 offset, ShaderStage stage)
 	{
 		auto pPipeline = GetBoundPipeline()->GetAs<VPipeline>();
-		vkCmdPushConstants(mVkCmdBuffer, pPipeline->GetVkPipelineLayout(), VkUtils::GetVkShaderStage(stage), offset, buffer.GetSize(), buffer.GetData());
+		vkCmdPushConstants(mVkCmdBuffer, pPipeline->GetVkPipelineLayout(), VkUtils::GetVkShaderStage(stage), offset, buffer.Size(), buffer.Data());
 	}
 
 	void VCmdBuffer::DrawIndexedImpl(u32 indexCount, u32 indexOffset, u32 vertexOffset, u32 instanceOffset, u32 instanceCount)

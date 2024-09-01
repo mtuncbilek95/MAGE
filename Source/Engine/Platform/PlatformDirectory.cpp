@@ -1,57 +1,54 @@
 #include "PlatformDirectory.h"
 
 #if defined(MAGE_WINDOWS)
-#include "Win32/Win32Directory.h"
-typedef MAGE::Win32Directory PlatformDependency;
-#endif
-
-#if defined(MAGE_LINUX)
+#include "Engine/Win32/Win32Directory.h"
+typedef MAGE::Win32Directory Dependency;
 #endif
 
 namespace MAGE
 {
 	b8 PlatformDirectory::Exists(const String& path)
 	{
-		return PlatformDependency::Exists(path);
+		return Dependency::Exists(path);
 	}
 
 	b8 PlatformDirectory::Create(const String& path)
 	{
-		return PlatformDependency::Create(path);
+		return Dependency::Create(path);
 	}
 
 	b8 PlatformDirectory::Delete(const String& path)
 	{
-		return PlatformDependency::Delete(path);
+		return Dependency::Delete(path);
 	}
 
 	b8 PlatformDirectory::Copy(const String& source, const String& destination)
 	{
-		return PlatformDependency::Copy(source, destination);
+		return Dependency::Copy(source, destination);
 	}
 
 	b8 PlatformDirectory::Move(const String& source, const String& destination)
 	{
-		return PlatformDependency::Move(source, destination);
+		return Dependency::Move(source, destination);
 	}
 
 	b8 PlatformDirectory::Rename(const String& source, const String& destination)
 	{
-		return PlatformDependency::Rename(source, destination);
+		return Dependency::Rename(source, destination);
 	}
 
-	b8 PlatformDirectory::GetFiles(const String& path, Vector<String>& files)
+	Vector<String> PlatformDirectory::GetFiles(const String& path)
 	{
-		return PlatformDependency::GetFiles(path, files);
+		return Dependency::GetFiles(path);
 	}
 
-	b8 PlatformDirectory::GetDirectories(const String& path, Vector<String>& directories)
+	Vector<String> PlatformDirectory::GetDirectories(const String& path)
 	{
-		return PlatformDependency::GetDirectories(path, directories);
+		return Dependency::GetDirectories(path);
 	}
 
-	b8 PlatformDirectory::GetFilesWithExtension(const String& path, const String& extension, Vector<String>& files)
+	Vector<String> PlatformDirectory::GetFilesByExtension(const String& path, const String& extension)
 	{
-		return PlatformDependency::GetFilesWithExtension(path, extension, files);
+		return Dependency::GetFilesByExtension(path, extension);
 	}
 }

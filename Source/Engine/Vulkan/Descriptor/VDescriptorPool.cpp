@@ -1,6 +1,7 @@
 #include "VDescriptorPool.h"
 
-#include <Engine/Vulkan/Descriptor/VDescriptorUtils.h>
+#include "Engine/Platform/PlatformErrorMessage.h"
+#include "Engine/Vulkan/Descriptor/VDescriptorUtils.h"
 
 namespace MAGE
 {
@@ -26,6 +27,6 @@ namespace MAGE
 		poolInfo.flags = VkUtils::GetVkDescriptorPoolFlags(desc.Flags);
 		poolInfo.pNext = nullptr;
 
-		CORE_ASSERT(vkCreateDescriptorPool(mDevice, &poolInfo, nullptr, &mVkDescriptorPool) == VK_SUCCESS, "VDescriptorPool", "Failed to create descriptor pool");
+		MAGE_ASSERT(vkCreateDescriptorPool(mDevice, &poolInfo, nullptr, &mVkDescriptorPool) == VK_SUCCESS, "VDescriptorPool", "Failed to create descriptor pool");
 	}
 }

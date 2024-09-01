@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Graphics/Sync/Fence.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Graphics/Sync/Fence.h"
 
 #include <vulkan/vulkan.h>
 

@@ -1,6 +1,6 @@
 #include "ThreadJob.h"
 
-#include <Engine/Platform/PlatformCriticalSection.h>
+#include "Engine/Platform/PlatformCriticalSection.h"
 
 namespace MAGE
 {

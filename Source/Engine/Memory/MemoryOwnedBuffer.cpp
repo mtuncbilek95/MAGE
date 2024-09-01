@@ -2,91 +2,141 @@
 
 namespace MAGE
 {
-	MemoryOwnedBuffer::MemoryOwnedBuffer() : mData(nullptr), mSize(0)
+	MemoryOwnedBuffer::MemoryOwnedBuffer() : mBufferData(nullptr), mBufferSize(0)
 	{
 	}
 
-	MemoryOwnedBuffer::MemoryOwnedBuffer(void* pData, const u64 size) : mData(nullptr), mSize(0)
+	MemoryOwnedBuffer::MemoryOwnedBuffer(buf pData, u64 size) : mBufferData(nullptr), mBufferSize(0)
 	{
-		AllocateAndCopy(pData, size);
+		Allocate(pData, size);
 	}
 
-	MemoryOwnedBuffer::MemoryOwnedBuffer(const MemoryOwnedBuffer& other) : mData(nullptr), mSize(0)
+	MemoryOwnedBuffer::MemoryOwnedBuffer(const MemoryOwnedBuffer& pOther) : mBufferData(nullptr), mBufferSize(0)
 	{
-		AllocateAndCopy(other.mData, other.mSize);
+		Allocate(pOther.mBufferData, pOther.mBufferSize);
 	}
 
-	MemoryOwnedBuffer::MemoryOwnedBuffer(MemoryOwnedBuffer&& other) noexcept : mData(other.mData), mSize(other.mSize)
+	MemoryOwnedBuffer::MemoryOwnedBuffer(MemoryOwnedBuffer&& pOther) noexcept : mBufferData(pOther.mBufferData), mBufferSize(pOther.mBufferSize)
 	{
-		other.mData = nullptr;
-		other.mSize = 0;
+		pOther.mBufferData = nullptr;
+		pOther.mBufferSize = 0;
 	}
 
 	MemoryOwnedBuffer::~MemoryOwnedBuffer()
 	{
-		delete[] static_cast<i8*>(mData);
+		delete[] static_cast<i8*>(mBufferData);
 	}
 
-	MemoryOwnedBuffer& MemoryOwnedBuffer::operator=(const MemoryOwnedBuffer& other)
+	MemoryOwnedBuffer& MemoryOwnedBuffer::operator+(MemoryOwnedBuffer& pOther)
 	{
-		if (this != &other)
+		MemoryOwnedBuffer newBuffer;
+		if (pOther.mBufferData && pOther.mBufferSize > 0)
+		{
+			u64 newSize = mBufferSize + pOther.mBufferSize;
+			void* newData = new i8[newSize];
+
+			std::memcpy(newData, mBufferData, mBufferSize);
+			std::memcpy(static_cast<i8*>(newData) + mBufferSize, pOther.mBufferData, pOther.mBufferSize);
+
+			newBuffer.mBufferData = newData;
+			newBuffer.mBufferSize = newSize;
+		}
+
+		return *this;
+	}
+
+	MemoryOwnedBuffer& MemoryOwnedBuffer::operator+=(MemoryOwnedBuffer& pOther)
+	{
+		if (pOther.mBufferData && pOther.mBufferSize > 0)
+		{
+			u64 newSize = mBufferSize + pOther.mBufferSize;
+			void* newData = new i8[newSize];
+
+			std::memcpy(newData, mBufferData, mBufferSize);
+			std::memcpy(static_cast<i8*>(newData) + mBufferSize, pOther.mBufferData, pOther.mBufferSize);
+
+			delete[] static_cast<i8*>(mBufferData);
+
+			mBufferData = newData;
+			mBufferSize = newSize;
+		}
+		return *this;
+	}
+
+	MemoryOwnedBuffer& MemoryOwnedBuffer::operator-(MemoryOwnedBuffer& pOther)
+	{
+		MemoryOwnedBuffer newBuffer;
+		if (pOther.mBufferData && pOther.mBufferSize > 0)
+		{
+			u64 newSize = mBufferSize - pOther.mBufferSize;
+			void* newData = new i8[newSize];
+
+			std::memcpy(newData, mBufferData, newSize);
+
+			newBuffer.mBufferData = newData;
+			newBuffer.mBufferSize = newSize;
+		}
+		return *this;
+	}
+
+	MemoryOwnedBuffer& MemoryOwnedBuffer::operator-=(MemoryOwnedBuffer& pOther)
+	{
+		if (pOther.mBufferData && pOther.mBufferSize > 0)
+		{
+			u64 newSize = mBufferSize - pOther.mBufferSize;
+			void* newData = new i8[newSize];
+
+			std::memcpy(newData, mBufferData, newSize);
+
+			delete[] static_cast<i8*>(mBufferData);
+
+			mBufferData = newData;
+			mBufferSize = newSize;
+		}
+		return *this;
+	}
+
+	MemoryOwnedBuffer& MemoryOwnedBuffer::operator=(MemoryOwnedBuffer& pOther)
+	{
+		if (this != &pOther)
 		{
 			void* newData = nullptr;
-			if (other.mData && other.mSize > 0)
+			if (pOther.mBufferData && pOther.mBufferSize > 0)
 			{
-				newData = new char[other.mSize];
-				std::memcpy(newData, other.mData, other.mSize);
+				newData = new i8[pOther.mBufferSize];
+				std::memcpy(newData, pOther.mBufferData, pOther.mBufferSize);
 			}
 
-			delete[] static_cast<char*>(mData);
+			delete[] static_cast<i8*>(mBufferData);
 
-			mData = newData;
-			mSize = other.mSize;
+			mBufferData = newData;
+			mBufferSize = pOther.mBufferSize;
 		}
 		return *this;
 	}
 
-	MemoryOwnedBuffer& MemoryOwnedBuffer::operator=(MemoryOwnedBuffer&& other) noexcept
+	MemoryOwnedBuffer& MemoryOwnedBuffer::operator=(MemoryOwnedBuffer&& pOther) noexcept
 	{
-		if (this != &other)
+		if (this != &pOther)
 		{
-			delete[] static_cast<char*>(mData);
+			delete[] static_cast<i8*>(mBufferData);
 
-			mData = other.mData;
-			mSize = other.mSize;
+			mBufferData = pOther.mBufferData;
+			mBufferSize = pOther.mBufferSize;
 
-			other.mData = nullptr;
-			other.mSize = 0;
+			pOther.mBufferData = nullptr;
+			pOther.mBufferSize = 0;
 		}
 		return *this;
 	}
 
-	MemoryOwnedBuffer& MemoryOwnedBuffer::operator+(const MemoryOwnedBuffer& other)
-	{
-		if (other.mData && other.mSize > 0)
-		{
-			u64 newSize = mSize + other.mSize;
-			void* newData = new char[newSize];
-
-			std::memcpy(newData, mData, mSize);
-			std::memcpy(static_cast<i8*>(newData) + mSize, other.mData, other.mSize);
-
-			delete[] static_cast<char*>(mData);
-
-			mData = newData;
-			mSize = newSize;
-		}
-		return *this;
-	
-	}
-
-	void MemoryOwnedBuffer::AllocateAndCopy(const void* pData, const u64 size)
+	void MemoryOwnedBuffer::Allocate(const buf pData, const u64 size)
 	{
 		if (pData && size > 0)
 		{
-			mData = new char[size];
-			std::memcpy(mData, pData, size);
-			mSize = size;
+			mBufferData = new i8[size];
+			std::memcpy(mBufferData, pData, size);
+			mBufferSize = size;
 		}
 	}
 }

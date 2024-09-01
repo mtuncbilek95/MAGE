@@ -1,7 +1,8 @@
 #include "VCmdPool.h"
-#include "../Core/VCoreUtils.h"
+#include "Engine/Vulkan/Core/VCoreUtils.h"
 
-#include <Engine/Vulkan/Device/VDevice.h>
+#include "Engine/Vulkan/Device/VDevice.h"
+#include "Engine/Platform/PlatformErrorMessage.h"
 
 namespace MAGE
 {
@@ -21,7 +22,7 @@ namespace MAGE
 			queueFamilyIndex = pDevice->GetTransferQueueFamilyIndex();
 			break;
 		default:
-			CORE_ASSERT(false, "VCmdPool", "Invalid command pool type");
+			MAGE_ASSERT(false, "VCmdPool", "Invalid command pool type");
 		}
 
 		VkCommandPoolCreateInfo poolInfo = {};
@@ -30,6 +31,6 @@ namespace MAGE
 		poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 		poolInfo.pNext = nullptr;
 
-		CORE_ASSERT(vkCreateCommandPool(mDevice, &poolInfo, nullptr, &mVkCommandPool) == VK_SUCCESS, "VCmdPool", "Failed to create command pool");
+		MAGE_ASSERT(vkCreateCommandPool(mDevice, &poolInfo, nullptr, &mVkCommandPool) == VK_SUCCESS, "VCmdPool", "Failed to create command pool");
 	}
 }

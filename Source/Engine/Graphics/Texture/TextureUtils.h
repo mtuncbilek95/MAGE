@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Graphics/Texture/TextureFormat.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Graphics/Texture/TextureFormat.h"
 
 namespace MAGE
 {

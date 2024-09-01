@@ -1,10 +1,10 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Object/API.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Object/API.h"
 
-#include <Engine/Graphics/Instance/GraphicsInstanceDesc.h>
-#include <Engine/Graphics/Swapchain/SwapchainDesc.h>
+#include "Engine/Graphics/Instance/GraphicsInstanceDesc.h"
+#include "Engine/Graphics/Swapchain/SwapchainDesc.h"
 
 namespace MAGE
 {

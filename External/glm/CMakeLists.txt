@@ -13,3 +13,9 @@ FetchContent_Declare(
 
 set(GLM_TEST_ENABLE OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(glm)
+
+function(DefineGlmMacros TARGET)
+	target_compile_definitions(${TARGET} PUBLIC GLM_FORCE_SILENT_WARNINGS)
+    target_compile_definitions(${TARGET} PUBLIC GLM_ENABLE_EXPERIMENTAL)
+    target_compile_definitions(${TARGET} PUBLIC GLM_FORCE_ALIGNED_GENTYPES)
+endfunction()

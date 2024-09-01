@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Graphics/Descriptor/DescriptorSetCopyEntry.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Graphics/Descriptor/DescriptorSetCopyEntry.h"
 
 namespace MAGE
 {

@@ -1,10 +1,10 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Job/WorkerThreadPriority.h>
-#include <Engine/Thread/ThreadJob.h>
-#include <Engine/Platform/PlatformThread.h>
-#include <Engine/Platform/PlatformCriticalSection.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Job/WorkerThreadPriority.h"
+#include "Engine/Thread/ThreadJob.h"
+#include "Engine/Platform/PlatformThread.h"
+#include "Engine/Platform/PlatformCriticalSection.h"
 
 namespace MAGE
 {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Graphics/Texture/SampleCount.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Graphics/Texture/SampleCount.h"
 
 namespace MAGE
 {

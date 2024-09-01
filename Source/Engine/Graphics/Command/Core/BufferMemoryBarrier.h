@@ -1,10 +1,10 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Graphics/Buffer/GraphicsBuffer.h>
-#include <Engine/Graphics/Pipeline/PipelineStageFlags.h>
-#include <Engine/Graphics/Memory/GraphicsMemoryAccessFlags.h>
-#include <Engine/Graphics/Queue/GraphicsQueueType.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Graphics/Buffer/GraphicsBuffer.h"
+#include "Engine/Graphics/Pipeline/PipelineStageFlags.h"
+#include "Engine/Graphics/Memory/GraphicsMemoryAccessFlags.h"
+#include "Engine/Graphics/Queue/GraphicsQueueType.h"
 
 namespace MAGE
 {

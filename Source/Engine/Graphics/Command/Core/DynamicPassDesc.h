@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Graphics/Command/Core/DynamicPassAttachmentDesc.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Graphics/Command/Core/DynamicPassAttachmentDesc.h"
 
 namespace MAGE
 {

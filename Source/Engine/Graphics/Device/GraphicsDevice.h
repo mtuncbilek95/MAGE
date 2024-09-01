@@ -1,26 +1,26 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Object/IObject.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Object/IObject.h"
 
-#include <Engine/Graphics/Queue/GraphicsQueueDesc.h>
-#include <Engine/Graphics/Memory/GraphicsMemoryDesc.h>
-#include <Engine/Graphics/Texture/TextureImageDesc.h>
-#include <Engine/Graphics/Texture/TextureViewDesc.h>
-#include <Engine/Graphics/Sampler/SamplerDesc.h>
-#include <Engine/Graphics/Buffer/GraphicsBufferDesc.h>
-#include <Engine/Graphics/Shader/ShaderDesc.h>
-#include <Engine/Graphics/Swapchain/SwapchainDesc.h>
-#include <Engine/Graphics/Descriptor/DescriptorLayoutDesc.h>
-#include <Engine/Graphics/Descriptor/DescriptorPoolDesc.h>
-#include <Engine/Graphics/Descriptor/DescriptorSetDesc.h>
-#include <Engine/Graphics/Pipeline/GraphicsPipelineDesc.h>
-#include <Engine/Graphics/Command/CmdPoolDesc.h>
-#include <Engine/Graphics/Command/CmdBufferDesc.h>
+#include "Engine/Graphics/Queue/GraphicsQueueDesc.h"
+#include "Engine/Graphics/Memory/GraphicsMemoryDesc.h"
+#include "Engine/Graphics/Texture/TextureImageDesc.h"
+#include "Engine/Graphics/Texture/TextureViewDesc.h"
+#include "Engine/Graphics/Sampler/SamplerDesc.h"
+#include "Engine/Graphics/Buffer/GraphicsBufferDesc.h"
+#include "Engine/Graphics/Shader/ShaderDesc.h"
+#include "Engine/Graphics/Swapchain/SwapchainDesc.h"
+#include "Engine/Graphics/Descriptor/DescriptorLayoutDesc.h"
+#include "Engine/Graphics/Descriptor/DescriptorPoolDesc.h"
+#include "Engine/Graphics/Descriptor/DescriptorSetDesc.h"
+#include "Engine/Graphics/Pipeline/GraphicsPipelineDesc.h"
+#include "Engine/Graphics/Command/CmdPoolDesc.h"
+#include "Engine/Graphics/Command/CmdBufferDesc.h"
 
-#include <Engine/Graphics/Pipeline/PipelineStageFlags.h>
-#include <Engine/Graphics/Core/BufferDataUpdateDesc.h>
-#include <Engine/Graphics/Descriptor/DescriptorUpdateDesc.h>
+#include "Engine/Graphics/Pipeline/PipelineStageFlags.h"
+#include "Engine/Graphics/Core/BufferDataUpdateDesc.h"
+#include "Engine/Graphics/Descriptor/DescriptorUpdateDesc.h"
 
 namespace MAGE
 {

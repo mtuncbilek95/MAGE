@@ -1,8 +1,10 @@
 #include "VBuffer.h"
 #include "VBufferUtils.h"
 
-#include <Engine/Vulkan/Device/VDevice.h>
-#include <Engine/Vulkan/Memory/VMemory.h>
+#include "Engine/Vulkan/Device/VDevice.h"
+#include "Engine/Vulkan/Memory/VMemory.h"
+
+#include "Engine/Platform/PlatformErrorMessage.h"
 
 namespace MAGE
 {
@@ -15,7 +17,7 @@ namespace MAGE
 		bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		bufferInfo.flags = 0;
 
-		CORE_ASSERT(vkCreateBuffer(mDevice, &bufferInfo, nullptr, &mBuffer) == VK_SUCCESS, "VBuffer", "Failed to create buffer!");
+		MAGE_ASSERT(vkCreateBuffer(mDevice, &bufferInfo, nullptr, &mBuffer) == VK_SUCCESS, "VBuffer", "Failed to create buffer!");
 
 		VkMemoryRequirements info;
 		vkGetBufferMemoryRequirements(mDevice, mBuffer, &info);
@@ -24,7 +26,7 @@ namespace MAGE
 		u64 alignedOffset = memoryOffset + (memoryOffset % info.alignment == 0 ? 0 : (info.alignment - (memoryOffset % info.alignment)));
 
 		auto memPtr = desc.pRequestMemory->GetAs<VMemory>();
-		CORE_ASSERT(vkBindBufferMemory(mDevice, mBuffer, memPtr->GetVkDeviceMemory(), alignedOffset) == VK_SUCCESS, "VBuffer", "Failed to bind buffer memory!");
+		MAGE_ASSERT(vkBindBufferMemory(mDevice, mBuffer, memPtr->GetVkDeviceMemory(), alignedOffset) == VK_SUCCESS, "VBuffer", "Failed to bind buffer memory!");
 
 		mOffset = memoryOffset;
 		mAlignedOffset = alignedOffset;

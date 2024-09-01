@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Graphics/Pipeline/RasterizerState/PolygonMode.h>
-#include <Engine/Graphics/Pipeline/RasterizerState/FaceCullMode.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Graphics/Pipeline/RasterizerState/PolygonMode.h"
+#include "Engine/Graphics/Pipeline/RasterizerState/FaceCullMode.h"
 
 namespace MAGE
 {

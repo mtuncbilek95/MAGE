@@ -1,9 +1,11 @@
 #include "TextureLoader.h"
 
-#include <Engine/Platform/PlatformFile.h>
+#include "Engine/Platform/PlatformFile.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+
+#include <spdlog/spdlog.h>
 
 namespace MAGE
 {
@@ -16,7 +18,7 @@ namespace MAGE
 
 			if(!data)
 			{
-				CORE_LOG(M_ERROR, "Failed to load image: %s", path.c_str());
+				spdlog::error("Failed to load image: {}", path);
 				return TextureMemory();
 			}
 

@@ -1,14 +1,14 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Graphics/Texture/TextureType.h>
-#include <Engine/Graphics/Texture/TextureFormat.h>
-#include <Engine/Graphics/Texture/TextureUsageFlags.h>
-#include <Engine/Graphics/Texture/SampleCount.h>
-#include <Engine/Graphics/Texture/TextureCreateFlags.h>
-#include <Engine/Graphics/Texture/TextureViewType.h>
-#include <Engine/Graphics/Texture/TextureAspectFlags.h>
-#include <Engine/Graphics/Texture/TextureLayout.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Graphics/Texture/TextureType.h"
+#include "Engine/Graphics/Texture/TextureFormat.h"
+#include "Engine/Graphics/Texture/TextureUsageFlags.h"
+#include "Engine/Graphics/Texture/SampleCount.h"
+#include "Engine/Graphics/Texture/TextureCreateFlags.h"
+#include "Engine/Graphics/Texture/TextureViewType.h"
+#include "Engine/Graphics/Texture/TextureAspectFlags.h"
+#include "Engine/Graphics/Texture/TextureLayout.h"
 
 #include <vulkan/vulkan.h>
 #include <magic_enum.hpp>
@@ -128,8 +128,6 @@ namespace MAGE
 					formatMap[format] = VK_FORMAT_R8_SNORM;
 				else if (format == TextureFormat::R8_Int)
 					formatMap[format] = VK_FORMAT_R8_SINT;
-				else if (format == TextureFormat::A8_UNorm)
-					formatMap[format] = VK_FORMAT_A8_UNORM_KHR;
 			}
 
 			return formatMap;

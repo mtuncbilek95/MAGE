@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Graphics/Core/CompareOperation.h>
-#include <Engine/Graphics/Pipeline/DepthStencilState/StencilFaceDesc.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Graphics/Core/CompareOperation.h"
+#include "Engine/Graphics/Pipeline/DepthStencilState/StencilFaceDesc.h"
 
 namespace MAGE
 {

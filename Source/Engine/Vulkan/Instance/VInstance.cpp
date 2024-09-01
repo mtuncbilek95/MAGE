@@ -1,19 +1,13 @@
 #include "VInstance.h"
 
-#if defined(MAGE_WINDOWS)
-#if !defined(NOMINMAX)
-#define NOMINMAX
-#endif // !NOMINMAX
+#include "Engine/Platform/PlatformErrorMessage.h"
 
+#if defined(MAGE_WINDOWS)
 #include <Windows.h>
 #include <vulkan/vulkan_win32.h>
 #endif
 
-#if defined(MAGE_DEBUG)
-#define EXTENSION_SIZE 5
-#else
-#define EXTENSION_SIZE 2
-#endif
+#include <spdlog/spdlog.h>
 
 namespace MAGE
 {
@@ -30,16 +24,16 @@ namespace MAGE
 		switch (messageSeverity)
 		{
 		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT:
-			CORE_LOG(M_VERBOSE, "%s", pCallbackData->pMessage);
+			spdlog::info("{}", pCallbackData->pMessage);
 			break;
 		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
-			CORE_LOG(M_INFO, "%s", pCallbackData->pMessage);
+			spdlog::debug("%s", pCallbackData->pMessage);
 			break;
 		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
-			CORE_LOG(M_WARNING, "%s", pCallbackData->pMessage);
+			spdlog::warn("%s", pCallbackData->pMessage);
 			break;
 		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
-			CORE_LOG(M_ERROR, "%s", pCallbackData->pMessage);
+			spdlog::error("%s", pCallbackData->pMessage);
 			break;
 		default:
 			break;
@@ -62,31 +56,33 @@ namespace MAGE
 		};
 
 		// Fill the wanted extensions
-		Vector<ExtensionEntry> extensions(EXTENSION_SIZE);
-		extensions[0] = { VK_KHR_SURFACE_EXTENSION_NAME, false };
-		extensions[1] = { VK_KHR_WIN32_SURFACE_EXTENSION_NAME, false };
+		Vector<ExtensionEntry> extensions;
+		extensions.push_back({ VK_KHR_SURFACE_EXTENSION_NAME, false });
+
+#if defined(MAGE_WINDOWS)
+		extensions.push_back({ VK_KHR_WIN32_SURFACE_EXTENSION_NAME, false });
+#endif // MAGE_WINDOWS
 
 #if defined(MAGE_DEBUG)
-		extensions[2] = { VK_EXT_DEBUG_UTILS_EXTENSION_NAME, false };
-#if defined(MAGE_WINDOWS)
-#endif // MAGE_WINDOWS
-		extensions[3] = { VK_EXT_DEBUG_REPORT_EXTENSION_NAME, false };
-		extensions[4] = { VK_EXT_DEBUG_UTILS_EXTENSION_NAME, false };
+		extensions.push_back({ VK_EXT_DEBUG_UTILS_EXTENSION_NAME, false });
+
+		extensions.push_back({ VK_EXT_DEBUG_REPORT_EXTENSION_NAME, false });
+		extensions.push_back({ VK_EXT_DEBUG_UTILS_EXTENSION_NAME, false });
 #endif // MAGE_DEBUG
 
 		// Check the total number of available extensions for the current computer
 		u32 extensionCount = 0;
-		CORE_ASSERT(vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr) == VK_SUCCESS,
+		MAGE_ASSERT(vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr) == VK_SUCCESS,
 			"VInstance", "Failed to enumerate instance extension properties");
-		CORE_ASSERT(extensionCount > 0, "VInstance", "No instance extension properties found");
+		MAGE_ASSERT(extensionCount > 0, "VInstance", "No instance extension properties found");
 
 		// Get all the available extensions for the current computer
 		Vector<VkExtensionProperties> allExtensions(extensionCount);
-		CORE_ASSERT(vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, allExtensions.data()) == VK_SUCCESS,
+		MAGE_ASSERT(vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, allExtensions.data()) == VK_SUCCESS,
 			"VInstance", "Failed to enumerate instance extension properties");
 
 		// Check if the wanted extensions are supported
-		for (u8 i = 0; i < EXTENSION_SIZE; ++i)
+		for (u8 i = 0; i < extensions.size(); ++i)
 		{
 			for (auto& extension : allExtensions)
 			{
@@ -112,13 +108,13 @@ namespace MAGE
 
 		// Check the total number of available layers for the current computer
 		u32 layerCount = 0;
-		CORE_ASSERT(vkEnumerateInstanceLayerProperties(&layerCount, nullptr) == VK_SUCCESS,
+		MAGE_ASSERT(vkEnumerateInstanceLayerProperties(&layerCount, nullptr) == VK_SUCCESS,
 			"VInstance", "Failed to enumerate instance layer properties");
-		CORE_ASSERT(layerCount > 0, "VInstance", "No instance layer properties found");
+		MAGE_ASSERT(layerCount > 0, "VInstance", "No instance layer properties found");
 
 		// Get all the available layers for the current computer
 		Vector<VkLayerProperties> allLayers(layerCount);
-		CORE_ASSERT(vkEnumerateInstanceLayerProperties(&layerCount, allLayers.data()) == VK_SUCCESS,
+		MAGE_ASSERT(vkEnumerateInstanceLayerProperties(&layerCount, allLayers.data()) == VK_SUCCESS,
 			"VInstance", "Failed to enumerate instance layer properties");
 
 		// Get all the wanted layers for debugging
@@ -147,7 +143,7 @@ namespace MAGE
 		createInfo.ppEnabledLayerNames = layers.data();
 		createInfo.flags = 0;
 
-		CORE_ASSERT(vkCreateInstance(&createInfo, nullptr, &mVkInstance) == VK_SUCCESS, "VInstance", "Failed to create Vulkan instance");
+		MAGE_ASSERT(vkCreateInstance(&createInfo, nullptr, &mVkInstance) == VK_SUCCESS, "VInstance", "Failed to create Vulkan instance");
 
 #if defined(MAGE_DEBUG)
 		debugMessengerCreateProc = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(mVkInstance, "vkCreateDebugUtilsMessengerEXT"));
@@ -162,7 +158,7 @@ namespace MAGE
 		debugMessengerInfo.pfnUserCallback = DebugCallback;
 		debugMessengerInfo.pUserData = nullptr;
 
-		CORE_ASSERT(debugMessengerCreateProc(mVkInstance, &debugMessengerInfo, nullptr, &mVkDebugger) == VK_SUCCESS, "VInstance", "Failed to create debug messenger");
+		MAGE_ASSERT(debugMessengerCreateProc(mVkInstance, &debugMessengerInfo, nullptr, &mVkDebugger) == VK_SUCCESS, "VInstance", "Failed to create debug messenger");
 #endif
 
 		// Get the best adapter for the current computer
@@ -173,15 +169,15 @@ namespace MAGE
 	{
 		// Get the physical devices count
 		u32 deviceCount = 0;
-		CORE_ASSERT(vkEnumeratePhysicalDevices(mVkInstance, &deviceCount, nullptr) == VK_SUCCESS, "VInstance", "Failed to enumerate physical devices");
-		CORE_ASSERT(deviceCount > 0, "VInstance", "No physical devices found");
+		MAGE_ASSERT(vkEnumeratePhysicalDevices(mVkInstance, &deviceCount, nullptr) == VK_SUCCESS, "VInstance", "Failed to enumerate physical devices");
+		MAGE_ASSERT(deviceCount > 0, "VInstance", "No physical devices found");
 
 		// Temporary struct to hold the device and its score
 		Map<String, Pair<VkPhysicalDevice, u32>> allDevices;
 
 		// Get the physical devices
 		Vector<VkPhysicalDevice> devices(deviceCount);
-		CORE_ASSERT(vkEnumeratePhysicalDevices(mVkInstance, &deviceCount, devices.data()) == VK_SUCCESS, "VInstance", "Failed to enumerate physical devices");
+		MAGE_ASSERT(vkEnumeratePhysicalDevices(mVkInstance, &deviceCount, devices.data()) == VK_SUCCESS, "VInstance", "Failed to enumerate physical devices");
 
 		for (auto& device : devices)
 		{
@@ -200,7 +196,7 @@ namespace MAGE
 			// Get the device queue family properties
 			u32 queueFamilyCount = 0;
 			vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
-			CORE_ASSERT(queueFamilyCount > 0, "VInstance", "No queue family properties found");
+			MAGE_ASSERT(queueFamilyCount > 0, "VInstance", "No queue family properties found");
 
 			Vector<VkQueueFamilyProperties> queueFamilyProperties(queueFamilyCount);
 			vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilyProperties.data());
@@ -226,7 +222,7 @@ namespace MAGE
 				return a.second.second < b.second.second;
 			});
 
-		CORE_LOG(M_INFO, "Best device found: %s", bestDevice->first.c_str());
+		spdlog::trace("Best device found: {}", bestDevice->first.c_str());
 		return bestDevice->second.first;
 	}
 }

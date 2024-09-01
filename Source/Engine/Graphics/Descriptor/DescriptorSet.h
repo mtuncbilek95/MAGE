@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Graphics/Object/DeviceObject.h>
-#include <Engine/Graphics/Descriptor/DescriptorSetDesc.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Graphics/Object/DeviceObject.h"
+#include "Engine/Graphics/Descriptor/DescriptorSetDesc.h"
 
 namespace MAGE
 {

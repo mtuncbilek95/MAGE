@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Editor/GuiWindow/GuiWindow.h>
+#include "Engine/Core/Core.h"
+#include "Editor/GuiWindow/GuiWindow.h"
 
 namespace MAGE
 {

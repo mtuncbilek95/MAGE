@@ -4,5 +4,5 @@ FORCEINLINE static b8 operator & (EnumType a, EnumType b) { return (static_cast<
 #define __declspec(dllexport)
 #define FORCEINLINE inline
 
-#define CORE_ASSERT(condition, title, message, __VA_ARGS__) MAGE::GlobalConsole::Assert(condition, title, message, __VA_ARGS__)
-#define CORE_ASSERT(condition, title, message, __VA_ARGS__) (condition)
+#define MAGE_ASSERT(condition, title, message, __VA_ARGS__) MAGE::GlobalConsole::Assert(condition, title, message, __VA_ARGS__)
+#define MAGE_ASSERT(condition, title, message, __VA_ARGS__) (condition)

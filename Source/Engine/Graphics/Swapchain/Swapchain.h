@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Graphics/Object/DeviceObject.h>
-#include <Engine/Graphics/Swapchain/SwapchainDesc.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Graphics/Object/DeviceObject.h"
+#include "Engine/Graphics/Swapchain/SwapchainDesc.h"
 
 namespace MAGE
 {

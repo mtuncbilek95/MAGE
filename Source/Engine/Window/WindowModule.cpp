@@ -1,11 +1,11 @@
 #include "WindowModule.h"
 
-#include <Engine/Window/WindowAPI.h>
-#include <Engine/Application/Application.h>
+#include "Engine/Window/WindowAPI.h"
+#include "Engine/Application/Application.h"
+#include "Engine/Platform/PlatformFile.h"
+#include "Engine/Platform/API/PlatformAPI.h"
 
 #include <nlohmann/json.hpp>
-#include <Engine/Platform/PlatformFile.h>
-#include <Engine/Platform/API/PlatformAPI.h>
 
 namespace MAGE
 {
@@ -23,8 +23,6 @@ namespace MAGE
 		windowDesc.WindowSize = Vec2i(100, 100);
 		windowDesc.WindowSize = Vec2u(pJson.at("EditorConfig").at("EditorWindow").at("Resolution")[0].get<int>(), pJson.at("EditorConfig").at("EditorWindow").at("Resolution")[1].get<int>());
 		windowDesc.WindowTitle = pJson.at("EditorConfig").at("EditorTitle").get<String>() + " - " + pJson.at("EditorConfig").at("EditorVersion").get<String>();
-
-		CORE_LOG(M_INFO, "Currently using: %s", windowDesc.WindowTitle.c_str());
 
 		return windowDesc;
 	}

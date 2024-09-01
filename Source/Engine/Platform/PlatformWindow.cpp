@@ -1,6 +1,7 @@
 #include "PlatformWindow.h"
 
-#include <Engine/Platform/PlatformMonitor.h>
+#include "Engine/Platform/PlatformMonitor.h"
+#include "Engine/Platform/PlatformErrorMessage.h"
 
 namespace MAGE
 {
@@ -12,14 +13,14 @@ namespace MAGE
 	PlatformWindow::PlatformWindow(const WindowDesc& desc) : mWindowMode(desc.WindowMode), mWindowPosition({ 0,0 }), mWindowSize(desc.WindowSize),
 		mWindowTitle(desc.WindowTitle), mVisible(true), mGLFWHandle(nullptr)
 	{
-		CORE_ASSERT(glfwInit(), "PlatformWindow", "Failed to initialize GLFW!");
+		MAGE_ASSERT(glfwInit(), "PlatformWindow", "Failed to initialize GLFW!");
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 
 		mGLFWHandle = glfwCreateWindow((i32)mWindowSize.x, (i32)mWindowSize.y, mWindowTitle.c_str(), nullptr, nullptr);
 
-		CORE_ASSERT(mGLFWHandle, "PlatformWindow", "Failed to create GLFW window!");
+		MAGE_ASSERT(mGLFWHandle, "PlatformWindow", "Failed to create GLFW window!");
 
 		glfwSetWindowUserPointer(mGLFWHandle, this);
 

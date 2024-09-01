@@ -1,11 +1,8 @@
 #pragma once
 
-#include <Engine/Core/Definitions.h>
-#include <Engine/Core/StdFix.h>
-
 namespace MAGE
 {
-	enum class WindowMode : i64
+	enum class WindowMode
 	{
 		Windowed = 0,
 		Borderless = 1,

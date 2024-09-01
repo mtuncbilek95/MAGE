@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Graphics/Texture/TextureAspectFlags.h>
-#include <Engine/Graphics/Texture/TextureViewType.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Graphics/Texture/TextureAspectFlags.h"
+#include "Engine/Graphics/Texture/TextureViewType.h"
 
 namespace MAGE
 {

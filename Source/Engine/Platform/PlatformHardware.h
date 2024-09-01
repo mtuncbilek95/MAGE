@@ -1,17 +1,16 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
+#include "Engine/Core/Core.h"
 
 namespace MAGE
 {
-	class PlatformHardware final
+	struct PlatformHardware final
 	{
-	public:
-		static u16 GetCPUThreadCount();
-		static u64 GetRAMSize();
-
-	public:
-		PlatformHardware() = delete;
-		~PlatformHardware() = delete;
+		static const String GetCPUName();
+		static const String GetGPUName();
+		static u64 GetHostMemorySize();
+		static u64 GetDeviceMemorySize();
+		static u32 GetCPUCores();
+		static u32 GetCPUThreads();
 	};
 }

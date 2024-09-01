@@ -1,7 +1,9 @@
 #include "VDescriptorLayout.h"
 
-#include <Engine/Vulkan/Descriptor/VDescriptorUtils.h>
-#include <Engine/Vulkan/Shader/VShaderUtils.h>
+#include "Engine/Vulkan/Descriptor/VDescriptorUtils.h"
+#include "Engine/Vulkan/Shader/VShaderUtils.h"
+
+#include "Engine/Platform/PlatformErrorMessage.h"
 
 namespace MAGE
 {
@@ -39,6 +41,6 @@ namespace MAGE
 		layoutInfo.flags = VkUtils::GetVkDescriptorSetLayoutFlags(desc.Flags);
 		layoutInfo.pNext = &bindingFlagsInfo;
 
-		CORE_ASSERT(vkCreateDescriptorSetLayout(mDevice, &layoutInfo, nullptr, &mVkDescriptorSetLayout) == VK_SUCCESS, "VDescriptorLayout", "Failed to create descriptor set layout");
+		MAGE_ASSERT(vkCreateDescriptorSetLayout(mDevice, &layoutInfo, nullptr, &mVkDescriptorSetLayout) == VK_SUCCESS, "VDescriptorLayout", "Failed to create descriptor set layout");
 	}
 }

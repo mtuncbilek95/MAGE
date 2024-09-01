@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Object/API.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Object/API.h"
 
-#include <Editor/ImguiRenderer/ImGuiRenderer.h>
+#include "Editor/ImguiRenderer/ImGuiRenderer.h"
 
 namespace MAGE
 {

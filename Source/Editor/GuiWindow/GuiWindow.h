@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Editor/Object/IEditorObject.h>
+#include "Engine/Core/Core.h"
+#include "Editor/Object/IEditorObject.h"
 
 namespace MAGE
 {

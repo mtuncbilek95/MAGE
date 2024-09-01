@@ -1,8 +1,7 @@
 #pragma once
-#pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Graphics/Memory/GraphicsMemory.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Graphics/Memory/GraphicsMemory.h"
 
 #include <vulkan/vulkan.h>
 

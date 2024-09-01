@@ -1,38 +1,42 @@
 #include "VDevice.h"
-#include "../Descriptor/VDescriptorUtils.h"
+#include "Engine/Vulkan/Descriptor/VDescriptorUtils.h"
 
-#include <Engine/Vulkan/Instance/VInstance.h>
-#include <Engine/Vulkan/Queue/VQueue.h>
-#include <Engine/Vulkan/Memory/VMemory.h>
-#include <Engine/Vulkan/Texture/VTextureImage.h>
-#include <Engine/Vulkan/Texture/VTextureView.h>
-#include <Engine/Vulkan/Sampler/VSampler.h>
-#include <Engine/Vulkan/Buffer/VBuffer.h>
-#include <Engine/Vulkan/Shader/VShader.h>
-#include <Engine/Vulkan/Swapchain/VSwapchain.h>
-#include <Engine/Vulkan/Descriptor/VDescriptorLayout.h>
-#include <Engine/Vulkan/Descriptor/VDescriptorPool.h>
-#include <Engine/Vulkan/Descriptor/VDescriptorSet.h>
-#include <Engine/Vulkan/Pipeline/VPipeline.h>
-#include <Engine/Vulkan/Sync/VFence.h>
-#include <Engine/Vulkan/Sync/VSemaphore.h>
-#include <Engine/Vulkan/Command/VCmdPool.h>
-#include <Engine/Vulkan/Command/VCmdBuffer.h>
+#include "Engine/Vulkan/Instance/VInstance.h"
+#include "Engine/Vulkan/Queue/VQueue.h"
+#include "Engine/Vulkan/Memory/VMemory.h"
+#include "Engine/Vulkan/Texture/VTextureImage.h"
+#include "Engine/Vulkan/Texture/VTextureView.h"
+#include "Engine/Vulkan/Sampler/VSampler.h"
+#include "Engine/Vulkan/Buffer/VBuffer.h"
+#include "Engine/Vulkan/Shader/VShader.h"
+#include "Engine/Vulkan/Swapchain/VSwapchain.h"
+#include "Engine/Vulkan/Descriptor/VDescriptorLayout.h"
+#include "Engine/Vulkan/Descriptor/VDescriptorPool.h"
+#include "Engine/Vulkan/Descriptor/VDescriptorSet.h"
+#include "Engine/Vulkan/Pipeline/VPipeline.h"
+#include "Engine/Vulkan/Sync/VFence.h"
+#include "Engine/Vulkan/Sync/VSemaphore.h"
+#include "Engine/Vulkan/Command/VCmdPool.h"
+#include "Engine/Vulkan/Command/VCmdBuffer.h"
+
+#include "Engine/Platform/PlatformErrorMessage.h"
 
 #define QUEUE_COUNT 1
+
+#include <spdlog/spdlog.h>
 
 namespace MAGE
 {
 	VDevice::VDevice(VInstance* pInstance) : GraphicsDevice(pInstance), mAdapter(pInstance->GetVkAdapter()),
 		mInstance(pInstance->GetVkInstance()), mDevice(VK_NULL_HANDLE)
 	{
-		CORE_ASSERT(mAdapter != VK_NULL_HANDLE, "VDevice", "Vulkan adapter is null");
-		CORE_ASSERT(mInstance != VK_NULL_HANDLE, "VDevice", "Vulkan instance is null");
+		MAGE_ASSERT(mAdapter != VK_NULL_HANDLE, "VDevice", "Vulkan adapter is null");
+		MAGE_ASSERT(mInstance != VK_NULL_HANDLE, "VDevice", "Vulkan instance is null");
 
 		// Get the queue family count
 		u32 queueFamilyCount = 0;
 		vkGetPhysicalDeviceQueueFamilyProperties(mAdapter, &queueFamilyCount, nullptr);
-		CORE_ASSERT(queueFamilyCount > 0, "VDevice", "No queue families found");
+		MAGE_ASSERT(queueFamilyCount > 0, "VDevice", "No queue families found");
 
 		// Get the queue families
 		Vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
@@ -47,21 +51,21 @@ namespace MAGE
 				mGraphicsQueueFamily.FamilyIndex = index;
 				mGraphicsQueueFamily.QueueCapacity = prop.queueCount;
 				mGraphicsQueueFamily.RequestedCount = QUEUE_COUNT > prop.queueCount ? prop.queueCount : QUEUE_COUNT;
-				CORE_LOG(M_INFO, "Graphics Queue: { Index:%d, Capacity:%d, RequestedCount:%d }", index, prop.queueCount, mGraphicsQueueFamily.RequestedCount);
+				spdlog::debug("Graphics Queue: {{ Index:{0}, Capacity:{1}, RequestedCount:{2} }}", index, prop.queueCount, mGraphicsQueueFamily.RequestedCount);
 			}
 			else if (prop.queueFlags & VK_QUEUE_COMPUTE_BIT && mComputeQueueFamily.FamilyIndex == 255)
 			{
 				mComputeQueueFamily.FamilyIndex = index;
 				mComputeQueueFamily.QueueCapacity = prop.queueCount;
 				mComputeQueueFamily.RequestedCount = QUEUE_COUNT > prop.queueCount ? prop.queueCount : QUEUE_COUNT;
-				CORE_LOG(M_INFO, "Compute  Queue: { Index:%d, Capacity:%d,  RequestedCount:%d }", index, prop.queueCount, mComputeQueueFamily.RequestedCount);
+				spdlog::debug("Compute  Queue: {{ Index:{0}, Capacity:{1},  RequestedCount:{2} }}", index, prop.queueCount, mComputeQueueFamily.RequestedCount);
 			}
 			else if (prop.queueFlags & VK_QUEUE_TRANSFER_BIT && mTransferQueueFamily.FamilyIndex == 255)
 			{
 				mTransferQueueFamily.FamilyIndex = index;
 				mTransferQueueFamily.QueueCapacity = prop.queueCount;
 				mTransferQueueFamily.RequestedCount = QUEUE_COUNT > prop.queueCount ? prop.queueCount : QUEUE_COUNT;
-				CORE_LOG(M_INFO, "Transfer Queue: { Index:%d, Capacity:%d,  RequestedCount:%d }", index, prop.queueCount, mTransferQueueFamily.RequestedCount);
+				spdlog::debug("Transfer Queue: {{ Index:{0}, Capacity:{1},  RequestedCount:{2} }}", index, prop.queueCount, mTransferQueueFamily.RequestedCount);
 			}
 			index++;
 		}
@@ -146,7 +150,7 @@ namespace MAGE
 		deviceInfo.flags = VkDeviceCreateFlags();
 		deviceInfo.pNext = &dynamicRenderingFeatures;
 
-		CORE_ASSERT(vkCreateDevice(mAdapter, &deviceInfo, nullptr, &mDevice) == VK_SUCCESS, "VDevice", "Failed to create device");
+		MAGE_ASSERT(vkCreateDevice(mAdapter, &deviceInfo, nullptr, &mDevice) == VK_SUCCESS, "VDevice", "Failed to create device");
 
 		// Reserve the queues for graphics, compute and transfer and store them in the related families.
 		mGraphicsQueueFamily.FreeQueues.reserve(mGraphicsQueueFamily.RequestedCount);
@@ -199,7 +203,7 @@ namespace MAGE
 		case GraphicsQueueType::Transfer:
 			return MakeShared<VQueue>(desc, mTransferQueueFamily.GetFreeQueue(), this);
 		default:
-			CORE_ASSERT(false, "VDevice", "Unknown queue type");
+			MAGE_ASSERT(false, "VDevice", "Unknown queue type");
 			return nullptr;
 		}
 	}
@@ -361,8 +365,8 @@ namespace MAGE
 		auto pDst = pBuffer->GetAs<VBuffer>();
 
 		void* data;
-		vkMapMemory(mDevice, pMemory->GetVkDeviceMemory(), pDst->GetAlignedOffset() + desc.OffsetInBytes, desc.Memory.GetSize(), 0, &data);
-		memcpy(data, desc.Memory.GetData(), desc.Memory.GetSize());
+		vkMapMemory(mDevice, pMemory->GetVkDeviceMemory(), pDst->GetAlignedOffset() + desc.OffsetInBytes, desc.Memory.Size(), 0, &data);
+		memcpy(data, desc.Memory.Data(), desc.Memory.Size());
 		vkUnmapMemory(mDevice, pMemory->GetVkDeviceMemory());
 	}
 
@@ -509,7 +513,7 @@ namespace MAGE
 				break;
 			}
 			default:
-				CORE_LOG(M_WARNING, "VDevice", "The DescriptorType that you are using is not valid for UpdateDescriptorSet()");
+				spdlog::warn("The DescriptorType that you are using is not valid for UpdateDescriptorSet()");
 				break;
 			}
 

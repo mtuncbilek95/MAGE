@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Engine/Core/Definitions.h>
-#include <Engine/Core/StdFix.h>
-#include <Engine/Object/IObject.h>
-#include <Engine/Window/WindowDesc.h>
+#include "Engine/Core/Definitions.h"
+#include "Engine/Core/StdFix.h"
+#include "Engine/Object/IObject.h"
+#include "Engine/Window/WindowDesc.h"
 
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>

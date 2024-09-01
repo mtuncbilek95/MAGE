@@ -1,8 +1,10 @@
 #include "VSampler.h"
 #include "VSamplerUtils.h"
-#include "../Core/VCoreUtils.h"
+#include "Engine/Vulkan/Core/VCoreUtils.h"
 
-#include <Engine/Vulkan/Device/VDevice.h>
+#include "Engine/Vulkan/Device/VDevice.h"
+
+#include "Engine/Platform/PlatformErrorMessage.h"
 
 namespace MAGE
 {
@@ -26,6 +28,6 @@ namespace MAGE
 		samplerInfo.minLod = desc.MinLOD;
 		samplerInfo.maxLod = desc.MaxLOD;
 
-		CORE_ASSERT(vkCreateSampler(mDevice, &samplerInfo, nullptr, &mSampler) == VK_SUCCESS, "VSampler", "Failed to create sampler!");
+		MAGE_ASSERT(vkCreateSampler(mDevice, &samplerInfo, nullptr, &mSampler) == VK_SUCCESS, "VSampler", "Failed to create sampler!");
 	}
 }

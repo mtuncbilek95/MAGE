@@ -1,21 +1,20 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Graphics/Pipeline/InputLayout/InputBindingStepRate.h>
-#include <Engine/Graphics/Pipeline/InputLayout/MeshTopology.h>
-#include <Engine/Graphics/Pipeline/RasterizerState/PolygonMode.h>
-#include <Engine/Graphics/Pipeline/RasterizerState/FaceCullMode.h>
-#include <Engine/Graphics/Pipeline/BlendState/BlendFactor.h>
-#include <Engine/Graphics/Pipeline/BlendState/BlendOperation.h>
-#include <Engine/Graphics/Pipeline/BlendState/BlendColorWriteMask.h>
-#include <Engine/Graphics/Pipeline/DepthStencilState/StencilOperation.h>
-#include <Engine/Graphics/Pipeline/PipelineBindPoint.h>
-#include <Engine/Graphics/Pipeline/PipelineStageFlags.h>
-#include <Engine/Graphics/Pipeline/DepthStencilState/StencilFaceDesc.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Vulkan/Core/VCoreUtils.h"
+#include "Engine/Graphics/Pipeline/InputLayout/InputBindingStepRate.h"
+#include "Engine/Graphics/Pipeline/InputLayout/MeshTopology.h"
+#include "Engine/Graphics/Pipeline/RasterizerState/PolygonMode.h"
+#include "Engine/Graphics/Pipeline/RasterizerState/FaceCullMode.h"
+#include "Engine/Graphics/Pipeline/BlendState/BlendFactor.h"
+#include "Engine/Graphics/Pipeline/BlendState/BlendOperation.h"
+#include "Engine/Graphics/Pipeline/BlendState/BlendColorWriteMask.h"
+#include "Engine/Graphics/Pipeline/DepthStencilState/StencilOperation.h"
+#include "Engine/Graphics/Pipeline/PipelineBindPoint.h"
+#include "Engine/Graphics/Pipeline/PipelineStageFlags.h"
+#include "Engine/Graphics/Pipeline/DepthStencilState/StencilFaceDesc.h"
 
 #include <vulkan/vulkan.h>
-
-#include <Engine/Vulkan/Core/VCoreUtils.h>
 
 namespace MAGE
 {

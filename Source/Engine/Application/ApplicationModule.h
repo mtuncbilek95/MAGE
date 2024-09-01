@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Object/IObject.h>
-#include <Engine/Application/ApplicationModuleState.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Object/IObject.h"
+#include "Engine/Application/ApplicationModuleState.h"
 
 namespace MAGE
 {

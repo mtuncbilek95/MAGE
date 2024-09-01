@@ -3,19 +3,32 @@
 
 namespace MAGE
 {
-	MemoryBuffer::MemoryBuffer() : mBuffer(nullptr), mSize(0)
+	MemoryBuffer::MemoryBuffer() : mBufferData(nullptr), mBufferSize(0)
 	{
 	}
 
-	MemoryBuffer::MemoryBuffer(void* pData, const u64 size) : mBuffer(pData), mSize(size)
+	MemoryBuffer::MemoryBuffer(buf pData, u64 size) : mBufferData(pData), mBufferSize(size)
 	{
 	}
 
-	MemoryBuffer::MemoryBuffer(const MemoryBuffer& other) : mBuffer(other.mBuffer), mSize(other.mSize)
+	MemoryBuffer::MemoryBuffer(const MemoryBuffer& pOther) : mBufferData(pOther.mBufferData), mBufferSize(pOther.mBufferSize)
 	{
 	}
 
-	MemoryBuffer::MemoryBuffer(const MemoryOwnedBuffer& pOwned) : mBuffer(pOwned.GetData()), mSize(pOwned.GetSize())
+	MemoryBuffer::MemoryBuffer(const MemoryOwnedBuffer& pOther) : mBufferData(pOther.Data()), mBufferSize(pOther.Size())
 	{
+	}
+
+	MemoryBuffer::~MemoryBuffer()
+	{
+		mBufferData = nullptr;
+		mBufferSize = 0;
+	}
+
+	MemoryBuffer& MemoryBuffer::operator=(const MemoryBuffer& pOther)
+	{
+		mBufferData = pOther.mBufferData;
+		mBufferSize = pOther.mBufferSize;
+		return *this;
 	}
 }

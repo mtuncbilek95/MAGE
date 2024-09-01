@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Graphics/Command/CmdPoolType.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Graphics/Command/CmdPoolType.h"
 
 namespace MAGE
 {

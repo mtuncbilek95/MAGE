@@ -10,7 +10,7 @@ FetchContent_Declare(
     GIT_SHALLOW TRUE
 )
 
-FetchContent_MakeAvailable(glfw)
+FetchContent_MakeAvailable(assimp)
 
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" FORCE)
 set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "Assimp build tests" FORCE)

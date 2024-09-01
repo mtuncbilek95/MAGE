@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Platform/PlatformGuid.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Platform/PlatformGuid.h"
 
 namespace MAGE
 {

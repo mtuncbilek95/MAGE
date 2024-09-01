@@ -1,8 +1,8 @@
 #include "ShaderIncluder.h"
 
-#include <Engine/Platform/PlatformFile.h>
+#include "Engine/Platform/PlatformFile.h"
 
-#include <stdexcept>
+#include <spdlog/spdlog.h>
 
 namespace MAGE
 {
@@ -11,8 +11,11 @@ namespace MAGE
 		IncludeData* data = new IncludeData();
 		data->FullPath = ResolveInclude(requestedSource);
 
-		if(!PlatformFile::Read(data->FullPath, data->Content))
-			throw std::runtime_error("Failed to read include file: " + data->FullPath);
+		if (!PlatformFile::Read(data->FullPath, data->Content))
+		{
+			spdlog::critical("Failed to read include file: {}", data->FullPath);
+			return nullptr;
+		}
 
 		shaderc_include_result* result = &data->result;
 		result->source_name = data->FullPath.c_str();
@@ -33,7 +36,10 @@ namespace MAGE
 	{
 		std::string path = mIncludePath + includePath;
 		if (!PlatformFile::Exists(path))
-			throw std::runtime_error("Include file not found: " + path);
+		{
+			spdlog::critical("Include file not found: {}", path);
+			return String();
+		}
 		
 		return path;
 	}

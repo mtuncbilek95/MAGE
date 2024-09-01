@@ -1,7 +1,8 @@
 #include "VMemory.h"
 #include "VMemoryUtils.h"
 
-#include <Engine/Vulkan/Device/VDevice.h>
+#include "Engine/Vulkan/Device/VDevice.h"
+#include "Engine/Platform/PlatformErrorMessage.h"
 
 namespace MAGE
 {
@@ -13,7 +14,7 @@ namespace MAGE
 		memoryAllocateInfo.allocationSize = desc.MemorySize;
 		memoryAllocateInfo.memoryTypeIndex = FindMemoryType(desc.MemoryType);
 
-		CORE_ASSERT(vkAllocateMemory(mDevice, &memoryAllocateInfo, nullptr, &mVkDeviceMemory) == VK_SUCCESS, "VMemory", "Failed to allocate memory");
+		MAGE_ASSERT(vkAllocateMemory(mDevice, &memoryAllocateInfo, nullptr, &mVkDeviceMemory) == VK_SUCCESS, "VMemory", "Failed to allocate memory");
 	}
 
 	u32 VMemory::FindMemoryType(GraphicsMemoryType memoryType)
@@ -27,7 +28,7 @@ namespace MAGE
 			if ((memoryProperties.memoryTypes[i].propertyFlags & properties) == properties)
 				return i;
 
-		CORE_ASSERT(false, "VMemory", "Failed to find suitable memory type");
+		MAGE_ASSERT(false, "VMemory", "Failed to find suitable memory type");
 		return u32_max;
 	}
 }

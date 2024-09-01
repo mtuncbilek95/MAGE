@@ -1,11 +1,12 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Platform/API/PlatformAPI.h>
-#include <Engine/Platform/PlatformFile.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Platform/API/PlatformAPI.h"
+#include "Engine/Platform/PlatformFile.h"
 
 #include <imgui.h>
 #include <nlohmann/json.hpp>
+#include <spdlog/spdlog.h>
 
 namespace MAGE
 {
@@ -23,7 +24,6 @@ namespace MAGE
 			String binary;
 			if (!PlatformFile::Read(path, binary))
 			{
-				CORE_LOG(M_ERROR, "Failed to read file [%s].", path.c_str());
 				return;
 			}
 
@@ -34,7 +34,6 @@ namespace MAGE
 			}
 			catch (const std::exception& e)
 			{
-				CORE_LOG(M_ERROR, "Failed to parse json file [%s].", path.c_str());
 				return;
 			}
 
@@ -212,7 +211,7 @@ namespace MAGE
 			String binary = json.dump(4);
 
 			if (!PlatformFile::Write(path, binary))
-				CORE_LOG(M_ERROR, "Failed to write file [%s].", path.c_str());
+				spdlog::warn("Failed to write file [{}].", path);
 		}
 	}
 }

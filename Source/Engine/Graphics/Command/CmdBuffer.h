@@ -1,19 +1,19 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Memory/MemoryBuffer.h>
-#include <Engine/Graphics/Object/DeviceObject.h>
-#include <Engine/Graphics/Command/CmdBufferDesc.h>
-#include <Engine/Graphics/Command/Core/DynamicPassDesc.h>
-#include <Engine/Graphics/Command/Core/GraphicsIndexType.h>
-#include <Engine/Graphics/Pipeline/Core/ViewportDesc.h>
-#include <Engine/Graphics/Pipeline/Core/ScissorDesc.h>
-#include <Engine/Graphics/Shader/ShaderStage.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Memory/MemoryBuffer.h"
+#include "Engine/Graphics/Object/DeviceObject.h"
+#include "Engine/Graphics/Command/CmdBufferDesc.h"
+#include "Engine/Graphics/Command/Core/DynamicPassDesc.h"
+#include "Engine/Graphics/Command/Core/GraphicsIndexType.h"
+#include "Engine/Graphics/Pipeline/Core/ViewportDesc.h"
+#include "Engine/Graphics/Pipeline/Core/ScissorDesc.h"
+#include "Engine/Graphics/Shader/ShaderStage.h"
 
-#include <Engine/Graphics/Command/Core/BufferBufferCopyDesc.h>
-#include <Engine/Graphics/Command/Core/BufferTextureCopyDesc.h>
-#include <Engine/Graphics/Command/Core/TextureImageBarrier.h>
-#include <Engine/Graphics/Command/Core/BufferMemoryBarrier.h>
+#include "Engine/Graphics/Command/Core/BufferBufferCopyDesc.h"
+#include "Engine/Graphics/Command/Core/BufferTextureCopyDesc.h"
+#include "Engine/Graphics/Command/Core/TextureImageBarrier.h"
+#include "Engine/Graphics/Command/Core/BufferMemoryBarrier.h"
 
 namespace MAGE
 {

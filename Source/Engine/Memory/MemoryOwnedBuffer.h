@@ -1,30 +1,37 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
+#include "Engine/Core/Core.h"
 
 namespace MAGE
 {
-	class MemoryOwnedBuffer final
+	class MemoryBuffer;
+	class MemoryOwnedBuffer
 	{
+		typedef void* buf;
 	public:
 		MemoryOwnedBuffer();
-		MemoryOwnedBuffer(void* pData, const u64 size);
-		MemoryOwnedBuffer(const MemoryOwnedBuffer& other);
-		MemoryOwnedBuffer(MemoryOwnedBuffer&& other) noexcept;
+		MemoryOwnedBuffer(buf pData, u64 size);
+		MemoryOwnedBuffer(const MemoryOwnedBuffer& pOther);
+		MemoryOwnedBuffer(MemoryOwnedBuffer&& pOther) noexcept;
 		~MemoryOwnedBuffer();
 
-		FORCEINLINE void* GetData() const { return mData; }
-		FORCEINLINE u64 GetSize() const { return mSize; }
 
-		MemoryOwnedBuffer& operator=(const MemoryOwnedBuffer& other);
-		MemoryOwnedBuffer& operator=(MemoryOwnedBuffer&& other) noexcept;
+		MemoryOwnedBuffer& operator+(MemoryOwnedBuffer& pOther);
+		MemoryOwnedBuffer& operator+=(MemoryOwnedBuffer& pOther);
+		MemoryOwnedBuffer& operator-(MemoryOwnedBuffer& pOther);
+		MemoryOwnedBuffer& operator-=(MemoryOwnedBuffer& pOther);
+		MemoryOwnedBuffer& operator=(MemoryOwnedBuffer& pOther);
+		MemoryOwnedBuffer& operator=(MemoryOwnedBuffer&& pOther) noexcept;
 
-		MemoryOwnedBuffer& operator+(const MemoryOwnedBuffer& other);
+		buf Data() const { return mBufferData; }
+		u64 Size() const { return mBufferSize; }
 
+		operator bool() const { return mBufferData != nullptr; }
+
+	protected:
+		void Allocate(const buf pData, const u64 size);
 	private:
-		void AllocateAndCopy(const void* pData, const u64 size);
-	private:
-		void* mData;
-		u64 mSize;
+		buf mBufferData;
+		u64 mBufferSize;
 	};
 }

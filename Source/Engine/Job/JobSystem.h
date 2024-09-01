@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Job/WorkerThread.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Job/WorkerThread.h"
 
 namespace MAGE
 {

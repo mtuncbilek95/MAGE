@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Thread/ThreadJobState.h>
-#include <Engine/Platform/PlatformThread.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Thread/ThreadJobState.h"
+#include "Engine/Platform/PlatformThread.h"
 
 namespace MAGE
 {

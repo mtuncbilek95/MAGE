@@ -1,14 +1,14 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Resource/Core/ResourceSubObject.h>
-#include <Resource/Texture/TextureResourceDesc.h>
+#include "Engine/Core/Core.h"
+#include "Resource/Core/ResourceSubObject.h"
+#include "Resource/Texture/TextureResourceDesc.h"
 
-#include <Engine/Graphics/Sync/Fence.h>
-#include <Engine/Graphics/Texture/TextureImage.h>
-#include <Engine/Graphics/Command/CmdBuffer.h>
-#include <Engine/Graphics/Command/CmdPool.h>
-#include <Engine/Graphics/Texture/TextureView.h>
+#include "Engine/Graphics/Sync/Fence.h"
+#include "Engine/Graphics/Texture/TextureImage.h"
+#include "Engine/Graphics/Command/CmdBuffer.h"
+#include "Engine/Graphics/Command/CmdPool.h"
+#include "Engine/Graphics/Texture/TextureView.h"
 
 namespace MAGE
 {

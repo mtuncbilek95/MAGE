@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Engine/Core/Core.h>
-#include <Engine/Graphics/Sync/Semaphore.h>
+#include "Engine/Core/Core.h"
+#include "Engine/Graphics/Sync/Semaphore.h"
 
 #include <vulkan/vulkan.h>
 

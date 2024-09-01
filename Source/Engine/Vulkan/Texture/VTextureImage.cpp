@@ -1,8 +1,10 @@
 #include "VTextureImage.h"
 #include "VTextureUtils.h"
 
-#include <Engine/Vulkan/Device/VDevice.h>
-#include <Engine/Vulkan/Memory/VMemory.h>
+#include "Engine/Vulkan/Device/VDevice.h"
+#include "Engine/Vulkan/Memory/VMemory.h"
+
+#include "Engine/Platform/PlatformErrorMessage.h"
 
 namespace MAGE
 {
@@ -19,7 +21,7 @@ namespace MAGE
 		imageInfo.arrayLayers = desc.ArrayLayers;
 		
 		auto format = VkUtils::VkFormatMap.find(desc.ImageFormat);
-		CORE_ASSERT(format != VkUtils::VkFormatMap.end(), "VTextureImage", "Failed to find format!");
+		MAGE_ASSERT(format != VkUtils::VkFormatMap.end(), "VTextureImage", "Failed to find format!");
 		imageInfo.format = format->second;
 
 		imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
@@ -29,7 +31,7 @@ namespace MAGE
 		imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		imageInfo.flags = VkUtils::GetVkImageCreateFlags(desc.CreateFlags);
 
-		CORE_ASSERT(vkCreateImage(mDevice, &imageInfo, nullptr, &mTexture) == VK_SUCCESS, "VTextureImage", "Failed to create image!");
+		MAGE_ASSERT(vkCreateImage(mDevice, &imageInfo, nullptr, &mTexture) == VK_SUCCESS, "VTextureImage", "Failed to create image!");
 
 		VkMemoryRequirements info = {};
 		vkGetImageMemoryRequirements(mDevice, mTexture, &info);
@@ -38,7 +40,7 @@ namespace MAGE
 		u64 alignedOffset = memoryOffset + (memoryOffset % info.alignment == 0 ? 0 : (info.alignment - (memoryOffset % info.alignment)));
 
 		VMemory* memPtr = desc.pRequestMemory->GetAs<VMemory>();
-		CORE_ASSERT(vkBindImageMemory(mDevice, mTexture, memPtr->GetVkDeviceMemory(), alignedOffset) == VK_SUCCESS, "VTextureImage", "Failed to bind image memory!");
+		MAGE_ASSERT(vkBindImageMemory(mDevice, mTexture, memPtr->GetVkDeviceMemory(), alignedOffset) == VK_SUCCESS, "VTextureImage", "Failed to bind image memory!");
 
 		mOffset = memoryOffset;
 		mAlignedOffset = alignedOffset;

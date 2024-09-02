@@ -33,12 +33,12 @@ namespace MAGE
 		concept Arithmetic = std::is_arithmetic_v<T>;
 
 		template<Arithmetic T>
-		inline constexpr T MbToByte(T mb) { return mb * 1024.0 * 1024.0; }
+		inline constexpr T MbToByte(T mb) { return mb * 1000.0 * 1000.0; }
 		template<Arithmetic T>
-		inline constexpr T KbToByte(T kb) { return kb * 1024.0; }
+		inline constexpr T KbToByte(T kb) { return kb * 1000.0; }
 		template<Arithmetic T>
-		inline constexpr T ByteToMb(T bt) { return bt / 1024.0 / 1024.0; }
+		inline constexpr T ByteToMb(T bt) { return bt / 1000.0 / 1000.0; }
 		template<Arithmetic T>
-		inline constexpr T ByteToKb(T bt) { return bt / 1024.0; }
+		inline constexpr T ByteToKb(T bt) { return bt / 1000.0; }
 	}
 }

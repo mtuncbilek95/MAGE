@@ -5,6 +5,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @struct GraphicsMemoryDesc
+	 * @brief Description of a graphics memory
+	 */
 	struct GraphicsMemoryDesc
 	{
 		GraphicsMemoryType MemoryType;

@@ -6,6 +6,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @class GraphicsInstance
+	 * @brief Interface for the base generator of the graphics systems.
+	 */
 	class GraphicsInstance : public IObject
 	{
 	public:

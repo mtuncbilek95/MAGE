@@ -4,7 +4,11 @@
 
 namespace MAGE
 {
-	// Base class for the event types. If you need to create a new event type, you should inherit from this class.
+	/**
+	* @class Event
+	* @brief Base class for the event types. If you need to create a new event type, 
+	* you should inherit from this class.
+	*/
 	template<typename Event0>
 	class Event
 	{

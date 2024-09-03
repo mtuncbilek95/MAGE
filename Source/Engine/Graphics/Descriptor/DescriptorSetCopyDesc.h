@@ -5,6 +5,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @struct DescriptorSetCopyDesc
+	 * @brief Description of a descriptor set copy
+	 */
 	struct DescriptorSetCopyDesc
 	{
 		Vector<DescriptorSetCopyEntry> Entries;

@@ -7,6 +7,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @struct DescriptorPoolDesc
+	 * @brief Description of a descriptor pool
+	 */
 	struct DescriptorPoolDesc
 	{
 		u64 MaxSets;

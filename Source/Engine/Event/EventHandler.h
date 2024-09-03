@@ -8,6 +8,10 @@ namespace MAGE
 	template<typename T>
 	using EventBlock = Function<void(const T&)>;
 
+	/**
+	* @class EventHandler
+	* @brief A class that manages the event listeners.
+	*/
 	template<typename EventType>
 	class EventHandler
 	{

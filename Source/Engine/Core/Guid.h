@@ -5,6 +5,10 @@
 
 namespace MAGE
 {
+	/**
+	* @class Guid
+	* @brief A class that represents a unique identifier.
+	*/
 	class Guid final
 	{
 	public:

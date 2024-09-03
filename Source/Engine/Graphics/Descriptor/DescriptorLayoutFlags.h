@@ -4,6 +4,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @enum DescriptorLayoutFlags
+	 * @brief Enum for descriptor layout flags
+	 */
 	enum class DescriptorLayoutFlags : u8
 	{
         DLF_None = 0,

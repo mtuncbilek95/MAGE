@@ -4,6 +4,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @enum GraphicsBufferUsage
+	 * @brief Enum for graphics buffer usage
+	 */
 	enum class GraphicsBufferUsage : u8
 	{
 		GBU_Vertex = 1 << 0,

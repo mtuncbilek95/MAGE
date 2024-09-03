@@ -9,6 +9,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @struct TextureImageBarrier
+	 * @brief Mostly used for texture image barrier
+	 */
 	struct TextureImageBarrier
 	{
 		GraphicsMemoryAccessFlags SourceAccessMask;

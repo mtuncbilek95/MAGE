@@ -7,6 +7,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @struct DescriptorLayoutEntry
+	 * @brief Description of a descriptor layout entry
+	 */
 	struct DescriptorLayoutEntry
 	{
 		u32 Binding; 

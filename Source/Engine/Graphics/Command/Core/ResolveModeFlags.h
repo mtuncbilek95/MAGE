@@ -4,6 +4,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @enum ResolveModeFlags
+	 * @brief Enum for resolve mode flags
+	 */
 	enum class ResolveModeFlags : u8
 	{
 		RMF_None,

@@ -4,6 +4,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @enum GraphicsMemoryType
+	 * @brief Types of graphics memory
+	 */
 	enum class GraphicsMemoryType : u8
 	{
 		GMT_DeviceLocal = 1 << 0,

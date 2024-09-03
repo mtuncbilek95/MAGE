@@ -4,6 +4,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @enum GraphicsIndexType
+	 * @brief Enum for graphics index type
+	 */
 	enum class GraphicsIndexType : u8
 	{
 		GIT_Index16,

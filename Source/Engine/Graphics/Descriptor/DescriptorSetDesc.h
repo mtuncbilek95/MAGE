@@ -6,6 +6,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @struct DescriptorSetDesc
+	 * @brief Description of a descriptor set
+	 */
 	struct DescriptorSetDesc
 	{
 		DescriptorLayout* pLayout;

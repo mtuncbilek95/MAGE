@@ -23,6 +23,10 @@ namespace MAGE
 	class TextureImage;
 	class CmdPool;
 
+	/**
+	 * @class CmdBuffer
+	 * @brief Base class for all command buffers
+	 */
 	class CmdBuffer : public DeviceObject
 	{
 	public:

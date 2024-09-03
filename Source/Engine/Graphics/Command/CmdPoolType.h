@@ -4,6 +4,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @enum CmdPoolType
+	 * @brief Enum for command pool type
+	 */
 	enum class CmdPoolType : u8
 	{
 		CPT_Graphics = 1,

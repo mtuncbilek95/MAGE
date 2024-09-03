@@ -5,6 +5,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @struct DynamicPassDesc
+	 * @brief Describes a dynamic pass
+	 */
 	struct DynamicPassDesc
 	{
 		Vec2u Extent;

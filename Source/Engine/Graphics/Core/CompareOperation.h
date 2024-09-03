@@ -4,6 +4,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @enum CompareOperation
+	 * @brief Enum for compare operation
+	 */
 	enum class CompareOperation : u8
 	{
 		CO_Never,

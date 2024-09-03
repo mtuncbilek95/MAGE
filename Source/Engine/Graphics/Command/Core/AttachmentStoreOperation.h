@@ -4,6 +4,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @enum AttachmentStoreOperation
+	 * @brief Enum for attachment store operation
+	 */
 	enum class AttachmentStoreOperation : u8
 	{
 		ASO_Store,

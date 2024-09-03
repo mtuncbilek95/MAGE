@@ -6,6 +6,11 @@
 namespace MAGE
 {
 	class GraphicsMemory;
+
+	/**
+	 * @struct GraphicsBufferDesc
+	 * @brief Description of a graphics buffer
+	 */
 	struct GraphicsBufferDesc
 	{
 		u64 BlockSize;

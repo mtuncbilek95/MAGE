@@ -4,6 +4,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @struct DescriptorSetCopyEntry
+	 * @brief Description of a descriptor set copy entry
+	 */
 	struct DescriptorSetCopyEntry
 	{
 		u32 SourceBinding;

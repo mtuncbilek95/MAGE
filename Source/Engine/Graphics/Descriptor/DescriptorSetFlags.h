@@ -4,6 +4,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @enum DescriptorSetFlags
+	 * @brief Flags for a descriptor set
+	 */
 	enum class DescriptorSetFlags : u8
 	{
 		DSF_Undefined = 0,

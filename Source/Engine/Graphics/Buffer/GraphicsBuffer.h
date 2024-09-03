@@ -7,6 +7,11 @@
 namespace MAGE
 {
 	class GraphicsMemory;
+
+	/**
+	 * @class GraphicsBuffer
+	 * @brief Base class for all graphics buffers (vertex, index, constant, etc.)
+	 */
 	class GraphicsBuffer : public DeviceObject
 	{
 	public:

@@ -6,6 +6,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @struct DescriptorSetUpdateEntry
+	 * @brief Description of a descriptor set update entry
+	 */
 	struct DescriptorSetUpdateEntry
 	{
 		DeviceObject* pResource;

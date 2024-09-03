@@ -8,7 +8,8 @@ namespace MAGE
 {
 	/**
 	 * @class CmdPool
-	 * @brief Abstract class for command pool
+	 * @brief Abstract class for command pool that holds command 
+	 * buffers with a specific operation type
 	 */
 	class CmdPool : public DeviceObject
 	{

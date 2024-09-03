@@ -42,6 +42,11 @@ namespace MAGE
 	class CmdBuffer;
 
 	class GraphicsInstance;
+
+	/**
+	 * @class GraphicsDevice
+	 * @brief A graphics device that handles all graphics related objects
+	 */
 	class GraphicsDevice : public IObject
 	{
 	public:

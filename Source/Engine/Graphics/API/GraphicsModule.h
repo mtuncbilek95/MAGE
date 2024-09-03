@@ -6,6 +6,11 @@
 namespace MAGE
 {
 	class GraphicsAPI;
+
+	/**
+	* @class GraphicsModule
+	* @brief Module for handling graphics API
+	*/
 	class GraphicsModule : public ApplicationModule
 	{
 	public:

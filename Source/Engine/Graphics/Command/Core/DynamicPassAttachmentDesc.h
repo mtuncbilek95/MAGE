@@ -9,6 +9,11 @@
 namespace MAGE
 {
 	class TextureView;
+
+	/**
+	 * @struct DynamicPassAttachmentDesc
+	 * @brief Describes a dynamic pass attachment
+	 */
 	struct DynamicPassAttachmentDesc
 	{
 		TextureView* ImageBuffer;

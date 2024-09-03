@@ -6,6 +6,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @class DescriptorLayout
+	 * @brief A descriptor layout
+	 */
 	class DescriptorLayout : public DeviceObject
 	{
 	public:

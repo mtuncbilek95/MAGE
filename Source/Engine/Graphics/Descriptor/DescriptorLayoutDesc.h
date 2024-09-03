@@ -6,6 +6,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @struct DescriptorLayoutDesc
+	 * @brief Description of a descriptor layout
+	 */
 	struct DescriptorLayoutDesc
 	{
 		Vector<DescriptorLayoutEntry> Entries;

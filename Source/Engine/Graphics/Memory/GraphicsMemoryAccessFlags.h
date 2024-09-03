@@ -4,6 +4,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @enum GraphicsMemoryAccessFlags
+	 * @brief Flags for graphics memory access
+	 */
 	enum class GraphicsMemoryAccessFlags : u32
 	{
 		GMAF_Unknown = 0,

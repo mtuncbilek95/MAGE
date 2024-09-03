@@ -4,6 +4,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @enum LogicOperation
+	 * @brief Enum for logic operation
+	 */
 	enum class LogicOperation : u8
 	{
 		LO_Clear,

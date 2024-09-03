@@ -4,6 +4,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @enum DescriptorPoolFlags
+	 * @brief Flags for descriptor pool
+	 */
 	enum class DescriptorPoolFlags : u8
 	{
 		DPF_None = 0,

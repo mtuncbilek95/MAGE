@@ -8,6 +8,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @struct BufferMemoryBarrier
+	 * @brief Mostly used for buffer memory barrier
+	 */
 	struct BufferMemoryBarrier
 	{
 		PipelineStageFlags SourceStageFlags;

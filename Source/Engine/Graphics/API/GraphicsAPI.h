@@ -14,6 +14,10 @@ namespace MAGE
 	class GraphicsMemory;
 	class Swapchain;
 
+	/**
+	 * @class GraphicsAPI
+	 * @brief Graphics API class that manages the graphics instance, device, queues, memory, and swapchain.
+	 */
 	class GraphicsAPI : public API<GraphicsAPI>
 	{
 		friend class GraphicsModule;

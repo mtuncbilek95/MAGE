@@ -6,6 +6,10 @@
 
 namespace MAGE
 {
+	/**
+	 * @enum GraphicsMemoryType
+	 * @brief Type of graphics memory
+	 */
 	class GraphicsMemory : public DeviceObject
 	{
 		struct SubMemory

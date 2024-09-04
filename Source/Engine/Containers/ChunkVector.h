@@ -7,7 +7,7 @@ namespace MAGE::Base
 	/**
 	* @class StackVector
 	* @brief A vector that works as static chunk arrays.
-	* 
+	*
 	* @note Use this for incredibly large arrays.
 	*/
 	template<typename T, u64 defChunkSize = 32, i32 coFactor = 2>
@@ -19,8 +19,8 @@ namespace MAGE::Base
 		 */
 		struct ChunkArray
 		{
-			ChunkArray* Next;
-			ChunkArray* Prev;
+			ChunkArray* Next = nullptr;
+			ChunkArray* Prev = nullptr;
 			u64 mChunkSize;
 			i64 mUsedIndex;
 			bool* mFill;
@@ -115,7 +115,7 @@ namespace MAGE::Base
 			ChunkArray* currentChunk = copy.mFirstChunk;
 			while (currentChunk)
 			{
-				for (size_t i = 0; i < currentChunk->mSize; i++)
+				for (u64 i = 0; i < currentChunk->mSize; i++)
 					if (currentChunk->mFill[i]) { PushBack(currentChunk->mData[i]); }
 
 				currentChunk = currentChunk->Next;
@@ -145,49 +145,50 @@ namespace MAGE::Base
 		 * @function PushBack
 		 * @brief Pushes the value to the back of the Vector.
 		 */
-		void PushBack(const T& value) {}
+		void PushBack(const T& value)
+		{
+			if (mLastChunk->mUsedIndex + 1 == mLastChunk->mChunkSize)
+				ChunkArray* chunk = SpawnChunk(u64(mLastChunk->mChunkSize * coFactor));
+
+			new (&mLastChunk->mData[++mLastChunk->mUsedIndex]) T(value);
+			mLastChunk->mFill[mLastChunk->mUsedIndex] = true;
+			mSize++;
+
+		}
 		/**
 		 * @function EmplaceBack
-		 *
 		 * @brief Emplaces the value to the back of the Vector.
 		 */
 		template<typename... Args>
-		void EmplaceBack(Args&&... args) {}
+		void EmplaceBack(Args&&... args)
+		{
+			if (mLastChunk->mUsedIndex + 1 == mLastChunk->mChunkSize)
+				ChunkArray* chunk = SpawnChunk(u64(mLastChunk->mChunkSize * coFactor));
+
+			mLastChunk->mData[++mLastChunk->mUsedIndex] = T(std::forward<Args>(args)...);
+			mLastChunk->mFill[mLastChunk->mUsedIndex] = true;
+			mSize++;
+
+		}
 		/**
-		 * @function PushFront
-		 * @brief Pushes the value to the front of the Vector.
-		 */
-		void PushFront(const T& value) {}
-		/**
-		 * @function EmplaceFront
-		 *
-		 * @brief Emplaces the value to the front of the Vector.
+		 * @function Add
+		 * @brief if you remove an element from the vector, it will leave a blank
+		 * space. This function will emplace the first blank space with the value. If
+		 * there is no empty space, it will act as EmplaceBack.
 		 */
 		template<typename... Args>
-		void EmplaceFront(Args&&... args) {}
+		void Emplace(Args&&... args) {}
 		/**
 		 * @function PopBack
 		 * @brief Pops the value from the back of the Vector. It
 		 * will leave a blank space.
 		 */
 		void PopBack() {}
-		/**
-		 * @function PopFront
-		 * @brief Pops the value from the front of the Vector. It
-		 * will leave a blank space.
-		 */
-		void PopFront() {}
 		/*
 		 * @function PopBackChunk
 		 * @brief Pops the last chunk from the Vector.
 		 */
 		void PopBackChunk() {}
-		/*
-		 * @function PopFrontChunk
-		 * @brief Pops the first chunk from the Vector.
-		 */
-		void PopFrontChunk() {}
-
 		/**
 		 * @function Insert
 		 * @brief Inserts the value to the specified index of the Vector. It will
@@ -197,11 +198,38 @@ namespace MAGE::Base
 		void Insert(u64 index, const T& value) {}
 
 		/**
-		 * @function FillFirstBlank
+		 * @function Add
 		 * @brief if you remove an element from the vector, it will leave a blank
-		 * space. This function will fill the first blank space with the value.
+		 * space. This function will fill the first blank space with the value. If
+		 * there is no empty space, it will act as PushBack.
 		 */
-		void FillFirstBlank(const T& value) {}
+		void Add(const T& value)
+		{
+			ChunkArray* currentChunk = mFirstChunk;
+			while (currentChunk)
+			{
+				for (u64 i = 0; i < currentChunk->mChunkSize; i++)
+				{
+					if (!currentChunk->mFill[i])
+					{
+						currentChunk->mData[i] = value;
+						currentChunk->mFill[i] = true;
+						mSize++;
+
+						if (i > currentChunk->mUsedIndex) currentChunk->mUsedIndex = i;
+						return;
+					}
+				}
+
+				currentChunk = currentChunk->Next;
+			}
+
+			ChunkArray* chunk = SpawnChunk(u64(mLastChunk->mChunkSize * coFactor));
+
+			new (&mLastChunk->m_data[++mLastChunk->mUsedIndex]) T(value);
+			mLastChunk->mFill[mLastChunk->mUsedIndex] = true;
+			mSize++;
+		}
 
 		T& operator[](u64 index) { return At(index); }
 		T& At(u64 index) { return GetChunk(index)->mData[index]; }
@@ -228,7 +256,7 @@ namespace MAGE::Base
 		ChunkArray* SpawnChunk(u64 reqSize)
 		{
 			ChunkArray* chunk = static_cast<ChunkArray*>(::operator new(sizeof(ChunkArray) + reqSize * sizeof(T) + reqSize * sizeof(bool)));
-			new (chunk) ChunkArray(reqSize);
+			new (chunk)ChunkArray(reqSize);
 
 			if (mLastChunk)
 			{

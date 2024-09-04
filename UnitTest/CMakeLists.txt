@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.26)
 
 # ---------------------- FILE ADDITION -----------------------
 include(FilterFolders)
-set(BASE_DIRECTORY "${CMAKE_SOURCE_DIR}/UnitTest") # Base directory for the engine
+set(BASE_DIRECTORY "${CMAKE_SOURCE_DIR}/UnitTest/Source") # Base directory for the engine
 FilterOS(FILTERED_DIRS ${BASE_DIRECTORY}) # Filter out the directories that are not needed for current OS
-source_group(TREE "${CMAKE_SOURCE_DIR}/UnitTest" FILES ${FILTERED_FILES})
+source_group(TREE "${CMAKE_SOURCE_DIR}/UnitTest/Source" FILES ${FILTERED_FILES})
 
 add_executable(UnitTest ${FILTERED_DIRS})
 # ------------------------------------------------------------

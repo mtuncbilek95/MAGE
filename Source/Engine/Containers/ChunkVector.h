@@ -10,9 +10,13 @@ namespace MAGE::Base
 	* 
 	* @note Use this for incredibly large arrays.
 	*/
-	template<typename T>
+	template<typename T, u64 defChunkSize = 32, i32 coFactor = 2>
 	class ChunkVector
 	{
+		/**
+		 * @struct ChunkArray
+		 * @brief Static array's for per chunk.
+		 */
 		struct ChunkArray
 		{
 			ChunkArray* Next;
@@ -24,8 +28,8 @@ namespace MAGE::Base
 
 			ChunkArray(u64 chunkSize) : mChunkSize(chunkSize), mUsedIndex(-1)
 			{
-				m_fill = reinterpret_cast<bool*>(m_data + size);
-				memset(m_fill, 0, size * sizeof(bool));
+				mFill = reinterpret_cast<bool*>(mData + chunkSize);
+				memset(mFill, 0, chunkSize * sizeof(bool));
 			}
 
 			~ChunkArray()
@@ -36,23 +40,226 @@ namespace MAGE::Base
 						mData[i].~T();
 				}
 
-				mNext = nullptr;
-				mPrev = nullptr;
+				Next = nullptr;
+				Prev = nullptr;
 			};
 		};
 
 	public:
+		/**
+		* @class Iterator
+		* @brief An iterator for the ChunkVector. std's iterator is not used because
+		* it's not compatible with this vector.
+		*/
 		class Iterator
 		{
+		public:
+			Iterator(ChunkArray* ptr, u64 index = 0) : mPtr(ptr), mIndex(index)
+			{}
 
+			T& operator*() { return mPtr->mData[mIndex]; }
+			T* operator->() { return &mPtr->mData[mIndex]; }
+
+			Iterator operator++()
+			{
+				++mIndex;
+				MovetoNextValidChunk();
+				return *this;
+			}
+
+			Iterator operator++(i32)
+			{
+				Iterator temp = *this;
+				++(*this);
+				return temp;
+			}
+
+			bool operator==(const Iterator& other) const { return mPtr == other.mPtr && mIndex == other.mIndex; }
+			bool operator!=(const Iterator& other) const { return !(*this == other); }
+
+		protected:
+			void MovetoNextValidChunk()
+			{
+				while (mPtr && (mIndex > mPtr->mChunkSize || !mPtr->mFill[mIndex]))
+				{
+					if (mIndex >= mPtr->mChunkSize)
+					{
+						mPtr = mPtr->Next;
+						mIndex = 0;
+					}
+					else ++mIndex;
+				}
+
+				if (mPtr && mIndex >= mPtr->mChunkSize)
+				{
+					mPtr = mPtr->Next;
+					mIndex = 0;
+					MovetoNextValidChunk();
+				}
+			}
+
+		private:
+			ChunkArray* mPtr;
+			u64 mIndex;
 		};
 
 	public:
-		ChunkVector()
+		ChunkVector() : mFirstChunk(nullptr), mLastChunk(nullptr), mSize(0), mCapacity(defChunkSize)
+		{
+			mFirstChunk = SpawnChunk(defChunkSize);
+			mLastChunk = mFirstChunk;
+		}
+
+		ChunkVector(const ChunkVector<T>& copy) : mFirstChunk(nullptr), mLastChunk(nullptr), mSize(copy.mSize), mCapacity(copy.mCapacity)
+		{
+			ChunkArray* currentChunk = copy.mFirstChunk;
+			while (currentChunk)
+			{
+				for (size_t i = 0; i < currentChunk->mSize; i++)
+					if (currentChunk->mFill[i]) { PushBack(currentChunk->mData[i]); }
+
+				currentChunk = currentChunk->Next;
+			}
+		}
+
+		ChunkVector(ChunkVector<T>&& move) noexcept : mFirstChunk(move.mFirstChunk), mLastChunk(move.mLastChunk), mSize(move.mSize), mCapacity(move.mCapacity)
+		{
+			move.mFirstChunk = nullptr;
+			move.mLastChunk = nullptr;
+			move.mSize = 0;
+			move.mCapacity = 0;
+		}
+
+		~ChunkVector()
+		{
+			ChunkArray* currentChunk = mFirstChunk;
+			while (currentChunk)
+			{
+				ChunkArray* next = currentChunk->Next;
+				currentChunk->~ChunkArray();
+				::operator delete(currentChunk);
+				currentChunk = next;
+			}
+		}
+		/**
+		 * @function PushBack
+		 * @brief Pushes the value to the back of the Vector.
+		 */
+		void PushBack(const T& value) {}
+		/**
+		 * @function EmplaceBack
+		 *
+		 * @brief Emplaces the value to the back of the Vector.
+		 */
+		template<typename... Args>
+		void EmplaceBack(Args&&... args) {}
+		/**
+		 * @function PushFront
+		 * @brief Pushes the value to the front of the Vector.
+		 */
+		void PushFront(const T& value) {}
+		/**
+		 * @function EmplaceFront
+		 *
+		 * @brief Emplaces the value to the front of the Vector.
+		 */
+		template<typename... Args>
+		void EmplaceFront(Args&&... args) {}
+		/**
+		 * @function PopBack
+		 * @brief Pops the value from the back of the Vector. It
+		 * will leave a blank space.
+		 */
+		void PopBack() {}
+		/**
+		 * @function PopFront
+		 * @brief Pops the value from the front of the Vector. It
+		 * will leave a blank space.
+		 */
+		void PopFront() {}
+		/*
+		 * @function PopBackChunk
+		 * @brief Pops the last chunk from the Vector.
+		 */
+		void PopBackChunk() {}
+		/*
+		 * @function PopFrontChunk
+		 * @brief Pops the first chunk from the Vector.
+		 */
+		void PopFrontChunk() {}
+
+		/**
+		 * @function Insert
+		 * @brief Inserts the value to the specified index of the Vector. It will
+		 * blow up the index if it's already filled with a value. Also it will resize
+		 * the vector if the index is out of bounds.
+		 */
+		void Insert(u64 index, const T& value) {}
+
+		/**
+		 * @function FillFirstBlank
+		 * @brief if you remove an element from the vector, it will leave a blank
+		 * space. This function will fill the first blank space with the value.
+		 */
+		void FillFirstBlank(const T& value) {}
+
+		T& operator[](u64 index) { return At(index); }
+		T& At(u64 index) { return GetChunk(index)->mData[index]; }
+
+		void Remove(u64 index) {}
+
+		void Clear() {}
+
+		Iterator begin() { return Iterator(mFirstChunk, 0); }
+		Iterator end() { return Iterator(mLastChunk, mLastChunk->mUsedIndex + 1); }
+
+		/**
+		 * @function Size
+		 * @brief Returns the total used size of the Vector
+		 */
+		u64 Size() const { return mSize; }
+		/**
+		 * @function Capacity
+		 * @brief Returns the total capacity of the Vector
+		 */
+		u64 Capacity() const { return mCapacity; }
+
+	protected:
+		ChunkArray* SpawnChunk(u64 reqSize)
+		{
+			ChunkArray* chunk = static_cast<ChunkArray*>(::operator new(sizeof(ChunkArray) + reqSize * sizeof(T) + reqSize * sizeof(bool)));
+			new (chunk) ChunkArray(reqSize);
+
+			if (mLastChunk)
+			{
+				chunk->Prev = mLastChunk;
+				mLastChunk->Next = chunk;
+				mLastChunk = chunk;
+				mCapacity += mLastChunk->mChunkSize;
+			}
+
+			return chunk;
+		}
+
+		ChunkArray* GetChunk(u64 localIndex)
+		{
+			ChunkArray* chunk = mFirstChunk;
+			while (chunk)
+			{
+				if (localIndex > chunk->mChunkSize - 1)
+				{
+					localIndex -= chunk->mChunkSize;
+					chunk = chunk->Next;
+				}
+				else break;
+			}
+
+			return chunk;
+		}
 
 	private:
-		ChunkArray* mHead;
-		ChunkArray* mTail;
+		ChunkArray* mFirstChunk;
+		ChunkArray* mLastChunk;
 		u64 mSize;
 		u64 mCapacity;
 	};

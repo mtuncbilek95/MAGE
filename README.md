@@ -75,3 +75,24 @@ vice versa. This has been added to CMake with the aim of reducing macro controll
 - The development process can be halted anytime due to the complexity of custom runtime type identification (In order to do R&D)
 - MOST IMPORTANTLY: Dont rush just to get a solution. It can create future problems. Future you will have more responsibility so take your time to understand.
 - Find a fucking angel investor to develop in peace.
+
+## CUSTOM SOLUTIONS
+
+### Chunk Vector
+This vector is a chunked, boosted with static array structure. Unlike std::vector, ChunkVector doesn't work fully dynamic. In the default ctor, it creates a static array 
+with 32 empty elements as a chunk. Whenever you add new element, if the chunk is full, it will create another chunk with x2 size. Removing an element doesn't handles the blank 
+point in the array dynamically. It means that there will be an empty index in the array. It requires extra thinking while using, otherwise the user can create a huge memory 
+leak in the whole runtime.
+
+### MemoryBuffer & MemoryOwnedBuffer
+It's a basic wrapper for function pointer which can also be used as data storage. MemoryBuffer is just a reference holder. But MemoryOwnedBuffer owns the data. The user have to
+use this with precaution in order to be responsible for unnecessary memory load.
+
+### MemoryMappedFile
+It  is a segment of virtual memory that has been assigned a direct byte-for-byte correlation with some portion of a file or file-like resource. This resource is typically a 
+file that is physically present on disk, but can also be a device, shared memory object, or other resource that an operating system can reference through a file descriptor. 
+Once present, this correlation between the file and the memory space permits applications to treat the mapped portion as if it were primary memory.
+
+### AtomicQueue
+It's a lock-free queue which is used for multi-threading. It's a basic queue structure which is used for job system. It's not a thread-safe queue. It's a lock-free queue. Highly
+recommended to use with caution only on job related tasks.

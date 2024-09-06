@@ -22,7 +22,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake")
 include(SetupConfig)
 SetupConfig()
 
-option(ENABLE_CATCH_TEST "Enable testing" OFF) # This one needs to be set ON in Build/${BuildType-OS}/CMakeCache.txt
+option(ENABLE_CATCH_TEST "Enable testing" ON) # This one needs to be set ON in Build/${BuildType-OS}/CMakeCache.txt
 # ------------------------------------------------------------
 
 # ----------------------- SUBDIRECTORIES ---------------------

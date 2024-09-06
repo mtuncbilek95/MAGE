@@ -4,3 +4,4 @@
 #include "StdFix.h"
 #include "Guid.h"
 #include "Helpers.h"
+#include "Math.h"

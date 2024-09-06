@@ -2,6 +2,11 @@
 
 #include "Engine/Core/Definitions.h"
 
+#pragma warning(push)
+#pragma warning(disable : 4200)
+#pragma warning(disable : 6011)
+#pragma warning(disable : 6386)
+
 namespace MAGE::Base
 {
 	/**
@@ -19,8 +24,8 @@ namespace MAGE::Base
 		 */
 		struct ChunkArray
 		{
-			ChunkArray* Next = nullptr;
-			ChunkArray* Prev = nullptr;
+			ChunkArray* mNext = nullptr;
+			ChunkArray* mPrev = nullptr;
 			u64 mChunkSize;
 			i64 mUsedIndex;
 			bool* mFill;
@@ -40,8 +45,8 @@ namespace MAGE::Base
 						mData[i].~T();
 				}
 
-				Next = nullptr;
-				Prev = nullptr;
+				mNext = nullptr;
+				mPrev = nullptr;
 			};
 		};
 
@@ -84,7 +89,7 @@ namespace MAGE::Base
 				{
 					if (mIndex >= mPtr->mChunkSize)
 					{
-						mPtr = mPtr->Next;
+						mPtr = mPtr->mNext;
 						mIndex = 0;
 					}
 					else ++mIndex;
@@ -92,7 +97,7 @@ namespace MAGE::Base
 
 				if (mPtr && mIndex >= mPtr->mChunkSize)
 				{
-					mPtr = mPtr->Next;
+					mPtr = mPtr->mNext;
 					mIndex = 0;
 					MovetoNextValidChunk();
 				}
@@ -118,7 +123,7 @@ namespace MAGE::Base
 				for (u64 i = 0; i < currentChunk->mSize; i++)
 					if (currentChunk->mFill[i]) { PushBack(currentChunk->mData[i]); }
 
-				currentChunk = currentChunk->Next;
+				currentChunk = currentChunk->mNext;
 			}
 		}
 
@@ -135,12 +140,13 @@ namespace MAGE::Base
 			ChunkArray* currentChunk = mFirstChunk;
 			while (currentChunk)
 			{
-				ChunkArray* next = currentChunk->Next;
+				ChunkArray* next = currentChunk->mNext;
 				currentChunk->~ChunkArray();
 				::operator delete(currentChunk);
 				currentChunk = next;
 			}
 		}
+
 		/**
 		 * @function PushBack
 		 * @brief Pushes the value to the back of the Vector.
@@ -153,8 +159,8 @@ namespace MAGE::Base
 			new (&mLastChunk->mData[++mLastChunk->mUsedIndex]) T(value);
 			mLastChunk->mFill[mLastChunk->mUsedIndex] = true;
 			mSize++;
-
 		}
+
 		/**
 		 * @function EmplaceBack
 		 * @brief Emplaces the value to the back of the Vector.
@@ -168,8 +174,8 @@ namespace MAGE::Base
 			mLastChunk->mData[++mLastChunk->mUsedIndex] = T(std::forward<Args>(args)...);
 			mLastChunk->mFill[mLastChunk->mUsedIndex] = true;
 			mSize++;
-
 		}
+
 		/**
 		 * @function Add
 		 * @brief if you remove an element from the vector, it will leave a blank
@@ -177,25 +183,60 @@ namespace MAGE::Base
 		 * there is no empty space, it will act as EmplaceBack.
 		 */
 		template<typename... Args>
-		void Emplace(Args&&... args) {}
+		void Emplace(Args&&... args) 
+		{
+			ChunkArray* currentChunk = mFirstChunk;
+
+			while (currentChunk)
+			{
+				for (u64 i = 0; i < currentChunk->mChunkSize; i++)
+				{
+					if (!currentChunk->mFill[i])
+					{
+						currentChunk->mData[i] = T(std::forward<Args>(args)...);
+						currentChunk->mFill[i] = true;
+						mSize++;
+
+						if (i > currentChunk->mUsedIndex) currentChunk->mUsedIndex = i;
+						return;
+					}
+				}
+
+				currentChunk = currentChunk->mNext;
+			}
+
+			ChunkArray* chunk = SpawnChunk(size_t(mLastChunk->mChunkSize * coFactor));
+
+			mLastChunk->mData[++mLastChunk->mUsedIndex] = T(std::forward<Args>(args)...);
+			mLastChunk->mFill[mLastChunk->mUsedIndex] = true;
+			mSize++;
+		}
+
 		/**
 		 * @function PopBack
-		 * @brief Pops the value from the back of the Vector. It
-		 * will leave a blank space.
+		 * @brief Pops the value from the back of the Vector.
+		 * 
+		 * @throw This pop function will also reduce the chunk's UsedIndex.
 		 */
-		void PopBack() {}
-		/*
-		 * @function PopBackChunk
-		 * @brief Pops the last chunk from the Vector.
-		 */
-		void PopBackChunk() {}
-		/**
-		 * @function Insert
-		 * @brief Inserts the value to the specified index of the Vector. It will
-		 * blow up the index if it's already filled with a value. Also it will resize
-		 * the vector if the index is out of bounds.
-		 */
-		void Insert(u64 index, const T& value) {}
+		void PopBack() 
+		{
+			if (mSize == 0) return;
+
+			if (mLastChunk->mUsedIndex == -1)
+			{
+				ChunkArray* temp = mLastChunk;
+				mLastChunk = mLastChunk->mPrev;
+				mLastChunk->mNext = nullptr;
+				temp->~ChunkArray();
+				::operator delete(temp);
+			}
+
+			mLastChunk->mData[mLastChunk->mUsedIndex].~T();
+			mLastChunk->mFill[mLastChunk->mUsedIndex] = false;
+			mLastChunk->mUsedIndex--;
+			mSize--;
+
+		}
 
 		/**
 		 * @function Add
@@ -221,22 +262,124 @@ namespace MAGE::Base
 					}
 				}
 
-				currentChunk = currentChunk->Next;
+				currentChunk = currentChunk->mNext;
 			}
 
 			ChunkArray* chunk = SpawnChunk(u64(mLastChunk->mChunkSize * coFactor));
 
-			new (&mLastChunk->m_data[++mLastChunk->mUsedIndex]) T(value);
+			new (&mLastChunk->mData[++mLastChunk->mUsedIndex]) T(value);
 			mLastChunk->mFill[mLastChunk->mUsedIndex] = true;
 			mSize++;
 		}
 
-		T& operator[](u64 index) { return At(index); }
-		T& At(u64 index) { return GetChunk(index)->mData[index]; }
+		/**
+		 * @function [] operator
+		 * @brief Search operator without segfault protection.
+		 * 
+		 * @throw Use At() to get protected from segfault.
+		 */
+		T& operator[](u64 index) 
+		{
+			ChunkArray* chunk = mFirstChunk;
+			u64 localIndex = index;
+			while (chunk)
+			{
+				if (localIndex > chunk->mChunkSize - 1)
+				{
+					localIndex -= (chunk->mChunkSize);
+					chunk = chunk->mNext;
+				}
+				else break;
+			}
 
-		void Remove(u64 index) {}
+			return chunk->mData[localIndex];
+		}
 
-		void Clear() {}
+		/**
+		 * @function At
+		 * @brief Search operator with segfault protection.
+		 */
+		T& At(u64 index) 
+		{
+			if (index >= Size()) [[unlikely]]
+				throw std::out_of_range("Index out of range!");
+				return (*this)[index];
+		}
+
+		/**
+		 * @function Remove
+		 * @brief Removes the value from the specified index.
+		 */
+		void Remove(u64 index) 
+		{
+			ChunkArray* chunk = mFirstChunk;
+			u64 localIndex = index;
+			while (chunk)
+			{
+				if (localIndex > chunk->mChunkSize - 1)
+				{
+					localIndex -= (chunk->mChunkSize);
+					chunk = chunk->mNext;
+				}
+				else break;
+			}
+
+			if (chunk)
+			{
+				chunk->mData[localIndex].~T();
+				chunk->mFill[localIndex] = false;
+				mSize--;
+			}
+			else
+				throw std::out_of_range("Index out of range!");
+		}
+
+		/**
+		 * @function Remove
+		 * @brief Removes the value from the Vector.
+		 */
+		void Remove(const T& value)
+		{
+			ChunkArray* currentChunk = mFirstChunk;
+			while (currentChunk)
+			{
+				for (u64 i = 0; i < currentChunk->mChunkSize; i++)
+				{
+					if (currentChunk->mFill[i] && currentChunk->mData[i] == value)
+					{
+						currentChunk->mData[i].~T();
+						currentChunk->mFill[i] = false;
+						mSize--;
+						return;
+					}
+				}
+
+				currentChunk = currentChunk->mNext;
+			}
+		}
+
+		/**
+		 * @function Clear
+		 * @brief Clears the Vector.
+		 */
+		void Clear() 
+		{
+			ChunkArray* currentChunk = mFirstChunk;
+			while (currentChunk)
+			{
+				ChunkArray* temp = currentChunk;
+				currentChunk = currentChunk->mNext;
+				delete temp;
+			}
+
+			mFirstChunk = nullptr;
+			mLastChunk = nullptr;
+
+			mSize = 0;
+			mCapacity = defChunkSize;
+
+			mFirstChunk = SpawnChunk(defChunkSize);
+		}
 
 		Iterator begin() { return Iterator(mFirstChunk, 0); }
 		Iterator end() { return Iterator(mLastChunk, mLastChunk->mUsedIndex + 1); }
@@ -246,6 +389,7 @@ namespace MAGE::Base
 		 * @brief Returns the total used size of the Vector
 		 */
 		u64 Size() const { return mSize; }
+
 		/**
 		 * @function Capacity
 		 * @brief Returns the total capacity of the Vector
@@ -260,8 +404,8 @@ namespace MAGE::Base
 
 			if (mLastChunk)
 			{
-				chunk->Prev = mLastChunk;
-				mLastChunk->Next = chunk;
+				chunk->mPrev = mLastChunk;
+				mLastChunk->mNext = chunk;
 				mLastChunk = chunk;
 				mCapacity += mLastChunk->mChunkSize;
 			}
@@ -277,7 +421,7 @@ namespace MAGE::Base
 				if (localIndex > chunk->mChunkSize - 1)
 				{
 					localIndex -= chunk->mChunkSize;
-					chunk = chunk->Next;
+					chunk = chunk->mNext;
 				}
 				else break;
 			}
@@ -292,3 +436,5 @@ namespace MAGE::Base
 		u64 mCapacity;
 	};
 }
+
+#pragma warning(pop)

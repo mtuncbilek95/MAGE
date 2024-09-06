@@ -58,8 +58,9 @@ namespace MAGE
 		// FramebufferSize
 		auto window = WindowAPI::GetAPI()->GetDefaultWindow();
 
-		String path = PlatformAPI::GetAPI()->GetEngineSourcePath() + "Resources/Fonts/Poppins/Regular.ttf";
-		io.Fonts->AddFontFromFileTTF(path.c_str(), 18.f);
+		Path path = PlatformAPI::GetAPI()->GetEngineSourcePath();
+		path += "Resources/Fonts/Poppins/Regular.ttf";
+		io.Fonts->AddFontFromFileTTF(path.string().c_str(), 18.f);
 
 		InitVk();
 	}

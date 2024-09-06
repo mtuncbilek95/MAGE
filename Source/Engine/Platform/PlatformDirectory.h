@@ -6,14 +6,14 @@ namespace MAGE
 {
 	struct PlatformDirectory final
 	{
-		static b8 Exists(const String& path);
-		static b8 Create(const String& path);
-		static b8 Delete(const String& path);
-		static b8 Copy(const String& source, const String& destination);
-		static b8 Move(const String& source, const String& destination);
-		static b8 Rename(const String& source, const String& destination);
-		static Vector<String> GetFiles(const String& path);
-		static Vector<String> GetDirectories(const String& path);
-		static Vector<String> GetFilesByExtension(const String& path, const String& extension);
+		static b8 Exists(const Path& path);
+		static b8 Create(const Path& path);
+		static b8 Delete(const Path& path);
+		static b8 Copy(const Path& source, const Path& destination);
+		static b8 Move(const Path& source, const Path& destination);
+		static b8 Rename(const Path& source, const Path& destination);
+		static Vector<String> GetFiles(const Path& path);
+		static Vector<String> GetDirectories(const Path& path);
+		static Vector<String> GetFilesByExtension(const Path& path, const String& extension);
 	};
 }

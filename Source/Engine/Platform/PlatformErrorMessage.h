@@ -7,7 +7,7 @@ namespace MAGE
 	struct PlatformErrorMessage
 	{
 		static const String GetLastKnownError();
-		static void ShowAssert(const String& title, const String& message, ...);
+		static void ShowAssert(const String& title, const char* message, ...);
 	};
 
 	namespace Helpers
@@ -16,7 +16,7 @@ namespace MAGE
 		inline constexpr void MageAssert(bool condition, const String& title, const String& message, Args&&...args)
 		{
 			if (!condition)
-				MAGE::PlatformErrorMessage::ShowAssert(title, message, std::forward<Args>(args)...);
+				MAGE::PlatformErrorMessage::ShowAssert(title, message.data(), std::forward<Args>(args)...);
 		}
 	}
 }

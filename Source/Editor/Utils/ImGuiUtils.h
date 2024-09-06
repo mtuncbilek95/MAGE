@@ -19,10 +19,11 @@ namespace MAGE
 
 		static void LoadStyleLayout()
 		{
-			String path = PlatformAPI::GetAPI()->GetEngineSourcePath() + "Config/DefaultEditor.json";
+			Path path = PlatformAPI::GetAPI()->GetEngineSourcePath();
+			path += "Config/DefaultEditor.json";
 
 			String binary;
-			if (!PlatformFile::Read(path, binary))
+			if (!PlatformFile::Read(path.string(), binary))
 			{
 				return;
 			}
@@ -206,12 +207,13 @@ namespace MAGE
 			json["Colors"]["TabDimOverline"] = { 0, 0, 0, 0 };
 			json["Colors"]["TabSelectedOverline"] = { 0, 0, 0, 0 };
 
-			String path = PlatformAPI::GetAPI()->GetEngineSourcePath() + "Config/DefaultEditor.json";
+			Path path = PlatformAPI::GetAPI()->GetEngineSourcePath();
+			path += "Config/DefaultEditor.json";
 
 			String binary = json.dump(4);
 
-			if (!PlatformFile::Write(path, binary))
-				spdlog::warn("Failed to write file [{}].", path);
+			if (!PlatformFile::Write(path.string(), binary))
+				spdlog::warn("Failed to write file [{}].", path.string());
 		}
 	}
 }

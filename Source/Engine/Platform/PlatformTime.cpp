@@ -1,50 +1,72 @@
 #include "PlatformTime.h"
 
-#if defined(MAGE_WINDOWS)
-#include "Win32/Win32Time.h"
-typedef MAGE::Win32Time Dependency;
-#endif
-
 namespace MAGE
 {
+#if defined(MAGE_WINDOWS)
 	PlatformTime& PlatformTime::Get()
 	{
-		static Dependency instance;
+		static PlatformTime instance;
 		return instance;
+	}
+
+	PlatformTime::PlatformTime() : mStartTime(), mEndTime(), mFrequency()
+	{
 	}
 
 	void PlatformTime::Start()
 	{
-		StartImpl();
+		QueryPerformanceFrequency(&mFrequency);
+		QueryPerformanceCounter(&mStartTime);
 	}
 
 	void PlatformTime::Stop()
 	{
-		StopImpl();
+		QueryPerformanceCounter(&mEndTime);
 	}
 
 	f64 PlatformTime::GetInNanoSec()
 	{
-		return GetInNanoSecImpl();
+		LARGE_INTEGER elapsed;
+		elapsed.QuadPart = mEndTime.QuadPart - mStartTime.QuadPart;
+		return (elapsed.QuadPart * 1000000000.0) / mFrequency.QuadPart;
 	}
 
 	f64 PlatformTime::GetInMicroSec()
 	{
-		return GetInMicroSecImpl();
+		LARGE_INTEGER elapsed;
+		elapsed.QuadPart = mEndTime.QuadPart - mStartTime.QuadPart;
+		return (elapsed.QuadPart * 1000000.0) / mFrequency.QuadPart;
 	}
 
 	f64 PlatformTime::GetInMilliSec()
 	{
-		return GetInMilliSecImpl();
+		LARGE_INTEGER elapsed;
+		elapsed.QuadPart = mEndTime.QuadPart - mStartTime.QuadPart;
+		return (elapsed.QuadPart * 1000.0) / mFrequency.QuadPart;
 	}
 
 	f64 PlatformTime::GetInSec()
 	{
-		return GetInSecImpl();
+		LARGE_INTEGER elapsed;
+		elapsed.QuadPart = mEndTime.QuadPart - mStartTime.QuadPart;
+		return static_cast<double>(elapsed.QuadPart) / mFrequency.QuadPart;
 	}
 
 	const Time PlatformTime::GetDateTime()
 	{
-		return Dependency::GetDateTimeOS();
+		SYSTEMTIME pTime;
+		GetSystemTime(&pTime);
+
+		Time time;
+		time.Year = pTime.wYear;
+		time.Month = pTime.wMonth;
+		time.Day = pTime.wDay;
+		time.Hour = pTime.wHour;
+		time.Minute = pTime.wMinute;
+		time.Second = pTime.wSecond;
+		time.Millisecond = pTime.wMilliseconds;
+
+		return time;
 	}
+#endif
 }

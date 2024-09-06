@@ -1,6 +1,7 @@
 #include "PlatformAPI.h"
 
 #include <spdlog/spdlog.h>
+#include <algorithm>
 
 namespace MAGE
 {
@@ -8,7 +9,6 @@ namespace MAGE
 	{
 		String enginePath = argv[0];
 		String searchString = "MAGE";
-
 		size_t pos = enginePath.find(searchString);
 		if (pos != std::string::npos) {
 			size_t lastSlashPos = enginePath.rfind("/\\", pos);
@@ -18,20 +18,14 @@ namespace MAGE
 				mEngineSourcePath = enginePath.substr(0, pos + searchString.length()) + "\\";
 		}
 
-		// Change \\ to / for cross-platform compatibility
-		std::replace(mEngineSourcePath.begin(), mEngineSourcePath.end(), '\\', '/');
-
 		if (argc > 1)
-		{
 			mProjectPath = argv[1];
-			std::replace(mProjectPath.begin(), mEngineSourcePath.end(), '\\', '/');
-		}
 
 		if (!mEngineSourcePath.empty())
-			spdlog::warn("Engine source path has been set to: {}", mEngineSourcePath.c_str());
+			spdlog::warn("Engine source path has been set to: {}", mEngineSourcePath.string());
 
 		if (!mProjectPath.empty())
-			spdlog::warn("Project path has been set to: {}", mProjectPath.c_str());
+			spdlog::warn("Project path has been set to: {}", mProjectPath.string());
 		else
 			spdlog::error("No project path has been set!");
 	}

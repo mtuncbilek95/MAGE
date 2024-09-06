@@ -95,3 +95,20 @@ Once present, this correlation between the file and the memory space permits app
 ### AtomicQueue
 It's a lock-free queue which is used for multi-threading. It's a basic queue structure which is used for job system. It's not a thread-safe queue. It's a lock-free queue. Highly
 recommended to use with caution only on job related tasks.
+
+## WHY PLATFORM SPECIFIC IO IMPLEMENTATION
+As I learned from the unit tests I did in both release and debug mode, especially in the Win32, the performance difference is huge. The reason is that the Win32API is a bit risky 
+and lower level than the std library. For example, reading a 3 Megabyte file for 1000 times with std library takes between 2.1 seconds and 2.8 seconds due to the thread priority, 
+while the Win32API takes between 1.8 seconds and 2.1 seconds due to the thread priorty. We can also see that Platform-specific implementations have better thread performance. Since 
+we are working on a game engine and I really care about my performance, I will continue to use platform-specific implementations for IO control units. I have not tested the Linux 
+platform performance yet, but I believe if you do not use clang, the performance most probably will be better than the std library. But in order to have better control on the path, 
+I will change the parameters that has been used as std::string to std::filesystem::path.
+
+For those who are curious about my setup:
+- CPU: Intel i7-11800H
+- RAM: 16 GB DDR4
+- GPU: Nvidia RTX 3060 Max Laptop
+- SSD: 512 GB NVMe + 1 TB NVMe
+- OS: Windows 11 Pro
+- IDE: Visual Studio 2022
+- MSVC Compiler: MSVC 19.41.34120.0

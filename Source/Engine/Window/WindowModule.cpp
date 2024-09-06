@@ -13,9 +13,10 @@ namespace MAGE
 	WindowDesc GetJson()
 	{
 		nlohmann::json pJson;
-		String path = PlatformAPI::GetAPI()->GetEngineSourcePath() + "Config/EditorConfig.json";
+		Path path = PlatformAPI::GetAPI()->GetEngineSourcePath();
+		path += "Config/EditorConfig.json";
 		String jString;
-		PlatformFile::Read(path, jString);
+		PlatformFile::Read(path.string(), jString);
 		pJson = nlohmann::json::parse(jString);
 
 		WindowDesc windowDesc = {};

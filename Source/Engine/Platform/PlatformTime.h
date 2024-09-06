@@ -2,6 +2,10 @@
 
 #include "Engine/Core/Core.h"
 
+#if defined(MAGE_WINDOWS)
+#include <Windows.h>
+#endif
+
 namespace MAGE
 {
 	struct Time final
@@ -21,8 +25,8 @@ namespace MAGE
 	{
 		static PlatformTime& Get();
 	public:
-		PlatformTime() = default;
-		virtual ~PlatformTime() = default;
+		PlatformTime();
+		~PlatformTime() = default;
 
 		void Start();
 		void Stop();
@@ -34,13 +38,11 @@ namespace MAGE
 
 		static const Time GetDateTime();
 
-	protected:
-		virtual f64 GetInNanoSecImpl() = 0;
-		virtual f64 GetInMicroSecImpl() = 0;
-		virtual f64 GetInMilliSecImpl() = 0;
-		virtual f64 GetInSecImpl() = 0;
-
-		virtual void StartImpl() = 0;
-		virtual void StopImpl() = 0;
+	private:
+#if defined(MAGE_WINDOWS)
+		LARGE_INTEGER mStartTime;
+		LARGE_INTEGER mEndTime;
+		LARGE_INTEGER mFrequency;
+#endif
 	};
 }

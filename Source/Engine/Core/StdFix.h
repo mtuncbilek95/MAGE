@@ -64,6 +64,10 @@ using Deque = std::deque<T>;
 template<typename T>
 using Queue = std::queue<T>;
 
+#include <filesystem>
+using Path = std::filesystem::path;
+namespace FileSystem = std::filesystem;
+
 template<typename T, typename...Args>
 inline SharedPtr<T> MakeShared(Args&&...args)
 {

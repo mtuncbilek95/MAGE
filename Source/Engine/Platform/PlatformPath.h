@@ -6,10 +6,10 @@ namespace MAGE
 {
 	struct PlatformPath final
 	{
-		static const String GetExecPath();
-		static const String GetProgramFilesPath();
-		static const String GetAppDataPath();
-		static const String GetTemporaryPath();
-		static const String GetHomePath();
+		static Path GetExecPath();
+		static Path GetProgramFilesPath();
+		static Path GetAppDataPath();
+		static Path GetTemporaryPath();
+		static Path GetHomePath();
 	};
 }

@@ -1,47 +1,52 @@
 #include "PlatformErrorMessage.h"
 
 #if defined(MAGE_WINDOWS)
-#include "Win32/Win32ErrorMessage.h"
-typedef MAGE::Win32ErrorMessage Dependency;
+#include <Windows.h>
 #endif
 
 #include <cstdarg>
 
-#pragma warning(push)
-#pragma warning(disable: 5082) // WTF?
-
 namespace MAGE
 {
+#if defined(MAGE_WINDOWS)
 	const String PlatformErrorMessage::GetLastKnownError()
 	{
-		return Dependency::GetLastKnownError();
+		// Get the error message ID, if any.
+		DWORD errorID = GetLastError();
+		if (errorID == 0)
+			return String();
+
+		LPSTR messageBuffer = nullptr;
+
+		// Format the error message
+		u64 size = FormatMessageA(
+			FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+			NULL, errorID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+			(LPSTR)&messageBuffer, 0, NULL);
+
+		// Buffer it up
+		String message(messageBuffer, size);
+
+		// Free the buffer and return the message
+		LocalFree(messageBuffer);
+		return message;
 	}
 
-	void PlatformErrorMessage::ShowAssert(const String& title, const String& message, ...)
+	void PlatformErrorMessage::ShowAssert(const String& title, const char* message, ...)
 	{
-        va_list args;
-        va_start(args, message.data());
+		va_list args;
+		va_start(args, message);
 
-        // Estimate the required buffer size
-        Vector<char> buffer(1024);
-        int len = vsnprintf(buffer.data(), buffer.size(), message.c_str(), args);
+		char buffer[4096];
+		vsnprintf(buffer, sizeof(buffer), message, args);
 
-        if (len < 0) 
-        {
-            va_end(args);
-            return;
-        }
+		va_end(args);
 
-        if (len >= static_cast<int>(buffer.size())) 
-        {
-            buffer.resize(len + 1);
-            vsnprintf(buffer.data(), buffer.size(), message.c_str(), args);
-        }
-
-        String formattedMessage(buffer.data(), len);
-		Dependency::ShowAssert(title, formattedMessage);
-        va_end(args);
+		i32 code = MessageBoxA(nullptr, buffer, title.c_str(), MB_OKCANCEL | MB_ICONERROR);
+		if (code == IDOK)
+			__debugbreak();
+		else
+			ExitProcess(1);
 	}
+#endif
 }
-
-#pragma warning(pop)

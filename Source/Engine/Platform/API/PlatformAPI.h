@@ -13,11 +13,11 @@ namespace MAGE
 
 		void InitializeArguments(i32 argc, char** argv);
 
-		const String& GetEngineSourcePath() const { return mEngineSourcePath; }
-		const String& GetProjectPath() const { return mProjectPath; }
+		const Path& GetEngineSourcePath() const { return mEngineSourcePath; }
+		const Path& GetProjectPath() const { return mProjectPath; }
 
 	private:
-		String mEngineSourcePath;
-		String mProjectPath;
+		Path mEngineSourcePath;
+		Path mProjectPath;
 	};
 }

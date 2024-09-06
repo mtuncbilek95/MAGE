@@ -11,7 +11,7 @@ set(BASE_DIRECTORY "${CMAKE_SOURCE_DIR}/Source/Engine") # Base directory for the
 FilterOS(FILTERED_DIRS ${BASE_DIRECTORY}) # Filter out the directories that are not needed for current OS
 source_group(TREE "${CMAKE_SOURCE_DIR}/Source/Engine" FILES ${FILTERED_FILES})
 
-add_library(Engine STATIC main.cpp ${FILTERED_DIRS})
+add_library(Engine STATIC ${FILTERED_DIRS})
 # ------------------------------------------------------------
 
 # ------------------- INCLUDE DIRECTORIES --------------------
@@ -27,7 +27,6 @@ if(WIN32)
 	include(SetupWindows)
     SetupDX12(Engine)
     SetupWin32(Engine)
-
 endif()
 
 # ------------------------------------------------------------

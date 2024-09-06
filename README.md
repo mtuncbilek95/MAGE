@@ -74,7 +74,6 @@ vice versa. This has been added to CMake with the aim of reducing macro controll
 - Current goal is not to create showreels but creating crash-less environment
 - The development process can be halted anytime due to the complexity of custom runtime type identification (In order to do R&D)
 - MOST IMPORTANTLY: Dont rush just to get a solution. It can create future problems. Future you will have more responsibility so take your time to understand.
-- Find a fucking angel investor to develop in peace.
 
 ## CUSTOM SOLUTIONS
 

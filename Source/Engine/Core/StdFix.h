@@ -1,5 +1,12 @@
 #pragma once
 
+/*
+ * Everything has been seen in here is just a simple alias for the standard library. Seeing 
+ * snake_case in this engine lowers the quality of readability. In future updates, all those
+ * aliases will be removed and a wrapper will be created for the standard library in order to
+ * protect the codebase from any snake_case in the standard library.
+ */
+
 #include <string>
 using String = std::string;
 

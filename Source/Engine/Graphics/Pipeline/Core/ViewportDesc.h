@@ -6,8 +6,8 @@ namespace MAGE
 {
 	struct ViewportDesc
 	{
-		Vec2u ViewportSize;
-		Vec2u OffsetSize;
-		Vec2f DepthRange;
+		Math::Vec2u ViewportSize;
+		Math::Vec2u OffsetSize;
+		Math::Vec2f DepthRange;
 	};
 }

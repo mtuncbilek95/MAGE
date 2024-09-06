@@ -23,7 +23,7 @@ namespace MAGE
 		TextureLayout ResolveLayout;
 		AttachmentLoadOperation LoadOperation;
 		AttachmentStoreOperation StoreOperation;
-		Vec4f ClearColor;
-		Vec2f ClearDepthStencil;
+		Math::Vec4f ClearColor;
+		Math::Vec2f ClearDepthStencil;
 	};
 }

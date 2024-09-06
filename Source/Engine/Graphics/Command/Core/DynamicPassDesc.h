@@ -11,8 +11,8 @@ namespace MAGE
 	 */
 	struct DynamicPassDesc
 	{
-		Vec2u Extent;
-		Vec2i Offset;
+		Math::Vec2u Extent;
+		Math::Vec2i Offset;
 		u32 layerCount;
 		u32 viewMask;
 		Vector<DynamicPassAttachmentDesc> ColorAttachments;

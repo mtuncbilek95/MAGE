@@ -7,8 +7,8 @@ namespace MAGE
 	struct MonitorDesc
 	{
 		String MonitorName;
-		Vec2u MonitorResolution;
-		Vec2i MonitorPosition;
+		Math::Vec2u MonitorResolution;
+		Math::Vec2i MonitorPosition;
 		b8 IsPrimary;
 	};
 }

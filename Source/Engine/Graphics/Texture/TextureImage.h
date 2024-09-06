@@ -16,7 +16,7 @@ namespace MAGE
 			mSamples(desc.Samples), mCreateFlags(desc.CreateFlags) {}
 		virtual ~TextureImage() override = default;
 
-		const Vec3u& GetImageSize() const { return mImageSize; }
+		const Math::Vec3u& GetImageSize() const { return mImageSize; }
 		u32 GetMipLevels() const { return mMipLevels; }
 		u32 GetArrayLayers() const { return mArrayLayers; }
 		TextureFormat GetImageFormat() const { return mImageFormat; }
@@ -26,7 +26,7 @@ namespace MAGE
 		TextureCreateFlags GetCreateFlags() const { return mCreateFlags; }
 
 	private:
-		Vec3u mImageSize;
+		Math::Vec3u mImageSize;
 		u32 mMipLevels;
 		u32 mArrayLayers;
 		TextureFormat mImageFormat;

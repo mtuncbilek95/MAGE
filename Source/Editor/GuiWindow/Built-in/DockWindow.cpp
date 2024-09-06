@@ -9,8 +9,8 @@ namespace MAGE
 	DockWindow::DockWindow()
 	{
 		mWindowName = "DockSpaceWindow";
-		mPosition = Vec2f(0.0f, 0.0f);
-		mWindowSize = Vec2f(200.0f, 200.0f);
+		mPosition = Math::Vec2f(0.0f, 0.0f);
+		mWindowSize = Math::Vec2f(200.0f, 200.0f);
 
 		mIsOpen = true;
 		mIsDirty = true;

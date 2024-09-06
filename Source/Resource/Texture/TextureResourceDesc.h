@@ -10,7 +10,7 @@ namespace MAGE
 {
 	struct TextureResourceDesc
 	{
-		Vec3u ImageSize;
+		Math::Vec3u ImageSize;
 		TextureFormat ImageFormat;
 		TextureType ImageType;
 		SampleCount Samples;

@@ -39,7 +39,7 @@ namespace MAGE
 				{
 					ImGui::BeginTooltip();
 					ImGui::TextUnformatted("Create a new empty level. You can also use");
-					Vec4f color = Color::HexToRGB_F("#FED1524");
+					Math::Vec4f color = Color::HexToRGB_F("#FED1524");
 					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(color.x, color.y, color.z, 1.0f));
 					ImGui::TextUnformatted("Ctrl+Alt+N");
 					ImGui::PopStyleColor();
@@ -59,7 +59,7 @@ namespace MAGE
 				{
 					ImGui::BeginTooltip();
 					ImGui::TextUnformatted("Open an existing level. You can also use");
-					Vec4f color = Color::HexToRGB_F("#FED1524");
+					Math::Vec4f color = Color::HexToRGB_F("#FED1524");
 					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(color.x, color.y, color.z, 1.0f));
 					ImGui::TextUnformatted("Ctrl+Alt+O");
 					ImGui::PopStyleColor();

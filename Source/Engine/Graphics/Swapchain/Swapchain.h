@@ -21,7 +21,7 @@ namespace MAGE
 		{}
 		virtual ~Swapchain() override = default;
 
-		const Vec2u& GetImageSize() const { return mImageSize; }
+		const Math::Vec2u& GetImageSize() const { return mImageSize; }
 		TextureFormat GetImageFormat() const { return mImageFormat; }
 		TextureUsageFlags GetTextureUsage() const { return mTextureUsage; }
 		PresentMode GetVSync() const { return mVSync; }
@@ -43,7 +43,7 @@ namespace MAGE
 			PresentImpl(pSemaphore);
 		}
 
-		void ResizeSwapchain(Vec2u newSize)
+		void ResizeSwapchain(Math::Vec2u newSize)
 		{
 			mImageSize = newSize;
 			ResizeSwapchainImpl(newSize);
@@ -52,9 +52,9 @@ namespace MAGE
 	protected:
 		virtual u32 AcquireNextImageImpl(Fence* pFence, Semaphore* pSemaphore) = 0;
 		virtual void PresentImpl(Semaphore* pSemaphore) = 0;
-		virtual void ResizeSwapchainImpl(Vec2u newSize) = 0;
+		virtual void ResizeSwapchainImpl(Math::Vec2u newSize) = 0;
 
-		void SetNewImageSize(Vec2u newSize) { mImageSize = newSize; }
+		void SetNewImageSize(Math::Vec2u newSize) { mImageSize = newSize; }
 
 		Vector<SharedPtr<TextureImage>> mImages;
 		Vector<SharedPtr<TextureView>> mImageViews;
@@ -62,7 +62,7 @@ namespace MAGE
 		u32 mImageIndex = 0;
 
 	private:
-		Vec2u mImageSize;
+		Math::Vec2u mImageSize;
 		TextureFormat mImageFormat;
 		TextureUsageFlags mTextureUsage;
 		PresentMode mVSync;

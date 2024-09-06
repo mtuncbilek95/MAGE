@@ -1,7 +1,5 @@
 #include "TextureLoader.h"
 
-#include "Engine/Platform/PlatformFile.h"
-
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
@@ -24,7 +22,7 @@ namespace MAGE
 
 			TextureMemory textureMemory;
 			textureMemory.Data = MemoryOwnedBuffer(data, width * height * numChannels);
-			textureMemory.ImageRes = Vec2u(width, height);
+			textureMemory.ImageRes = Math::Vec2u(width, height);
 			textureMemory.NumChannel = numChannels;
 
 			return textureMemory;

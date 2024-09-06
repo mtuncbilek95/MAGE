@@ -16,14 +16,14 @@ namespace MAGE
 		~Monitor() = default;
 
 		const String& GetMonitorName() const { return mMonitorName; }
-		const Vec2u& GetMonitorResolution() const { return mMonitorResolution; }
-		const Vec2i& GetMonitorPosition() const { return mMonitorPosition; }
+		const Math::Vec2u& GetMonitorResolution() const { return mMonitorResolution; }
+		const Math::Vec2i& GetMonitorPosition() const { return mMonitorPosition; }
 		const b8 IsPrimary() const { return mIsPrimary; }
 
 	private:
 		String mMonitorName;
-		Vec2u mMonitorResolution;
-		Vec2i mMonitorPosition;
+		Math::Vec2u mMonitorResolution;
+		Math::Vec2i mMonitorPosition;
 		b8 mIsPrimary;
 	};
 }

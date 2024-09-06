@@ -2,6 +2,8 @@
 
 #include "Engine/Core/Core.h"
 
+#include <fmt/format.h>
+
 #include <ostream>
 #include <iomanip>
 #include <sstream>
@@ -11,9 +13,9 @@ namespace MAGE
 	namespace Color
 	{
 		// Convert Hex to RGB
-		static Vec4f HexToRGB_F(const String& hexString)
+		static Math::Vec4f HexToRGB_F(const String& hexString)
 		{
-			Vec4f color;
+			Math::Vec4f color;
 			color.x = std::stoul(hexString.substr(1, 2), nullptr, 16) / 255.0f;
 			color.y = std::stoul(hexString.substr(3, 2), nullptr, 16) / 255.0f;
 			color.z = std::stoul(hexString.substr(5, 2), nullptr, 16) / 255.0f;
@@ -22,7 +24,7 @@ namespace MAGE
 		}
 
 		// Convert RGB to Hex
-		static String RGB_FToHex(const Vec4f& color)
+		static String RGB_FToHex(const Math::Vec4f& color)
 		{
 			std::ostringstream hexStream;
 			hexStream << "#"
@@ -33,9 +35,9 @@ namespace MAGE
 			return hexStream.str();
 		}
 
-		static Vec4s HexToRGB_B(const String& hexString)
+		static Math::Vec4s HexToRGB_B(const String& hexString)
 		{
-			Vec4s color;
+			Math::Vec4s color;
 			color.x = static_cast<u8>(std::stoul(hexString.substr(1, 2), nullptr, 16));
 			color.y = static_cast<u8>(std::stoul(hexString.substr(3, 2), nullptr, 16));
 			color.z = static_cast<u8>(std::stoul(hexString.substr(5, 2), nullptr, 16));

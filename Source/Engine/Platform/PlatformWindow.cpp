@@ -79,13 +79,13 @@ namespace MAGE
 		glfwPollEvents();
 	}
 
-	void PlatformWindow::SetWindowResolution(const Vec2u& resolution)
+	void PlatformWindow::SetWindowResolution(const Math::Vec2u& resolution)
 	{
 		glfwSetWindowSize(mGLFWHandle, (i32)resolution.x, (i32)resolution.y);
 		mWindowSize = resolution;
 	}
 
-	void PlatformWindow::SetWindowPosition(const Vec2i& position)
+	void PlatformWindow::SetWindowPosition(const Math::Vec2i& position)
 	{
 		glfwSetWindowPos(mGLFWHandle, position.x, position.y);
 		mWindowPosition = position;

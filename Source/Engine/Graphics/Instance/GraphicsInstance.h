@@ -19,15 +19,15 @@ namespace MAGE
 		virtual ~GraphicsInstance() override = default;
 
 		const String& GetAppName() const { return mAppName; }
-		const Vec3f& GetAppVersion() const { return mAppVersion; }
+		const Math::Vec3c& GetAppVersion() const { return mAppVersion; }
 		const String& GetEngineName() const { return mEngineName; }
-		const Vec3f& GetEngineVersion() const { return mEngineVersion; }
+		const Math::Vec3c& GetEngineVersion() const { return mEngineVersion; }
 
 	private:
 		String mAppName;
-		Vec3f mAppVersion;
+		Math::Vec3c mAppVersion;
 
 		String mEngineName;
-		Vec3f mEngineVersion;
+		Math::Vec3c mEngineVersion;
 	};
 }

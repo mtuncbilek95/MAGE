@@ -6,7 +6,7 @@ namespace MAGE
 {
 	struct ScissorDesc
 	{
-		Vec2u ScissorSize;
-		Vec2u OffsetSize;
+		Math::Vec2u ScissorSize;
+		Math::Vec2u OffsetSize;
 	};
 }

@@ -20,7 +20,7 @@ namespace MAGE
 	protected:
 		virtual u32 AcquireNextImageImpl(Fence* pFence, Semaphore* pSemaphore) override;
 		virtual void PresentImpl(Semaphore* pSemaphore) override;
-		virtual void ResizeSwapchainImpl(Vec2u newSize) override;
+		virtual void ResizeSwapchainImpl(Math::Vec2u newSize) override;
 
 	private:
 		VkSwapchainKHR mSwapchain;

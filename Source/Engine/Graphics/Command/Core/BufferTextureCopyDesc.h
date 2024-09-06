@@ -11,8 +11,8 @@ namespace MAGE
 	struct BufferTextureCopyDesc
 	{
 		u64 BufferOffsetInBytes;
-		Vec3i TextureOffset;
-		Vec3u TextureSize;
+		Math::Vec3i TextureOffset;
+		Math::Vec3u TextureSize;
 		u8 TargetArrayIndex;
 		u8 TargetMipIndex;
 	};

@@ -12,7 +12,7 @@ namespace MAGE
 {
 	namespace ImGuiUtils
 	{
-		static void DrawVec2f(const String& label, Vec2f& vec, f32 min, f32 max)
+		static void DrawVec2f(const String& label, Math::Vec2f& vec, f32 min, f32 max)
 		{
 			ImGui::DragFloat2(label.c_str(), &vec.x, 0.1f, min, max);
 		}

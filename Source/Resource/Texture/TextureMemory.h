@@ -8,7 +8,7 @@ namespace MAGE
 	struct TextureMemory
 	{
 		MemoryOwnedBuffer Data;
-		Vec2u ImageRes;
+		Math::Vec2u ImageRes;
 		u8 NumChannel;
 	};
 }

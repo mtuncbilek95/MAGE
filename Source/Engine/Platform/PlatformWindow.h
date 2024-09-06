@@ -26,8 +26,8 @@ namespace MAGE
 
 		void PollEvents();
 
-		const Vec2u& GetWindowResolution() const { return mWindowSize; }
-		const Vec2i& GetWindowPosition() const { return mWindowPosition; }
+		const Math::Vec2u& GetWindowResolution() const { return mWindowSize; }
+		const Math::Vec2i& GetWindowPosition() const { return mWindowPosition; }
 		const String& GetWindowTitle() const { return mWindowTitle; }
 		const WindowMode& GetWindowMode() const { return mWindowMode; }
 		const b8 IsVisible() const { return mVisible; }
@@ -47,15 +47,15 @@ namespace MAGE
 
 		GLFWwindow* GetGLFWHandle() const { return mGLFWHandle; }
 
-		void SetWindowResolution(const Vec2u& resolution);
-		void SetWindowPosition(const Vec2i& position);
+		void SetWindowResolution(const Math::Vec2u& resolution);
+		void SetWindowPosition(const Math::Vec2i& position);
 		void SetWindowTitle(const String& title);
 		void SetWindowMode(const WindowMode& mode);
 		void SetVisible(b8 visible);
 
 	private:
-		Vec2u mWindowSize;
-		Vec2i mWindowPosition;
+		Math::Vec2u mWindowSize;
+		Math::Vec2i mWindowPosition;
 		String mWindowTitle;
 		WindowMode mWindowMode;
 		b8 mVisible;

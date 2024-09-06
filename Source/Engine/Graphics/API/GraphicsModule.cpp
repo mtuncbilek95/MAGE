@@ -80,8 +80,8 @@ namespace MAGE
 		GraphicsInstanceDesc instanceDesc = {};
 		instanceDesc.AppName = "Editor"; // TODO: Get from config
 		instanceDesc.EngineName = "MAGE"; // TODO: Get from config
-		instanceDesc.AppVersion = Vec3b(1, 0, 0); // TODO: Get from config
-		instanceDesc.EngineVersion = Vec3b(1, 0, 0); // TODO: Get from config
+		instanceDesc.AppVersion = Math::Vec3c(1, 0, 0); // TODO: Get from config
+		instanceDesc.EngineVersion = Math::Vec3c(1, 0, 0); // TODO: Get from config
 
 		auto tempRefInstance = mGraphicsAPI->CreateInstance(instanceDesc);
 		if (tempRefInstance == nullptr)

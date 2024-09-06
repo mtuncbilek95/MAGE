@@ -23,8 +23,8 @@ namespace MAGE
 
 			MonitorDesc desc = {};
 			desc.MonitorName = name;
-			desc.MonitorResolution = Vec2u((u32)videoMode->width, (u32)videoMode->height);
-			desc.MonitorPosition = Vec2i(monitorX, monitorY);
+			desc.MonitorResolution = Math::Vec2u((u32)videoMode->width, (u32)videoMode->height);
+			desc.MonitorPosition = Math::Vec2i(monitorX, monitorY);
 			desc.IsPrimary = i == 0;
 
 			monitors.push_back(Monitor(desc));
@@ -46,8 +46,8 @@ namespace MAGE
 
 		MonitorDesc desc = {};
 		desc.MonitorName = name;
-		desc.MonitorResolution = Vec2u((u32)videoMode->width, (u32)videoMode->height);
-		desc.MonitorPosition = Vec2i(monitorX, monitorY);
+		desc.MonitorResolution = Math::Vec2u((u32)videoMode->width, (u32)videoMode->height);
+		desc.MonitorPosition = Math::Vec2i(monitorX, monitorY);
 		desc.IsPrimary = true;
 
 		return Monitor(desc);

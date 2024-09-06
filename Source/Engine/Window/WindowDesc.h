@@ -8,8 +8,8 @@ namespace MAGE
 {
 	struct WindowDesc
 	{
-		Vec2u WindowSize;
-		Vec2i WindowPosition;
+		Math::Vec2u WindowSize;
+		Math::Vec2i WindowPosition;
 		String WindowTitle;
 		WindowMode WindowMode;
 	};

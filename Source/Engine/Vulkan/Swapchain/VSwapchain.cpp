@@ -213,7 +213,7 @@ namespace MAGE
 			"Failed to present image");
 	}
 
-	void VSwapchain::ResizeSwapchainImpl(Vec2u newSize)
+	void VSwapchain::ResizeSwapchainImpl(Math::Vec2u newSize)
 	{
 		if (newSize.x == 0 || newSize.y == 0)
 			return;

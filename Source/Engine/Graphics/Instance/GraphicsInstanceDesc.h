@@ -8,9 +8,9 @@ namespace MAGE
 	struct GraphicsInstanceDesc
 	{
 		String AppName;
-		Vec3b AppVersion;
+		Math::Vec3c AppVersion;
 
 		String EngineName;
-		Vec3b EngineVersion;
+		Math::Vec3c EngineVersion;
 	};
 }

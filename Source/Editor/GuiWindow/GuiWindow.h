@@ -16,8 +16,8 @@ namespace MAGE
 		virtual void OnClose() = 0;
 
 		const String& GetWindowName() const { return mWindowName; }
-		const Vec2f& GetPosition() const { return mPosition; }
-		const Vec2f& GetWindowSize() const { return mWindowSize; }
+		const Math::Vec2f& GetPosition() const { return mPosition; }
+		const Math::Vec2f& GetWindowSize() const { return mWindowSize; }
 
 		b8 IsOpen() const { return mIsOpen; }
 		b8 IsDirty() const { return mIsDirty; }
@@ -27,8 +27,8 @@ namespace MAGE
 
 	protected:
 		String mWindowName;
-		Vec2f mPosition;
-		Vec2f mWindowSize;
+		Math::Vec2f mPosition;
+		Math::Vec2f mWindowSize;
 
 		b8 mIsOpen;
 		b8 mIsDirty;

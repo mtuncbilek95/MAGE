@@ -12,7 +12,7 @@ namespace MAGE
 	class GraphicsMemory;
 	struct TextureImageDesc
 	{
-		Vec3u ImageSize;
+		Math::Vec3u ImageSize;
 		u32 MipLevels;
 		u32 ArrayLayers;
 		TextureFormat ImageFormat;

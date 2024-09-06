@@ -11,7 +11,7 @@ namespace MAGE
 	class GraphicsQueue;
 	struct SwapchainDesc
 	{
-		Vec2u ImageSize;
+		Math::Vec2u ImageSize;
 		TextureFormat ImageFormat;
 		TextureUsageFlags TextureUsage;
 		PresentMode VSync;

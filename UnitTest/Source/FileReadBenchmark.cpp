@@ -11,6 +11,9 @@
 
 namespace fs = std::filesystem;
 
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+
 std::string ReadFileInC(const std::string& filePath)
 {
 	FILE* file = std::fopen(filePath.c_str(), "r");
@@ -69,12 +72,12 @@ std::string ReadFileOS(const Path& filePath)
 
 TEST_CASE("Read File Benchmark")
 {
-	auto test = std::filesystem::current_path().parent_path().parent_path().parent_path();
-	test += "/UnitTest/TestImage.jpg";
+	std::string test = TOSTRING(TEST_FOLDER_PATH);
+	test += "/TestImage.jpg";
 
 	BENCHMARK("Read file in C (fopen, fseek)")
 	{
-		return ReadFileInC(test.string());
+		return ReadFileInC(test);
 	};
 
 	BENCHMARK("Read file in C++ (stream)")

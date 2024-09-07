@@ -20,3 +20,5 @@ list(APPEND CMAKE_MODULE_PATH ${Catch2_SOURCE_DIR}/contrib)
 include(CTest)
 include(Catch)
 catch_discover_tests(UnitTest)
+
+add_definitions(-DTEST_FOLDER_PATH=${CMAKE_CURRENT_SOURCE_DIR})

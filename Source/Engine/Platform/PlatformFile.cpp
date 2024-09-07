@@ -145,7 +145,7 @@ namespace MAGE
 		}
 
 		// Open the file
-		HANDLE hFile = CreateFileA(path.string().c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		HANDLE hFile = CreateFileA(path.string().c_str(), GENERIC_READ, NULL, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hFile == INVALID_HANDLE_VALUE || hFile == NULL)
 		{
 			spdlog::warn("Failed to read the file: {}", GetLastErrorMessage());
@@ -153,8 +153,8 @@ namespace MAGE
 		}
 
 		// Get the file size
-		DWORD fileSize = GetFileSize(hFile, NULL);
-		if (fileSize == INVALID_FILE_SIZE)
+		LARGE_INTEGER fileSize;
+		if (!GetFileSizeEx(hFile, &fileSize))
 		{
 			spdlog::warn("Failed to read the file: {}", GetLastErrorMessage());
 			CloseHandle(hFile);
@@ -163,12 +163,12 @@ namespace MAGE
 
 		// Read the file
 		DWORD bytesRead;
-		char* buffer = new char[fileSize + (nullTerminate ? 1 : 0)];
-		if (ReadFile(hFile, buffer, fileSize, &bytesRead, NULL) == 0)
+		outFile.resize(fileSize.QuadPart + (nullTerminate ? 1 : 0));
+		char* buffer = &outFile[0];
+		if (ReadFile(hFile, buffer, fileSize.QuadPart, &bytesRead, NULL) == 0)
 		{
 			spdlog::warn("Failed to read the file: {}", GetLastErrorMessage());
 			CloseHandle(hFile);
-			delete[] buffer;
 			return false;
 		}
 
@@ -177,11 +177,7 @@ namespace MAGE
 
 		// Null terminate the buffer
 		if (nullTerminate)
-			buffer[fileSize] = '\0';
-
-		// Set the output
-		outFile = String(buffer, fileSize);
-		delete[] buffer;
+			outFile[bytesRead] = '\0';
 
 		return true;
 	}
@@ -204,8 +200,8 @@ namespace MAGE
 		}
 
 		// Get the file size
-		DWORD fileSize = GetFileSize(hFile, NULL);
-		if (fileSize == INVALID_FILE_SIZE)
+		LARGE_INTEGER fileSize;
+		if (!GetFileSizeEx(hFile, &fileSize))
 		{
 			spdlog::warn("Failed to read the file: {}", GetLastErrorMessage());
 			CloseHandle(hFile);
@@ -214,8 +210,8 @@ namespace MAGE
 
 		// Read the file
 		DWORD bytesRead;
-		char* buffer = new char[fileSize + (nullTerminate ? 1 : 0)];
-		if (ReadFile(hFile, buffer, fileSize, &bytesRead, NULL) == 0)
+		char* buffer = new char[fileSize.QuadPart + (nullTerminate ? 1 : 0)];
+		if (ReadFile(hFile, buffer, fileSize.QuadPart, &bytesRead, NULL) == 0)
 		{
 			spdlog::warn("Failed to read the file: {}", GetLastErrorMessage());
 			CloseHandle(hFile);
@@ -228,10 +224,10 @@ namespace MAGE
 
 		// Null terminate the buffer
 		if (nullTerminate)
-			buffer[fileSize] = '\0';
+			buffer[fileSize.QuadPart] = '\0';
 
 		// Set the output
-		outFile = MemoryOwnedBuffer(buffer, fileSize);
+		outFile = MemoryOwnedBuffer(buffer, fileSize.QuadPart);
 		delete[] buffer;
 
 		return true;

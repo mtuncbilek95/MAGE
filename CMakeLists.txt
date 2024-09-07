@@ -33,8 +33,8 @@ add_subdirectory("Source/Editor")
 
 if(ENABLE_CATCH_TEST)
     enable_testing()
-    add_subdirectory(UnitTest)
+    add_subdirectory("UnitTest")
 endif()
 
-add_subdirectory("TestCases")
+add_subdirectory("Example")
 # ------------------------------------------------------------

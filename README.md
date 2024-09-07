@@ -102,7 +102,7 @@ and lower level than the std library. For example, reading a 3 Megabyte file for
 while the Win32API takes between 1.8 seconds and 2.1 seconds due to the thread priorty. We can also see that Platform-specific implementations have better thread performance. Since 
 we are working on a game engine and I really care about my performance, I will continue to use platform-specific implementations for IO control units. I have not tested the Linux 
 platform performance yet, but I believe if you do not use clang, the performance most probably will be better than the std library. But in order to have better control on the path, 
-I will change the parameters that has been used as std::string to std::filesystem::path.
+I will change the parameters that has been used as std::string to std::filesystem::path. The tests above has been done with chrono library.
 
 For those who are curious about my setup:
 - CPU: Intel i7-11800H
@@ -112,3 +112,14 @@ For those who are curious about my setup:
 - OS: Windows 11 Pro
 - IDE: Visual Studio 2022
 - MSVC Compiler: MSVC 19.41.34120.0
+
+### Performance Test Results
+The tests below have been done with 3 different implementations. The first one is the std::fopen/fread, the second one is the std::stream and the last one is the win32::readFile. All
+tests have been done by catch2 library. The tests have been done with 100 samples and 1 iteration. The results are below:
+
+| Benchmark Names        |  samples<br>mean<br>std dev  |  iterations<br>low mean<br>low std dev  |  est run time<br>high mean<br>high std dev  |
+| :--------------------- |  -------------------------:  |  ------------------------------------:  |  ----------------------------------------:  |
+| std::fopen/fread       | 100<br>3.3963ms<br>322.951us |  1<br>3.33906ms<br>262.83us             |  328.766ms<br>3.4672ms<br>401.061us         |
+| std::stream            | 100<br>6.5817ms<br>337.886us |  1<br>6.52007ms<br>289.23us             |  642.397ms<br>6.6532ms<br>425.863us         |
+| win32::readFile        | 100<br>3.3310ms<br>218.811us |  1<br>3.29175ms<br>182.57us             |  336.502ms<br>3.3782ms<br>269.380us         |
+

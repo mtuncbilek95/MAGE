@@ -36,5 +36,6 @@ if(ENABLE_CATCH_TEST)
     add_subdirectory("UnitTest")
 endif()
 
-add_subdirectory("Example")
+add_subdirectory("Examples/EditorExample")
+add_subdirectory("Examples/ReflectionExample")
 # ------------------------------------------------------------

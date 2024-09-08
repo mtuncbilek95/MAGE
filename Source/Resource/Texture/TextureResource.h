@@ -48,5 +48,8 @@ namespace MAGE
 		GraphicsDevice* mDevice;
 
 		Vector<Vector<MipData>> mMipData;
+
+	public:
+
 	};
 }

@@ -10,3 +10,5 @@ FetchContent_Declare(
     GIT_TAG v3.13.2
     GIT_SHALLOW TRUE
 )
+
+FetchContent_MakeAvailable(entt)

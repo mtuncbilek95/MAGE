@@ -3,12 +3,14 @@
 #include <type_traits>
 #include <concepts>
 
+#include <entt/core/enum.hpp>
+
 /*
  * @class Add Bitwise
  * @brief Adds bitwise operators to an enum class
  */
 template<typename EnumType>
-inline constexpr EnumType operator |(EnumType a, EnumType b)
+inline constexpr std::enable_if_t<!entt::enum_as_bitmask_v<EnumType>, EnumType> operator |(EnumType a, EnumType b)
 {
 	using Underlying = std::underlying_type_t<EnumType>;
 	return static_cast<EnumType>(static_cast<Underlying>(a) | static_cast<Underlying>(b));
@@ -19,7 +21,7 @@ inline constexpr EnumType operator |(EnumType a, EnumType b)
  * @brief Checks if an enum variable contains a specific flag
  */
 template<typename EnumType>
-inline constexpr bool operator &(EnumType a, EnumType b)
+inline constexpr std::enable_if_t<!entt::enum_as_bitmask_v<EnumType>, bool> operator &(EnumType a, EnumType b)
 {
 	using Underlying = std::underlying_type_t<EnumType>;
 	return (static_cast<Underlying>(a) & static_cast<Underlying>(b)) != 0;

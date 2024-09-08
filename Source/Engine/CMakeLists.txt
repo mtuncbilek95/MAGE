@@ -21,7 +21,7 @@ SetupVulkan(Engine)
 SetupGLFW(Engine)
 DefineGlmMacros(Engine)
 
-target_link_libraries(Engine PUBLIC glfw glm::glm nlohmann_json::nlohmann_json magic_enum fmt spdlog)
+target_link_libraries(Engine PUBLIC glfw glm::glm nlohmann_json::nlohmann_json magic_enum fmt spdlog EnTT::EnTT)
 
 if(WIN32)
 	include(SetupWindows)

@@ -9,3 +9,10 @@ cmake-build-release/
 Intermediate/*
 build/*
 intermediate/*
+Tools/CodeGen/bin
+Tools/CodeGen/obj
+Tools/CodeGen/.vs
+Tools/CodeGen/Build
+Tools/CodeGen/Intermediate
+Tools/CodeGen/.vscode
+Tools/CodeGen/out

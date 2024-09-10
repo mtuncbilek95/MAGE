@@ -142,7 +142,7 @@ engine work without huge amount of JSON/XML/YAML files. So there will be a huge 
 beginning of the end. Then the rest is just learning about tools, features and the rest.
 
 - Don't rush to make it work. You will regret it. You will regret it so much that you will want to delete the whole project. So take your time to understand the system. 
-- Also please learn how to use include the libraries in the project. Since I'm working with CMake, I won't explain how. Because devs that uses CMake are mostly knows what to do about 
+- Also please learn how to use include the libraries in the project. Since I'm working with CMake, I won't explain how. Because devs that uses CMake mostly knows what to do about 
 the regular stuffs. But you already have the whole project, go and check the CMakeLists.txt files. They are the key to understand how to include the libraries if you are a rookie when 
 it comes to CMake.
 

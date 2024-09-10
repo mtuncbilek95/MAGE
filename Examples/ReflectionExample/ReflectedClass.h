@@ -15,7 +15,13 @@ namespace MAGE
 		ReflectedClass() = default;
 		~ReflectedClass() = default;
 
-		void NonReflectedFunction() {}
+		void NonReflectedFunction() 
+		{
+			printf("NonReflectedFunction\n");
+			printf("mNonReflectedVariable: %d\n", mNonReflectedVariable);
+			printf("mReflectedVariable: %d\n", mReflectedVariable);
+			printf("mReflectedString: %s\n", mReflectedString.c_str());
+		}
 
 	private:
 		int mNonReflectedVariable = 32;

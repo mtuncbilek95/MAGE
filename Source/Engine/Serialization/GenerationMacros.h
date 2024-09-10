@@ -40,10 +40,10 @@
 namespace MAGE
 {
 	/**
-	* @class TypeResolver
-	* @brief Forward declaration of TypeResolver, so that it can be specialized
+	* @class TypeRegistry
+	* @brief Forward declaration of TypeRegistry, so that it can be specialized
 	* for each type.
 	*/
 	template<typename T>
-	class TypeResolver;
+	class TypeRegistry;
 }

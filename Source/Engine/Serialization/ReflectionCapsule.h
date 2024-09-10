@@ -5,10 +5,15 @@
 namespace MAGE
 {
 	/**
-	 * @class ReflectionManifestServer
+	 * @class ReflectionCapsule
 	 * @brief This class is being used to generate all the data that is wanted to reflected. 
 	 */
-	class ReflectionManifestServer
+	class ReflectionCapsule
 	{
+	public:
+		ReflectionCapsule() = default;
+		~ReflectionCapsule() = default;
+
+
 	};
 }

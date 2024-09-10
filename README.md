@@ -190,12 +190,13 @@ public:
 	int ReflectedFunction(); // Return value can be whatever you want
 
 private:
+	float mNonReflectedVariable = 3.14f;
 
 	REFLECT_MEMBER();
-	int mReflectedMember;
+	int mReflectedMember = 32;
 
 	REFLECT_MEMBER();
-	String mReflectedString; // String is just using String = std::string; for my engine
+	String mReflectedString = "Hello World!"; // String is just using String = std::string; for my engine
 };
 ```
 
@@ -205,7 +206,6 @@ a bit over-engineered. On the other hand `GENERATE_MANIFEST` has more important 
 
 ```cpp
 	friend class entt::meta_factory<ReflectedClass>;
-	friend class TypeRegistry<ReflectedClass>;
 ```
 
 to add this block to the class with macros. Okay we add this but what is this? This is where entt::meta docs comes in. According to the docs, the `entt::meta_factory` is the class where 
@@ -223,26 +223,18 @@ using namespace entt::literals;
 
 #undef GENERATE_MANIFEST
 #define GENERATE_MANIFEST \
-	friend class TypeRegistry<ReflectedClass>; \
-	friend class entt::meta_factory<ReflectedClass>
+	friend class entt::meta_factory<ReflectedClass>; \
+	public: \
+		class TypeRegistry \
+		{ \
+		public: \
+			static void Register() \
+			{ \
+			} \
+		}; \
+	private: \
+		friend class TypeRegistry
 
-namespace MAGE
-{
-	class ReflectedClass; // Forward declaration to avoid errors.
-
-	template<>
-	class TypeRegistry<ReflectedClass> // This template is in Engine/Serialization/GenerationMacros.h as a forward declaration.
-	{
-	public:
-		static void Register()
-		{
-		}
-
-		static void Unregister()
-		{
-		}
-	};
-}
 ```
 
 Okay, we have the core but we still don't have the meta's code. That's where the REFLECT_X() comes in. They will add couple lines in here. I will shoot the guy, then ask the questions, so you
@@ -257,37 +249,59 @@ using namespace entt::literals;
 
 #undef GENERATE_MANIFEST
 #define GENERATE_MANIFEST \
-	friend class TypeRegistry<ReflectedClass>; \
-	friend class entt::meta_factory<ReflectedClass> // We don't have line-ender a.k.a ; because I like to add it in the end of the macro. It's a personal preference.
+	friend class entt::meta_factory<ReflectedClass>; \
+	public: \
+		class TypeRegistry \
+		{ \
+		public: \
+			static void Register() \
+			{ \
+				entt::meta<ReflectedClass>() \
+					.type("ReflectedClass"_hs) \
+					.data<&ReflectedClass::mReflectedVariable>("ReflectedVariable"_hs) \
+					.data<&ReflectedClass::mReflectedString>("ReflectedString"_hs); \
+			} \
+		}; \
+	private: \
+		friend class TypeRegistry
 
-namespace MAGE
-{
-	class ReflectedClass; // Forward declaration to avoid errors.
-
-	template<>
-	class TypeRegistry<ReflectedClass> // This template is in Engine/Serialization/GenerationMacros.h as a forward declaration.
-	{
-	public:
-		static void Register()
-		{
-			entt::meta<ReflectedClass>()
-				.type("ReflectedClass"_hs)
-				.data<&ReflectedClass::mReflectedMember>("mReflectedMember"_hs)
-				.data<&ReflectedClass::mReflectedString>("mReflectedString"_hs)
-				.func<&ReflectedClass::ReflectedFunction>("ReflectedFunction"_hs);
-		}
-
-		static void Unregister()
-		{
-		}
-
-		// There will be a function to get an instance of the class. I need to figure out something first.
-	};
-}
 ```
 
 `entt::meta<Class>()` is the begin method of the reflections. Then the rest is about adding the data and functions. As I understand the `_hs` you see is already in the entt::meta and it's there
-for handling hash strings. There is no big deal about adding your datas and functions. There are more advanced stuffs about adding derived classes and etc. We will get there as well.
+for handling hash strings. There is no big deal about adding your datas and functions. There are more advanced stuffs about adding derived classes and etc. We will get there as well. Since we have 
+the register method, We can manually test it in the main.cpp:
+
+```cpp
+#include "Engine/Core/Core.h"
+
+using namespace MAGE;
+
+#include <entt/entt.hpp>
+using namespace entt::literals;
+
+#include "ReflectedClass.h"
+
+int main(i32 argC, char** argV)
+{
+	ReflectedClass::TypeRegistry::Register();
+
+	auto by_id = entt::resolve("ReflectedClass"_hs);
+	auto reflected_variable = by_id.data("ReflectedVariable"_hs);
+	auto test = reflected_variable.get(by_id.construct()).cast<int>();
+
+	printf("ReflectedVariable: %d\n", test);
+}
+```
+
+This is the very basic implementation of what I come up with. We registered the related data and now we can access whatever we want. It also creates a problem right now. The problem is that, if you
+get the instance of the class, you can literally access anything you want. So, we need to find out a way to control the reflection system for only the ones that we want to expose.
+
+```terminal
+ReflectedVariable: 32
+```
+
+The thing I wonder is if I can modify the reflected data's value for reflection system. So that, whenever you get an instance you can access the new value. I will be testing this in the future.
 
 **TO BE CONTINUED...**
+
 </div>

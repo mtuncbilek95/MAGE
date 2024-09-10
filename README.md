@@ -127,9 +127,7 @@ tests have been done by catch2 library. The tests have been done with 100 sample
 | :--------------------- |  -------------------------:  |  ------------------------------------:  |  ----------------------------------------:  |
 | std::fopen/fread       | 100<br>3.3963ms<br>322.951us |  1<br>3.33906ms<br>262.83us             |  328.766ms<br>3.4672ms<br>401.061us         |
 | std::stream            | 100<br>6.5817ms<br>337.886us |  1<br>6.52007ms<br>289.23us             |  642.397ms<br>6.6532ms<br>425.863us         |
-| win32::readFile        | 100<br>3.3310ms<br>218.811us |  1<br>3.29175ms<br>182.57us             |  336.502ms<br>3.3782ms<br>269.380us         |
-
-**BITE ME STD FANATICS. YOU DON'T KNOW JACK SHIT ABOUT PERFORMANCE CRITICAL APPLICATIONS. DON'T PATRONIZE ABOUT hOw To UsE aCtUaL cPp.**
+| Win32::ReadFile        | 100<br>3.3310ms<br>218.811us |  1<br>3.29175ms<br>182.57us             |  336.502ms<br>3.3782ms<br>269.380us         |
 
 # THE MOST IMPORTANT PART OF A GAME ENGINE
 
@@ -243,9 +241,6 @@ namespace MAGE
 		static void Unregister()
 		{
 		}
-
-		static ReflectedClass* Cast()
-		{}
 	};
 }
 ```

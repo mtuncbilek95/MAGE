@@ -72,7 +72,7 @@ Because I literally deep dived into not having layers on platform specific imple
 - Windows should work with DX12 no matter what. But for now I don't want the burnout with DX12, so VulkanSDK continues. If I could go the past, I would choose DX12 though.
 - Linux has no option other than VulkanSDK.
 - I already made cross platform support for both Linux and Windows. It's not that hard to make it. The hard part is to make them work together while doing lots of feature
-implementations. So till I get the satisfaction, I won't touch the Linux part. The system already has the capability to run on Linux.
+implementations. So till I get the satisfaction on Win32, I won't touch the Linux part. The system already has the capability to run on Linux.
 - Main optimization workflow mostly will be on Windows since buying PS5 Dev Kit is not easy.
 - Current goal is not to create showreels but creating crash-less environment
 - MOST IMPORTANTLY: Dont rush just to get a solution. It can create future problems. Future you will have more responsibility so take your time to understand.

@@ -135,14 +135,14 @@ First of all I have to say something. When it comes to learning something very a
 teach something. Even Cherno does a lot of god's work. But when it comes to learning something that is not that popular and advanced as hell, even he doesn't take on the full responsibility. 
 I'm not the smartest developer/engineer but I want to share my knowledge with you. Even if it's not correct. Because if I start showing how to do things, some whiners will come and say 
 "**You're doing it wrong it has to be done like this**" and "**that**". Which will lead us to the actual solution. Because people always like to correct someone elses mistake to make them 
-look stupid. So, I'm taking the responsibility here. Okay, enought with the chit-chat. Let's get to the point.
+look stupid. So, I'm taking the responsibility here. Okay, enough with the chit-chat. Let's get to the point.
 
 The most important part of a game engine is the runtime reflection system. It's the heart of the engine. It's the part that makes the engine alive. It's the part that makes the
 engine work without huge amount of JSON/XML/YAML files. So there will be a huge explanation about it. I suffered a lot to make this work. I even cried a bit. This thing in here is the 
 beginning of the end. Then the rest is just learning about tools, features and the rest.
 
 - Don't rush to make it work. You will regret it. You will regret it so much that you will want to delete the whole project. So take your time to understand the system. 
-- Also please learn how to use include the libraries in the project. Since I'm working with CMake, I won't explain how. Because devs that uses CMake are mostly knows what to do about 
+- Also please learn how to use include the libraries in the project. Since I'm working with CMake, I won't explain how. Because devs that uses CMake mostly knows what to do about 
 the regular stuffs. But you already have the whole project, go and check the CMakeLists.txt files. They are the key to understand how to include the libraries if you are a rookie when 
 it comes to CMake.
 

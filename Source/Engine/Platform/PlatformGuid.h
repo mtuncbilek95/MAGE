@@ -6,7 +6,7 @@
 
 namespace MAGE
 {
-	class PlatformGuid final
+	class ENGINE_API PlatformGuid final
 	{
 	public:
 		static void GenerateGuid(Guid& guidOut);

@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	class IObject : public std::enable_shared_from_this<IObject>
+	class ENGINE_API IObject : public std::enable_shared_from_this<IObject>
 	{
 	public:
 		virtual ~IObject() = default;

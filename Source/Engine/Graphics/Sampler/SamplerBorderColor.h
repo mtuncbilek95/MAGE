@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	enum class SamplerBorderColor : u8
+	enum class ENGINE_API SamplerBorderColor : u8
 	{
 		SBC_TransparentBlack,
 		SBC_OpaqueBlack,

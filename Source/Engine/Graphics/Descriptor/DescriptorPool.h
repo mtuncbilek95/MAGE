@@ -7,10 +7,10 @@
 namespace MAGE
 {
 	/**
-	 * @class DescriptorPool
+	 * @class ENGINE_API DescriptorPool
 	 * @brief A descriptor pool
 	 */
-	class DescriptorPool : public DeviceObject
+	class ENGINE_API DescriptorPool : public DeviceObject
 	{
 	public:
 		DescriptorPool(const DescriptorPoolDesc& desc, GraphicsDevice* pDevice) : DeviceObject(pDevice), mMaxSets(desc.MaxSets),

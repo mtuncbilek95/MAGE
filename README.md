@@ -177,7 +177,7 @@ there is, it just generate `File.generated.h` file in the same directory(I may c
 #include "ReflectedClass.generated.h" // This include has to be the last include in the file in order to work properly
 
 REFLECT_CLASS();
-class ReflectedClass
+class ENGINE_API ReflectedClass
 {
 	GENERATE_MANIFEST;
 public:
@@ -208,9 +208,9 @@ a bit over-engineered. On the other hand `GENERATE_MANIFEST` has more important 
 	friend class entt::meta_factory<ReflectedClass>;
 ```
 
-to add this block to the class with macros. Okay we add this but what is this? This is where entt::meta docs comes in. According to the docs, the `entt::meta_factory` is the class where 
+to add this block to the class ENGINE_API with macros. Okay we add this but what is this? This is where entt::meta docs comes in. According to the docs, the `entt::meta_factory` is the class ENGINE_API where 
 the ones that need to be reflected will be stored. But it needs everything as public in order to work. So, that's why we have TypeRegistry. Because adding the factory as a friend alone
-is not enough. On the other hand, TypeRegistry is the class where the core data/instance will be held during the runtime. Okay since we know what they are for, we can see how they will work.
+is not enough. On the other hand, TypeRegistry is the class ENGINE_API where the core data/instance will be held during the runtime. Okay since we know what they are for, we can see how they will work.
 
 Code Generator will generate something like this to initiate the manifestation codes so we can use them before run:
 
@@ -225,7 +225,7 @@ using namespace entt::literals;
 #define GENERATE_MANIFEST \
 	friend class entt::meta_factory<ReflectedClass>; \
 	public: \
-		class TypeRegistry \
+		class ENGINE_API TypeRegistry \
 		{ \
 		public: \
 			static void Register() \
@@ -251,7 +251,7 @@ using namespace entt::literals;
 #define GENERATE_MANIFEST \
 	friend class entt::meta_factory<ReflectedClass>; \
 	public: \
-		class TypeRegistry \
+		class ENGINE_API TypeRegistry \
 		{ \
 		public: \
 			static void Register() \
@@ -294,7 +294,7 @@ int main(i32 argC, char** argV)
 ```
 
 This is the very basic implementation of what I come up with. We registered the related data and now we can access whatever we want. It also creates a problem right now. The problem is that, if you
-get the instance of the class, you can literally access anything you want. So, we need to find out a way to control the reflection system for only the ones that we want to expose.
+get the instance of the class ENGINE_API, you can literally access anything you want. So, we need to find out a way to control the reflection system for only the ones that we want to expose.
 
 ```terminal
 ReflectedVariable: 32

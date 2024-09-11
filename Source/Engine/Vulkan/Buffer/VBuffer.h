@@ -8,7 +8,7 @@
 namespace MAGE
 {
 	class VDevice;
-	class VBuffer : public GraphicsBuffer
+	class ENGINE_API VBuffer : public GraphicsBuffer
 	{
 	public:
 		VBuffer(const GraphicsBufferDesc& desc, VDevice* pDevice);

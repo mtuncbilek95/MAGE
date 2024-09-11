@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-    enum class InputBindingStepRate : u8
+    enum class ENGINE_API InputBindingStepRate : u8
     {
         IBS_Vertex,
         IBS_Instance

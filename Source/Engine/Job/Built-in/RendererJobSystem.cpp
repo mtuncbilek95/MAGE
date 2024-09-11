@@ -7,7 +7,7 @@ namespace MAGE
 		mWorkers.resize(threadCount);
 		for (u32 i = 0; i < threadCount; ++i)
 		{
-			mWorkers[i] = MakeOwned<WorkerThread>(priority);
+			mWorkers[i] = MakeShared<WorkerThread>(priority);
 		}
 	}
 }

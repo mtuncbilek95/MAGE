@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	enum class TextureType : u8
+	enum class ENGINE_API TextureType : u8
 	{
 		TT_Undefined,
 		TT_Texture1D,

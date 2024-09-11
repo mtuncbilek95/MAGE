@@ -6,8 +6,8 @@
 
 namespace MAGE
 {
-	class PlatformCriticalSection;
-	class ThreadJob
+	class ENGINE_API PlatformCriticalSection;
+	class ENGINE_API ThreadJob
 	{
 		friend class PlatformThread;
 

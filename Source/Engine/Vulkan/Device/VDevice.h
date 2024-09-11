@@ -8,7 +8,7 @@
 namespace MAGE
 {
 	class VInstance;
-	class VDevice : public GraphicsDevice
+	class ENGINE_API VDevice : public GraphicsDevice
 	{
 		struct QueueFamily
 		{

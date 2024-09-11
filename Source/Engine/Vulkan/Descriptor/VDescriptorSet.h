@@ -8,7 +8,7 @@
 
 namespace MAGE
 {
-	class VDescriptorSet final : public DescriptorSet
+	class ENGINE_API VDescriptorSet final : public DescriptorSet
 	{
 	public:
 		VDescriptorSet(const DescriptorSetDesc& desc, VDevice* pDevice);

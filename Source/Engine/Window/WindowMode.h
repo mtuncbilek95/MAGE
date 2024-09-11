@@ -2,7 +2,7 @@
 
 namespace MAGE
 {
-	enum class WindowMode
+	enum class ENGINE_API WindowMode
 	{
 		WM_Windowed = 0,
 		WM_Borderless = 1,

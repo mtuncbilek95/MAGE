@@ -5,7 +5,7 @@
 
 namespace MAGE
 {
-	class PlatformMonitor
+	class ENGINE_API PlatformMonitor
 	{
 	public:
 		static Vector<Monitor> GetAllMonitors();

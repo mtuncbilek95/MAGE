@@ -6,7 +6,7 @@
 
 namespace MAGE
 {
-	class WindowAPI : public API<WindowAPI>
+	class ENGINE_API WindowAPI : public API<WindowAPI>
 	{
 	public:
 		WindowAPI() = default;

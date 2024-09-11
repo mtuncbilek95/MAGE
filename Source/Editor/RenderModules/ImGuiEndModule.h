@@ -12,7 +12,7 @@ namespace MAGE
 	class CmdBuffer;
 	class CmdPool;
 
-	class ImGuiEndModule : public ApplicationModule
+	class EDITOR_API ImGuiEndModule : public ApplicationModule
 	{
 	public:
 		ImGuiEndModule();

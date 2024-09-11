@@ -7,10 +7,10 @@
 namespace MAGE
 {
 	/**
-	 * @class DescriptorLayout
+	 * @class ENGINE_API DescriptorLayout
 	 * @brief A descriptor layout
 	 */
-	class DescriptorLayout : public DeviceObject
+	class ENGINE_API DescriptorLayout : public DeviceObject
 	{
 	public:
 		DescriptorLayout(const DescriptorLayoutDesc& desc,GraphicsDevice* device) : DeviceObject(device), mEntries(desc.Entries) {}

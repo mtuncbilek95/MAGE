@@ -11,9 +11,15 @@ int main(i32 argC, char** argV)
 {
 	ReflectedClass::TypeRegistry::Register();
 
-	auto by_id = entt::resolve("ReflectedClass"_hs);
-	auto reflected_variable = by_id.data("ReflectedVariable"_hs);
-	auto test = reflected_variable.get(by_id.construct()).cast<int>();
+	//entt::meta_type by_id = entt::resolve("ReflectedClass"_hs);
 
-	printf("ReflectedVariable: %d\n", test);
+	//std::shared_ptr<ReflectedClass> reflectedClass;
+
+	//entt::meta_any instance = by_id.construct();
+	//if (instance) {
+	//	// If construction succeeded, create a shared_ptr
+	//	reflectedClass = std::shared_ptr<ReflectedClass>(static_cast<ReflectedClass*>(instance.data()), [by_id](ReflectedClass* ptr) {});
+	//}
+
+	//reflectedClass->NonReflectedFunction();
 }

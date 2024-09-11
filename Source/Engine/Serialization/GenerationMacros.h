@@ -2,8 +2,8 @@
 
 /**
  * @def REFLECT_CLASS(...)
- * @brief Macro to reflect a class. This macro should be placed at the top
- * of the class. It just a token for codegen tool.
+ * @brief Macro to reflect a class ENGINE_API. This macro should be placed at the top
+ * of the class ENGINE_API. It just a token for codegen tool.
  */
 #define REFLECT_CLASS(...)
 
@@ -30,20 +30,9 @@
 
 	/**
 	 * @def GENERATE_MANIFEST
-	 * @brief This macro will add the class to the reflection manifest. This should
-	 * be the first thing in the class. It will add a couple friend class declarations
+	 * @brief This macro will add the class ENGINE_API to the reflection manifest. This should
+	 * be the first thing in the class ENGINE_API. It will add a couple friend class declarations
 	 * in order to allow the serialization system to access the private members of the
-	 * class.
+	 * class ENGINE_API.
 	 */
 #define GENERATE_MANIFEST
-
-namespace MAGE
-{
-	/**
-	* @class TypeRegistry
-	* @brief Forward declaration of TypeRegistry, so that it can be specialized
-	* for each type.
-	*/
-	template<typename T>
-	class TypeRegistry;
-}

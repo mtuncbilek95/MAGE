@@ -5,7 +5,7 @@
 
 namespace MAGE
 {
-	class PlatformAPI : public API<PlatformAPI>
+	class ENGINE_API PlatformAPI : public API<PlatformAPI>
 	{
 	public:
 		PlatformAPI() = default;

@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	class PlatformCriticalSection
+	class ENGINE_API PlatformCriticalSection
 	{
 	public:
 		static SharedPtr<PlatformCriticalSection> CreateCS();

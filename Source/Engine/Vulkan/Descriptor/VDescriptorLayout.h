@@ -8,7 +8,7 @@
 
 namespace MAGE
 {
-	class VDescriptorLayout final : public DescriptorLayout
+	class ENGINE_API VDescriptorLayout final : public DescriptorLayout
 	{
 	public:
 		VDescriptorLayout(const DescriptorLayoutDesc& desc, VDevice* pDevice);

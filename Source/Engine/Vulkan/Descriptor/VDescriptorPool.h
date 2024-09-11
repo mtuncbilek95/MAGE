@@ -8,7 +8,7 @@
 
 namespace MAGE
 {
-	class VDescriptorPool final : public DescriptorPool
+	class ENGINE_API VDescriptorPool final : public DescriptorPool
 	{
 	public:
 		VDescriptorPool(const DescriptorPoolDesc& desc, VDevice* pDevice);

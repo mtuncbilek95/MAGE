@@ -4,8 +4,8 @@
 
 namespace MAGE
 {
-	class MemoryBuffer;
-	class MemoryOwnedBuffer
+	class ENGINE_API MemoryBuffer;
+	class ENGINE_API MemoryOwnedBuffer
 	{
 		typedef void* buf;
 	public:

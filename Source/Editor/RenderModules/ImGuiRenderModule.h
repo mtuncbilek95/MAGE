@@ -6,7 +6,7 @@
 namespace MAGE
 {
 	class ImGuiAPI;
-	class ImGuiRenderModule : public ApplicationModule
+	class EDITOR_API ImGuiRenderModule : public ApplicationModule
 	{
 	public:
 		ImGuiRenderModule();

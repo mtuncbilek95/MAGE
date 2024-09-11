@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-    enum class BlendFactor : u8
+    enum class ENGINE_API BlendFactor : u8
     {
         BF_Zero,
         BF_One,

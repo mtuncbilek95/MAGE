@@ -6,7 +6,7 @@ namespace MAGE
 	 * @enum DescriptorType
 	 * @brief Enum for the different types of descriptors
 	 */
-	enum class DescriptorType : u8
+	enum class ENGINE_API DescriptorType : u8
 	{
 		DT_Sampler,
 		DT_CombinedImageSampler,

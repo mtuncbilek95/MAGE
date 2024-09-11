@@ -7,7 +7,7 @@
 
 namespace MAGE
 {
-	class Win32CriticalSection : public PlatformCriticalSection
+	class ENGINE_API Win32CriticalSection : public PlatformCriticalSection
 	{
 	public:
 		Win32CriticalSection();

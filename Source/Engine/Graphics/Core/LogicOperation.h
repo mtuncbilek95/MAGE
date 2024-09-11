@@ -8,7 +8,7 @@ namespace MAGE
 	 * @enum LogicOperation
 	 * @brief Enum for logic operation
 	 */
-	enum class LogicOperation : u8
+	enum class ENGINE_API LogicOperation : u8
 	{
 		LO_Clear,
 		LO_Set,

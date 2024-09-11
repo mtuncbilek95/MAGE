@@ -7,9 +7,9 @@
 
 namespace MAGE
 {
-	class ImGuiAPI : public API<ImGuiAPI>
+	class EDITOR_API ImGuiAPI : public API<ImGuiAPI>
 	{
-		friend class ImGuiRenderModule;
+		friend class EDITOR_API ImGuiRenderModule;
 
 	public:
 		ImGuiAPI() = default;

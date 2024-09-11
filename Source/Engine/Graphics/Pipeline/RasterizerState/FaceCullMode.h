@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	enum class FaceCullMode : u8
+	enum class ENGINE_API FaceCullMode : u8
 	{
 		FCM_None = 1,
 		FCM_Front = 2,

@@ -7,7 +7,7 @@
 namespace MAGE
 {
 	class GraphicsDevice;
-	class TextureView : public DeviceObject
+	class ENGINE_API TextureView : public DeviceObject
 	{
 	public:
 		TextureView(const TextureViewDesc& desc, GraphicsDevice* pDevice) : DeviceObject(pDevice),

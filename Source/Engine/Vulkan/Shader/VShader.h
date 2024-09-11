@@ -8,7 +8,7 @@
 namespace MAGE
 {
 	class VDevice;
-	class VShader : public Shader
+	class ENGINE_API VShader : public Shader
 	{
 	public:
 		VShader(const ShaderDesc& desc, VDevice* pDevice);

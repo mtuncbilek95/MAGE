@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	enum class SamplerFilter : u8
+	enum class ENGINE_API SamplerFilter : u8
 	{
 		SF_Nearest,
 		SF_Linear

@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-    enum class BlendColorWriteMask : u8
+    enum class ENGINE_API BlendColorWriteMask : u8
     {
         CWM_Red = 1 << 0,
         CWM_Green = 1 << 1,

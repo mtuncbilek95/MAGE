@@ -5,7 +5,7 @@
 
 namespace MAGE
 {
-	struct TextureMemory
+	struct RESOURCE_API TextureMemory
 	{
 		MemoryOwnedBuffer Data;
 		Math::Vec2u ImageRes;

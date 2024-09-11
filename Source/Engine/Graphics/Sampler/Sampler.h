@@ -6,7 +6,7 @@
 
 namespace MAGE
 {
-	class Sampler : public DeviceObject
+	class ENGINE_API Sampler : public DeviceObject
 	{
 	public:
 		Sampler(const SamplerDesc& desc, GraphicsDevice* pDevice) : DeviceObject(pDevice),

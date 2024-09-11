@@ -12,7 +12,7 @@ namespace MAGE
 	class GraphicsDevice;
 	class TextureImage;
 	class TextureView;
-	class Swapchain : public DeviceObject
+	class ENGINE_API Swapchain : public DeviceObject
 	{
 	public:
 		Swapchain(const SwapchainDesc& desc, GraphicsDevice* pDevice) : DeviceObject(pDevice),

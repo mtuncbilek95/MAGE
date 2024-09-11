@@ -8,7 +8,7 @@
 namespace MAGE
 {
 	class VDevice;
-	class VSampler : public Sampler
+	class ENGINE_API VSampler : public Sampler
 	{
 	public:
 		VSampler(const SamplerDesc& desc, VDevice* pDevice);

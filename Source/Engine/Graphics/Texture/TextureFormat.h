@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-    enum class TextureFormat : u8
+    enum class ENGINE_API TextureFormat : u8
     {
         TF_Unknown,
         TF_RGBA32_Float,

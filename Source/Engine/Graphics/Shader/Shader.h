@@ -7,7 +7,7 @@
 namespace MAGE
 {
 	class GraphicsDevice;
-	class Shader : public DeviceObject
+	class ENGINE_API Shader : public DeviceObject
 	{
 	public:
 		Shader(const ShaderDesc& desc, GraphicsDevice* pDevice) : DeviceObject(pDevice),

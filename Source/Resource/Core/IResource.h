@@ -5,7 +5,7 @@
 
 namespace MAGE
 {
-	class IResource
+	class RESOURCE_API IResource
 	{
 	public:
 		IResource()

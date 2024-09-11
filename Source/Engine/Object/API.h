@@ -5,7 +5,7 @@
 namespace MAGE
 {
 	template<typename TObject>
-	class API
+	class ENGINE_API API
 	{
 	public:
 		virtual ~API() = default;

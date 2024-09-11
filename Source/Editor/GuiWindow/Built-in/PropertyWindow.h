@@ -5,7 +5,7 @@
 
 namespace MAGE
 {
-	class PropertyWindow : public GuiWindow
+	class EDITOR_API PropertyWindow : public GuiWindow
 	{
 	public:
 		PropertyWindow();

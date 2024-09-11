@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	enum class TextureUsageFlags : u16
+	enum class ENGINE_API TextureUsageFlags : u16
 	{
 		TUF_None = 0,
 		TUF_SampledImage = 1 << 0,

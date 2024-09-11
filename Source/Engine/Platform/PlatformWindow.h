@@ -10,7 +10,7 @@
 
 namespace MAGE
 {
-	class PlatformWindow : public IObject
+	class ENGINE_API PlatformWindow : public IObject
 	{
 		friend class GraphicsDevice;
 		friend class WindowAPI;

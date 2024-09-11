@@ -8,7 +8,7 @@
 
 namespace MAGE
 {
-	struct TextureResourceDesc
+	struct RESOURCE_API TextureResourceDesc
 	{
 		Math::Vec3u ImageSize;
 		TextureFormat ImageFormat;

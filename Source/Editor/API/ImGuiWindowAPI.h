@@ -7,9 +7,9 @@
 
 namespace MAGE
 {
-	class ImGuiWindowAPI : public API<ImGuiWindowAPI>
+	class EDITOR_API ImGuiWindowAPI : public API<ImGuiWindowAPI>
 	{
-		friend class GuiWindowModule;
+		friend class EDITOR_API GuiWindowModule;
 	public:
 		ImGuiWindowAPI() = default;
 		~ImGuiWindowAPI() override = default;

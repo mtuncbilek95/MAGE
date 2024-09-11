@@ -2,7 +2,7 @@
 
 namespace MAGE
 {
-	enum class ThreadJobState
+	enum class ENGINE_API ThreadJobState
 	{
 		TJS_Idle,
 		TJS_Running,

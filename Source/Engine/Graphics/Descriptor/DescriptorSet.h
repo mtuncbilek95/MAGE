@@ -7,10 +7,10 @@
 namespace MAGE
 {
 	/**
-	 * @class DescriptorSet
+	 * @class ENGINE_API DescriptorSet
 	 * @brief A descriptor set
 	 */
-	class DescriptorSet : public DeviceObject
+	class ENGINE_API DescriptorSet : public DeviceObject
 	{
 	public:
 		DescriptorSet(const DescriptorSetDesc& desc,GraphicsDevice* pDevice) : DeviceObject(pDevice)

@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	enum class ShaderStage : u8
+	enum class ENGINE_API ShaderStage : u8
 	{
 		SS_Vertex = 1,
 		SS_TessellationControl = 1 << 1,

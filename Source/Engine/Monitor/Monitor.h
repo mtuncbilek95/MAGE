@@ -5,7 +5,7 @@
 
 namespace MAGE
 {
-	class Monitor
+	class ENGINE_API Monitor
 	{
 	public:
 		Monitor() = default;

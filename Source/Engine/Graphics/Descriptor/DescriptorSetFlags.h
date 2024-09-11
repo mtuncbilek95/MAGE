@@ -8,7 +8,7 @@ namespace MAGE
 	 * @enum DescriptorSetFlags
 	 * @brief Flags for a descriptor set
 	 */
-	enum class DescriptorSetFlags : u8
+	enum class ENGINE_API DescriptorSetFlags : u8
 	{
 		DSF_Undefined = 0,
 		DSF_UpdateAfterBind = 1 << 0,

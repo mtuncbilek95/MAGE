@@ -21,7 +21,7 @@ namespace MAGE
 		u16 Millisecond;
 	};
 
-	class PlatformTime 
+	class ENGINE_API PlatformTime 
 	{
 		static PlatformTime& Get();
 	public:

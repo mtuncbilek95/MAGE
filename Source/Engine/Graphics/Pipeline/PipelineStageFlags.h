@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-    enum class PipelineStageFlags : u32
+    enum class ENGINE_API PipelineStageFlags : u32
     {
         PSF_TopOfPipe = 1 << 0,
         PSF_VertexInput = 1 << 1,

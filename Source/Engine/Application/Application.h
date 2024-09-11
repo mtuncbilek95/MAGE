@@ -6,7 +6,7 @@
 
 namespace MAGE
 {
-	class Application : public IObject
+	class ENGINE_API Application : public IObject
 	{
 	public:
 		Application() = default;

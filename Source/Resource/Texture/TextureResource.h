@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
+#include "Engine/Serialization/GenerationMacros.h"
 #include "Resource/Core/ResourceSubObject.h"
 #include "Resource/Texture/TextureResourceDesc.h"
 
@@ -48,8 +49,5 @@ namespace MAGE
 		GraphicsDevice* mDevice;
 
 		Vector<Vector<MipData>> mMipData;
-
-	public:
-
 	};
 }

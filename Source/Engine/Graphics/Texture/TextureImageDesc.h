@@ -9,7 +9,7 @@
 
 namespace MAGE
 {
-	class GraphicsMemory;
+	class ENGINE_API GraphicsMemory;
 	struct TextureImageDesc
 	{
 		Math::Vec3u ImageSize;

@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	enum class TextureCreateFlags : u32
+	enum class ENGINE_API TextureCreateFlags : u32
 	{
 		TCF_Undefined = 0,
 		TCF_SparseBinding = 1 << 0,

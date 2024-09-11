@@ -8,7 +8,7 @@ namespace MAGE
 	 * @enum GraphicsMemoryType
 	 * @brief Types of graphics memory
 	 */
-	enum class GraphicsMemoryType : u8
+	enum class ENGINE_API GraphicsMemoryType : u8
 	{
 		GMT_DeviceLocal = 1 << 0,
 		GMT_HostVisible = 1 << 1,

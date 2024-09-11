@@ -5,7 +5,7 @@
 
 namespace MAGE
 {
-	enum class WindowEventType
+	enum class ENGINE_API WindowEventType
 	{
 		WET_None,
 		

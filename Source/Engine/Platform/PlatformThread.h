@@ -4,8 +4,8 @@
 
 namespace MAGE
 {
-	class ThreadJob;
-	class PlatformThread
+	class ENGINE_API ThreadJob;
+	class ENGINE_API PlatformThread
 	{
 	public:
 		static SharedPtr<PlatformThread> CreatePlatformThread(ThreadJob* pJob);

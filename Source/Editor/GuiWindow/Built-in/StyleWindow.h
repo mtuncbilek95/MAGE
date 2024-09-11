@@ -5,7 +5,7 @@
 
 namespace MAGE
 {
-	class StyleWindow : public GuiWindow
+	class EDITOR_API StyleWindow : public GuiWindow
 	{
 	public:
 		StyleWindow();

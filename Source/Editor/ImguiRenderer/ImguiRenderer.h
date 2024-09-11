@@ -15,7 +15,7 @@ namespace MAGE
 	class CmdBuffer;
 	class DescriptorPool;
 
-	class ImGuiRenderer : public IObject
+	class EDITOR_API ImGuiRenderer : public IObject
 	{
 	public:
 		ImGuiRenderer();

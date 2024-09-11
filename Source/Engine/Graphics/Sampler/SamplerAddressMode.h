@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	enum class SamplerAddressMode : u8
+	enum class ENGINE_API SamplerAddressMode : u8
 	{
 		SAM_Repeat,
 		SAM_MirroredRepeat,

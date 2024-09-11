@@ -7,7 +7,7 @@ using namespace entt::literals;
 #define GENERATE_MANIFEST \
 	friend class entt::meta_factory<ReflectedClass>; \
 	public: \
-		class TypeRegistry \
+		class ENGINE_API TypeRegistry \
 		{ \
 		public: \
 			static void Register() \
@@ -16,6 +16,11 @@ using namespace entt::literals;
 					.type("ReflectedClass"_hs) \
 					.data<&ReflectedClass::mReflectedVariable>("ReflectedVariable"_hs) \
 					.data<&ReflectedClass::mReflectedString>("ReflectedString"_hs); \
+			} \
+			\
+			static void Unregister() \
+			{ \
+				entt::meta_reset("ReflectedClass"_hs); \
 			} \
 		}; \
 	private: \

@@ -10,13 +10,13 @@
 namespace MAGE::Base
 {
 	/**
-	* @class StackVector
+	* @class ENGINE_API StackVector
 	* @brief A vector that works as static chunk arrays.
 	*
 	* @note Use this for incredibly large arrays.
 	*/
 	template<typename T, u64 defChunkSize = 32, i32 coFactor = 2>
-	class ChunkVector
+	class ENGINE_API ChunkVector
 	{
 		/**
 		 * @struct ChunkArray
@@ -52,11 +52,11 @@ namespace MAGE::Base
 
 	public:
 		/**
-		* @class Iterator
+		* @class ENGINE_API Iterator
 		* @brief An iterator for the ChunkVector. std's iterator is not used because
 		* it's not compatible with this vector.
 		*/
-		class Iterator
+		class ENGINE_API Iterator
 		{
 		public:
 			Iterator(ChunkArray* ptr, u64 index = 0) : mPtr(ptr), mIndex(index)

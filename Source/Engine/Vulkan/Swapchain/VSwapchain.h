@@ -8,7 +8,7 @@
 namespace MAGE
 {
 	class VDevice;
-	class VSwapchain : public Swapchain
+	class ENGINE_API VSwapchain : public Swapchain
 	{
 	public:
 		VSwapchain(const SwapchainDesc& desc, VDevice* pDevice);

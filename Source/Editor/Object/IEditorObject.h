@@ -8,7 +8,7 @@
 namespace MAGE
 {
 	// Interface for all gui window objects
-	class IEditorObject : public std::enable_shared_from_this<IEditorObject>
+	class EDITOR_API IEditorObject : public std::enable_shared_from_this<IEditorObject>
 	{
 	public:
 		IEditorObject() { PlatformGuid::GenerateGuid(mGuid); }

@@ -8,7 +8,7 @@
 namespace MAGE
 {
 	class VDevice;
-	class VTextureView : public TextureView
+	class ENGINE_API VTextureView : public TextureView
 	{
 	public:
 		VTextureView(const TextureViewDesc& desc, VDevice* pDevice);

@@ -4,6 +4,7 @@
 #include "Engine/Platform/API/PlatformAPI.h"
 #include "Engine/Application/Application.h"
 
+#include "Engine/Serialization/ReflectionModule.h"
 #include "Engine/Window/WindowModule.h"
 #include "Engine/Graphics/API/GraphicsModule.h"
 #include "Editor/RenderModules/ImGuiRenderModule.h"
@@ -13,7 +14,7 @@
 
 namespace MAGE
 {
-	class TestApp : public Application
+	class ENGINE_API TestApp : public Application
 	{
 	public:
 		TestApp() = default;
@@ -23,7 +24,7 @@ namespace MAGE
 		virtual void OnInitialize() noexcept override
 		{
 			// TODO: Add serializer
-			// TODO: Add reflection 
+			RegisterModule<ReflectionModule>();
 			RegisterModule<WindowModule>();
 			RegisterModule<GraphicsModule>();
 			RegisterModule<ImGuiRenderModule>();

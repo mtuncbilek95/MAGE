@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	enum class TextureLayout : u16
+	enum class ENGINE_API TextureLayout : u16
 	{
 		TL_Undefined,
 		TL_General,

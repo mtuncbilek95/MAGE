@@ -5,12 +5,12 @@
 namespace MAGE
 {
 	/**
-	* @class Event
-	* @brief Base class for the event types. If you need to create a new event type, 
-	* you should inherit from this class.
+	* @class ENGINE_API Event
+	* @brief Base class ENGINE_API for the event types. If you need to create a new event type, 
+	* you should inherit from this class ENGINE_API.
 	*/
 	template<typename Event0>
-	class Event
+	class ENGINE_API Event
 	{
 		typedef Event0 MainEvent;
 	public:

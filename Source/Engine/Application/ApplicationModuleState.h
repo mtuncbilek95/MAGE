@@ -2,7 +2,7 @@
 
 namespace MAGE
 {
-	enum class ApplicationModuleState
+	enum class ENGINE_API ApplicationModuleState
 	{
 		AMS_NeedValidation,
 		AMS_Validated,

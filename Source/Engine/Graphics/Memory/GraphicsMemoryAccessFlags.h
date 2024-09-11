@@ -8,7 +8,7 @@ namespace MAGE
 	 * @enum GraphicsMemoryAccessFlags
 	 * @brief Flags for graphics memory access
 	 */
-	enum class GraphicsMemoryAccessFlags : u32
+	enum class ENGINE_API GraphicsMemoryAccessFlags : u32
 	{
 		GMAF_Unknown = 0,
 		GMAF_IndexRead = 1 << 0,

@@ -7,10 +7,10 @@
 namespace MAGE
 {
 	/**
-	 * @class GraphicsInstance
+	 * @class ENGINE_API GraphicsInstance
 	 * @brief Interface for the base generator of the graphics systems.
 	 */
-	class GraphicsInstance : public IObject
+	class ENGINE_API GraphicsInstance : public IObject
 	{
 	public:
 		GraphicsInstance(const GraphicsInstanceDesc& desc) : mAppName(desc.AppName), 

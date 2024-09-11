@@ -8,7 +8,7 @@
 namespace MAGE
 {
 	class VDevice;
-	class VMemory : public GraphicsMemory
+	class ENGINE_API VMemory : public GraphicsMemory
 	{
 	public:
 		VMemory(const GraphicsMemoryDesc& desc, VDevice* pDevice);

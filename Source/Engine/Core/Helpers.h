@@ -6,8 +6,8 @@
 #include <entt/core/enum.hpp>
 
 /*
- * @class Add Bitwise
- * @brief Adds bitwise operators to an enum class
+ * @class ENGINE_API Add Bitwise
+ * @brief Adds bitwise operators to an enum class ENGINE_API
  */
 template<typename EnumType>
 inline constexpr std::enable_if_t<!entt::enum_as_bitmask_v<EnumType>, EnumType> operator |(EnumType a, EnumType b)
@@ -17,7 +17,7 @@ inline constexpr std::enable_if_t<!entt::enum_as_bitmask_v<EnumType>, EnumType> 
 }
 
 /*
- * @class Bool Bitwise
+ * @class ENGINE_API Bool Bitwise
  * @brief Checks if an enum variable contains a specific flag
  */
 template<typename EnumType>

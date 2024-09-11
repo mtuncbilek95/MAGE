@@ -6,10 +6,10 @@
 namespace MAGE
 {
 	/**
-	* @class Guid
-	* @brief A class that represents a unique identifier.
+	* @class ENGINE_API Guid
+	* @brief A class ENGINE_API that represents a unique identifier.
 	*/
-	class Guid final
+	class ENGINE_API Guid final
 	{
 	public:
 		Guid();

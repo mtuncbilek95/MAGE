@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	enum class GraphicsQueueType
+	enum class ENGINE_API GraphicsQueueType
 	{
 		GQT_Graphics,
 		GQT_Compute,

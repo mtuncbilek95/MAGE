@@ -8,7 +8,7 @@ namespace MAGE
 	 * @enum AttachmentStoreOperation
 	 * @brief Enum for attachment store operation
 	 */
-	enum class AttachmentStoreOperation : u8
+	enum class ENGINE_API AttachmentStoreOperation : u8
 	{
 		ASO_Store,
 		ASO_DontCare,

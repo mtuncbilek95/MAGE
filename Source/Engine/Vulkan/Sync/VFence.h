@@ -8,7 +8,7 @@
 namespace MAGE
 {
 	class VDevice;
-	class VFence : public Fence
+	class ENGINE_API VFence : public Fence
 	{
 	public:
 		VFence(b8 bSignalled, VDevice* pDevice);

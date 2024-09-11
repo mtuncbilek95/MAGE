@@ -5,7 +5,7 @@
 
 namespace MAGE
 {
-	class SharedFileHelper
+	class ENGINE_API SharedFileHelper
 	{
 	public:
 		SharedFileHelper(const String& filePath, s64 initialSize = 0);

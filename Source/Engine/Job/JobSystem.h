@@ -7,7 +7,7 @@ namespace MAGE
 {
 	class ThreadJob;
 
-	class JobSystem
+	class ENGINE_API JobSystem
 	{
 	public:
 		JobSystem(u32 threadCount, WorkerThreadPriority priority);
@@ -23,7 +23,7 @@ namespace MAGE
 		}
 
 	protected:
-		Vector<OwnedPtr<WorkerThread>> mWorkers;
+		Vector<SharedPtr<WorkerThread>> mWorkers;
 		u32 mWorkerIndex = 0;
 
 		u32 mThreadCount;

@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	enum class PresentMode : u8
+	enum class ENGINE_API PresentMode : u8
 	{
 		PM_Immediate = 0, // VK_IMMEDIATE
 		PM_VSyncImmediate = 1, // VK_FIFO_RELAXED

@@ -5,8 +5,8 @@
 
 namespace MAGE
 {
-	class WindowAPI;
-	class WindowModule : public ApplicationModule
+	class ENGINE_API WindowAPI;
+	class ENGINE_API WindowModule : public ApplicationModule
 	{
 	public:
 		WindowModule();

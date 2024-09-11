@@ -24,10 +24,10 @@ namespace MAGE
 	class CmdPool;
 
 	/**
-	 * @class CmdBuffer
-	 * @brief Base class for all command buffers
+	 * @class ENGINE_API CmdBuffer
+	 * @brief Base class ENGINE_API for all command buffers
 	 */
-	class CmdBuffer : public DeviceObject
+	class ENGINE_API CmdBuffer : public DeviceObject
 	{
 	public:
 		CmdBuffer(const CmdBufferDesc& desc, GraphicsDevice* pDevice) : DeviceObject(pDevice) , mOwnerPool(desc.pOwnerPool), mRecording(false) 

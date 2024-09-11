@@ -7,7 +7,7 @@
 namespace MAGE
 {
 	/**
-	* @class AtomicQueue
+	* @class ENGINE_API AtomicQueue
 	* @brief A lock-free queue to control job execution 
 	* order and storage
 	*/

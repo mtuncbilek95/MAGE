@@ -5,7 +5,7 @@
 
 namespace MAGE
 {
-	class WorldWindow : public GuiWindow
+	class EDITOR_API WorldWindow : public GuiWindow
 	{
 	public:
 		WorldWindow();

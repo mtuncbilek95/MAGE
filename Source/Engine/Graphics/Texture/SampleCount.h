@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	enum class SampleCount : u8
+	enum class ENGINE_API SampleCount : u8
 	{
 		SC_Sample1 = 1,
 		SC_Sample2 = 2,

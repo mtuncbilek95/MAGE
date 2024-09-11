@@ -8,7 +8,7 @@
 namespace MAGE
 {
 	class VDevice;
-	class VQueue : public GraphicsQueue
+	class ENGINE_API VQueue : public GraphicsQueue
 	{
 	public:
 		VQueue(const GraphicsQueueDesc& desc, VkQueue queue, GraphicsDevice* pDevice);

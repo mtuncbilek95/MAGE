@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	enum class TextureAspectFlags : u8
+	enum class ENGINE_API TextureAspectFlags : u8
 	{
 		TAF_Undefined = 0,
 		TAF_ColorAspect = 1 << 0,

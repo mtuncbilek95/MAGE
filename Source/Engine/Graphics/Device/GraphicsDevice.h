@@ -44,10 +44,10 @@ namespace MAGE
 	class GraphicsInstance;
 
 	/**
-	 * @class GraphicsDevice
+	 * @class ENGINE_API GraphicsDevice
 	 * @brief A graphics device that handles all graphics related objects
 	 */
-	class GraphicsDevice : public IObject
+	class ENGINE_API GraphicsDevice : public IObject
 	{
 	public:
 		GraphicsDevice(GraphicsInstance* pInstance);

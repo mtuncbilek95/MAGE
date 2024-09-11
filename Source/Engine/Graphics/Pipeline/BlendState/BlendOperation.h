@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-    enum class BlendOperation : u8
+    enum class ENGINE_API BlendOperation : u8
     {
         BO_Add,
         BO_Subtract,

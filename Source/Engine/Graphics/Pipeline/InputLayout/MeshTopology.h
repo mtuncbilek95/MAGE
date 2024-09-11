@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	enum class MeshTopology : u8
+	enum class ENGINE_API MeshTopology : u8
 	{
 		MT_PointList,
 		MT_LineList,

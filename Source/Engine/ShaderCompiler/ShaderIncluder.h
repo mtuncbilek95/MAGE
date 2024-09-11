@@ -5,7 +5,7 @@
 
 namespace MAGE
 {
-	class ShaderIncluder : public shaderc::CompileOptions::IncluderInterface
+	class ENGINE_API ShaderIncluder : public shaderc::CompileOptions::IncluderInterface
 	{
 		struct IncludeData
 		{

@@ -7,11 +7,11 @@
 namespace MAGE
 {
 	/**
-	 * @class CmdPool
-	 * @brief Abstract class for command pool that holds command 
+	 * @class ENGINE_API CmdPool
+	 * @brief Abstract class ENGINE_API for command pool that holds command 
 	 * buffers with a specific operation type
 	 */
-	class CmdPool : public DeviceObject
+	class ENGINE_API CmdPool : public DeviceObject
 	{
 	public:
 		CmdPool(const CmdPoolDesc& desc,GraphicsDevice* pDevice) : DeviceObject(pDevice), mPoolType(desc.PoolType) {}

@@ -6,7 +6,7 @@
 
 namespace MAGE
 {
-	class GraphicsQueue : public DeviceObject
+	class ENGINE_API GraphicsQueue : public DeviceObject
 	{
 	public:
 		GraphicsQueue(const GraphicsQueueDesc& desc, GraphicsDevice* pDevice) : DeviceObject(pDevice),

@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-    enum class StencilOperation : u8
+    enum class ENGINE_API StencilOperation : u8
     {
         SO_Keep,
         SO_Zero,

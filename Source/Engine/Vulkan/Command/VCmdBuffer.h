@@ -8,7 +8,7 @@
 namespace MAGE
 {
 	class VDevice;
-	class VCmdBuffer : public CmdBuffer
+	class ENGINE_API VCmdBuffer : public CmdBuffer
 	{
 	public:
 		VCmdBuffer(const CmdBufferDesc& desc, VDevice* pDevice);

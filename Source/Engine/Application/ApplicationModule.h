@@ -6,8 +6,8 @@
 
 namespace MAGE
 {
-	class Application;
-	class ApplicationModule : public IObject
+	class ENGINE_API Application;
+	class ENGINE_API ApplicationModule : public IObject
 	{
 		friend class Application;
 

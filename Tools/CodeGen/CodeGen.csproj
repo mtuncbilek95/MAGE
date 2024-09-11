@@ -7,7 +7,6 @@
     <Nullable>enable</Nullable>
     <PublishAot>true</PublishAot>
     <InvariantGlobalization>true</InvariantGlobalization>
-    <Configurations>Release</Configurations>
     <OutputPath>Build\Release\</OutputPath>
     
   </PropertyGroup>

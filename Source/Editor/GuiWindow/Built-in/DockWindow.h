@@ -7,7 +7,7 @@ namespace MAGE
 {
 	class MenuBar;
 
-	class DockWindow : public GuiWindow
+	class EDITOR_API DockWindow : public GuiWindow
 	{
 	public:
 		DockWindow();

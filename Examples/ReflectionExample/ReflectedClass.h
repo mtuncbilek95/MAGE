@@ -7,7 +7,7 @@
 namespace MAGE
 {
 	REFLECT_CLASS();
-	class ReflectedClass
+	class ENGINE_API ReflectedClass
 	{
 		GENERATE_MANIFEST;
 

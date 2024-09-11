@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-    enum class InputElementSemantic : u8
+    enum class ENGINE_API InputElementSemantic : u8
     {
         IES_Position,
         IES_Normal,

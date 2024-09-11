@@ -7,7 +7,7 @@
 
 namespace MAGE
 {
-	class VInstance : public GraphicsInstance
+	class ENGINE_API VInstance : public GraphicsInstance
 	{
 	public:
 		VInstance(const GraphicsInstanceDesc& desc);

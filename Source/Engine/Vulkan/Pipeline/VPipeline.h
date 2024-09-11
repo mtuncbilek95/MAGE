@@ -8,7 +8,7 @@
 namespace MAGE
 {
 	class VDevice;
-	class VPipeline final : public Pipeline
+	class ENGINE_API VPipeline final : public Pipeline
 	{
 	public:
 		VPipeline(const GraphicsPipelineDesc& desc, VDevice* pDevice);

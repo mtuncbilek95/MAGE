@@ -5,7 +5,7 @@
 
 namespace MAGE
 {
-	class MenuBar : public GuiWindow
+	class EDITOR_API MenuBar : public GuiWindow
 	{
 	public:
 		MenuBar();

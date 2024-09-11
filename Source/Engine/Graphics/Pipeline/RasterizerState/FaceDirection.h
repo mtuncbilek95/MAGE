@@ -4,7 +4,7 @@
 
 namespace MAGE
 {
-	enum class FaceDirection : u8
+	enum class ENGINE_API FaceDirection : u8
 	{
 		FD_Clockwise,
 		FD_CounterClockwise

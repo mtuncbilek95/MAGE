@@ -8,7 +8,7 @@
 
 namespace MAGE
 {
-	class MemoryMappedFile
+	class ENGINE_API MemoryMappedFile
 	{
 		friend class SharedFileHelper;
 	public:

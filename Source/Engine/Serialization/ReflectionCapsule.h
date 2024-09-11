@@ -5,15 +5,18 @@
 namespace MAGE
 {
 	/**
-	 * @class ReflectionCapsule
-	 * @brief This class is being used to generate all the data that is wanted to reflected. 
+	 * @class ENGINE_API ReflectionCapsule
+	 * @brief This class ENGINE_API is being used to generate all the data that is wanted to reflected. 
 	 */
-	class ReflectionCapsule
+	class ENGINE_API ReflectionCapsule
 	{
 	public:
 		ReflectionCapsule() = default;
 		~ReflectionCapsule() = default;
 
+		void GenerateReflectionData() noexcept
+		{
 
+		}
 	};
 }

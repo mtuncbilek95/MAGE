@@ -7,7 +7,7 @@
 
 namespace MAGE
 {
-	class Pipeline : public DeviceObject
+	class ENGINE_API Pipeline : public DeviceObject
 	{
 	public:
 		Pipeline(const GraphicsPipelineDesc& desc, GraphicsDevice* device) : DeviceObject(device), mBlendState(desc.BlendState),

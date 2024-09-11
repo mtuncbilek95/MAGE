@@ -9,12 +9,12 @@
 namespace MAGE
 {
 	/**
-	 * @class WorkerThread
+	 * @class ENGINE_API WorkerThread
 	 * 
 	 * @brief WorkerThread is responsible for executing jobs in infinite loop. This means that the WorkerThread will be running, 
 	 * waiting for jobs to be added to the queue.
 	 */
-	class WorkerThread
+	class ENGINE_API WorkerThread
 	{
 	public:
 		WorkerThread(WorkerThreadPriority priority = WorkerThreadPriority::WTP_Normal);

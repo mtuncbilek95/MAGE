@@ -8,7 +8,7 @@ namespace MAGE
 	 * @enum ResolveModeFlags
 	 * @brief Enum for resolve mode flags
 	 */
-	enum class ResolveModeFlags : u8
+	enum class ENGINE_API ResolveModeFlags : u8
 	{
 		RMF_None,
 		RMF_SampleZero,

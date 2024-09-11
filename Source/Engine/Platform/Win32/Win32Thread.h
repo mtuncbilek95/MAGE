@@ -7,7 +7,7 @@
 
 namespace MAGE
 {
-	class Win32Thread final : public PlatformThread
+	class ENGINE_API Win32Thread final : public PlatformThread
 	{
 	public:
 		static void SleepCurrentThread(u64 ms);

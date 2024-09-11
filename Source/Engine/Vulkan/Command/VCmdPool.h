@@ -8,7 +8,7 @@
 namespace MAGE
 {
 	class VDevice;
-	class VCmdPool : public CmdPool
+	class ENGINE_API VCmdPool : public CmdPool
 	{
 	public:
 		VCmdPool(const CmdPoolDesc& desc, VDevice* pDevice);

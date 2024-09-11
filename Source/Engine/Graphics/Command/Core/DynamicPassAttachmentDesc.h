@@ -8,7 +8,7 @@
 
 namespace MAGE
 {
-	class TextureView;
+	class ENGINE_API TextureView;
 
 	/**
 	 * @struct DynamicPassAttachmentDesc

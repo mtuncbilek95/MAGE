@@ -9,10 +9,10 @@ namespace MAGE
 	class GraphicsMemory;
 
 	/**
-	 * @class GraphicsBuffer
-	 * @brief Base class for all graphics buffers (vertex, index, constant, etc.)
+	 * @class ENGINE_API GraphicsBuffer
+	 * @brief Base class ENGINE_API for all graphics buffers (vertex, index, constant, etc.)
 	 */
-	class GraphicsBuffer : public DeviceObject
+	class ENGINE_API GraphicsBuffer : public DeviceObject
 	{
 	public:
 		GraphicsBuffer(const GraphicsBufferDesc& desc, GraphicsDevice* pDevice) : DeviceObject(pDevice),

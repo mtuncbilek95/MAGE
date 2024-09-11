@@ -8,7 +8,7 @@ namespace MAGE
 	 * @enum DescriptorPoolFlags
 	 * @brief Flags for descriptor pool
 	 */
-	enum class DescriptorPoolFlags : u8
+	enum class ENGINE_API DescriptorPoolFlags : u8
 	{
 		DPF_None = 0,
 		DPF_FreeDescriptorSet = 1 << 0,

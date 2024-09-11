@@ -8,10 +8,10 @@ namespace MAGE
 	class GraphicsAPI;
 
 	/**
-	* @class GraphicsModule
+	* @class ENGINE_API GraphicsModule
 	* @brief Module for handling graphics API
 	*/
-	class GraphicsModule : public ApplicationModule
+	class ENGINE_API GraphicsModule : public ApplicationModule
 	{
 	public:
 		GraphicsModule();

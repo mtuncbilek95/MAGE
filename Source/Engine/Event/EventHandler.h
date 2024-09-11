@@ -9,11 +9,11 @@ namespace MAGE
 	using EventBlock = Function<void(const T&)>;
 
 	/**
-	* @class EventHandler
-	* @brief A class that manages the event listeners.
+	* @class ENGINE_API EventHandler
+	* @brief A class ENGINE_API that manages the event listeners.
 	*/
 	template<typename EventType>
-	class EventHandler
+	class ENGINE_API EventHandler
 	{
 	public:
 		EventHandler() = default;

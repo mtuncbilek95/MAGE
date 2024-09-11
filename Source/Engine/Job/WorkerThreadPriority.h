@@ -2,7 +2,7 @@
 
 namespace MAGE
 {
-	enum class WorkerThreadPriority
+	enum class ENGINE_API WorkerThreadPriority
 	{
 #if defined(MAGE_WINDOWS)
 		WTP_Idle = -15,

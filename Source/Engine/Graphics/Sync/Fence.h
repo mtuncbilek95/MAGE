@@ -6,7 +6,7 @@
 namespace MAGE
 {
 	class GraphicsDevice;
-	class Fence : public DeviceObject
+	class ENGINE_API Fence : public DeviceObject
 	{
 	public:
 		Fence(b8 bSignalled, GraphicsDevice* pDevice) : DeviceObject(pDevice), mSignalled(bSignalled) {}

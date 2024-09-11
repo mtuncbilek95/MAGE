@@ -5,7 +5,7 @@
 
 namespace MAGE
 {
-	class GuiWindow : public IEditorObject
+	class EDITOR_API GuiWindow : public IEditorObject
 	{
 	public:
 		virtual ~GuiWindow() = default;

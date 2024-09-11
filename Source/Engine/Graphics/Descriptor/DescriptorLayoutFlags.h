@@ -8,7 +8,7 @@ namespace MAGE
 	 * @enum DescriptorLayoutFlags
 	 * @brief Enum for descriptor layout flags
 	 */
-	enum class DescriptorLayoutFlags : u8
+	enum class ENGINE_API DescriptorLayoutFlags : u8
 	{
         DLF_None = 0,
         DLF_PushDescriptor = 1 << 0,

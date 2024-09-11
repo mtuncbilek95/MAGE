@@ -8,7 +8,7 @@
 namespace MAGE
 {
 	class VDevice;
-	class VSemaphore : public Semaphore
+	class ENGINE_API VSemaphore : public Semaphore
 	{
 	public:
 		VSemaphore(VDevice* pDevice);

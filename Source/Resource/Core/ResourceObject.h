@@ -18,7 +18,7 @@ namespace MAGE
 		FORCEINLINE ResourceSubObject* GetDataObject() const { return mDataObject.get(); }
 
 	private:
-		SharedPtr"ResourceSubObject> mDataObject;
+		SharedPtr<ResourceSubObject> mDataObject;
 		String mResourceName;
 		String mResourcePath;
 		u64 mResourceSize;

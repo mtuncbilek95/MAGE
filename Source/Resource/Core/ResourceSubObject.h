@@ -1,9 +1,12 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
+#include "Engine/Serialization/GenerationMacros.h"
 
 namespace MAGE
 {
+	class ResourceObject;
+
 	class RESOURCE_API ResourceSubObject
 	{
 		friend class ResourceObject;

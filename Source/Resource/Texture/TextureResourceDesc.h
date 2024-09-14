@@ -15,5 +15,7 @@ namespace MAGE
 		TextureType ImageType;
 		SampleCount Samples;
 		TextureCreateFlags CreateFlags;
+		u32 MipLevels;
+		u32 ArrayLayers;
 	};
 }

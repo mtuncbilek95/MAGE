@@ -9,6 +9,9 @@ namespace MAGE
 	class RESOURCE_API ResourceObject : public IResource
 	{
 	public:
+		static SharedPtr<ResourceObject> CreateObject();
+
+	public:
 		ResourceObject() = default;
 		virtual ~ResourceObject() = default;
 

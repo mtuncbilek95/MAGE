@@ -1,7 +1,7 @@
 <div style="text-align: justify;">
 
-# M.A.G.E
 ![example event parameter](https://github.com/mtuncbilek95/MAGE/actions/workflows/windows-build.yml/badge.svg)
+# M.A.G.E
 
 Modern & Advanced Graphics Engine
 ## GOOD TO KNOW WHILE WORKING
@@ -48,7 +48,6 @@ Because I literally deep dived into not having layers on platform specific imple
 - [x] FMT (Format Configurator for Console)
 - [ ] Tracy (Frame Profiler)
 - [x] Catch2 (Unit Test Framework)
-- [ x EnTT (Entity Component System)
 
 ### SDK
 - [ ] FMod (Audio SDK)

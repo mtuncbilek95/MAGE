@@ -25,7 +25,7 @@ namespace MAGE
 		if (hFile == INVALID_HANDLE_VALUE || hFile == NULL)
 		{
 			// Log the error
-			spdlog::warn("Failed to create the file: {}", ErrorChecker::Handler::GetErrorString());
+			spdlog::warn("Failed to create the file: {}", ErrorUtils::Handler::GetErrorString());
 			return false;
 		}
 
@@ -47,7 +47,7 @@ namespace MAGE
 		HANDLE hFile = CreateFileA(path.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hFile == INVALID_HANDLE_VALUE || hFile == NULL)
 		{
-			spdlog::warn("Failed to read the file: {}", ErrorChecker::Handler::GetErrorString());
+			spdlog::warn("Failed to read the file: {}", ErrorUtils::Handler::GetErrorString());
 			return false;
 		}
 
@@ -55,7 +55,7 @@ namespace MAGE
 		LARGE_INTEGER fileSize;
 		if (!GetFileSizeEx(hFile, &fileSize))
 		{
-			spdlog::warn("Failed to read the file: {}", ErrorChecker::Handler::GetErrorString());
+			spdlog::warn("Failed to read the file: {}", ErrorUtils::Handler::GetErrorString());
 			CloseHandle(hFile);
 			return false;
 		}
@@ -65,7 +65,7 @@ namespace MAGE
 		char* data = new char[fileSize.QuadPart + (nullTerminated ? 1 : 0)];
 		if (ReadFile(hFile, data, fileSize.QuadPart, &bytesRead, NULL) == 0)
 		{
-			spdlog::warn("Failed to read the file: {}", ErrorChecker::Handler::GetErrorString());
+			spdlog::warn("Failed to read the file: {}", ErrorUtils::Handler::GetErrorString());
 			CloseHandle(hFile);
 			delete[] data;
 			return false;
@@ -98,7 +98,7 @@ namespace MAGE
 		HANDLE hFile = CreateFileA(path.c_str(), GENERIC_READ, NULL, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hFile == INVALID_HANDLE_VALUE || hFile == NULL)
 		{
-			spdlog::warn("Failed to read the file: {}", ErrorChecker::Handler::GetErrorString());
+			spdlog::warn("Failed to read the file: {}", ErrorUtils::Handler::GetErrorString());
 			return false;
 		}
 
@@ -106,7 +106,7 @@ namespace MAGE
 		LARGE_INTEGER fileSize;
 		if (!GetFileSizeEx(hFile, &fileSize))
 		{
-			spdlog::warn("Failed to read the file: {}", ErrorChecker::Handler::GetErrorString());
+			spdlog::warn("Failed to read the file: {}", ErrorUtils::Handler::GetErrorString());
 			CloseHandle(hFile);
 			return false;
 		}
@@ -117,7 +117,7 @@ namespace MAGE
 		char* data = &buffer[0];
 		if (ReadFile(hFile, data, fileSize.QuadPart, &bytesRead, NULL) == 0)
 		{
-			spdlog::warn("Failed to read the file: {}", ErrorChecker::Handler::GetErrorString());
+			spdlog::warn("Failed to read the file: {}", ErrorUtils::Handler::GetErrorString());
 			CloseHandle(hFile);
 			return false;
 		}
@@ -151,7 +151,7 @@ namespace MAGE
 		if (WriteFile(hFile, buffer.Data(), buffer.Size(), &bytesWritten, NULL) == 0)
 		{
 			// Log the error
-			spdlog::warn("Failed to write to the file: {}", ErrorChecker::Handler::GetErrorString());
+			spdlog::warn("Failed to write to the file: {}", ErrorUtils::Handler::GetErrorString());
 
 			CloseHandle(hFile);
 			return false;
@@ -184,7 +184,7 @@ namespace MAGE
 		if (WriteFile(hFile, buffer.c_str(), buffer.size(), &bytesWritten, NULL) == 0)
 		{
 			// Log the error
-			spdlog::warn("Failed to write to the file: {}", ErrorChecker::Handler::GetErrorString());
+			spdlog::warn("Failed to write to the file: {}", ErrorUtils::Handler::GetErrorString());
 
 			CloseHandle(hFile);
 			return false;
@@ -211,7 +211,7 @@ namespace MAGE
 
 		if (MoveFileA(oldPath.c_str(), newPath.c_str()) == 0)
 		{
-			spdlog::warn("Failed to move the file: {}", ErrorChecker::Handler::GetErrorString());
+			spdlog::warn("Failed to move the file: {}", ErrorUtils::Handler::GetErrorString());
 			return false;
 		}
 
@@ -228,7 +228,7 @@ namespace MAGE
 
 		if (CopyFileA(oldPath.c_str(), newPath.c_str(), true) == 0)
 		{
-			spdlog::warn("Failed to copy the file: {}", ErrorChecker::Handler::GetErrorString());
+			spdlog::warn("Failed to copy the file: {}", ErrorUtils::Handler::GetErrorString());
 			return false;
 		}
 
@@ -251,7 +251,7 @@ namespace MAGE
 
 		if (MoveFileA(oldPath.c_str(), newPath.c_str()) == 0)
 		{
-			spdlog::warn("Failed to move the file: {}", ErrorChecker::Handler::GetErrorString());
+			spdlog::warn("Failed to move the file: {}", ErrorUtils::Handler::GetErrorString());
 			return false;
 		}
 
@@ -262,7 +262,7 @@ namespace MAGE
 	{
 		if (DeleteFileA(path.c_str()) == 0)
 		{
-			spdlog::warn("Failed to delete the file: {}", ErrorChecker::Handler::GetErrorString());
+			spdlog::warn("Failed to delete the file: {}", ErrorUtils::Handler::GetErrorString());
 			return false;
 		}
 		return true;

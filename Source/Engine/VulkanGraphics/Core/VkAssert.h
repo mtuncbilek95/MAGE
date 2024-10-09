@@ -16,8 +16,6 @@ namespace MAGE
 			{
 				auto name = magic_enum::enum_name<VkResult>(result);
 				spdlog::critical("{0} - {1}", title, name);
-
-				::Handler::PlatformMessage(title, name.data());
 			}
 		}
 	}

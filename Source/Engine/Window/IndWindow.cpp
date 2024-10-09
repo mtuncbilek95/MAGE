@@ -10,7 +10,7 @@ namespace MAGE
 		m_Title(desc.Title), m_Window(nullptr), m_WindowPos(0)
 	{
 		// Initialize GLFW
-		ErrorChecker::LogAssert(glfwInit(), "GLFW Error", "Failed to initialize GLFW!");
+		ErrorUtils::LogAssert(glfwInit(), "GLFW Error", "Failed to initialize GLFW!");
 
 		// Set window hints
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -20,7 +20,7 @@ namespace MAGE
 
 		// Create the window
 		m_Window = glfwCreateWindow(m_WindowRes.x, m_WindowRes.y, m_Title.c_str(), nullptr, nullptr);
-		ErrorChecker::LogAssert(m_Window, "GLFW Error", "Failed to create GLFW window!");
+		ErrorUtils::LogAssert(m_Window, "GLFW Error", "Failed to create GLFW window!");
 
 		// Set user pointer
 		glfwSetWindowUserPointer(m_Window, this);

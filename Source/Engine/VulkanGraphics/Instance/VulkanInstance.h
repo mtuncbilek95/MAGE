@@ -9,8 +9,7 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-
-#include <vulkan/vulkan.hpp>
+#include <vulkan/vulkan.h>
 
 namespace MAGE
 {
@@ -28,9 +27,22 @@ namespace MAGE
 		VulkanInstance(const InstanceProps& desc);
 		~VulkanInstance();
 
+		VkInstance GetInstance() const { return m_instance; }
+		VkPhysicalDevice GetAdapter() const { return m_adapter; }
+
+		const String& GetAppName() const { return m_props.AppName; }
+		const String& GetEngineName() const { return m_props.EngineName; }
+		const Math::Vec3i& GetAppVersion() const { return m_props.AppVersion; }
+		const Math::Vec3i& GetEngineVersion() const { return m_props.EngineVersion; }
+
 	private:
 		InstanceProps m_props;
 
-		vk::Instance m_instance;
+		VkInstance m_instance;
+		VkPhysicalDevice m_adapter;
+
+#if defined(DELUSION_DEBUG)
+		VkDebugUtilsMessengerEXT m_debugMessenger;
+#endif // DELUSION_DEBUG
 	};
 }

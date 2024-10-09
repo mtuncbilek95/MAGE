@@ -4,7 +4,7 @@
 #include "Engine/ErrorHandler/ErrorChecker.h"
 
 #include <magic_enum.hpp>
-#include <vulkan/vulkan.hpp>
+#include <vulkan/vulkan.h>
 
 namespace MAGE
 {

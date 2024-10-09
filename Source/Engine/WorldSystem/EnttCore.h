@@ -8,9 +8,11 @@
 
 #pragma once
 
-#include "CCU.h"
-#include "Definitions.h"
-#include "StdFix.h"
-#include "GlmFix.h"
-#include "Engine/Helpers/ByteConverter.h"
-#include "Engine/ErrorHandler/SystemLog.h"
+#include <entt/entt.hpp>
+
+namespace MAGE
+{
+	using EnTTReg = entt::registry;
+	using EnTTHandle = entt::entity;
+}
+

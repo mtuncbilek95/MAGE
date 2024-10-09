@@ -1,4 +1,0 @@
-#define FORCEINLINE inline
-
-#define REFLECT_MEMBER(__VA_ARGS__)
-#define REFLECT_CLASS(__VA_ARGS__)

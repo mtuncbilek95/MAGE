@@ -1,7 +1,7 @@
 ﻿cmake_minimum_required(VERSION 3.26)
 
 # ----------------------- PROJECT NAME -----------------------
-project("Mage")
+project("MAGE:Delusion")
 # ------------------------------------------------------------
 
 # ----------------------- CXX FLAGS --------------------------
@@ -12,6 +12,10 @@ endif()
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+
+set(FETCHCONTENT_UPDATES_DISCONNECTED ON CACHE BOOL "Enable Update Fetch" FORCE)
+set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "CMake Warn Deprecated" FORCE)
+set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS OFF CACHE BOOL "CMake Suppresse Developer Warnings" FORCE)
 # ------------------------------------------------------------
 
 # ----------------- PREPROCESSOR DEFINITIONS -----------------
@@ -22,20 +26,12 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake")
 include(SetupConfig)
 SetupConfig()
 
-option(ENABLE_CATCH_TEST "Enable testing" ON) # This one needs to be set ON in Build/${BuildType-OS}/CMakeCache.txt
+option(ENABLE_CATCH_TEST "Enable testing" OFF) # This one needs to be set ON or OFF in Build/${BuildType-OS}/CMakeCache.txt
 # ------------------------------------------------------------
 
 # ----------------------- SUBDIRECTORIES ---------------------
 add_subdirectory("External")
 add_subdirectory("Source/Engine")
-add_subdirectory("Source/Resource")
-add_subdirectory("Source/Editor")
-
-if(ENABLE_CATCH_TEST)
-    enable_testing()
-    add_subdirectory("UnitTest")
-endif()
-
-add_subdirectory("Examples/EditorExample")
-add_subdirectory("Examples/ReflectionExample")
+	
+add_subdirectory("Example")
 # ------------------------------------------------------------

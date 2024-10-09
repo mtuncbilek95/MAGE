@@ -8,9 +8,15 @@
 
 #pragma once
 
-#include "CCU.h"
-#include "Definitions.h"
-#include "StdFix.h"
-#include "GlmFix.h"
-#include "Engine/Helpers/ByteConverter.h"
-#include "Engine/ErrorHandler/SystemLog.h"
+namespace MAGE
+{
+	class EntityManager;
+
+	class SystemBase
+	{
+	public:
+		virtual ~SystemBase() = default;
+
+		virtual void Update(EntityManager& entityManager) = 0;
+	};
+}

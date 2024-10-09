@@ -6,8 +6,8 @@ function(FilterOS FILTERED_DIR BASE_DIR)
         set(EXCLUDE_DIR "${BASE_DIR}/Platform/Win32")
     endif()
 
-    file(GLOB_RECURSE FILTERED_FILES "${BASE_DIR}/*.cpp" "${BASE_DIR}/*.h" "${BASE_DIR}/*.hpp")
-    file(GLOB_RECURSE EXCLUDE_FILES "${EXCLUDE_DIR}/*.cpp" "${EXCLUDE_DIR}/*.h" "${EXCLUDE_DIR}/*.hpp")
+    file(GLOB_RECURSE FILTERED_FILES "${BASE_DIR}/*.cpp" "${BASE_DIR}/*.h" "${BASE_DIR}/*.h")
+    file(GLOB_RECURSE EXCLUDE_FILES "${EXCLUDE_DIR}/*.cpp" "${EXCLUDE_DIR}/*.h" "${EXCLUDE_DIR}/*.h")
 
     list(REMOVE_ITEM FILTERED_FILES ${EXCLUDE_FILES})
 
@@ -16,7 +16,7 @@ function(FilterOS FILTERED_DIR BASE_DIR)
     # message excluded files
     message(STATUS "----------------- Excluded files: -----------------")
     foreach(EXCLUDE_FILE ${EXCLUDE_FILES})
-		message(STATUS "  ${EXCLUDE_FILE}")
+		message(STATUS "${EXCLUDE_FILE}")
     endforeach()
     message(STATUS "----------------- End of excluded files -----------------")
 endfunction()

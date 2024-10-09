@@ -2,10 +2,16 @@ cmake_minimum_required(VERSION 3.26)
 
 include(FetchContent)
 
+# Make URL variable
+if(NOT DEFINED IMGUI_URL)
+	set(IMGUI_URL https://github.com/ocornut/imgui.git)
+endif()
+
 # IMGUI Library
 FetchContent_Declare(
 	imgui
-	GIT_REPOSITORY https://github.com/ocornut/imgui.git
+	EXCLUDE_FROM_ALL
+	GIT_REPOSITORY ${IMGUI_URL}
 	GIT_TAG docking
 	GIT_SHALLOW TRUE
 )

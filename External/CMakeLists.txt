@@ -1,16 +1,14 @@
 cmake_minimum_required(VERSION 3.26)
 
+include(FetchContent)
+
 add_subdirectory(imgui)
 add_subdirectory(glm)
-add_subdirectory(nlohmann)
 add_subdirectory(stb)
-add_subdirectory(magic_enum)
 add_subdirectory(fmt)
 add_subdirectory(spdlog)
 add_subdirectory(assimp)
 add_subdirectory(glfw)
+add_subdirectory(catch2)
+add_subdirectory(magic-enum)
 add_subdirectory(entt)
-
-if(ENABLE_CATCH_TEST)
-	add_subdirectory(catch2)
-endif()

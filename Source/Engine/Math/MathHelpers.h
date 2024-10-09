@@ -8,9 +8,22 @@
 
 #pragma once
 
-#include "CCU.h"
-#include "Definitions.h"
-#include "StdFix.h"
-#include "GlmFix.h"
-#include "Engine/Helpers/ByteConverter.h"
-#include "Engine/ErrorHandler/SystemLog.h"
+#include "Engine/Core/Core.h"
+
+namespace MAGE
+{
+	namespace Math
+	{
+		template<Arithmetic T>
+		constexpr T Min(T a, T b)
+		{
+			return a < b ? a : b;
+		}
+
+		template<Arithmetic T>
+		constexpr T Max(T a, T b)
+		{
+			return a > b ? a : b;
+		}
+	}
+}

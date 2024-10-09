@@ -1,5 +1,5 @@
 function(SetupDX12 TARGET)
-	target_link_libraries(${TARGET} PUBLIC d3d12.lib dxgi.lib dxguid.lib)
+	target_link_libraries(${TARGET} PUBLIC d3d11.lib d3d12.lib dxgi.lib dxguid.lib)
 endfunction()
 
 function(SetupWin32 TARGET)

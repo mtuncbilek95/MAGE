@@ -15,7 +15,7 @@
 
 namespace MAGE
 {
-	class ENGINE_API SystemLog final : public Singleton<SystemLog>
+	class SystemLog final : public Singleton<SystemLog>
 	{
 	public:
 		SystemLog() = default;

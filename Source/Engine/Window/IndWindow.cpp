@@ -30,7 +30,7 @@ namespace MAGE
 		GLFWmonitor** monitors;
 		i32 monitorCount;
 		monitors = glfwGetMonitors(&monitorCount);
-		const GLFWvidmode* mode = glfwGetVideoMode(monitors[1]);
+		const GLFWvidmode* mode = glfwGetVideoMode(monitors[0]);
 
 		// Put it in the center of the second screen.
 		m_WindowPos = { ((mode->width - m_WindowRes.x) / 2) + mode->width * monitorIndex, (mode->height - m_WindowRes.y) / 2};

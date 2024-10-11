@@ -36,7 +36,7 @@ namespace MAGE
 	 * @class IndWindow
 	 * @brief GLFW based independent window for standalone purposes.
 	 */
-	class ENGINE_API IndWindow final
+	class IndWindow final
 	{
 		using SizeCallback = Function<void(Math::Vec2u)>;
 	public:

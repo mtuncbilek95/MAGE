@@ -14,7 +14,7 @@ namespace MAGE
 {
 	class OwnedBuffer;
 
-	class ENGINE_API RawBuffer final
+	class RawBuffer final
 	{
 		typedef void* buf;
 	public:

@@ -12,7 +12,7 @@
 
 namespace MAGE
 {
-	class ENGINE_API OwnedBuffer final
+	class OwnedBuffer final
 	{
 		typedef void* buf;
 	public:

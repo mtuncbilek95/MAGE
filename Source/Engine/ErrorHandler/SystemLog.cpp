@@ -15,7 +15,7 @@ namespace MAGE
 			console_sink->set_level(spdlog::level::trace);
 
 			// Create a file sink
-			auto file_sink = MakeShared<spdlog::sinks::basic_file_sink_mt>("Logs/Output.log", true);
+			auto file_sink = MakeShared<spdlog::sinks::basic_file_sink_mt>("../Logs/Output.log", true);
 			file_sink->set_level(spdlog::level::trace);
 
 			// Combine both sinks

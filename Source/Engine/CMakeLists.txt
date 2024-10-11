@@ -8,10 +8,12 @@ include(SetupGLFW)
 # ---------------------- FILE ADDITION -----------------------
 file(GLOB_RECURSE SUBDIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp" "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${SUBDIRECTORIES})
-add_library(Engine SHARED ${SUBDIRECTORIES})
+add_library(Engine STATIC ${SUBDIRECTORIES})
 
-target_compile_definitions(Engine PRIVATE DELUSION_BUILD_DLL)
-set_target_properties(Engine PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Binaries")
+target_compile_definitions(Engine PRIVATE ENGINE_BUILD_DLL)
+
+set_target_properties(Engine PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Application/Binaries")
+set_target_properties(Engine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Application/Lib")
 # ------------------------------------------------------------
 
 # ------------------- INCLUDE DIRECTORIES --------------------
@@ -33,4 +35,5 @@ endif()
 if(WIN32)
 	set_target_properties(Engine PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 endif()
+
 # ------------------------------------------------------------

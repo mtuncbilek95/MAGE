@@ -16,15 +16,15 @@ namespace MAGE
 {
 	namespace PlatformFile
 	{
-		bool ENGINE_API Exists(const String& path);
-		bool ENGINE_API Create(const String& path, RawBuffer& buffer);
-		bool ENGINE_API Read(const String& path, OwnedBuffer& buffer, bool nullTerminated = false, const usize start = 0, const usize end = 0);
-		bool ENGINE_API Read(const String& path, String& buffer, const usize start = 0, const usize end = 0);
-		bool ENGINE_API Write(const String& path, RawBuffer& buffer, const usize startOffset = 0);
-		bool ENGINE_API Write(const String& path, const String& buffer, const usize startOffset = 0);
-		bool ENGINE_API Rename(const String& oldPath, const String& newPath);
-		bool ENGINE_API Copy(const String& oldPath, const String& newPath);
-		bool ENGINE_API Move(const String& oldPath, const String& newPath);
-		bool ENGINE_API Delete(const String& path);
+		bool Exists(const String& path);
+		bool Create(const String& path, RawBuffer& buffer);
+		bool Read(const String& path, OwnedBuffer& buffer, bool nullTerminated = false, const usize start = 0, const usize end = 0);
+		bool Read(const String& path, String& buffer, const usize start = 0, const usize end = 0);
+		bool Write(const String& path, RawBuffer& buffer, const usize startOffset = 0);
+		bool Write(const String& path, const String& buffer, const usize startOffset = 0);
+		bool Rename(const String& oldPath, const String& newPath);
+		bool Copy(const String& oldPath, const String& newPath);
+		bool Move(const String& oldPath, const String& newPath);
+		bool Delete(const String& path);
 	}
 }

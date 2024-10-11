@@ -11,9 +11,11 @@
 #include "Engine/Core/Core.h"
 #include <vulkan/vulkan.h>
 
+#include "../Queue/VulkanQueue.h"
+
 namespace MAGE
 {
-	struct ENGINE_API InstanceProps final
+	struct InstanceProps final
 	{
 		String AppName;
 		String EngineName;
@@ -21,7 +23,7 @@ namespace MAGE
 		Math::Vec3i EngineVersion;
 	};
 
-	class ENGINE_API VulkanInstance final
+	class VulkanInstance final
 	{
 	public:
 		VulkanInstance(const InstanceProps& desc);

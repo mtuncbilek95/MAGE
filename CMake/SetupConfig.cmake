@@ -29,7 +29,4 @@ function(SetupConfig)
 	if(CMAKE_BUILD_TYPE STREQUAL "Release")
 		add_compile_definitions(DELUSION_RELEASE)
 	endif()
-
-	set(LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Binaries")
-	set(RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Binaries")
 endfunction()

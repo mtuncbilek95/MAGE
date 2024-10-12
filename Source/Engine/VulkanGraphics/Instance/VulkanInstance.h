@@ -11,16 +11,14 @@
 #include "Engine/Core/Core.h"
 #include <vulkan/vulkan.h>
 
-#include "../Queue/VulkanQueue.h"
-
 namespace MAGE
 {
 	struct InstanceProps final
 	{
-		String AppName;
-		String EngineName;
-		Math::Vec3i AppVersion;
-		Math::Vec3i EngineVersion;
+		String appName;
+		String engineName;
+		Math::Vec3i appVersion;
+		Math::Vec3i engineVersion;
 	};
 
 	class VulkanInstance final
@@ -32,10 +30,10 @@ namespace MAGE
 		VkInstance GetInstance() const { return m_instance; }
 		VkPhysicalDevice GetAdapter() const { return m_adapter; }
 
-		const String& GetAppName() const { return m_props.AppName; }
-		const String& GetEngineName() const { return m_props.EngineName; }
-		const Math::Vec3i& GetAppVersion() const { return m_props.AppVersion; }
-		const Math::Vec3i& GetEngineVersion() const { return m_props.EngineVersion; }
+		const String& GetAppName() const { return m_props.appName; }
+		const String& GetEngineName() const { return m_props.engineName; }
+		const Math::Vec3i& GetAppVersion() const { return m_props.appVersion; }
+		const Math::Vec3i& GetEngineVersion() const { return m_props.engineVersion; }
 
 	private:
 		InstanceProps m_props;

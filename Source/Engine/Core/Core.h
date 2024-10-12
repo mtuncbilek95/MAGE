@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "CCU.h"
 #include "Definitions.h"
 #include "StdFix.h"
 #include "GlmFix.h"

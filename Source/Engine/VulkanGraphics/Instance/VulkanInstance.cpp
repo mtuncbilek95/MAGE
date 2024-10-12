@@ -42,8 +42,7 @@ namespace MAGE
 #endif // DELUSION_DEBUG
 
 	VulkanInstance::VulkanInstance(const InstanceProps& desc) : m_props(desc)
-		, m_instance(VK_NULL_HANDLE)
-		, m_adapter(VK_NULL_HANDLE)
+		, m_instance(VK_NULL_HANDLE), m_adapter(VK_NULL_HANDLE)
 	{
 #if defined(DELUSION_DEBUG)
 		m_debugMessenger = VK_NULL_HANDLE;
@@ -56,7 +55,11 @@ namespace MAGE
 		};
 
 		Vector<ExtensionEntry> extensions;
+		Vector<const char*> workingExtensions;
 		extensions.push_back({ VK_KHR_SURFACE_EXTENSION_NAME, false });
+		extensions.push_back({ VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME, false });
+		extensions.push_back({ VK_KHR_GET_SURFACE_CAPABILITIES_2_EXTENSION_NAME, false });
+		
 
 #if defined(DELUSION_WINDOWS)
 		extensions.push_back({ VK_KHR_WIN32_SURFACE_EXTENSION_NAME, false });
@@ -77,32 +80,29 @@ namespace MAGE
 			for (auto& extension : allExtensions) {
 				if (strcmp(extensions[i].m_name, extension.extensionName) == 0) {
 					extensions[i].m_support = true;
+					workingExtensions.push_back(extensions[i].m_name);
 					break;
 				}
 			}
 		}
 
-		Vector<const char*> workingExtensions;
-		Vector<const char*> brokenExtensions;
-
+		// Print unsupported extensions
 		for (auto& extension : extensions) {
-			if (extension.m_support)
-				workingExtensions.push_back(extension.m_name);
-			else
-				brokenExtensions.push_back(extension.m_name);
+			if (!extension.m_support)
+				spdlog::warn("Extension not supported: {}", extension.m_name);
 		}
 
 		u32 layerCount = 0;
 		ErrorUtils::VkAssert(vkEnumerateInstanceLayerProperties(&layerCount, nullptr), "VulkanInstance");
-
 		Vector<VkLayerProperties> allLayers(layerCount);
 		ErrorUtils::VkAssert(vkEnumerateInstanceLayerProperties(&layerCount, allLayers.data()), "VulkanInstance");
 
 		Vector<ExtensionEntry> wantedLayers;
-
+		Vector<const char*> workingLayers;
 #if defined(DELUSION_DEBUG)
 		wantedLayers.push_back({ "VK_LAYER_KHRONOS_validation", false });
 		wantedLayers.push_back({ "VK_LAYER_LUNARG_screenshot" , false });
+		wantedLayers.push_back({ "VK_LAYER_LUNARG_monitor", false });
 #endif
 
 		for (usize i = 0; i < wantedLayers.size(); ++i)
@@ -112,28 +112,25 @@ namespace MAGE
 				if (strcmp(wantedLayers[i].m_name, layer.layerName) == 0)
 				{
 					wantedLayers[i].m_support = true;
+					workingLayers.push_back(wantedLayers[i].m_name);
 					break;
 				}
 			}
 		}
 
-		Vector<const char*> workingLayers;
-		Vector<const char*> brokenLayers;
-
+		// Print unsupported layers
 		for (auto& layer : wantedLayers)
 		{
-			if (layer.m_support)
-				workingLayers.push_back(layer.m_name);
-			else
-				brokenLayers.push_back(layer.m_name);
+			if (!layer.m_support)
+				spdlog::warn("Layer not supported: {}", layer.m_name);
 		}
 
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-		appInfo.pApplicationName = desc.AppName.c_str();
-		appInfo.applicationVersion = VK_MAKE_VERSION(desc.AppVersion.x, desc.AppVersion.y, desc.AppVersion.z);
-		appInfo.pEngineName = desc.EngineName.c_str();
-		appInfo.engineVersion = VK_MAKE_VERSION(desc.EngineVersion.x, desc.EngineVersion.y, desc.EngineVersion.z);
+		appInfo.pApplicationName = desc.appName.c_str();
+		appInfo.applicationVersion = VK_MAKE_VERSION(desc.appVersion.x, desc.appVersion.y, desc.appVersion.z);
+		appInfo.pEngineName = desc.engineName.c_str();
+		appInfo.engineVersion = VK_MAKE_VERSION(desc.engineVersion.x, desc.engineVersion.y, desc.engineVersion.z);
 		appInfo.apiVersion = VK_API_VERSION_1_3;
 
 		VkInstanceCreateInfo createInfo = {};

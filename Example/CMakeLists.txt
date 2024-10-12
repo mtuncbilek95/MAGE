@@ -8,11 +8,10 @@ add_executable(Example main.cpp ${SUBDIRECTORIES})
 
 # ---------------------- INCLUDE DIRECTORIES ----------------
 target_include_directories(Example PRIVATE "${CMAKE_SOURCE_DIR}/Source")
-target_link_libraries(Example PRIVATE Engine)
+target_link_libraries(Example PRIVATE Engine Editor)
 # ------------------------------------------------------------
 
 # ---------------------- COMPILER FLAGS ----------------------
 if(WIN32)
 	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
-	set_target_properties(Example PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/Application/Binaries")
 endif()

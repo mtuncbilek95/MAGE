@@ -69,6 +69,8 @@ namespace MAGE
 
 		Shared<VulkanQueue> CreateQueue(VkQueueFlags queueType);
 
+		u32 FindMemoryType(u32 typeFilter, VkMemoryPropertyFlags properties);
+
 	private:
 		DeviceProps m_props;
 

@@ -22,7 +22,7 @@ namespace MAGE
 			{
 				m_graphicsQueueFamily.m_familyIndex = index;
 				m_graphicsQueueFamily.m_queueCount = prop.queueCount;
-				m_graphicsQueueFamily.m_requestedCount = m_graphicsQueueFamily.m_requestedCount > prop.queueCount ? prop.queueCount : 
+				m_graphicsQueueFamily.m_requestedCount = m_graphicsQueueFamily.m_requestedCount > prop.queueCount ? prop.queueCount :
 					desc.m_graphicsQueueCount;
 			}
 			else if (prop.queueFlags & VK_QUEUE_COMPUTE_BIT && m_computeQueueFamily.m_familyIndex == 255)
@@ -75,12 +75,23 @@ namespace MAGE
 			queueCreateInfos.push_back(queueCreateInfo);
 		}
 
-		// Add all the wanted device extensions
-		Vector<const char*> extensions;
-		extensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
-		extensions.push_back(VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME);
-		extensions.push_back(VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME);
-		extensions.push_back(VK_EXT_DYNAMIC_RENDERING_UNUSED_ATTACHMENTS_EXTENSION_NAME);
+		struct ExtensionEntry
+		{
+			const char* m_name;
+			bool m_support;
+		};
+
+		// Define the wanted extensions
+		Vector<ExtensionEntry> extensions;
+		Vector<const char*> workingExtensions;
+		extensions.push_back({ VK_KHR_SWAPCHAIN_EXTENSION_NAME, false });
+		extensions.push_back({ VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME, false });
+		extensions.push_back({ VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME, false });
+		extensions.push_back({ VK_EXT_DYNAMIC_RENDERING_UNUSED_ATTACHMENTS_EXTENSION_NAME, false });
+		extensions.push_back({ VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME, false });
+		extensions.push_back({ VK_KHR_MAINTENANCE3_EXTENSION_NAME, false });
+		extensions.push_back({ VK_KHR_MAINTENANCE_5_EXTENSION_NAME, false });
+		extensions.push_back({ VK_EXT_DESCRIPTOR_BUFFER_EXTENSION_NAME, false });
 
 		//Check if the device supports the extensions
 		u32 extensionCount = 0;
@@ -88,42 +99,87 @@ namespace MAGE
 		Vector<VkExtensionProperties> availableExtensions(extensionCount);
 		vkEnumerateDeviceExtensionProperties(m_adapter, nullptr, &extensionCount, availableExtensions.data());
 
+		for (usize i = 0; i < extensions.size(); ++i)
+		{
+			for (auto& extension : availableExtensions)
+			{
+				if (strcmp(extensions[i].m_name, extension.extensionName) == 0)
+				{
+					extensions[i].m_support = true;
+					workingExtensions.push_back(extensions[i].m_name);
+					break;
+				}
+			}
+		}
+
+		Vector<const char*> brokenExtensions;
+
+		for (auto& extension : extensions)
+		{
+			if (extension.m_support)
+				workingExtensions.push_back(extension.m_name);
+			else
+				brokenExtensions.push_back(extension.m_name);
+		}
+
+		ErrorUtils::LogAssert(brokenExtensions.size() == 0, "VulkanDevice", "Your device does not support the bare minimum extensions. You need at least RTX2060 or equivalent.");
+
+		// Create extensions
+		VkPhysicalDeviceDescriptorIndexingFeatures descriptorIndexing = {};
+		descriptorIndexing.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES;
+		descriptorIndexing.runtimeDescriptorArray = VK_TRUE;
+		descriptorIndexing.descriptorBindingPartiallyBound = VK_TRUE;
+		descriptorIndexing.descriptorBindingUpdateUnusedWhilePending = VK_TRUE;
+		descriptorIndexing.shaderInputAttachmentArrayDynamicIndexing = VK_TRUE;
+		descriptorIndexing.shaderUniformTexelBufferArrayDynamicIndexing = VK_TRUE;
+		descriptorIndexing.shaderStorageTexelBufferArrayDynamicIndexing = VK_TRUE;
+		descriptorIndexing.shaderUniformBufferArrayNonUniformIndexing = VK_TRUE;
+		descriptorIndexing.shaderSampledImageArrayNonUniformIndexing = VK_TRUE;
+		descriptorIndexing.shaderStorageBufferArrayNonUniformIndexing = VK_TRUE;
+		descriptorIndexing.shaderStorageImageArrayNonUniformIndexing = VK_TRUE;
+		descriptorIndexing.shaderInputAttachmentArrayNonUniformIndexing = VK_TRUE;
+		descriptorIndexing.shaderUniformTexelBufferArrayNonUniformIndexing = VK_TRUE;
+		descriptorIndexing.shaderStorageTexelBufferArrayNonUniformIndexing = VK_TRUE;
+		descriptorIndexing.descriptorBindingUniformBufferUpdateAfterBind = VK_TRUE;
+		descriptorIndexing.descriptorBindingSampledImageUpdateAfterBind = VK_TRUE;
+		descriptorIndexing.descriptorBindingStorageImageUpdateAfterBind = VK_TRUE;
+		descriptorIndexing.descriptorBindingStorageBufferUpdateAfterBind = VK_TRUE;
+		descriptorIndexing.descriptorBindingUniformTexelBufferUpdateAfterBind = VK_TRUE;
+		descriptorIndexing.descriptorBindingStorageTexelBufferUpdateAfterBind = VK_TRUE;
+		descriptorIndexing.descriptorBindingUpdateUnusedWhilePending = VK_TRUE;
+		descriptorIndexing.descriptorBindingPartiallyBound = VK_TRUE;
+		descriptorIndexing.descriptorBindingVariableDescriptorCount = VK_TRUE;
+		descriptorIndexing.runtimeDescriptorArray = VK_TRUE;
+
+		VkPhysicalDeviceBufferDeviceAddressFeatures bufferDeviceAddress = {};
+		bufferDeviceAddress.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES;
+		bufferDeviceAddress.bufferDeviceAddress = VK_TRUE;
+		bufferDeviceAddress.bufferDeviceAddressCaptureReplay = VK_TRUE;
+		bufferDeviceAddress.bufferDeviceAddressMultiDevice = VK_TRUE;
+		bufferDeviceAddress.pNext = &descriptorIndexing;
+
+		VkPhysicalDeviceDynamicRenderingFeaturesKHR dynamicRendering = {};
+		dynamicRendering.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_FEATURES_KHR;
+		dynamicRendering.dynamicRendering = VK_TRUE;
+		dynamicRendering.pNext = &bufferDeviceAddress;
+
+		VkPhysicalDeviceDescriptorBufferFeaturesEXT descriptorBuffer = {};
+		descriptorBuffer.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_BUFFER_FEATURES_EXT;
+		descriptorBuffer.descriptorBuffer = VK_TRUE;
+		descriptorBuffer.pNext = &dynamicRendering;
+
 		// Get all the device features related to adapter
 		VkPhysicalDeviceFeatures deviceFeatures;
 		vkGetPhysicalDeviceFeatures(m_adapter, &deviceFeatures);
-
-		VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT dynamicRenderingUnusedAttachmentsFeatures = {};
-		dynamicRenderingUnusedAttachmentsFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_UNUSED_ATTACHMENTS_FEATURES_EXT;
-		dynamicRenderingUnusedAttachmentsFeatures.pNext = nullptr;
-		dynamicRenderingUnusedAttachmentsFeatures.dynamicRenderingUnusedAttachments = VK_TRUE;
-
-		// Add bindless descriptor support
-		VkPhysicalDeviceDescriptorIndexingFeatures descriptorIndexingFeatures = {};
-		descriptorIndexingFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES;
-		descriptorIndexingFeatures.pNext = &dynamicRenderingUnusedAttachmentsFeatures;
-		descriptorIndexingFeatures.runtimeDescriptorArray = VK_TRUE;
-		descriptorIndexingFeatures.shaderSampledImageArrayNonUniformIndexing = VK_TRUE;
-		descriptorIndexingFeatures.descriptorBindingPartiallyBound = VK_TRUE;
-		descriptorIndexingFeatures.descriptorBindingUpdateUnusedWhilePending = VK_TRUE;
-		descriptorIndexingFeatures.descriptorBindingSampledImageUpdateAfterBind = VK_TRUE;
-		descriptorIndexingFeatures.descriptorBindingStorageImageUpdateAfterBind = VK_TRUE;
-		descriptorIndexingFeatures.descriptorBindingUniformBufferUpdateAfterBind = VK_TRUE;
-		descriptorIndexingFeatures.descriptorBindingStorageBufferUpdateAfterBind = VK_TRUE;
-
-		// Add dynamic rendering support
-		VkPhysicalDeviceDynamicRenderingFeaturesKHR dynamicRenderingFeatures = {};
-		dynamicRenderingFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_FEATURES_KHR;
-		dynamicRenderingFeatures.pNext = &descriptorIndexingFeatures;
-		dynamicRenderingFeatures.dynamicRendering = VK_TRUE;
 
 		VkDeviceCreateInfo deviceCreateInfo = {};
 		deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 		deviceCreateInfo.pQueueCreateInfos = queueCreateInfos.data();
 		deviceCreateInfo.queueCreateInfoCount = static_cast<u32>(queueCreateInfos.size());
 		deviceCreateInfo.pEnabledFeatures = &deviceFeatures;
-		deviceCreateInfo.enabledExtensionCount = static_cast<u32>(extensions.size());
-		deviceCreateInfo.ppEnabledExtensionNames = extensions.data();
-		deviceCreateInfo.pNext = &dynamicRenderingFeatures;
+		deviceCreateInfo.enabledExtensionCount = static_cast<u32>(workingExtensions.size());
+		deviceCreateInfo.ppEnabledExtensionNames = workingExtensions.data();
+		deviceCreateInfo.pNext = &descriptorBuffer;
 
 		ErrorUtils::VkAssert(vkCreateDevice(m_adapter, &deviceCreateInfo, nullptr, &m_device), "VulkanDevice");
 
@@ -168,5 +224,22 @@ namespace MAGE
 		default:
 			return nullptr;
 		}
+	}
+
+	u32 VulkanDevice::FindMemoryType(u32 typeFilter, VkMemoryPropertyFlags properties)
+	{
+		VkPhysicalDeviceMemoryProperties memProperties;
+		vkGetPhysicalDeviceMemoryProperties(m_adapter, &memProperties);
+
+		for (u32 i = 0; i < memProperties.memoryTypeCount; i++)
+		{
+			if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties)
+			{
+				return i;
+			}
+		}
+
+		ErrorUtils::LogAssert(false, "VulkanDevice", "Failed to find suitable memory type!");
+		return 0;
 	}
 }

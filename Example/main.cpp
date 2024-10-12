@@ -3,49 +3,72 @@
 
 #include <Engine/VulkanGraphics/Instance/VulkanInstance.h>
 #include <Engine/VulkanGraphics/Device/VulkanDevice.h>
-
-#include <Engine/VulkanGraphics/Descriptor/VulkanDescLayout.h>
-#include <Engine/VulkanGraphics/Descriptor/VulkanDescBuffer.h>
+#include <Engine/VulkanGraphics/Queue/VulkanQueue.h>
+#include <Engine/VulkanGraphics/Swapchain/VulkanSwapchain.h>
+#include <Engine/VulkanGraphics/Image/VulkanImage.h>
+#include <Engine/VulkanGraphics/Image/VulkanImageView.h>
 
 using namespace MAGE;
 
 int main()
 {
 	SystemLog::Get().Initialize();
-	IndWindowDesc windowProps = {
+	IndWindowDesc windowProps = 
+	{
 		.WindowRes = {1280, 720},
 		.Mode = WindowMode::Windowed,
 		.Title = "TestWindow"
 	};
 	Manager::Window::Get().InitWindow(windowProps);
-	auto& window = Manager::Window::Get().GetWindow();
+	IndWindow& window = Manager::Window::Get().GetWindow();
 
-	InstanceProps instanceProps = {};
-	instanceProps.appName = "TestApp";
-	instanceProps.appVersion = Math::Vec3i(1, 0, 0);
-	instanceProps.engineName = "MAGE";
-	instanceProps.engineVersion = Math::Vec3i(1, 0, 0);
+	InstanceProps instanceProps = 
+	{
+		.appName = "TestApp",
+		.engineName = "MAGE",
+		.appVersion = Math::Vec3i(1, 0, 0),
+		.engineVersion = Math::Vec3i(1, 0, 0)
+	};
+	Owned<VulkanInstance> instance = MakeOwned<VulkanInstance>(instanceProps);
 
-	VulkanInstance instance(instanceProps);
+	DeviceProps deviceProps = 
+	{
+		.m_graphicsQueueCount = 1,
+		.m_computeQueueCount = 1,
+		.m_transferQueueCount = 1
+	};
+	Owned<VulkanDevice> device = MakeOwned<VulkanDevice>(deviceProps, &*instance);
+	Owned<VulkanQueue> grapQueue = device->CreateQueue(VK_QUEUE_GRAPHICS_BIT);
 
-	DeviceProps deviceProps = {};
-	deviceProps.m_computeQueueCount = 1;
-	deviceProps.m_graphicsQueueCount = 1;
-	deviceProps.m_transferQueueCount = 1;
+	SwapchainProps swapchainProps = 
+	{
+		.format = VK_FORMAT_R8G8B8A8_UNORM,
+		.presentMode = VK_PRESENT_MODE_FIFO_KHR,
+		.imageSize = window.GetWindowRes(),
+		.imageCount = 3,
+		.graphicsQueue = grapQueue.get()
+	};
+	Owned<VulkanSwapchain> swapchain = MakeOwned<VulkanSwapchain>(swapchainProps, &*device);
 
-	VulkanDevice device(deviceProps, &instance);
+	ImageProps imageProps =
+	{
+		.imageSize = {1280, 720, 1},
+		.mipLevels = 1,
+		.arrayLayers = 1,
+		.imageType = VK_IMAGE_TYPE_2D,
+		.format = VK_FORMAT_R8G8B8A8_UNORM,
+		.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT
+	};
+	Owned<VulkanImage> image = MakeOwned<VulkanImage>(imageProps, &*device);
 
-	DescLayoutProps layoutProps = {};
-	layoutProps.bindings.push_back({ 0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT });
-	layoutProps.bindings.push_back({ 1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT });
-	layoutProps.bindings.push_back({ 2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT });
-	layoutProps.initFlags = VK_DESCRIPTOR_SET_LAYOUT_CREATE_DESCRIPTOR_BUFFER_BIT_EXT;
-	VulkanDescLayout descLayout(layoutProps, &device);
-
-	VulkanDescBuffer descBuffer(&descLayout, &device);
-
-	spdlog::info("BufferSize: {}", descBuffer.GetTotalSize());
-	spdlog::info("Offset: {}", descBuffer.GetOffset());
+	ImageViewProps viewProps =
+	{
+		.viewType = VK_IMAGE_VIEW_TYPE_2D,
+		.aspectFlags = VK_IMAGE_ASPECT_COLOR_BIT,
+		.baseMipLevel = 0,
+		.baseArrayLayer = 0
+	};
+	Owned<VulkanImageView> imageView = image->CreateView(viewProps);
 
 	window.Show();
 	while (!window.IsClosed())

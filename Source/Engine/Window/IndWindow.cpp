@@ -63,6 +63,19 @@ namespace MAGE
 			});
 	}
 
+	void IndWindow::FrameResizeCallback(SizeCallback callback)
+	{
+		m_SizeCallback = callback;
+
+		glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow* window, i32 width, i32 height)
+			{
+				IndWindow* indWindow = static_cast<IndWindow*>(glfwGetWindowUserPointer(window));
+				indWindow->m_WindowRes = { width, height };
+				indWindow->m_SizeCallback({ width, height });
+			});
+
+	}
+
 	void IndWindow::PollEvents()
 	{
 		glfwPollEvents();

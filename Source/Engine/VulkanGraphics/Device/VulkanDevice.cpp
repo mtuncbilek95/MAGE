@@ -193,7 +193,7 @@ namespace MAGE
 		vkDestroyDevice(m_device, nullptr);
 	}
 
-	Shared<VulkanQueue> VulkanDevice::CreateQueue(VkQueueFlags queueType)
+	Owned<VulkanQueue> VulkanDevice::CreateQueue(VkQueueFlags queueType)
 	{
 		switch (queueType)
 		{
@@ -203,7 +203,7 @@ namespace MAGE
 			prop.m_familyIndex = m_graphicsQueueFamily.m_familyIndex;
 			prop.m_flags = queueType;
 			prop.m_queue = m_graphicsQueueFamily.GetFreeQueue();
-			return MakeShared<VulkanQueue>(prop, this);
+			return MakeOwned<VulkanQueue>(prop, this);
 		}
 		case VK_QUEUE_COMPUTE_BIT:
 		{
@@ -211,7 +211,7 @@ namespace MAGE
 			prop.m_familyIndex = m_computeQueueFamily.m_familyIndex;
 			prop.m_flags = queueType;
 			prop.m_queue = m_computeQueueFamily.GetFreeQueue();
-			return MakeShared<VulkanQueue>(prop, this);
+			return MakeOwned<VulkanQueue>(prop, this);
 		}
 		case VK_QUEUE_TRANSFER_BIT:
 		{
@@ -219,7 +219,7 @@ namespace MAGE
 			prop.m_familyIndex = m_transferQueueFamily.m_familyIndex;
 			prop.m_flags = queueType;
 			prop.m_queue = m_transferQueueFamily.GetFreeQueue();
-			return MakeShared<VulkanQueue>(prop, this);
+			return MakeOwned<VulkanQueue>(prop, this);
 		}
 		default:
 			return nullptr;

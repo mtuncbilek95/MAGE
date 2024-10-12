@@ -44,6 +44,7 @@ namespace MAGE
 		~IndWindow();
 
 		void WindowResizeCallback(SizeCallback callback); // Mostly will be used with Swapchain.
+		void FrameResizeCallback(SizeCallback callback); // Mostly will be used with swapchain or other framebuffers.
 		void PollEvents();
 
 		Math::Vec2u GetWindowRes() const { return m_WindowRes; }

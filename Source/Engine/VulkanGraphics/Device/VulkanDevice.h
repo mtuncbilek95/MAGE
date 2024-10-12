@@ -67,7 +67,7 @@ namespace MAGE
 		VkPhysicalDevice GetAdapter() const { return m_adapter; }
 		VkInstance GetInstance() const { return m_instance; }
 
-		Shared<VulkanQueue> CreateQueue(VkQueueFlags queueType);
+		Owned<VulkanQueue> CreateQueue(VkQueueFlags queueType);
 
 		u32 FindMemoryType(u32 typeFilter, VkMemoryPropertyFlags properties);
 

@@ -11,10 +11,11 @@
 #include "Engine/Core/Core.h"
 #include <vulkan/vulkan.h>
 
+#include "Engine/VulkanGraphics/Queue/VulkanQueue.h"
+
 namespace MAGE
 {
 	class VulkanInstance;
-	class VulkanQueue;
 
 	struct DeviceProps final
 	{
@@ -67,7 +68,7 @@ namespace MAGE
 		VkPhysicalDevice GetAdapter() const { return m_adapter; }
 		VkInstance GetInstance() const { return m_instance; }
 
-		Owned<VulkanQueue> CreateQueue(VkQueueFlags queueType);
+		VulkanQueue CreateQueue(VkQueueFlags queueType);
 
 		u32 FindMemoryType(u32 typeFilter, VkMemoryPropertyFlags properties);
 

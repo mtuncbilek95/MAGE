@@ -43,8 +43,8 @@ namespace MAGE
 		vkFreeMemory(m_device, m_imageMemory, nullptr);
 	}
 
-	Owned<VulkanImageView> VulkanImage::CreateView(const ImageViewProps& desc)
+	VulkanImageView VulkanImage::CreateView(const ImageViewProps& desc)
 	{
-		return MakeOwned<VulkanImageView>(desc, this, m_deviceRef);
+		return VulkanImageView(desc, this, m_deviceRef);
 	}
 }

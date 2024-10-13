@@ -29,7 +29,7 @@ int main()
 		.appVersion = Math::Vec3i(1, 0, 0),
 		.engineVersion = Math::Vec3i(1, 0, 0)
 	};
-	Owned<VulkanInstance> instance = MakeOwned<VulkanInstance>(instanceProps);
+	VulkanInstance instance = VulkanInstance(instanceProps);
 
 	DeviceProps deviceProps = 
 	{
@@ -37,8 +37,8 @@ int main()
 		.m_computeQueueCount = 1,
 		.m_transferQueueCount = 1
 	};
-	Owned<VulkanDevice> device = MakeOwned<VulkanDevice>(deviceProps, &*instance);
-	Owned<VulkanQueue> grapQueue = device->CreateQueue(VK_QUEUE_GRAPHICS_BIT);
+	VulkanDevice device = VulkanDevice(deviceProps, &instance);
+	VulkanQueue grapQueue = device.CreateQueue(VK_QUEUE_GRAPHICS_BIT);
 
 	SwapchainProps swapchainProps = 
 	{
@@ -46,9 +46,9 @@ int main()
 		.presentMode = VK_PRESENT_MODE_FIFO_KHR,
 		.imageSize = window.GetWindowRes(),
 		.imageCount = 3,
-		.graphicsQueue = grapQueue.get()
+		.graphicsQueue = &grapQueue
 	};
-	Owned<VulkanSwapchain> swapchain = MakeOwned<VulkanSwapchain>(swapchainProps, &*device);
+	VulkanSwapchain swapchain = VulkanSwapchain(swapchainProps, &device);
 
 	ImageProps imageProps =
 	{
@@ -59,7 +59,7 @@ int main()
 		.format = VK_FORMAT_R8G8B8A8_UNORM,
 		.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT
 	};
-	Owned<VulkanImage> image = MakeOwned<VulkanImage>(imageProps, &*device);
+	VulkanImage image = VulkanImage(imageProps, &device);
 
 	ImageViewProps viewProps =
 	{
@@ -68,7 +68,7 @@ int main()
 		.baseMipLevel = 0,
 		.baseArrayLayer = 0
 	};
-	Owned<VulkanImageView> imageView = image->CreateView(viewProps);
+	VulkanImageView imageView = image.CreateView(viewProps);
 
 	window.Show();
 	while (!window.IsClosed())

@@ -2,7 +2,6 @@
 
 #include "../Core/VkAssert.h"
 #include "../Instance/VulkanInstance.h"
-#include "../Queue/VulkanQueue.h"
 
 namespace MAGE
 {
@@ -193,7 +192,7 @@ namespace MAGE
 		vkDestroyDevice(m_device, nullptr);
 	}
 
-	Owned<VulkanQueue> VulkanDevice::CreateQueue(VkQueueFlags queueType)
+	VulkanQueue VulkanDevice::CreateQueue(VkQueueFlags queueType)
 	{
 		switch (queueType)
 		{
@@ -203,7 +202,7 @@ namespace MAGE
 			prop.m_familyIndex = m_graphicsQueueFamily.m_familyIndex;
 			prop.m_flags = queueType;
 			prop.m_queue = m_graphicsQueueFamily.GetFreeQueue();
-			return MakeOwned<VulkanQueue>(prop, this);
+			return VulkanQueue(prop, this);
 		}
 		case VK_QUEUE_COMPUTE_BIT:
 		{
@@ -211,7 +210,7 @@ namespace MAGE
 			prop.m_familyIndex = m_computeQueueFamily.m_familyIndex;
 			prop.m_flags = queueType;
 			prop.m_queue = m_computeQueueFamily.GetFreeQueue();
-			return MakeOwned<VulkanQueue>(prop, this);
+			return VulkanQueue(prop, this);
 		}
 		case VK_QUEUE_TRANSFER_BIT:
 		{
@@ -219,10 +218,10 @@ namespace MAGE
 			prop.m_familyIndex = m_transferQueueFamily.m_familyIndex;
 			prop.m_flags = queueType;
 			prop.m_queue = m_transferQueueFamily.GetFreeQueue();
-			return MakeOwned<VulkanQueue>(prop, this);
+			return VulkanQueue(prop, this);
 		}
 		default:
-			return nullptr;
+			throw std::runtime_error("Queue type not supported!");
 		}
 	}
 

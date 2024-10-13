@@ -15,6 +15,7 @@ namespace MAGE
 {
 	class VulkanCmdPool;
 	class VulkanDevice;
+	class VulkanRenderPass;
 
 	struct CmdBufferProps final
 	{
@@ -31,12 +32,17 @@ namespace MAGE
 		VkCommandBuffer GetCmdBuffer() const { return m_cmdBuffer; }
 		VkCommandPool GetCmdPool() const { return m_cmdPool; }
 
+		void BeginRecording(VkCommandBufferUsageFlags useFlag) const;
+		void EndRecording() const;
+
+		void BeginRenderPass(VulkanRenderPass* renderPass, Math::Vec2u renderArea, u32 imageIndex) const;
+		void EndRenderPass() const;
+
 	private:
-		VkQueue m_queue;
 		VkCommandBuffer m_cmdBuffer;
 		VkCommandPool m_cmdPool;
-		VkDevice m_device;
 
 		CmdBufferProps m_props;
+		VulkanDevice* m_deviceRef;
 	};
 }

@@ -11,6 +11,8 @@
 #include "Engine/Core/Core.h"
 #include <vulkan/vulkan.h>
 
+#include "VulkanDescLayout.h"
+
 namespace MAGE
 {
 	class VulkanDevice;
@@ -22,22 +24,20 @@ namespace MAGE
 		VulkanDescBuffer(VulkanDescLayout* layout, VulkanDevice* device);
 		~VulkanDescBuffer();
 
-		VkDescriptorSetLayout GetLayout() const { return m_layout; }
+		VkDescriptorSetLayout GetLayout() const { return m_layoutRef->GetLayout(); }
 		VkBuffer GetBuffer() const { return m_buffer; }
 		VkDeviceMemory GetMemory() const { return m_memory; }
 
-		u64 GetTotalSize() const { return m_totalSize; }
-		u64 GetOffset() const { return m_offset; }
+		inline u64 GetTotalSize() const { return m_totalSize; }
+		inline u64 GetOffset() const { return m_offset; }
 
 	private:
-		VkDescriptorSetLayout m_layout;
 		VkBuffer m_buffer;
 		VkDeviceMemory m_memory;
-
-		VkDevice m_device;
-		VkPhysicalDevice m_physicalDevice;
-
 		VkDeviceSize m_totalSize;
 		VkDeviceSize m_offset;
+
+		VulkanDescLayout* m_layoutRef;
+		VulkanDevice* m_deviceRef;
 	};
 }

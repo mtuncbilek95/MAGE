@@ -9,23 +9,22 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "Engine/ErrorHandler/ErrorChecker.h"
-
-#include <magic_enum.hpp>
 #include <vulkan/vulkan.h>
 
 namespace MAGE
 {
-	namespace ErrorUtils
+	class VulkanDevice;
+
+	class VulkanFence final
 	{
-		inline static void VkAssert(VkResult result, const String& title)
-		{
-			if (result != VK_SUCCESS)
-			{
-				auto name = magic_enum::enum_name<VkResult>(result);
-				spdlog::critical("{0} - {1}", title, name);
-				exit(-1);
-			}
-		}
-	}
+	public:
+		VulkanFence(bool signaled, VulkanDevice* device);
+		~VulkanFence();
+
+		VkFence GetFence() const { return m_fence; }
+
+	private:
+		VulkanDevice* m_deviceRef;
+		VkFence m_fence;
+	};
 }

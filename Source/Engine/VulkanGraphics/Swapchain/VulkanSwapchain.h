@@ -17,6 +17,9 @@ namespace MAGE
 	class VulkanQueue;
 	class VulkanSemaphore;
 	class VulkanFence;
+	class VulkanImage;
+	class VulkanImageView;
+	class VulkanRenderPass;
 
 	struct SwapchainProps final
 	{
@@ -37,39 +40,32 @@ namespace MAGE
 
 		VkSwapchainKHR GetSwapchain() const { return m_swapchain; }
 		VkSurfaceKHR GetSurface() const { return m_surface; }
-		VkDevice GetDevice() const { return m_device; }
-		VkPhysicalDevice GetPhysicalDevice() const { return m_physicalDevice; }
+		VkFormat GetFormat() const { return m_props.format; }
+		VkPresentModeKHR GetPresentMode() const { return m_props.presentMode; }
+		Math::Vec2u GetImageSize() const { return m_props.imageSize; }
+		u8 GetImageCount() const { return m_props.imageCount; }
 
-		VkFormat GetFormat() const { return m_format; }
-		VkPresentModeKHR GetPresentMode() const { return m_presentMode; }
-
-		Math::Vec2u GetImageSize() const { return m_imageSize; }
-
-		VkImage GetImage(u32 index) const { return m_images[index]; }
-		VkImageView GetImageView(u32 index) const { return m_imageViews[index]; }
+		VulkanImage* GetImage(u32 index) const { return m_images[index].get(); }
+		VulkanImageView* GetImageView(u32 index) const { return m_imageViews[index].get(); }
+		VulkanRenderPass* GetRenderPass() const { return m_renderPass.get(); }
 
 		u32 AcquireNextImage(VulkanSemaphore* semaphore, VulkanFence* fence);
 		void Present(u32 imageIndex, VulkanSemaphore* semaphore);
 
 	private:
+		SwapchainProps m_props; // Swapchain properties
+
 		VkSwapchainKHR m_swapchain;
 		VkSurfaceKHR m_surface;
-		VkDevice m_device;
-		VkInstance m_instance;
-		VkPhysicalDevice m_physicalDevice;
 
-		VkFormat m_format;
-		VkPresentModeKHR m_presentMode;
-
-		Math::Vec2u m_imageSize;
-		u8 m_imageCount;
-
-		Vector<VkImage> m_images;
-		Vector<VkImageView> m_imageViews;
-
-		VulkanQueue* m_graphicsQueue;
+		Vector<Shared<VulkanImage>> m_images;
+		Vector<Shared<VulkanImageView>> m_imageViews;
 
 		VkCommandPool m_resizePool;
 		VkCommandBuffer m_resizeBuffer;
+
+		VulkanDevice* m_deviceRef;
+
+		Shared<VulkanRenderPass> m_renderPass;
 	};
 }

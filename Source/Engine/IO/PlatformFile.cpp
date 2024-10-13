@@ -114,8 +114,7 @@ namespace MAGE
 		// Read the file
 		DWORD bytesRead;
 		buffer.resize(fileSize.QuadPart + 1);
-		char* data = &buffer[0];
-		if (ReadFile(hFile, data, fileSize.QuadPart, &bytesRead, NULL) == 0)
+		if (ReadFile(hFile, &buffer[0], fileSize.QuadPart, &bytesRead, NULL) == 0)
 		{
 			spdlog::warn("Failed to read the file: {}", ErrorUtils::Handler::GetErrorString());
 			CloseHandle(hFile);

@@ -9,25 +9,12 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
+#include "Engine/Memory/OwnedBuffer.h"
 
 namespace MAGE
 {
-	template <typename T>
-	class Singleton
+	struct ShaderCompiler final
 	{
-	public:
-		Singleton() = default;
-		virtual ~Singleton() = default;
-
-		static T& Get()
-		{
-			if (!m_Instance)
-				m_Instance = MakeShared<T>();
-
-			return *m_Instance;
-		}
-
-	private:
-		inline static Shared<T> m_Instance = nullptr;
+		static OwnedBuffer CompileShader(const String& shaderPath, const String& includePath = "", const String& entryPoint = "main");
 	};
 }

@@ -36,7 +36,7 @@ namespace MAGE
 		const Math::Vec3i& GetEngineVersion() const { return m_props.engineVersion; }
 
 	private:
-		InstanceProps m_props;
+		InstanceProps m_props; // Instance properties
 
 		VkInstance m_instance;
 		VkPhysicalDevice m_adapter;

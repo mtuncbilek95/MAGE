@@ -6,12 +6,11 @@
 
 namespace MAGE
 {
-	VulkanImageView::VulkanImageView(const ImageViewProps& desc, VulkanImage* image, VulkanDevice* device) : m_image(image->GetImage()), m_device(device->GetDevice()),
-		m_imageRef(image), m_deviceRef(device), m_viewType(desc.viewType), m_aspectFlags(desc.aspectFlags), m_baseMipLevel(desc.baseMipLevel), m_baseArrayLayer(desc.baseArrayLayer)
+	VulkanImageView::VulkanImageView(const ImageViewProps& desc, VulkanImage* image, VulkanDevice* device) : m_props(desc), m_imageRef(image), m_deviceRef(device)
 	{
 		VkImageViewCreateInfo viewInfo = {};
 		viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-		viewInfo.image = m_image;
+		viewInfo.image = m_imageRef->GetImage();
 		viewInfo.viewType = desc.viewType;
 		viewInfo.format = image->GetFormat();
 
@@ -26,11 +25,12 @@ namespace MAGE
 		viewInfo.subresourceRange.baseArrayLayer = desc.baseArrayLayer;
 		viewInfo.subresourceRange.layerCount = image->GetArrayLayers();
 
-		ErrorUtils::VkAssert(vkCreateImageView(device->GetDevice(), &viewInfo, nullptr, &m_imageView), "VulkanImage");
+		ErrorUtils::VkAssert(vkCreateImageView(m_deviceRef->GetDevice(), &viewInfo, nullptr, &m_imageView), "VulkanImage");
 	}
 
 	VulkanImageView::~VulkanImageView()
 	{
-		vkDestroyImageView(m_device, m_imageView, nullptr);
+		if (m_imageView != VK_NULL_HANDLE)
+			vkDestroyImageView(m_deviceRef->GetDevice(), m_imageView, nullptr);
 	}
 }

@@ -19,11 +19,11 @@ namespace MAGE
 
 	struct CmdPoolProps final
 	{
-		VulkanQueue* m_queue;
-		VkCommandPoolCreateFlags m_flags;
+		VulkanQueue* queue;
+		VkCommandPoolCreateFlags flags;
 	};
 
-	class VulkanCmdPool final
+	class VulkanCmdPool final : public std::enable_shared_from_this<VulkanCmdPool>
 	{
 	public:
 		VulkanCmdPool(const CmdPoolProps& desc, VulkanDevice* device);
@@ -32,12 +32,12 @@ namespace MAGE
 		Shared<VulkanCmdBuffer> CreateCmdBuffer(VkCommandBufferLevel cmdLevel);
 
 		VkCommandPool GetCmdPool() const { return m_cmdPool; }
-		VkDevice GetDevice() const { return m_device; }
+		VulkanQueue* GetQueue() const { return m_props.queue; }
 
 	private:
-		VkCommandPool m_cmdPool;
-		VkDevice m_device;
-
+		CmdPoolProps m_props;
 		VulkanDevice* m_deviceRef;
+
+		VkCommandPool m_cmdPool;
 	};
 }

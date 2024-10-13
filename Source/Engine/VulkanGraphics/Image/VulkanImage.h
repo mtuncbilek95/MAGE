@@ -27,38 +27,32 @@ namespace MAGE
 		VkImageUsageFlags imageUsage;
 	};
 
-	class VulkanImage final
+	class VulkanImage final : public std::enable_shared_from_this<VulkanImage>
 	{
 	public:
 		VulkanImage(const ImageProps& desc, VulkanDevice* device);
+		VulkanImage(const ImageProps& desc, VkImage image, VulkanDevice* device);
 		~VulkanImage();
 
-		VulkanImageView CreateView(const ImageViewProps& desc);
+		Shared<VulkanImageView> CreateView(const ImageViewProps& desc);
 
 		VkImage GetImage() const { return m_image; }
 		VkDeviceMemory GetImageMemory() const { return m_imageMemory; }
 
-		Math::Vec3u GetImageSize() const { return m_imageSize; }
-		u32 GetMipLevels() const { return m_mipLevels; }
-		u32 GetArrayLayers() const { return m_arrayLayers; }
-		VkImageType GetImageType() const { return m_imageType; }
-		VkFormat GetFormat() const { return m_format; }
-		VkImageUsageFlags GetImageUsage() const { return m_imageUsage; }
+		Math::Vec3u GetImageSize() const { return m_props.imageSize; }
+		u32 GetMipLevels() const { return m_props.mipLevels; }
+		u32 GetArrayLayers() const { return m_props.arrayLayers; }
+		VkImageType GetImageType() const { return m_props.imageType; }
+		VkFormat GetFormat() const { return m_props.format; }
+		VkImageUsageFlags GetImageUsage() const { return m_props.imageUsage; }
 
 	private:
-		Math::Vec3u m_imageSize;
-		u32 m_mipLevels;
-		u32 m_arrayLayers;
-		VkImageType m_imageType;
-		VkFormat m_format;
-		VkImageUsageFlags m_imageUsage;
+		ImageProps m_props;
 
 		VkImage m_image;
 		VkDeviceMemory m_imageMemory;
 
-		VkDevice m_device;
-		VkPhysicalDevice m_physicalDevice;
-
 		VulkanDevice* m_deviceRef;
+		bool m_ownedImage; // Swapchain images are not owned by this class
 	};
 }

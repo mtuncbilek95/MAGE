@@ -2,6 +2,10 @@
 
 #include "../Core/VkAssert.h"
 #include "../Instance/VulkanInstance.h"
+#include "../Queue/VulkanQueue.h"
+#include "../Sync/VulkanSemaphore.h"
+#include "../Sync/VulkanFence.h"
+#include "../Command/VulkanCmdBuffer.h"
 
 namespace MAGE
 {
@@ -22,21 +26,21 @@ namespace MAGE
 				m_graphicsQueueFamily.m_familyIndex = index;
 				m_graphicsQueueFamily.m_queueCount = prop.queueCount;
 				m_graphicsQueueFamily.m_requestedCount = m_graphicsQueueFamily.m_requestedCount > prop.queueCount ? prop.queueCount :
-					desc.m_graphicsQueueCount;
+					desc.graphicsQueueCount;
 			}
 			else if (prop.queueFlags & VK_QUEUE_COMPUTE_BIT && m_computeQueueFamily.m_familyIndex == 255)
 			{
 				m_computeQueueFamily.m_familyIndex = index;
 				m_computeQueueFamily.m_queueCount = prop.queueCount;
 				m_computeQueueFamily.m_requestedCount = m_computeQueueFamily.m_requestedCount > prop.queueCount ? prop.queueCount :
-					desc.m_computeQueueCount;
+					desc.computeQueueCount;
 			}
 			else if (prop.queueFlags & VK_QUEUE_TRANSFER_BIT && m_transferQueueFamily.m_familyIndex == 255)
 			{
 				m_transferQueueFamily.m_familyIndex = index;
 				m_transferQueueFamily.m_queueCount = prop.queueCount;
 				m_transferQueueFamily.m_requestedCount = m_transferQueueFamily.m_requestedCount > prop.queueCount ? prop.queueCount :
-					desc.m_transferQueueCount;
+					desc.transferQueueCount;
 			}
 			index++;
 		}
@@ -49,7 +53,7 @@ namespace MAGE
 			VkDeviceQueueCreateInfo queueCreateInfo = {};
 			queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
 			queueCreateInfo.queueFamilyIndex = m_graphicsQueueFamily.m_familyIndex;
-			queueCreateInfo.queueCount = m_props.m_computeQueueCount;
+			queueCreateInfo.queueCount = m_graphicsQueueFamily.m_requestedCount;
 			queueCreateInfo.pQueuePriorities = queuePriorities.data();
 			queueCreateInfos.push_back(queueCreateInfo);
 		}
@@ -192,7 +196,7 @@ namespace MAGE
 		vkDestroyDevice(m_device, nullptr);
 	}
 
-	VulkanQueue VulkanDevice::CreateQueue(VkQueueFlags queueType)
+	Shared<VulkanQueue> VulkanDevice::CreateQueue(VkQueueFlags queueType)
 	{
 		switch (queueType)
 		{
@@ -202,7 +206,7 @@ namespace MAGE
 			prop.m_familyIndex = m_graphicsQueueFamily.m_familyIndex;
 			prop.m_flags = queueType;
 			prop.m_queue = m_graphicsQueueFamily.GetFreeQueue();
-			return VulkanQueue(prop, this);
+			return MakeOwned<VulkanQueue>(prop, shared_from_this().get());
 		}
 		case VK_QUEUE_COMPUTE_BIT:
 		{
@@ -210,7 +214,7 @@ namespace MAGE
 			prop.m_familyIndex = m_computeQueueFamily.m_familyIndex;
 			prop.m_flags = queueType;
 			prop.m_queue = m_computeQueueFamily.GetFreeQueue();
-			return VulkanQueue(prop, this);
+			return MakeOwned<VulkanQueue>(prop, shared_from_this().get());
 		}
 		case VK_QUEUE_TRANSFER_BIT:
 		{
@@ -218,14 +222,24 @@ namespace MAGE
 			prop.m_familyIndex = m_transferQueueFamily.m_familyIndex;
 			prop.m_flags = queueType;
 			prop.m_queue = m_transferQueueFamily.GetFreeQueue();
-			return VulkanQueue(prop, this);
+			return MakeOwned<VulkanQueue>(prop, shared_from_this().get());
 		}
 		default:
 			throw std::runtime_error("Queue type not supported!");
 		}
 	}
 
-	u32 VulkanDevice::FindMemoryType(u32 typeFilter, VkMemoryPropertyFlags properties)
+	Shared<VulkanSemaphore> VulkanDevice::CreateSyncSemaphore()
+	{
+		return MakeOwned<VulkanSemaphore>(shared_from_this().get());
+	}
+
+	Shared<VulkanFence> VulkanDevice::CreateSyncFence(bool signaled)
+	{
+		return MakeOwned<VulkanFence>(signaled, shared_from_this().get());
+	}
+
+	u32 VulkanDevice::FindMemoryType(u32 typeFilter, VkMemoryPropertyFlags properties) const
 	{
 		VkPhysicalDeviceMemoryProperties memProperties;
 		vkGetPhysicalDeviceMemoryProperties(m_adapter, &memProperties);
@@ -240,5 +254,41 @@ namespace MAGE
 
 		ErrorUtils::LogAssert(false, "VulkanDevice", "Failed to find suitable memory type!");
 		return 0;
+	}
+
+	void VulkanDevice::WaitForIdle() const
+	{
+		ErrorUtils::VkAssert(vkDeviceWaitIdle(m_device), "VulkanDevice");
+	}
+
+	void VulkanDevice::WaitForFence(VulkanFence* pFence) const
+	{
+		VkFence fence = pFence->GetFence();
+		vkWaitForFences(m_device, 1, &fence, VK_TRUE, UINT64_MAX);
+	}
+
+	void VulkanDevice::ResetFence(VulkanFence* pFence) const
+	{
+		VkFence fence = pFence->GetFence();
+		vkResetFences(m_device, 1, &fence);
+	}
+
+	void VulkanDevice::SubmitQueue(VulkanQueue* pQueue, VulkanCmdBuffer* pCmdBuffer, VulkanSemaphore* waitSemaphore, VulkanSemaphore* signalSemaphore, VulkanFence* pFence, VkPipelineStageFlags flags) const
+	{
+		VkSemaphore waitSem = waitSemaphore ? waitSemaphore->GetSemaphore() : VK_NULL_HANDLE;
+		VkSemaphore signalSem = signalSemaphore ? signalSemaphore->GetSemaphore() : VK_NULL_HANDLE;
+		VkCommandBuffer cmdBuffer = pCmdBuffer ? pCmdBuffer->GetCmdBuffer() : VK_NULL_HANDLE;
+
+		VkSubmitInfo submitInfo = {};
+		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		submitInfo.waitSemaphoreCount = waitSemaphore ? 1 : 0;
+		submitInfo.pWaitSemaphores = &waitSem;
+		submitInfo.pWaitDstStageMask = &flags;
+		submitInfo.commandBufferCount = pCmdBuffer ? 1 : 0;
+		submitInfo.pCommandBuffers = &cmdBuffer;
+		submitInfo.signalSemaphoreCount = signalSemaphore ? 1 : 0;
+		submitInfo.pSignalSemaphores = &signalSem;
+
+		ErrorUtils::VkAssert(vkQueueSubmit(pQueue->GetQueue(), 1, &submitInfo, pFence ? pFence->GetFence() : VK_NULL_HANDLE), "VulkanDevice");
 	}
 }

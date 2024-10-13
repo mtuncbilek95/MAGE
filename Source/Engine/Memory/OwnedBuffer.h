@@ -18,6 +18,7 @@ namespace MAGE
 	public:
 		OwnedBuffer();
 		OwnedBuffer(buf pData, usize size);
+		OwnedBuffer(u8* pBegin, u8* pEnd);
 		OwnedBuffer(const OwnedBuffer& pOther);
 		OwnedBuffer(OwnedBuffer&& pOther) noexcept;
 		~OwnedBuffer();

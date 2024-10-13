@@ -40,9 +40,9 @@ namespace MAGE
 		VkDescriptorSetLayoutCreateFlags GetFlags() const { return m_props.initFlags; }
 
 	private:
-		VkDescriptorSetLayout m_layout;
-		VkDevice m_device;
+		DescLayoutProps m_props; // Descriptor layout properties
 
-		DescLayoutProps m_props;
+		VulkanDevice* m_deviceRef;
+		VkDescriptorSetLayout m_layout;
 	};
 }

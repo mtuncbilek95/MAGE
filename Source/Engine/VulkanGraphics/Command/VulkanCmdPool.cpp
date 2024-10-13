@@ -7,26 +7,26 @@
 
 namespace MAGE
 {
-	VulkanCmdPool::VulkanCmdPool(const CmdPoolProps& desc, VulkanDevice* device) : m_device(device->GetDevice()), m_deviceRef(device)
+	VulkanCmdPool::VulkanCmdPool(const CmdPoolProps& desc, VulkanDevice* device) : m_deviceRef(device)
 	{
 		VkCommandPoolCreateInfo poolInfo = {};
 		poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-		poolInfo.queueFamilyIndex = desc.m_queue->GetFamilyIndex();
-		poolInfo.flags = desc.m_flags;
+		poolInfo.queueFamilyIndex = desc.queue->GetFamilyIndex();
+		poolInfo.flags = desc.flags;
 
-		ErrorUtils::VkAssert(vkCreateCommandPool(m_device, &poolInfo, nullptr, &m_cmdPool), "VulkanCmdPool");
+		ErrorUtils::VkAssert(vkCreateCommandPool(m_deviceRef->GetDevice(), &poolInfo, nullptr, &m_cmdPool), "VulkanCmdPool");
 	}
 
 	VulkanCmdPool::~VulkanCmdPool()
 	{
-		vkDestroyCommandPool(m_device, m_cmdPool, nullptr);
+		vkDestroyCommandPool(m_deviceRef->GetDevice(), m_cmdPool, nullptr);
 	}
 
 	Shared<VulkanCmdBuffer> VulkanCmdPool::CreateCmdBuffer(VkCommandBufferLevel cmdLevel)
 	{
 		CmdBufferProps props = {};
 		props.m_cmdLevel = cmdLevel;
-		props.m_pool = this;
+		props.m_pool = shared_from_this().get();
 
 		return MakeShared<VulkanCmdBuffer>(props, m_deviceRef);
 	}

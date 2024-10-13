@@ -11,6 +11,17 @@ namespace MAGE
 		Allocate(pData, size);
 	}
 
+	OwnedBuffer::OwnedBuffer(u8* pBegin, u8* pEnd)
+	{
+		usize size = pEnd - pBegin;
+		if (size > 0)
+		{
+			mBufferData = new char[size];
+			std::memcpy(mBufferData, pBegin, size);
+			mBufferSize = size;
+		}
+	}
+
 	OwnedBuffer::OwnedBuffer(const OwnedBuffer& pOther) : mBufferData(nullptr), mBufferSize(0)
 	{
 		Allocate(pOther.mBufferData, pOther.mBufferSize);
@@ -24,7 +35,7 @@ namespace MAGE
 
 	OwnedBuffer::~OwnedBuffer()
 	{
-		delete[] static_cast<char*>(mBufferData);
+		delete static_cast<char*>(mBufferData);
 	}
 
 	OwnedBuffer& OwnedBuffer::operator=(OwnedBuffer& pOther)
@@ -38,7 +49,7 @@ namespace MAGE
 				std::memcpy(newData, pOther.mBufferData, pOther.mBufferSize);
 			}
 
-			delete[] static_cast<char*>(mBufferData);
+			delete static_cast<char*>(mBufferData);
 
 			mBufferData = newData;
 			mBufferSize = pOther.mBufferSize;

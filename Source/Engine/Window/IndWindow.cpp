@@ -6,8 +6,8 @@ constexpr i32 monitorIndex = 0;
 
 namespace MAGE
 {
-	IndWindow::IndWindow(const IndWindowDesc& desc) : m_WindowRes(desc.WindowRes), m_Mode(desc.Mode),
-		m_Title(desc.Title), m_Window(nullptr), m_WindowPos(0)
+	IndWindow::IndWindow(const IndWindowDesc& desc) : m_WindowRes(desc.windowRes), m_Mode(desc.mode),
+		m_Title(desc.title), m_Window(nullptr), m_WindowPos(0)
 	{
 		// Initialize GLFW
 		ErrorUtils::LogAssert(glfwInit(), "GLFW Error", "Failed to initialize GLFW!");
@@ -65,14 +65,14 @@ namespace MAGE
 
 	void IndWindow::FrameResizeCallback(SizeCallback callback)
 	{
-		m_SizeCallback = callback;
+		//m_SizeCallback = callback;
 
-		glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow* window, i32 width, i32 height)
-			{
-				IndWindow* indWindow = static_cast<IndWindow*>(glfwGetWindowUserPointer(window));
-				indWindow->m_WindowRes = { width, height };
-				indWindow->m_SizeCallback({ width, height });
-			});
+		//glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow* window, i32 width, i32 height)
+		//	{
+		//		IndWindow* indWindow = static_cast<IndWindow*>(glfwGetWindowUserPointer(window));
+		//		indWindow->m_WindowRes = { width, height };
+		//		indWindow->m_SizeCallback({ width, height });
+		//	});
 
 	}
 

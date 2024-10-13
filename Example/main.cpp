@@ -5,76 +5,83 @@
 #include <Engine/VulkanGraphics/Device/VulkanDevice.h>
 #include <Engine/VulkanGraphics/Queue/VulkanQueue.h>
 #include <Engine/VulkanGraphics/Swapchain/VulkanSwapchain.h>
-#include <Engine/VulkanGraphics/Image/VulkanImage.h>
-#include <Engine/VulkanGraphics/Image/VulkanImageView.h>
+#include <Engine/VulkanGraphics/RenderPass/VulkanRenderPass.h>
+#include <Engine/VulkanGraphics/Command/VulkanCmdPool.h>
+#include <Engine/VulkanGraphics/Command/VulkanCmdBuffer.h>
+#include <Engine/VulkanGraphics/Sync/VulkanSemaphore.h>
+#include <Engine/VulkanGraphics/Sync/VulkanFence.h>
 
 using namespace MAGE;
 
 int main()
 {
 	SystemLog::Get().Initialize();
-	IndWindowDesc windowProps = 
+	IndWindowDesc windowProps =
 	{
-		.WindowRes = {1280, 720},
-		.Mode = WindowMode::Windowed,
-		.Title = "TestWindow"
+		.windowRes = {1920, 1080},
+		.mode = WindowMode::Windowed,
+		.title = "TestWindow"
 	};
 	Manager::Window::Get().InitWindow(windowProps);
 	IndWindow& window = Manager::Window::Get().GetWindow();
 
-	InstanceProps instanceProps = 
+	InstanceProps instanceProps =
 	{
 		.appName = "TestApp",
 		.engineName = "MAGE",
 		.appVersion = Math::Vec3i(1, 0, 0),
 		.engineVersion = Math::Vec3i(1, 0, 0)
 	};
-	VulkanInstance instance = VulkanInstance(instanceProps);
+	Shared<VulkanInstance> instance = MakeShared<VulkanInstance>(instanceProps);
 
-	DeviceProps deviceProps = 
+	DeviceProps deviceProps =
 	{
-		.m_graphicsQueueCount = 1,
-		.m_computeQueueCount = 1,
-		.m_transferQueueCount = 1
+		.graphicsQueueCount = 1,
+		.computeQueueCount = 1,
+		.transferQueueCount = 1
 	};
-	VulkanDevice device = VulkanDevice(deviceProps, &instance);
-	VulkanQueue grapQueue = device.CreateQueue(VK_QUEUE_GRAPHICS_BIT);
+	Shared<VulkanDevice> device = MakeShared<VulkanDevice>(deviceProps, instance.get());
+	Shared<VulkanQueue> grapQueue = device->CreateQueue(VK_QUEUE_GRAPHICS_BIT);
 
-	SwapchainProps swapchainProps = 
+	SwapchainProps swapchainProps =
 	{
 		.format = VK_FORMAT_R8G8B8A8_UNORM,
-		.presentMode = VK_PRESENT_MODE_FIFO_KHR,
+		.presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR,
 		.imageSize = window.GetWindowRes(),
 		.imageCount = 3,
-		.graphicsQueue = &grapQueue
+		.graphicsQueue = grapQueue.get()
 	};
-	VulkanSwapchain swapchain = VulkanSwapchain(swapchainProps, &device);
+	Shared<VulkanSwapchain> swapchain = MakeShared<VulkanSwapchain>(swapchainProps, device.get());
 
-	ImageProps imageProps =
+	CmdPoolProps poolProps =
 	{
-		.imageSize = {1280, 720, 1},
-		.mipLevels = 1,
-		.arrayLayers = 1,
-		.imageType = VK_IMAGE_TYPE_2D,
-		.format = VK_FORMAT_R8G8B8A8_UNORM,
-		.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT
+		.queue = grapQueue.get(),
+		.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT
 	};
-	VulkanImage image = VulkanImage(imageProps, &device);
+	Shared<VulkanCmdPool> cmdPool = MakeShared<VulkanCmdPool>(poolProps, device.get());
+	Shared<VulkanCmdBuffer> cmdBuffer = cmdPool->CreateCmdBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 
-	ImageViewProps viewProps =
-	{
-		.viewType = VK_IMAGE_VIEW_TYPE_2D,
-		.aspectFlags = VK_IMAGE_ASPECT_COLOR_BIT,
-		.baseMipLevel = 0,
-		.baseArrayLayer = 0
-	};
-	VulkanImageView imageView = image.CreateView(viewProps);
+	Shared<VulkanSemaphore> imageSemaphore = device->CreateSyncSemaphore();
+	Shared<VulkanSemaphore> renderSemaphore = device->CreateSyncSemaphore();
+	Shared<VulkanFence> fence = device->CreateSyncFence(false);
 
 	window.Show();
 	while (!window.IsClosed())
 	{
 		window.PollEvents();
-	}
 
+		u32 imageIndex = swapchain->AcquireNextImage(imageSemaphore.get(), nullptr);
+
+		cmdBuffer->BeginRecording(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+		cmdBuffer->BeginRenderPass(swapchain->GetRenderPass(), window.GetWindowRes(), imageIndex);
+		cmdBuffer->EndRenderPass();
+		cmdBuffer->EndRecording();
+
+		device->SubmitQueue(grapQueue.get(), cmdBuffer.get(), imageSemaphore.get(), renderSemaphore.get(), fence.get(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
+		swapchain->Present(imageIndex, renderSemaphore.get());
+
+		device->WaitForFence(fence.get());
+		device->ResetFence(fence.get());
+	}
 	return 0;
 }

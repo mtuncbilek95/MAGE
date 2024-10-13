@@ -27,9 +27,9 @@ namespace MAGE
 	 */
 	struct IndWindowDesc final
 	{
-		Math::Vec2u WindowRes;
-		WindowMode Mode;
-		String Title;
+		Math::Vec2u windowRes;
+		WindowMode mode;
+		String title;
 	};
 
 	/**

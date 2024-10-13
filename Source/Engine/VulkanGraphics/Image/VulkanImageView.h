@@ -31,21 +31,15 @@ namespace MAGE
 		~VulkanImageView();
 
 		VkImageView GetImageView() const { return m_imageView; }
-		VkImageViewType GetViewType() const { return m_viewType; }
-		VkImageAspectFlags GetAspectFlags() const { return m_aspectFlags; }
+		VkImageViewType GetViewType() const { return m_props.viewType; }
+		VkImageAspectFlags GetAspectFlags() const { return m_props.aspectFlags; }
 
 	private:
-		VkImage m_image;
-		VkImageView m_imageView;
-		VkImageViewType m_viewType;
-		VkImageAspectFlags m_aspectFlags;
-
-		u32 m_baseMipLevel;
-		u32 m_baseArrayLayer;
-
-		VkDevice m_device;
+		ImageViewProps m_props;
 
 		VulkanImage* m_imageRef;
 		VulkanDevice* m_deviceRef;
+
+		VkImageView m_imageView;
 	};
 }

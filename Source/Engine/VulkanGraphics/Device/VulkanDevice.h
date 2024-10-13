@@ -11,20 +11,22 @@
 #include "Engine/Core/Core.h"
 #include <vulkan/vulkan.h>
 
-#include "Engine/VulkanGraphics/Queue/VulkanQueue.h"
-
 namespace MAGE
 {
 	class VulkanInstance;
+	class VulkanQueue;
+	class VulkanCmdBuffer;
+	class VulkanSemaphore;
+	class VulkanFence;
 
 	struct DeviceProps final
 	{
-		u32 m_graphicsQueueCount;
-		u32 m_computeQueueCount;
-		u32 m_transferQueueCount;
+		u32 graphicsQueueCount;
+		u32 computeQueueCount;
+		u32 transferQueueCount;
 	};
 
-	class VulkanDevice final
+	class VulkanDevice final : public std::enable_shared_from_this<VulkanDevice>
 	{
 		struct QueueFamily
 		{
@@ -68,12 +70,19 @@ namespace MAGE
 		VkPhysicalDevice GetAdapter() const { return m_adapter; }
 		VkInstance GetInstance() const { return m_instance; }
 
-		VulkanQueue CreateQueue(VkQueueFlags queueType);
+		Shared<VulkanQueue> CreateQueue(VkQueueFlags queueType);
+		Shared<VulkanSemaphore> CreateSyncSemaphore();
+		Shared<VulkanFence> CreateSyncFence(bool signaled);
 
-		u32 FindMemoryType(u32 typeFilter, VkMemoryPropertyFlags properties);
+		u32 FindMemoryType(u32 typeFilter, VkMemoryPropertyFlags properties) const;
+
+		void WaitForIdle() const;
+		void WaitForFence(VulkanFence* pFence) const;
+		void ResetFence(VulkanFence* pFence) const;
+		void SubmitQueue(VulkanQueue* pQueue, VulkanCmdBuffer* pCmdBuffer, VulkanSemaphore* waitSemaphore, VulkanSemaphore* signalSemaphore, VulkanFence* pFence, VkPipelineStageFlags flags) const;
 
 	private:
-		DeviceProps m_props;
+		DeviceProps m_props; // Device properties
 
 		VkInstance m_instance;
 		VkDevice m_device;

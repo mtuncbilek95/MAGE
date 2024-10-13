@@ -5,7 +5,7 @@
 
 namespace MAGE
 {
-	VulkanDescLayout::VulkanDescLayout(const DescLayoutProps& desc, VulkanDevice* device) : m_props(desc), m_device(device->GetDevice())
+	VulkanDescLayout::VulkanDescLayout(const DescLayoutProps& desc, VulkanDevice* device) : m_props(desc), m_deviceRef(device)
 	{
 		Vector<VkDescriptorSetLayoutBinding> bindings(desc.bindings.size());
 
@@ -24,11 +24,11 @@ namespace MAGE
 		layoutInfo.pBindings = bindings.data();
 		layoutInfo.flags = desc.initFlags;
 
-		ErrorUtils::VkAssert(vkCreateDescriptorSetLayout(m_device, &layoutInfo, nullptr, &m_layout), "VulkanDescLayout");
+		ErrorUtils::VkAssert(vkCreateDescriptorSetLayout(m_deviceRef->GetDevice(), &layoutInfo, nullptr, &m_layout), "VulkanDescLayout");
 	}
 
 	VulkanDescLayout::~VulkanDescLayout()
 	{
-		vkDestroyDescriptorSetLayout(m_device, m_layout, nullptr);
+		vkDestroyDescriptorSetLayout(m_deviceRef->GetDevice(), m_layout, nullptr);
 	}
 }

@@ -19,6 +19,7 @@ namespace MAGE
 	class VulkanCmdPool;
 	class VulkanDevice;
 	class VulkanRenderPass;
+	class VulkanPipeline;
 
 	struct CmdBufferProps final
 	{

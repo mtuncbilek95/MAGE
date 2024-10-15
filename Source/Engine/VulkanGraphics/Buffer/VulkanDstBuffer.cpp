@@ -5,13 +5,13 @@
 
 namespace MAGE
 {
-	VulkanDstBuffer::VulkanDstBuffer(const DstBufferProps& desc, VulkanDevice* device) : m_deviceRef(device), 
+	VulkanDstBuffer::VulkanDstBuffer(const DstBufferProps& desc, VulkanDevice* device) : m_deviceRef(device),
 		m_props(desc), m_buffer(VK_NULL_HANDLE), m_memory(VK_NULL_HANDLE), m_totalSize(0), m_offset(0)
 	{
 		VkBufferCreateInfo bufferInfo = {};
 		bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 		bufferInfo.size = desc.sizeInBytes;
-			bufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | desc.usage;
+		bufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | desc.usage;
 		bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
 		ErrorUtils::VkAssert(vkCreateBuffer(m_deviceRef->GetDevice(), &bufferInfo, nullptr, &m_buffer), "VulkanDescBuffer");

@@ -9,18 +9,20 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "Engine/VulkanGraphics/Pipeline/VulkanPipeline.h"
+#include <vulkan/vulkan.h>
 
 namespace MAGE
 {
-	// Ultra basic mesh rendering pipeline flow
-	class RenderingPipeline
+	struct DepthStencilState final
 	{
-	public:
-		RenderingPipeline() = default;
-		~RenderingPipeline() = default;
-
-	private:
-		Owned<VulkanPipeline> m_Pipeline;
+		b8 depthTestEnable;
+		b8 depthWriteEnable;
+		VkCompareOp depthCompareOp;
+		b8 depthBoundsTestEnable;
+		b8 stencilTestEnable;
+		VkStencilOpState front;
+		VkStencilOpState back;
+		f32 minDepthBounds;
+		f32 maxDepthBounds;
 	};
 }

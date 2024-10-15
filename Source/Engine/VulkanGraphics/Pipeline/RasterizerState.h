@@ -9,18 +9,18 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "Engine/VulkanGraphics/Pipeline/VulkanPipeline.h"
+#include <vulkan/vulkan.h>
 
 namespace MAGE
 {
-	// Ultra basic mesh rendering pipeline flow
-	class RenderingPipeline
+	struct RasterizerState final
 	{
-	public:
-		RenderingPipeline() = default;
-		~RenderingPipeline() = default;
-
-	private:
-		Owned<VulkanPipeline> m_Pipeline;
+		b8 depthBiasEnable;
+		f32 depthBiasConstantFactor;
+		f32 depthBiasClamp;
+		f32 depthBiasSlopeFactor;
+		VkPolygonMode polygonMode;
+		VkCullModeFlags cullMode;
+		VkFrontFace frontFace;
 	};
 }

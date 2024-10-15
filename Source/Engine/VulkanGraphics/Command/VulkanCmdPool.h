@@ -23,7 +23,7 @@ namespace MAGE
 		VkCommandPoolCreateFlags flags;
 	};
 
-	class VulkanCmdPool final : public std::enable_shared_from_this<VulkanCmdPool>
+	class VulkanCmdPool final
 	{
 	public:
 		VulkanCmdPool(const CmdPoolProps& desc, VulkanDevice* device);

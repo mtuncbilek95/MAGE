@@ -9,18 +9,20 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "Engine/VulkanGraphics/Pipeline/VulkanPipeline.h"
+#include <vulkan/vulkan.h>
 
 namespace MAGE
 {
-	// Ultra basic mesh rendering pipeline flow
-	class RenderingPipeline
+	struct InputBinding final
 	{
-	public:
-		RenderingPipeline() = default;
-		~RenderingPipeline() = default;
+		VkVertexInputRate inputRate;
+		Vector<VkFormat> attributes;
+	};
 
-	private:
-		Owned<VulkanPipeline> m_Pipeline;
+	struct InputAssembler final
+	{
+		VkPrimitiveTopology topology;
+		b8 primitiveRestartEnable;
+		Vector<InputBinding> bindings;
 	};
 }

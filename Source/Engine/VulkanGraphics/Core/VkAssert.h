@@ -28,4 +28,9 @@ namespace MAGE
 			}
 		}
 	}
+
+	namespace VkUtils
+	{
+		u32 GetVkTextureSize(VkFormat format);
+	}
 }

@@ -26,7 +26,7 @@ namespace MAGE
 		u32 transferQueueCount;
 	};
 
-	class VulkanDevice final : public std::enable_shared_from_this<VulkanDevice>
+	class VulkanDevice final
 	{
 		struct QueueFamily
 		{
@@ -70,9 +70,9 @@ namespace MAGE
 		VkPhysicalDevice GetAdapter() const { return m_adapter; }
 		VkInstance GetInstance() const { return m_instance; }
 
-		Shared<VulkanQueue> CreateQueue(VkQueueFlags queueType);
-		Shared<VulkanSemaphore> CreateSyncSemaphore();
-		Shared<VulkanFence> CreateSyncFence(bool signaled);
+		Owned<VulkanQueue> CreateQueue(VkQueueFlags queueType);
+		Owned<VulkanSemaphore> CreateSyncSemaphore();
+		Owned<VulkanFence> CreateSyncFence(bool signaled);
 
 		u32 FindMemoryType(u32 typeFilter, VkMemoryPropertyFlags properties) const;
 

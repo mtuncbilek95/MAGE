@@ -13,6 +13,7 @@
 
 namespace MAGE
 {
+	class IndWindow;
 	class VulkanDevice;
 	class VulkanQueue;
 	class VulkanSemaphore;
@@ -28,6 +29,7 @@ namespace MAGE
 		Math::Vec2u imageSize;
 		u8 imageCount;
 		VulkanQueue* graphicsQueue;
+		IndWindow* windowRef;
 	};
 
 	class VulkanSwapchain final
@@ -45,9 +47,8 @@ namespace MAGE
 		Math::Vec2u GetImageSize() const { return m_props.imageSize; }
 		u8 GetImageCount() const { return m_props.imageCount; }
 
-		VulkanImage* GetImage(u32 index) const { return m_images[index].get(); }
-		VulkanImageView* GetImageView(u32 index) const { return m_imageViews[index].get(); }
-		VulkanRenderPass* GetRenderPass() const { return m_renderPass.get(); }
+		VulkanImage* GetImage(u32 index) const { return &*m_images[index]; }
+		VulkanImageView* GetImageView(u32 index) const { return &*m_imageViews[index]; }
 
 		u32 AcquireNextImage(VulkanSemaphore* semaphore, VulkanFence* fence);
 		void Present(u32 imageIndex, VulkanSemaphore* semaphore);
@@ -58,14 +59,12 @@ namespace MAGE
 		VkSwapchainKHR m_swapchain;
 		VkSurfaceKHR m_surface;
 
-		Vector<Shared<VulkanImage>> m_images;
-		Vector<Shared<VulkanImageView>> m_imageViews;
+		Vector<Owned<VulkanImage>> m_images;
+		Vector<Owned<VulkanImageView>> m_imageViews;
 
 		VkCommandPool m_resizePool;
 		VkCommandBuffer m_resizeBuffer;
 
 		VulkanDevice* m_deviceRef;
-
-		Shared<VulkanRenderPass> m_renderPass;
 	};
 }

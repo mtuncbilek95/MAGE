@@ -30,7 +30,7 @@ namespace MAGE
 		commandPoolInfo.queueFamilyIndex = desc.graphicsQueue->GetFamilyIndex();
 		commandPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 
-		ErrorUtils::VkAssert(vkCreateCommandPool(device->GetDevice(), &commandPoolInfo, nullptr, &m_resizePool), "VulkanSwapchain");
+		ErrorUtils::VkAssert(vkCreateCommandPool(device->GetDevice(), &commandPoolInfo, nullptr, &m_resizePool));
 
 		// Create command buffer
 		VkCommandBufferAllocateInfo commandBufferInfo = {};
@@ -39,24 +39,17 @@ namespace MAGE
 		commandBufferInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 		commandBufferInfo.commandBufferCount = 1;
 
-		ErrorUtils::VkAssert(vkAllocateCommandBuffers(device->GetDevice(), &commandBufferInfo, &m_resizeBuffer), "VulkanSwapchain");
+		ErrorUtils::VkAssert(vkAllocateCommandBuffers(device->GetDevice(), &commandBufferInfo, &m_resizeBuffer));
 
 		// Create surface
 #if defined(DELUSION_WINDOWS)
 		VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {};
 		surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
 		surfaceCreateInfo.hinstance = GetModuleHandle(nullptr);
-		surfaceCreateInfo.hwnd = Manager::Window::Get().GetWindow().GetNativeHandle();
-		ErrorUtils::VkAssert(vkCreateWin32SurfaceKHR(device->GetInstance(), &surfaceCreateInfo, nullptr, &m_surface), "VulkanSwapchain");
+		surfaceCreateInfo.hwnd = desc.windowRef->GetNativeHandle();
+		ErrorUtils::VkAssert(vkCreateWin32SurfaceKHR(device->GetInstance(), &surfaceCreateInfo, nullptr, &m_surface));
 #endif // DELUSION_WINDOWS
 
-		//Add resize callback
-		/*Manager::Window::Get().GetWindow().WindowResizeCallback([this](Math::Vec2u size)
-			{
-				Resize(size);
-			});*/
-
-		// Initial resize call
 		Resize(desc.imageSize);
 	}
 
@@ -65,14 +58,15 @@ namespace MAGE
 		vkFreeCommandBuffers(m_deviceRef->GetDevice(), m_resizePool, 1, &m_resizeBuffer);
 		vkDestroyCommandPool(m_deviceRef->GetDevice(), m_resizePool, nullptr);
 
-		// Delete all images and image views
+		for (auto& image : m_images)
+			image.reset();
 		m_images.clear();
 		m_images.shrink_to_fit();
 
+		for (auto& imageView : m_imageViews)
+			imageView.reset();
 		m_imageViews.clear();
 		m_imageViews.shrink_to_fit();
-
-		m_renderPass.reset();
 
 		if (m_swapchain != VK_NULL_HANDLE)
 			vkDestroySwapchainKHR(m_deviceRef->GetDevice(), m_swapchain, nullptr);
@@ -86,26 +80,27 @@ namespace MAGE
 		if (size.x == 0 || size.y == 0)
 			return;
 
-		// Delete all images and image views
+		for (auto& image : m_images)
+			image.reset();
 		m_images.clear();
 		m_images.shrink_to_fit();
 
+		for (auto& imageView : m_imageViews)
+			imageView.reset();
 		m_imageViews.clear();
 		m_imageViews.shrink_to_fit();
-
-		m_renderPass.reset();
 
 		if (m_swapchain != VK_NULL_HANDLE)
 			vkDestroySwapchainKHR(m_deviceRef->GetDevice(), m_swapchain, nullptr);
 
 		VkSurfaceCapabilitiesKHR surfaceCapabilities;
-		ErrorUtils::VkAssert(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(m_deviceRef->GetAdapter(), m_surface, &surfaceCapabilities), "VulkanSwapchain");
+		ErrorUtils::VkAssert(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(m_deviceRef->GetAdapter(), m_surface, &surfaceCapabilities));
 
 		u32 formatCount;
-		ErrorUtils::VkAssert(vkGetPhysicalDeviceSurfaceFormatsKHR(m_deviceRef->GetAdapter(), m_surface, &formatCount, nullptr), "VulkanSwapchain");
+		ErrorUtils::VkAssert(vkGetPhysicalDeviceSurfaceFormatsKHR(m_deviceRef->GetAdapter(), m_surface, &formatCount, nullptr));
 
 		Vector<VkSurfaceFormatKHR> surfaceFormats(formatCount);
-		ErrorUtils::VkAssert(vkGetPhysicalDeviceSurfaceFormatsKHR(m_deviceRef->GetAdapter(), m_surface, &formatCount, surfaceFormats.data()), "VulkanSwapchain");
+		ErrorUtils::VkAssert(vkGetPhysicalDeviceSurfaceFormatsKHR(m_deviceRef->GetAdapter(), m_surface, &formatCount, surfaceFormats.data()));
 
 		// Check if requested format is supported
 		VkColorSpaceKHR colorSpace = {};
@@ -129,10 +124,10 @@ namespace MAGE
 
 		// Check if requested present mode is supported
 		u32 presentModeCount;
-		ErrorUtils::VkAssert(vkGetPhysicalDeviceSurfacePresentModesKHR(m_deviceRef->GetAdapter(), m_surface, &presentModeCount, nullptr), "VulkanSwapchain");
+		ErrorUtils::VkAssert(vkGetPhysicalDeviceSurfacePresentModesKHR(m_deviceRef->GetAdapter(), m_surface, &presentModeCount, nullptr));
 
 		Vector<VkPresentModeKHR> presentModes(presentModeCount);
-		ErrorUtils::VkAssert(vkGetPhysicalDeviceSurfacePresentModesKHR(m_deviceRef->GetAdapter(), m_surface, &presentModeCount, presentModes.data()), "VulkanSwapchain");
+		ErrorUtils::VkAssert(vkGetPhysicalDeviceSurfacePresentModesKHR(m_deviceRef->GetAdapter(), m_surface, &presentModeCount, presentModes.data()));
 
 		// If the requested present mode is not supported, use FIFO as default
 		VkPresentModeKHR presentMode = VK_PRESENT_MODE_FIFO_KHR;
@@ -154,14 +149,14 @@ namespace MAGE
 		swapchainCreateInfo.presentMode = presentMode;
 		swapchainCreateInfo.clipped = VK_FALSE;
 		swapchainCreateInfo.oldSwapchain = VK_NULL_HANDLE;
-		ErrorUtils::VkAssert(vkCreateSwapchainKHR(m_deviceRef->GetDevice(), &swapchainCreateInfo, nullptr, &m_swapchain), "VulkanSwapchain");
+		ErrorUtils::VkAssert(vkCreateSwapchainKHR(m_deviceRef->GetDevice(), &swapchainCreateInfo, nullptr, &m_swapchain));
 
 		// Get swapchain images
 		u32 imageCount;
-		ErrorUtils::VkAssert(vkGetSwapchainImagesKHR(m_deviceRef->GetDevice(), m_swapchain, &imageCount, nullptr), "VulkanSwapchain");
+		ErrorUtils::VkAssert(vkGetSwapchainImagesKHR(m_deviceRef->GetDevice(), m_swapchain, &imageCount, nullptr));
 
 		Vector<VkImage> images(imageCount);
-		ErrorUtils::VkAssert(vkGetSwapchainImagesKHR(m_deviceRef->GetDevice(), m_swapchain, &imageCount, images.data()), "VulkanSwapchain");
+		ErrorUtils::VkAssert(vkGetSwapchainImagesKHR(m_deviceRef->GetDevice(), m_swapchain, &imageCount, images.data()));
 
 		for (u32 i = 0; i < imageCount; ++i)
 		{
@@ -173,7 +168,7 @@ namespace MAGE
 			imageProps.format = m_props.format;
 			imageProps.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-			m_images.push_back(MakeShared<VulkanImage>(imageProps, images[i], m_deviceRef));
+			m_images.push_back(MakeOwned<VulkanImage>(imageProps, images[i], m_deviceRef));
 
 			ImageViewProps imageViewProps = {};
 			imageViewProps.viewType = VK_IMAGE_VIEW_TYPE_2D;
@@ -189,12 +184,14 @@ namespace MAGE
 			beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 			beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
 
-			ErrorUtils::VkAssert(vkBeginCommandBuffer(m_resizeBuffer, &beginInfo), "VulkanSwapchain");
+			ErrorUtils::VkAssert(vkBeginCommandBuffer(m_resizeBuffer, &beginInfo));
 
 			VkImageMemoryBarrier barrier = {};
 			barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
 			barrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 			barrier.newLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+			barrier.srcAccessMask = VK_ACCESS_NONE;
+			barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT;
 			barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
 			barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
 			barrier.image = m_images[i]->GetImage();
@@ -206,38 +203,26 @@ namespace MAGE
 			barrier.srcAccessMask = 0;
 			barrier.dstAccessMask = 0;
 
-			vkCmdPipelineBarrier(m_resizeBuffer, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
+			vkCmdPipelineBarrier(m_resizeBuffer, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
 
-			ErrorUtils::VkAssert(vkEndCommandBuffer(m_resizeBuffer), "VulkanSwapchain");
+			ErrorUtils::VkAssert(vkEndCommandBuffer(m_resizeBuffer));
 
 			VkSubmitInfo submitInfo = {};
 			submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 			submitInfo.commandBufferCount = 1;
 			submitInfo.pCommandBuffers = &m_resizeBuffer;
 
-			ErrorUtils::VkAssert(vkQueueSubmit(m_props.graphicsQueue->GetQueue(), 1, &submitInfo, VK_NULL_HANDLE), "VulkanSwapchain");
-			ErrorUtils::VkAssert(vkQueueWaitIdle(m_props.graphicsQueue->GetQueue()), "VulkanSwapchain");
-			ErrorUtils::VkAssert(vkResetCommandBuffer(m_resizeBuffer, 0), "VulkanSwapchain");
+			ErrorUtils::VkAssert(vkQueueSubmit(m_props.graphicsQueue->GetQueue(), 1, &submitInfo, VK_NULL_HANDLE));
+			ErrorUtils::VkAssert(vkQueueWaitIdle(m_props.graphicsQueue->GetQueue()));
+			ErrorUtils::VkAssert(vkResetCommandBuffer(m_resizeBuffer, 0));
 		}
-
-		// Create render pass
-		RenderPassProps renderPassProps = {};
-		renderPassProps.clearColor = Math::Vec4f(0.1f, 0.2f, 0.3f, 1.0f);
-		renderPassProps.clearDepth = 1.0f;
-		m_renderPass = MakeShared<VulkanRenderPass>(renderPassProps, m_deviceRef);
-
-		for (auto& imageView : m_imageViews)
-			m_renderPass->AddAttachment(imageView.get());
-
-		images.clear();
-		images.shrink_to_fit();
 	}
 
 	u32 VulkanSwapchain::AcquireNextImage(VulkanSemaphore* semaphore, VulkanFence* fence)
 	{
 		u32 imageIndex = 0;
-		ErrorUtils::VkAssert(vkAcquireNextImageKHR(m_deviceRef->GetDevice(), m_swapchain,
-			UINT64_MAX, semaphore ? semaphore->GetSemaphore() : VK_NULL_HANDLE, fence ? fence->GetFence() : VK_NULL_HANDLE, &imageIndex), "VulkanSwapchain");
+		vkAcquireNextImageKHR(m_deviceRef->GetDevice(), m_swapchain,
+			UINT64_MAX, semaphore ? semaphore->GetSemaphore() : VK_NULL_HANDLE, fence ? fence->GetFence() : VK_NULL_HANDLE, &imageIndex);
 
 		return imageIndex;
 	}
@@ -253,6 +238,6 @@ namespace MAGE
 		presentInfo.pSwapchains = &m_swapchain;
 		presentInfo.pImageIndices = &imageIndex;
 
-		ErrorUtils::VkAssert(vkQueuePresentKHR(m_props.graphicsQueue->GetQueue(), &presentInfo), "VulkanSwapchain");
+		vkQueuePresentKHR(m_props.graphicsQueue->GetQueue(), &presentInfo);
 	}
 }

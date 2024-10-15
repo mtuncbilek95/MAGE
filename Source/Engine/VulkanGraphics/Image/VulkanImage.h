@@ -34,7 +34,7 @@ namespace MAGE
 		VulkanImage(const ImageProps& desc, VkImage image, VulkanDevice* device);
 		~VulkanImage();
 
-		Shared<VulkanImageView> CreateView(const ImageViewProps& desc);
+		Owned<VulkanImageView> CreateView(const ImageViewProps& desc);
 
 		VkImage GetImage() const { return m_image; }
 		VkDeviceMemory GetImageMemory() const { return m_imageMemory; }

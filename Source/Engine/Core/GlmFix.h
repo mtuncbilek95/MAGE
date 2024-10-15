@@ -19,22 +19,22 @@
 namespace Math
 {
 	template<Arithmetic T>
-	using Vec2 = glm::tvec2<T, glm::aligned_highp>;
+	using Vec2 = glm::tvec2<T>;
 
 	template<Arithmetic T>
-	using Vec3 = glm::tvec3<T, glm::aligned_highp>;
+	using Vec3 = glm::tvec3<T>;
 
 	template<Arithmetic T>
-	using Vec4 = glm::tvec4<T, glm::aligned_highp>;
+	using Vec4 = glm::tvec4<T>;
 
 	template<Arithmetic T>
-	using Mat2 = glm::tmat2x2<T, glm::aligned_highp>;
+	using Mat2 = glm::tmat2x2<T>;
 
 	template<Arithmetic T>
-	using Mat3 = glm::tmat3x3<T, glm::aligned_highp>;
+	using Mat3 = glm::tmat3x3<T>;
 
 	template<Arithmetic T>
-	using Mat4 = glm::tmat4x4<T, glm::aligned_highp>;
+	using Mat4 = glm::tmat4x4<T>;
 
 	using Vec2uc = Vec2<u8>;
 	using Vec3uc = Vec3<u8>;

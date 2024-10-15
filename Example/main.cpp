@@ -10,20 +10,19 @@
 #include <Engine/VulkanGraphics/Command/VulkanCmdBuffer.h>
 #include <Engine/VulkanGraphics/Sync/VulkanSemaphore.h>
 #include <Engine/VulkanGraphics/Sync/VulkanFence.h>
+#include <Engine/VulkanGraphics/Image/VulkanImage.h>
 
 using namespace MAGE;
 
 int main()
 {
-	SystemLog::Get().Initialize();
 	IndWindowDesc windowProps =
 	{
 		.windowRes = {1920, 1080},
 		.mode = WindowMode::Windowed,
 		.title = "TestWindow"
 	};
-	Manager::Window::Get().InitWindow(windowProps);
-	IndWindow& window = Manager::Window::Get().GetWindow();
+	auto window = MakeOwned<IndWindow>(windowProps);
 
 	InstanceProps instanceProps =
 	{
@@ -32,7 +31,7 @@ int main()
 		.appVersion = Math::Vec3i(1, 0, 0),
 		.engineVersion = Math::Vec3i(1, 0, 0)
 	};
-	Shared<VulkanInstance> instance = MakeShared<VulkanInstance>(instanceProps);
+	auto instance = MakeOwned<VulkanInstance>(instanceProps);
 
 	DeviceProps deviceProps =
 	{
@@ -40,48 +39,91 @@ int main()
 		.computeQueueCount = 1,
 		.transferQueueCount = 1
 	};
-	Shared<VulkanDevice> device = MakeShared<VulkanDevice>(deviceProps, instance.get());
-	Shared<VulkanQueue> grapQueue = device->CreateQueue(VK_QUEUE_GRAPHICS_BIT);
+	auto device = MakeOwned<VulkanDevice>(deviceProps, &*instance);
+	auto grapQueue = device->CreateQueue(VK_QUEUE_GRAPHICS_BIT);
 
 	SwapchainProps swapchainProps =
 	{
 		.format = VK_FORMAT_R8G8B8A8_UNORM,
 		.presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR,
-		.imageSize = window.GetWindowRes(),
-		.imageCount = 3,
-		.graphicsQueue = grapQueue.get()
+		.imageSize = window->GetWindowRes(),
+		.imageCount = 2,
+		.graphicsQueue = &*grapQueue,
+		.windowRef = &*window
 	};
-	Shared<VulkanSwapchain> swapchain = MakeShared<VulkanSwapchain>(swapchainProps, device.get());
+	auto swapchain = MakeOwned<VulkanSwapchain>(swapchainProps, &*device);
 
 	CmdPoolProps poolProps =
 	{
-		.queue = grapQueue.get(),
+		.queue = &*grapQueue,
 		.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT
 	};
-	Shared<VulkanCmdPool> cmdPool = MakeShared<VulkanCmdPool>(poolProps, device.get());
-	Shared<VulkanCmdBuffer> cmdBuffer = cmdPool->CreateCmdBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+	auto cmdPool = MakeOwned<VulkanCmdPool>(poolProps, &*device);
+	auto cmdBuffer = cmdPool->CreateCmdBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 
-	Shared<VulkanSemaphore> imageSemaphore = device->CreateSyncSemaphore();
-	Shared<VulkanSemaphore> renderSemaphore = device->CreateSyncSemaphore();
-	Shared<VulkanFence> fence = device->CreateSyncFence(false);
+	auto imageSemaphore = device->CreateSyncSemaphore();
+	auto renderSemaphore = device->CreateSyncSemaphore();
+	auto fence = device->CreateSyncFence(false);
 
-	window.Show();
-	while (!window.IsClosed())
+	window->Show();
+	while (!window->IsClosed())
 	{
-		window.PollEvents();
+		window->PollEvents();
 
-		u32 imageIndex = swapchain->AcquireNextImage(imageSemaphore.get(), nullptr);
+		u32 imageIndex = swapchain->AcquireNextImage(&*imageSemaphore, nullptr);
 
 		cmdBuffer->BeginRecording(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
-		cmdBuffer->BeginRenderPass(swapchain->GetRenderPass(), window.GetWindowRes(), imageIndex);
+		// read to write barrier
+		VkImageMemoryBarrier barrier = {};
+		barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+		barrier.oldLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+		barrier.newLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+		barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT;
+		barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+		barrier.srcQueueFamilyIndex = grapQueue->GetFamilyIndex();
+		barrier.dstQueueFamilyIndex = grapQueue->GetFamilyIndex();
+		barrier.image = swapchain->GetImage(imageIndex)->GetImage();
+		barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+		barrier.subresourceRange.baseMipLevel = 0;
+		barrier.subresourceRange.levelCount = 1;
+		barrier.subresourceRange.baseArrayLayer = 0;
+		barrier.subresourceRange.layerCount = 1;
+
+		vkCmdPipelineBarrier(cmdBuffer->GetCmdBuffer(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
+
+		cmdBuffer->BeginRenderPass(swapchain->GetImageView(imageIndex), {1920, 1080}, imageIndex);
 		cmdBuffer->EndRenderPass();
+
+		// write to read barrier
+		barrier.oldLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+		barrier.newLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+		barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+		barrier.dstAccessMask = VK_ACCESS_MEMORY_READ_BIT;
+
+		vkCmdPipelineBarrier(cmdBuffer->GetCmdBuffer(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
+
 		cmdBuffer->EndRecording();
 
-		device->SubmitQueue(grapQueue.get(), cmdBuffer.get(), imageSemaphore.get(), renderSemaphore.get(), fence.get(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
-		swapchain->Present(imageIndex, renderSemaphore.get());
+		device->SubmitQueue(&*grapQueue, &*cmdBuffer, &*imageSemaphore, &*renderSemaphore, &*fence, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
+		
+		device->WaitForFence(&*fence);
+		device->ResetFence(&*fence);
 
-		device->WaitForFence(fence.get());
-		device->ResetFence(fence.get());
+		swapchain->Present(imageIndex, &*renderSemaphore);
 	}
+
+	device->WaitForIdle();
+
+	fence.reset();
+	renderSemaphore.reset();
+	imageSemaphore.reset();
+	cmdBuffer.reset();
+	cmdPool.reset();
+	swapchain.reset();
+	grapQueue.reset();
+	device.reset();
+	instance.reset();
+	window.reset();
+
 	return 0;
 }

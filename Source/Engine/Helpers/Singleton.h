@@ -19,12 +19,12 @@ namespace MAGE
 		Singleton() = default;
 		virtual ~Singleton() = default;
 
-		static T& Get()
+		static T* Get()
 		{
 			if (!m_Instance)
 				m_Instance = MakeShared<T>();
 
-			return *m_Instance;
+			return m_Instance.get();
 		}
 
 	private:

@@ -47,8 +47,8 @@ namespace MAGE
 		void FrameResizeCallback(SizeCallback callback); // Mostly will be used with swapchain or other framebuffers.
 		void PollEvents();
 
-		Math::Vec2u GetWindowRes() const { return m_WindowRes; }
-		Math::Vec2i GetWindowPos() const { return m_WindowPos; }
+		const Math::Vec2u& GetWindowRes() const { return m_WindowRes; }
+		const Math::Vec2i& GetWindowPos() const { return m_WindowPos; }
 		
 		String GetTitle() const { return m_Title; }
 		WindowMode GetMode() const { return m_Mode; }

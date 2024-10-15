@@ -11,7 +11,7 @@ namespace MAGE
 		fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
 		fenceInfo.flags = signaled ? VK_FENCE_CREATE_SIGNALED_BIT : 0;
 
-		ErrorUtils::VkAssert(vkCreateFence(m_deviceRef->GetDevice(), &fenceInfo, nullptr, &m_fence), "VulkanFence");
+		ErrorUtils::VkAssert(vkCreateFence(m_deviceRef->GetDevice(), &fenceInfo, nullptr, &m_fence));
 	}
 
 	VulkanFence::~VulkanFence()

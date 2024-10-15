@@ -18,14 +18,14 @@ namespace MAGE
 {
 	namespace ErrorUtils
 	{
-		inline static void VkAssert(VkResult result, const String& title)
+		inline static void VkAssert(VkResult result)
 		{
-			if (result != VK_SUCCESS)
+			/*if (result != VK_SUCCESS)
 			{
 				auto name = magic_enum::enum_name<VkResult>(result);
 				spdlog::critical("{0} - {1}", title, name);
 				exit(-1);
-			}
+			}*/
 		}
 	}
 }

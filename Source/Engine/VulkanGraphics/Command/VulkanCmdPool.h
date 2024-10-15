@@ -29,7 +29,7 @@ namespace MAGE
 		VulkanCmdPool(const CmdPoolProps& desc, VulkanDevice* device);
 		~VulkanCmdPool();
 
-		Shared<VulkanCmdBuffer> CreateCmdBuffer(VkCommandBufferLevel cmdLevel);
+		Owned<VulkanCmdBuffer> CreateCmdBuffer(VkCommandBufferLevel cmdLevel);
 
 		VkCommandPool GetCmdPool() const { return m_cmdPool; }
 		VulkanQueue* GetQueue() const { return m_props.queue; }

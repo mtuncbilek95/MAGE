@@ -18,6 +18,12 @@ namespace MAGE
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 		glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
 
+		if (m_Mode == WindowMode::Borderless)
+		{
+			glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+			glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+		}
+
 		// Create the window
 		m_Window = glfwCreateWindow(m_WindowRes.x, m_WindowRes.y, m_Title.c_str(), nullptr, nullptr);
 		ErrorUtils::LogAssert(m_Window, "GLFW Error", "Failed to create GLFW window!");

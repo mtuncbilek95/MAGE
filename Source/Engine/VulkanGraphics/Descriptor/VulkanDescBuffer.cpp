@@ -48,7 +48,7 @@ namespace MAGE
 		bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		bufferInfo.pNext = &usageFlags;
 
-		ErrorUtils::VkAssert(vkCreateBuffer(m_deviceRef->GetDevice(), &bufferInfo, nullptr, &m_buffer), "VulkanDescBuffer");
+		ErrorUtils::VkAssert(vkCreateBuffer(m_deviceRef->GetDevice(), &bufferInfo, nullptr, &m_buffer));
 
 		VkMemoryRequirements memRequirements;
 		vkGetBufferMemoryRequirements(m_deviceRef->GetDevice(), m_buffer, &memRequirements);
@@ -58,8 +58,8 @@ namespace MAGE
 		allocInfo.allocationSize = memRequirements.size;
 		allocInfo.memoryTypeIndex = device->FindMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT);
 
-		ErrorUtils::VkAssert(vkAllocateMemory(m_deviceRef->GetDevice(), &allocInfo, nullptr, &m_memory), "VulkanDescBuffer");
-		ErrorUtils::VkAssert(vkBindBufferMemory(m_deviceRef->GetDevice(), m_buffer, m_memory, 0), "VulkanDescBuffer");
+		ErrorUtils::VkAssert(vkAllocateMemory(m_deviceRef->GetDevice(), &allocInfo, nullptr, &m_memory));
+		ErrorUtils::VkAssert(vkBindBufferMemory(m_deviceRef->GetDevice(), m_buffer, m_memory, 0));
 
 		m_totalSize = bufferInfo.size;
 		m_offset = offsetSize;

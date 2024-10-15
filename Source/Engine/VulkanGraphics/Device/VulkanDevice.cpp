@@ -184,7 +184,7 @@ namespace MAGE
 		deviceCreateInfo.ppEnabledExtensionNames = workingExtensions.data();
 		deviceCreateInfo.pNext = &descriptorBuffer;
 
-		ErrorUtils::VkAssert(vkCreateDevice(m_adapter, &deviceCreateInfo, nullptr, &m_device), "VulkanDevice");
+		ErrorUtils::VkAssert(vkCreateDevice(m_adapter, &deviceCreateInfo, nullptr, &m_device));
 
 		m_graphicsQueueFamily.FillQueues(m_device);
 		m_computeQueueFamily.FillQueues(m_device);
@@ -196,7 +196,7 @@ namespace MAGE
 		vkDestroyDevice(m_device, nullptr);
 	}
 
-	Shared<VulkanQueue> VulkanDevice::CreateQueue(VkQueueFlags queueType)
+	Owned<VulkanQueue> VulkanDevice::CreateQueue(VkQueueFlags queueType)
 	{
 		switch (queueType)
 		{
@@ -206,7 +206,7 @@ namespace MAGE
 			prop.m_familyIndex = m_graphicsQueueFamily.m_familyIndex;
 			prop.m_flags = queueType;
 			prop.m_queue = m_graphicsQueueFamily.GetFreeQueue();
-			return MakeOwned<VulkanQueue>(prop, shared_from_this().get());
+			return MakeOwned<VulkanQueue>(prop, this);
 		}
 		case VK_QUEUE_COMPUTE_BIT:
 		{
@@ -214,7 +214,7 @@ namespace MAGE
 			prop.m_familyIndex = m_computeQueueFamily.m_familyIndex;
 			prop.m_flags = queueType;
 			prop.m_queue = m_computeQueueFamily.GetFreeQueue();
-			return MakeOwned<VulkanQueue>(prop, shared_from_this().get());
+			return MakeOwned<VulkanQueue>(prop, this);
 		}
 		case VK_QUEUE_TRANSFER_BIT:
 		{
@@ -222,21 +222,21 @@ namespace MAGE
 			prop.m_familyIndex = m_transferQueueFamily.m_familyIndex;
 			prop.m_flags = queueType;
 			prop.m_queue = m_transferQueueFamily.GetFreeQueue();
-			return MakeOwned<VulkanQueue>(prop, shared_from_this().get());
+			return MakeOwned<VulkanQueue>(prop, this);
 		}
 		default:
 			throw std::runtime_error("Queue type not supported!");
 		}
 	}
 
-	Shared<VulkanSemaphore> VulkanDevice::CreateSyncSemaphore()
+	Owned<VulkanSemaphore> VulkanDevice::CreateSyncSemaphore()
 	{
-		return MakeOwned<VulkanSemaphore>(shared_from_this().get());
+		return MakeOwned<VulkanSemaphore>(this);
 	}
 
-	Shared<VulkanFence> VulkanDevice::CreateSyncFence(bool signaled)
+	Owned<VulkanFence> VulkanDevice::CreateSyncFence(bool signaled)
 	{
-		return MakeOwned<VulkanFence>(signaled, shared_from_this().get());
+		return MakeOwned<VulkanFence>(signaled, this);
 	}
 
 	u32 VulkanDevice::FindMemoryType(u32 typeFilter, VkMemoryPropertyFlags properties) const
@@ -258,13 +258,13 @@ namespace MAGE
 
 	void VulkanDevice::WaitForIdle() const
 	{
-		ErrorUtils::VkAssert(vkDeviceWaitIdle(m_device), "VulkanDevice");
+		ErrorUtils::VkAssert(vkDeviceWaitIdle(m_device));
 	}
 
 	void VulkanDevice::WaitForFence(VulkanFence* pFence) const
 	{
 		VkFence fence = pFence->GetFence();
-		vkWaitForFences(m_device, 1, &fence, VK_TRUE, UINT64_MAX);
+		vkWaitForFences(m_device, 1, &fence, VK_FALSE, UINT64_MAX);
 	}
 
 	void VulkanDevice::ResetFence(VulkanFence* pFence) const
@@ -289,6 +289,6 @@ namespace MAGE
 		submitInfo.signalSemaphoreCount = signalSemaphore ? 1 : 0;
 		submitInfo.pSignalSemaphores = &signalSem;
 
-		ErrorUtils::VkAssert(vkQueueSubmit(pQueue->GetQueue(), 1, &submitInfo, pFence ? pFence->GetFence() : VK_NULL_HANDLE), "VulkanDevice");
+		vkQueueSubmit(pQueue->GetQueue(), 1, &submitInfo, pFence ? pFence->GetFence() : VK_NULL_HANDLE);
 	}
 }

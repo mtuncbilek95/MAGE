@@ -91,7 +91,7 @@ int main()
 
 		vkCmdPipelineBarrier(cmdBuffer->GetCmdBuffer(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
 
-		cmdBuffer->BeginRenderPass(swapchain->GetImageView(imageIndex), {1920, 1080}, imageIndex);
+		cmdBuffer->BeginRenderPass(swapchain->GetImageView(imageIndex), {1920, 1080});
 		cmdBuffer->EndRenderPass();
 
 		// write to read barrier

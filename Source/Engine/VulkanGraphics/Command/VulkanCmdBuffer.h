@@ -11,6 +11,8 @@
 #include "Engine/Core/Core.h"
 #include <vulkan/vulkan.h>
 
+#include "Engine/VulkanGraphics/Core/VulkanImageBarrier.h"
+
 namespace MAGE
 {
 	class VulkanImageView;
@@ -32,11 +34,13 @@ namespace MAGE
 
 		VkCommandBuffer GetCmdBuffer() const { return m_cmdBuffer; }
 
-		void BeginRecording(VkCommandBufferUsageFlags useFlag);
-		void EndRecording();
+		void BeginRecording(VkCommandBufferUsageFlags useFlag) const;
+		void EndRecording() const;
 
-		void BeginRenderPass(VulkanImageView* view, Math::Vec2u renderArea);
-		void EndRenderPass();
+		void BeginRenderPass(VulkanImageView* view, Math::Vec2u renderArea) const;
+		void EndRenderPass() const;
+
+		void SetPipelineImageBarrier(const VulkanImageBarrier& barrier, VkPipelineStageFlagBits srcFlag, VkPipelineStageFlagBits dstFlag) const;
 
 	private:
 		VkCommandBuffer m_cmdBuffer;

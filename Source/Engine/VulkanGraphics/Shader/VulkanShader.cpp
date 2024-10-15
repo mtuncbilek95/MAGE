@@ -19,7 +19,7 @@ namespace MAGE
 		createInfo.codeSize = static_cast<u32>(m_shaderData.Size());
 		createInfo.pCode = reinterpret_cast<const u32*>(m_shaderData.Data());
 
-		ErrorUtils::VkAssert(vkCreateShaderModule(m_device, &createInfo, nullptr, &m_shaderModule));
+		ErrorUtils::VkAssert(vkCreateShaderModule(m_device, &createInfo, nullptr, &m_shaderModule), "VulkanShader");
 	}
 
 	VulkanShader::~VulkanShader()

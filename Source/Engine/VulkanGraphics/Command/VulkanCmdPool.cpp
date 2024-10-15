@@ -12,9 +12,9 @@ namespace MAGE
 		VkCommandPoolCreateInfo poolInfo = {};
 		poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
 		poolInfo.queueFamilyIndex = desc.queue->GetFamilyIndex();
-		poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+		poolInfo.flags = desc.flags;
 
-		ErrorUtils::VkAssert(vkCreateCommandPool(m_deviceRef->GetDevice(), &poolInfo, nullptr, &m_cmdPool));
+		ErrorUtils::VkAssert(vkCreateCommandPool(m_deviceRef->GetDevice(), &poolInfo, nullptr, &m_cmdPool), "VulkanCmdPool");
 	}
 
 	VulkanCmdPool::~VulkanCmdPool()

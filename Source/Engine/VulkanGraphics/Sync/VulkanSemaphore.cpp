@@ -10,7 +10,7 @@ namespace MAGE
 		VkSemaphoreCreateInfo semaphoreInfo = {};
 		semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
-		ErrorUtils::VkAssert(vkCreateSemaphore(m_deviceRef->GetDevice(), &semaphoreInfo, nullptr, &m_semaphore));
+		ErrorUtils::VkAssert(vkCreateSemaphore(m_deviceRef->GetDevice(), &semaphoreInfo, nullptr, &m_semaphore), "VulkanSemaphore");
 	}
 
 	VulkanSemaphore::~VulkanSemaphore()

@@ -9,23 +9,26 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "Engine/ErrorHandler/ErrorChecker.h"
-
-#include <magic_enum.hpp>
 #include <vulkan/vulkan.h>
 
 namespace MAGE
 {
-	namespace ErrorUtils
+	class VulkanImage;
+
+	struct VulkanImageBarrier final
 	{
-		inline static void VkAssert(VkResult result, const String& title)
-		{
-			if (result != VK_SUCCESS)
-			{
-				auto name = magic_enum::enum_name<VkResult>(result);
-				spdlog::critical("{0} - {1}",title, name);
-				exit(-1);
-			}
-		}
-	}
+		VkImageLayout oldLayout;
+		VkAccessFlags srcAccess;
+		u32 srcFamilyIndex;
+
+		VkImageLayout newLayout;
+		VkAccessFlags dstAccess;
+		u32 dstFamilyIndex;
+
+		VulkanImage* image;
+		VkImageAspectFlags aspect;
+
+		u32 baseMipLevel;
+		u32 baseLayer;
+	};
 }

@@ -29,7 +29,6 @@ namespace MAGE
 		Math::Vec2u imageSize;
 		u8 imageCount;
 		VulkanQueue* graphicsQueue;
-		IndWindow* windowRef;
 	};
 
 	class VulkanSwapchain final

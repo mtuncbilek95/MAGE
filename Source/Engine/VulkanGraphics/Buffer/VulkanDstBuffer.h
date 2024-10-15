@@ -11,22 +11,25 @@
 #include "Engine/Core/Core.h"
 #include <vulkan/vulkan.h>
 
-#include "VulkanDescLayout.h"
-#include "../Core/VulkanMapProps.h"
 #include "Engine/Memory/RawBuffer.h"
+#include "Engine/VulkanGraphics/Core/VulkanMapProps.h"
 
 namespace MAGE
 {
 	class VulkanDevice;
-	class VulkanDescLayout;
 
-	class VulkanDescBuffer final
+	struct DstBufferProps final
+	{
+		usize sizeInBytes;
+		VkBufferUsageFlags usage;
+	};
+
+	class VulkanDstBuffer final
 	{
 	public:
-		VulkanDescBuffer(VulkanDescLayout* layout, VulkanDevice* device);
-		~VulkanDescBuffer();
+		VulkanDstBuffer(const DstBufferProps& desc, VulkanDevice* device);
+		~VulkanDstBuffer();
 
-		VkDescriptorSetLayout GetLayout() const { return m_layoutRef->GetLayout(); }
 		VkBuffer GetBuffer() const { return m_buffer; }
 		VkDeviceMemory GetMemory() const { return m_memory; }
 
@@ -41,7 +44,8 @@ namespace MAGE
 		VkDeviceSize m_totalSize;
 		VkDeviceSize m_offset;
 
-		VulkanDescLayout* m_layoutRef;
 		VulkanDevice* m_deviceRef;
+
+		DstBufferProps m_props;
 	};
 }

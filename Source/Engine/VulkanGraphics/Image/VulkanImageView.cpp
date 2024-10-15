@@ -25,7 +25,7 @@ namespace MAGE
 		viewInfo.subresourceRange.baseArrayLayer = desc.baseArrayLayer;
 		viewInfo.subresourceRange.layerCount = image->GetArrayLayers();
 
-		ErrorUtils::VkAssert(vkCreateImageView(m_deviceRef->GetDevice(), &viewInfo, nullptr, &m_imageView));
+		ErrorUtils::VkAssert(vkCreateImageView(m_deviceRef->GetDevice(), &viewInfo, nullptr, &m_imageView), "VulkanImageView");
 	}
 
 	VulkanImageView::~VulkanImageView()

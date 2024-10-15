@@ -69,10 +69,10 @@ namespace MAGE
 #endif // DELUSION_DEBUG
 
 		u32 extensionCount = 0;
-		ErrorUtils::VkAssert(vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr));
+		ErrorUtils::VkAssert(vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr), "VulkanInstance");
 
 		Vector<VkExtensionProperties> allExtensions(extensionCount);
-		ErrorUtils::VkAssert(vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, allExtensions.data()));
+		ErrorUtils::VkAssert(vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, allExtensions.data()), "VulkanInstance");
 
 		for (usize i = 0; i < extensions.size(); ++i) {
 			for (auto& extension : allExtensions) {
@@ -85,13 +85,17 @@ namespace MAGE
 		}
 
 		u32 layerCount = 0;
-		ErrorUtils::VkAssert(vkEnumerateInstanceLayerProperties(&layerCount, nullptr));
+		ErrorUtils::VkAssert(vkEnumerateInstanceLayerProperties(&layerCount, nullptr), "VulkanInstance");
 		Vector<VkLayerProperties> allLayers(layerCount);
-		ErrorUtils::VkAssert(vkEnumerateInstanceLayerProperties(&layerCount, allLayers.data()));
+		ErrorUtils::VkAssert(vkEnumerateInstanceLayerProperties(&layerCount, allLayers.data()), "VulkanInstance");
 
 		Vector<ExtensionEntry> wantedLayers;
 		Vector<const char*> workingLayers;
 #if defined(DELUSION_DEBUG)
+
+#if defined(RENDER_DOC)
+		wantedLayers.push_back({ "VK_LAYER_RENDERDOC_Capture", false });
+#endif
 		wantedLayers.push_back({ "VK_LAYER_KHRONOS_synchronization2", false });
 		wantedLayers.push_back({ "VK_LAYER_KHRONOS_validation", false });
 		wantedLayers.push_back({ "VK_LAYER_LUNARG_monitor", });
@@ -133,7 +137,7 @@ namespace MAGE
 		createInfo.enabledLayerCount = static_cast<u32>(workingLayers.size());
 		createInfo.ppEnabledLayerNames = workingLayers.data();
 
-		ErrorUtils::VkAssert(vkCreateInstance(&createInfo, nullptr, &m_instance));
+		ErrorUtils::VkAssert(vkCreateInstance(&createInfo, nullptr, &m_instance), "VulkanInstance");
 
 #if defined(DELUSION_DEBUG)
 		debugMessengerCreateProc = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(m_instance, "vkCreateDebugUtilsMessengerEXT"));
@@ -151,18 +155,18 @@ namespace MAGE
 		debugCreateInfo.pfnUserCallback = DebugCallback;
 		debugCreateInfo.pUserData = nullptr;
 
-		ErrorUtils::VkAssert(debugMessengerCreateProc(m_instance, &debugCreateInfo, nullptr, &m_debugMessenger));
+		ErrorUtils::VkAssert(debugMessengerCreateProc(m_instance, &debugCreateInfo, nullptr, &m_debugMessenger), "VulkanInstance");
 #endif // DELUSION_DEBUG
 
 		u32 deviceCount = 0;
-		ErrorUtils::VkAssert(vkEnumeratePhysicalDevices(m_instance, &deviceCount, nullptr));
+		ErrorUtils::VkAssert(vkEnumeratePhysicalDevices(m_instance, &deviceCount, nullptr), "VulkanInstance");
 
 		// Temporary struct to hold the device and its score
 		Map<String, Pair<VkPhysicalDevice, u32>> allDevices;
 
 		// Get the physical devices
 		Vector<VkPhysicalDevice> devices(deviceCount);
-		ErrorUtils::VkAssert(vkEnumeratePhysicalDevices(m_instance, &deviceCount, devices.data()));
+		ErrorUtils::VkAssert(vkEnumeratePhysicalDevices(m_instance, &deviceCount, devices.data()), "VulkanInstance");
 
 		for (auto& device : devices)
 		{

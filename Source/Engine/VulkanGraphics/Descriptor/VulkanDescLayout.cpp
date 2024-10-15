@@ -24,7 +24,7 @@ namespace MAGE
 		layoutInfo.pBindings = bindings.data();
 		layoutInfo.flags = desc.initFlags;
 
-		ErrorUtils::VkAssert(vkCreateDescriptorSetLayout(m_deviceRef->GetDevice(), &layoutInfo, nullptr, &m_layout));
+		ErrorUtils::VkAssert(vkCreateDescriptorSetLayout(m_deviceRef->GetDevice(), &layoutInfo, nullptr, &m_layout), "VulkanDescLayout");
 	}
 
 	VulkanDescLayout::~VulkanDescLayout()

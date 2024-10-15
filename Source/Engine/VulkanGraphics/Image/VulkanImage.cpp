@@ -21,7 +21,7 @@ namespace MAGE
 		imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
 
-		ErrorUtils::VkAssert(vkCreateImage(m_deviceRef->GetDevice(), &imageInfo, nullptr, &m_image));
+		ErrorUtils::VkAssert(vkCreateImage(m_deviceRef->GetDevice(), &imageInfo, nullptr, &m_image), "VulkanImage");
 
 		VkMemoryRequirements memRequirements;
 		vkGetImageMemoryRequirements(m_deviceRef->GetDevice(), m_image, &memRequirements);
@@ -31,8 +31,8 @@ namespace MAGE
 		allocInfo.allocationSize = memRequirements.size;
 		allocInfo.memoryTypeIndex = device->FindMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
-		ErrorUtils::VkAssert(vkAllocateMemory(m_deviceRef->GetDevice(), &allocInfo, nullptr, &m_imageMemory));
-		ErrorUtils::VkAssert(vkBindImageMemory(m_deviceRef->GetDevice(), m_image, m_imageMemory, 0));
+		ErrorUtils::VkAssert(vkAllocateMemory(m_deviceRef->GetDevice(), &allocInfo, nullptr, &m_imageMemory), "VulkanImage");
+		ErrorUtils::VkAssert(vkBindImageMemory(m_deviceRef->GetDevice(), m_image, m_imageMemory, 0), "VulkanImage");
 	}
 
 	VulkanImage::VulkanImage(const ImageProps& desc, VkImage image, VulkanDevice* device) : m_deviceRef(device),

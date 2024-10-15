@@ -1,6 +1,7 @@
 #include "VulkanDevice.h"
 
 #include "../Core/VkAssert.h"
+#include "../Core/VkFunctions.h"
 #include "../Instance/VulkanInstance.h"
 #include "../Queue/VulkanQueue.h"
 #include "../Sync/VulkanSemaphore.h"
@@ -98,9 +99,9 @@ namespace MAGE
 
 		//Check if the device supports the extensions
 		u32 extensionCount = 0;
-		vkEnumerateDeviceExtensionProperties(m_adapter, nullptr, &extensionCount, nullptr);
+		ErrorUtils::VkAssert(vkEnumerateDeviceExtensionProperties(m_adapter, nullptr, &extensionCount, nullptr), "VulkanDevice");
 		Vector<VkExtensionProperties> availableExtensions(extensionCount);
-		vkEnumerateDeviceExtensionProperties(m_adapter, nullptr, &extensionCount, availableExtensions.data());
+		ErrorUtils::VkAssert(vkEnumerateDeviceExtensionProperties(m_adapter, nullptr, &extensionCount, availableExtensions.data()), "VulkanDevice");
 
 		for (usize i = 0; i < extensions.size(); ++i)
 		{
@@ -184,11 +185,14 @@ namespace MAGE
 		deviceCreateInfo.ppEnabledExtensionNames = workingExtensions.data();
 		deviceCreateInfo.pNext = &descriptorBuffer;
 
-		ErrorUtils::VkAssert(vkCreateDevice(m_adapter, &deviceCreateInfo, nullptr, &m_device));
+		ErrorUtils::VkAssert(vkCreateDevice(m_adapter, &deviceCreateInfo, nullptr, &m_device), "VulkanDevice");
 
 		m_graphicsQueueFamily.FillQueues(m_device);
 		m_computeQueueFamily.FillQueues(m_device);
 		m_transferQueueFamily.FillQueues(m_device);
+
+		// Load the function pointers
+		LoadVulkanExtensionFunctions(m_device);
 	}
 
 	VulkanDevice::~VulkanDevice()
@@ -258,37 +262,37 @@ namespace MAGE
 
 	void VulkanDevice::WaitForIdle() const
 	{
-		ErrorUtils::VkAssert(vkDeviceWaitIdle(m_device));
+		ErrorUtils::VkAssert(vkDeviceWaitIdle(m_device), "VulkanDevice");
 	}
 
 	void VulkanDevice::WaitForFence(VulkanFence* pFence) const
 	{
 		VkFence fence = pFence->GetFence();
-		vkWaitForFences(m_device, 1, &fence, VK_FALSE, UINT64_MAX);
+		ErrorUtils::VkAssert(vkWaitForFences(m_device, 1, &fence, VK_TRUE, UINT64_MAX), "VulkanDevice");
 	}
 
 	void VulkanDevice::ResetFence(VulkanFence* pFence) const
 	{
 		VkFence fence = pFence->GetFence();
-		vkResetFences(m_device, 1, &fence);
+		ErrorUtils::VkAssert(vkResetFences(m_device, 1, &fence), "VulkanDevice");
 	}
 
 	void VulkanDevice::SubmitQueue(VulkanQueue* pQueue, VulkanCmdBuffer* pCmdBuffer, VulkanSemaphore* waitSemaphore, VulkanSemaphore* signalSemaphore, VulkanFence* pFence, VkPipelineStageFlags flags) const
 	{
 		VkSemaphore waitSem = waitSemaphore ? waitSemaphore->GetSemaphore() : VK_NULL_HANDLE;
 		VkSemaphore signalSem = signalSemaphore ? signalSemaphore->GetSemaphore() : VK_NULL_HANDLE;
-		VkCommandBuffer cmdBuffer = pCmdBuffer ? pCmdBuffer->GetCmdBuffer() : VK_NULL_HANDLE;
+		VkCommandBuffer cmdBuffer = pCmdBuffer->GetCmdBuffer();
 
 		VkSubmitInfo submitInfo = {};
 		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 		submitInfo.waitSemaphoreCount = waitSemaphore ? 1 : 0;
 		submitInfo.pWaitSemaphores = &waitSem;
 		submitInfo.pWaitDstStageMask = &flags;
-		submitInfo.commandBufferCount = pCmdBuffer ? 1 : 0;
+		submitInfo.commandBufferCount = 1;
 		submitInfo.pCommandBuffers = &cmdBuffer;
 		submitInfo.signalSemaphoreCount = signalSemaphore ? 1 : 0;
 		submitInfo.pSignalSemaphores = &signalSem;
 
-		vkQueueSubmit(pQueue->GetQueue(), 1, &submitInfo, pFence ? pFence->GetFence() : VK_NULL_HANDLE);
+		ErrorUtils::VkAssert(vkQueueSubmit(pQueue->GetQueue(), 1, &submitInfo, pFence ? pFence->GetFence() : VK_NULL_HANDLE), "VulkanDevice");
 	}
 }

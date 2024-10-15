@@ -50,6 +50,15 @@ namespace MAGE
 		ErrorUtils::VkAssert(vkCreateWin32SurfaceKHR(device->GetInstance(), &surfaceCreateInfo, nullptr, &m_surface));
 #endif // DELUSION_WINDOWS
 
+#if defined(DELUSION_LINUX)
+		//X11
+		VkXlibSurfaceCreateInfoKHR surfaceCreateInfo = {};
+		surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
+		surfaceCreateInfo.dpy = desc.windowRef->GetDisplay();
+		surfaceCreateInfo.window = desc.windowRef->GetNativeHandle();
+		ErrorUtils::VkAssert(vkCreateXlibSurfaceKHR(device->GetInstance(), &surfaceCreateInfo, nullptr, &m_surface));
+#endif // DELUSION_LINUX
+
 		Resize(desc.imageSize);
 	}
 

@@ -44,7 +44,11 @@ int main()
 
 	SwapchainProps swapchainProps =
 	{
+#if defined(DELUSION_WINDOWS)
 		.format = VK_FORMAT_R8G8B8A8_UNORM,
+#elif defined(DELUSION_LINUX)
+		.format = VK_FORMAT_B8G8R8A8_UNORM,
+#endif
 		.presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR,
 		.imageSize = window->GetWindowRes(),
 		.imageCount = 2,
@@ -91,7 +95,7 @@ int main()
 
 		vkCmdPipelineBarrier(cmdBuffer->GetCmdBuffer(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrier);
 
-		cmdBuffer->BeginRenderPass(swapchain->GetImageView(imageIndex), {1920, 1080});
+		cmdBuffer->BeginRenderPass(swapchain->GetImageView(imageIndex), { 1920, 1080 });
 		cmdBuffer->EndRenderPass();
 
 		// write to read barrier
@@ -105,7 +109,7 @@ int main()
 		cmdBuffer->EndRecording();
 
 		device->SubmitQueue(&*grapQueue, &*cmdBuffer, &*imageSemaphore, &*renderSemaphore, &*fence, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
-		
+
 		device->WaitForFence(&*fence);
 		device->ResetFence(&*fence);
 

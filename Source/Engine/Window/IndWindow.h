@@ -63,6 +63,11 @@ namespace MAGE
 		HINSTANCE GetNativeInstance() const { return GetModuleHandle(nullptr); }
 #endif // DELUSION_WINDOWS
 
+#if defined(DELUSION_LINUX)
+		Window GetNativeHandle() const { return glfwGetX11Window(m_Window); }
+		Display* GetNativeInstance() const { return glfwGetX11Display(); }
+#endif // DELUSION_LINUX
+
 	private:
 		GLFWwindow* m_Window;
 

@@ -67,6 +67,7 @@ namespace MAGE
 		Window GetNativeHandle() const { return glfwGetX11Window(m_Window); }
 		Display* GetNativeInstance() const { return glfwGetX11Display(); }
 #endif // DELUSION_LINUX
+		GLFWwindow* GetGLFWWindow() const { return m_Window; }
 
 	private:
 		GLFWwindow* m_Window;

@@ -1,6 +1,7 @@
 #include <Engine/Core/Core.h>
 #include <Engine/Window/WindowManager.h>
 #include <Engine/Renderer/RendererContext.h>
+#include <Editor/Renderer/ImGuiRenderer.h>
 
 using namespace MAGE;
 
@@ -18,12 +19,20 @@ int main()
 	auto& context = Gfx::RendererContext::Get();
 	context.Init();
 
+	auto uiRenderer = MakeOwned<ImGuiRenderer>();
+	uiRenderer->Init();
+
 	window.Show();
 	while (!window.IsClosed())
 	{
 		window.PollEvents();
 
 		context.PrepareFrame();
+		uiRenderer->BeginFrame();
+
+		ImGui::ShowDemoWindow();
+
+		uiRenderer->EndFrame();
 		context.SubmitFrame();
 	}
 

@@ -13,6 +13,8 @@
 
 namespace MAGE
 {
+	class VulkanDescPool;
+
 	class ImGuiRenderer final
 	{
 	public:
@@ -26,5 +28,7 @@ namespace MAGE
 
 	private:
 		ImGuiContext* m_context = nullptr;
+
+		Owned<VulkanDescPool> m_descPool;
 	};
 }

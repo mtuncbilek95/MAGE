@@ -9,7 +9,6 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-
 #include <vulkan/vulkan.h>
 
 namespace MAGE

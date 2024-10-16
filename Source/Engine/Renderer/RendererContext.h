@@ -41,6 +41,8 @@ namespace MAGE
 			VulkanQueue* GetComputeQueue() const { return &*m_computeQueue; }
 			VulkanQueue* GetTransferQueue() const { return &*m_transferQueue; }
 
+			VulkanCmdBuffer* GetCmdBuffer() const { return &*m_commandBuffers[m_currentFrame]; }
+
 		private:
 			Owned<VulkanInstance> m_instance;
 			Owned<VulkanDevice> m_device;

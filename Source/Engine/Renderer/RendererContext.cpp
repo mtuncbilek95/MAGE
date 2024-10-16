@@ -92,11 +92,11 @@ namespace MAGE
 		barrier.image = m_swapchain->GetImage(m_reqImIndex);
 		barrier.aspect = VK_IMAGE_ASPECT_COLOR_BIT;
 		m_commandBuffers[m_currentFrame]->SetPipelineImageBarrier(barrier, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
+		m_commandBuffers[m_currentFrame]->BeginRenderPass(m_swapchain->GetImageView(m_currentFrame), Manager::Window::Get().GetWindow().GetWindowRes());
 	}
 
 	void Gfx::RendererContext::SubmitFrame()
 	{
-		m_commandBuffers[m_currentFrame]->BeginRenderPass(m_swapchain->GetImageView(m_currentFrame), Manager::Window::Get().GetWindow().GetWindowRes());
 		// Execute draw command buffers :)
 		m_commandBuffers[m_currentFrame]->EndRenderPass();
 

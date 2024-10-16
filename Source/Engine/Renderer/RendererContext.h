@@ -28,11 +28,12 @@ namespace MAGE
 		{
 		public:
 			RendererContext() = default;
-			~RendererContext();
+			~RendererContext() = default;
 
 			void Init();
 			void PrepareFrame();
 			void SubmitFrame();
+			void Shutdown();
 
 			VulkanInstance* GetInstance() const { return &*m_instance; }
 			VulkanDevice* GetDevice() const { return &*m_device; }
@@ -41,7 +42,7 @@ namespace MAGE
 			VulkanQueue* GetComputeQueue() const { return &*m_computeQueue; }
 			VulkanQueue* GetTransferQueue() const { return &*m_transferQueue; }
 
-			VulkanCmdBuffer* GetCmdBuffer() const { return &*m_commandBuffers[m_currentFrame]; }
+			VulkanCmdBuffer* GetCmdBuffer() const { return &*m_commandBuffers[m_reqImIndex]; }
 
 		private:
 			Owned<VulkanInstance> m_instance;

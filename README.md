@@ -16,12 +16,11 @@ Because I literally deep dived into not having layers on platform specific imple
 - [x] Unit Test Environment (Catch2)
 - [x] Win32 Platform
 - [ ] Linux Platform
-- [ ] Vulkan Implementation
+- [x] Vulkan Implementation
 - [ ] Job System for multi-thread behaviour
-- [ ] Runtime Shader Compiler
-- [x] Custom Memory Allocator
+- [x] Runtime Shader Compiler
+- [ ] Custom Memory Allocator
 - [ ] JSON Serialization
-- [ ] Runtime Type Reflection
 - [ ] Encryption
 - [ ] Resource Control Mechanism
 - [ ] Entity Component System

@@ -4,25 +4,6 @@
 
 namespace MAGE
 {
-	Gfx::RendererContext::~RendererContext()
-	{
-		m_device->WaitForIdle();
-
-		m_commandBuffers.clear();
-		m_commandPool.reset();
-		m_inFlightFences.clear();
-		m_renderSemaphores.clear();
-		m_imageAvailableSemaphores.clear();
-
-		m_transferQueue.reset();
-		m_computeQueue.reset();
-		m_graphicsQueue.reset();
-
-		m_swapchain.reset();
-		m_device.reset();
-		m_instance.reset();
-	}
-
 	void Gfx::RendererContext::Init()
 	{
 		InstanceProps instanceProps =
@@ -49,7 +30,7 @@ namespace MAGE
 		SwapchainProps swapchainProps =
 		{
 			.format = VK_FORMAT_R8G8B8A8_UNORM,
-			.presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR,
+			.presentMode = VK_PRESENT_MODE_FIFO_KHR,
 			.imageSize = Manager::Window::Get().GetWindow().GetWindowRes(),
 			.imageCount = 3,
 			.graphicsQueue = &*m_graphicsQueue
@@ -78,9 +59,12 @@ namespace MAGE
 
 	void Gfx::RendererContext::PrepareFrame()
 	{
-		m_reqImIndex = m_swapchain->AcquireNextImage(&*m_imageAvailableSemaphores[m_currentFrame], nullptr);
+		m_reqImIndex = m_swapchain->AcquireNextImage(nullptr, &*m_inFlightFences[0]);
 
-		m_commandBuffers[m_currentFrame]->BeginRecording(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+		m_device->WaitForFence(&*m_inFlightFences[0]);
+		m_device->ResetFence(&*m_inFlightFences[0]);
+
+		m_commandBuffers[m_reqImIndex]->BeginRecording(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 		// read to write barrier
 		VulkanImageBarrier barrier = {};
 		barrier.oldLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
@@ -91,14 +75,14 @@ namespace MAGE
 		barrier.dstFamilyIndex = m_graphicsQueue->GetFamilyIndex();
 		barrier.image = m_swapchain->GetImage(m_reqImIndex);
 		barrier.aspect = VK_IMAGE_ASPECT_COLOR_BIT;
-		m_commandBuffers[m_currentFrame]->SetPipelineImageBarrier(barrier, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
-		m_commandBuffers[m_currentFrame]->BeginRenderPass(m_swapchain->GetImageView(m_currentFrame), Manager::Window::Get().GetWindow().GetWindowRes());
+		m_commandBuffers[m_reqImIndex]->SetPipelineImageBarrier(barrier, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
+		m_commandBuffers[m_reqImIndex]->BeginRenderPass(m_swapchain->GetImageView(m_reqImIndex), Manager::Window::Get().GetWindow().GetWindowRes());
 	}
 
 	void Gfx::RendererContext::SubmitFrame()
 	{
 		// Execute draw command buffers :)
-		m_commandBuffers[m_currentFrame]->EndRenderPass();
+		m_commandBuffers[m_reqImIndex]->EndRenderPass();
 
 		// write to read barrier
 		VulkanImageBarrier barrier = {};
@@ -110,17 +94,31 @@ namespace MAGE
 		barrier.dstFamilyIndex = m_graphicsQueue->GetFamilyIndex();
 		barrier.image = m_swapchain->GetImage(m_reqImIndex);
 		barrier.aspect = VK_IMAGE_ASPECT_COLOR_BIT;
-		m_commandBuffers[m_currentFrame]->SetPipelineImageBarrier(barrier, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT);
+		m_commandBuffers[m_reqImIndex]->SetPipelineImageBarrier(barrier, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT);
 
-		m_commandBuffers[m_currentFrame]->EndRecording();
-		m_device->SubmitQueue(&*m_graphicsQueue, &*m_commandBuffers[m_currentFrame], &*m_imageAvailableSemaphores[m_currentFrame], 
-			&*m_renderSemaphores[m_currentFrame], &*m_inFlightFences[m_currentFrame], VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
+		m_commandBuffers[m_reqImIndex]->EndRecording();
 
-		m_device->WaitForFence(&*m_inFlightFences[m_currentFrame]);
-		m_device->ResetFence(&*m_inFlightFences[m_currentFrame]);
+		m_device->SubmitQueue(&*m_graphicsQueue, &*m_commandBuffers[m_reqImIndex], nullptr,
+			&*m_renderSemaphores[m_reqImIndex], nullptr, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
 
-		m_swapchain->Present(m_reqImIndex, &*m_renderSemaphores[m_currentFrame]);
+		m_swapchain->Present(m_reqImIndex, &*m_renderSemaphores[m_reqImIndex]);
+	}
 
-		m_currentFrame = (m_reqImIndex + 1) % 3;
+	void Gfx::RendererContext::Shutdown()
+	{
+		m_device->WaitForIdle();
+		m_commandBuffers.clear();
+		m_commandPool.reset();
+		m_inFlightFences.clear();
+		m_renderSemaphores.clear();
+		m_imageAvailableSemaphores.clear();
+
+		m_transferQueue.reset();
+		m_computeQueue.reset();
+		m_graphicsQueue.reset();
+
+		m_swapchain.reset();
+		m_device.reset();
+		m_instance.reset();
 	}
 }

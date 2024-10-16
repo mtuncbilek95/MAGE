@@ -38,11 +38,9 @@ namespace MAGE
 		m_swapchain = MakeOwned<VulkanSwapchain>(swapchainProps, &*m_device);
 
 		for (u32 i = 0; i < m_swapchain->GetImageCount(); i++)
-		{
-			m_imageAvailableSemaphores.push_back(m_device->CreateSyncSemaphore());
 			m_renderSemaphores.push_back(m_device->CreateSyncSemaphore());
-			m_inFlightFences.push_back(m_device->CreateSyncFence(false));
-		}
+
+		m_acquireFence = m_device->CreateSyncFence(false);
 
 		CmdPoolProps cmdPoolProps =
 		{
@@ -59,10 +57,10 @@ namespace MAGE
 
 	void Gfx::RendererContext::PrepareFrame()
 	{
-		m_reqImIndex = m_swapchain->AcquireNextImage(nullptr, &*m_inFlightFences[0]);
+		m_reqImIndex = m_swapchain->AcquireNextImage(nullptr, &*m_acquireFence);
 
-		m_device->WaitForFence(&*m_inFlightFences[0]);
-		m_device->ResetFence(&*m_inFlightFences[0]);
+		m_device->WaitForFence(&*m_acquireFence);
+		m_device->ResetFence(&*m_acquireFence);
 
 		m_commandBuffers[m_reqImIndex]->BeginRecording(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 		// read to write barrier
@@ -109,9 +107,8 @@ namespace MAGE
 		m_device->WaitForIdle();
 		m_commandBuffers.clear();
 		m_commandPool.reset();
-		m_inFlightFences.clear();
+		m_acquireFence.reset();
 		m_renderSemaphores.clear();
-		m_imageAvailableSemaphores.clear();
 
 		m_transferQueue.reset();
 		m_computeQueue.reset();

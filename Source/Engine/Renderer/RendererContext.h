@@ -53,14 +53,12 @@ namespace MAGE
 			Owned<VulkanQueue> m_computeQueue;
 			Owned<VulkanQueue> m_transferQueue;
 
-			Vector<Owned<VulkanSemaphore>> m_imageAvailableSemaphores;
 			Vector<Owned<VulkanSemaphore>> m_renderSemaphores;
-			Vector<Owned<VulkanFence>> m_inFlightFences;
+			Owned<VulkanFence> m_acquireFence;
 
 			Owned<VulkanCmdPool> m_commandPool;
 			Vector<Owned<VulkanCmdBuffer>> m_commandBuffers;
 
-			u32 m_currentFrame = 0;
 			u32 m_reqImIndex = 0;
 		};
 	}

@@ -9,19 +9,20 @@
 #pragma once
 
 #include <Engine/Core/Core.h>
-#include <imgui.h>
+#include <Engine/Helpers/Singleton.h>
 
 namespace MAGE
 {
-	class ImGuiTexture final
+	class ProjectInitializer final : public Singleton<ProjectInitializer>
 	{
 	public:
-		ImGuiTexture() = default;
-		~ImGuiTexture() = default;
+		ProjectInitializer() = default;
+		~ProjectInitializer() = default;
 
-
-
+		void Initialize(const String& projectPath);
+		const String& GetProjectPath() const { return m_projectPath; }
 	private:
-		ImTextureID m_textureID = nullptr;
+		String m_projectPath;
+		String m_projectName;
 	};
 }

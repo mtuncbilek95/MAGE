@@ -12,6 +12,8 @@
 
 namespace MAGE
 {
+	class DomainFile;
+
 	class DomainFolder final
 	{
 	public:

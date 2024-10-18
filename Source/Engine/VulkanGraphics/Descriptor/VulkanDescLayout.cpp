@@ -5,10 +5,6 @@
 
 namespace MAGE
 {
-	VulkanDescLayout::VulkanDescLayout() : m_layout(VK_NULL_HANDLE), m_deviceRef(nullptr), m_props()
-	{
-	}
-
 	VulkanDescLayout::VulkanDescLayout(const DescLayoutProps& desc, VulkanDevice* device) : m_props(desc), m_deviceRef(device)
 	{
 		Vector<VkDescriptorSetLayoutBinding> bindings(desc.bindings.size());

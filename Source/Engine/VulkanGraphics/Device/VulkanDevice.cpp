@@ -10,10 +10,6 @@
 
 namespace MAGE
 {
-	VulkanDevice::VulkanDevice() : m_props(), m_device(VK_NULL_HANDLE), m_adapter(VK_NULL_HANDLE), m_instance(nullptr)
-	{
-	}
-
 	VulkanDevice::VulkanDevice(const DeviceProps& desc, VulkanInstance* instance) : m_props(desc), m_device(VK_NULL_HANDLE)
 		, m_adapter(instance->GetAdapter()), m_instance(instance->GetInstance())
 	{

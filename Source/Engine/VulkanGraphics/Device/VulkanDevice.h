@@ -63,7 +63,6 @@ namespace MAGE
 		};
 
 	public:
-		VulkanDevice();
 		VulkanDevice(const DeviceProps& desc, VulkanInstance* instance);
 		~VulkanDevice();
 

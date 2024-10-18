@@ -6,10 +6,6 @@
 
 namespace MAGE
 {
-	VulkanImageView::VulkanImageView() : m_imageView(VK_NULL_HANDLE), m_imageRef(nullptr), m_deviceRef(nullptr), m_props()
-	{
-	}
-
 	VulkanImageView::VulkanImageView(const ImageViewProps& desc, VulkanImage* image, VulkanDevice* device) : m_props(desc), m_imageRef(image), m_deviceRef(device)
 	{
 		VkImageViewCreateInfo viewInfo = {};

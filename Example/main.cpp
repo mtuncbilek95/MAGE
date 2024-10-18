@@ -1,13 +1,16 @@
 #include <Engine/Core/Core.h>
-#include <Engine/IO/PlatformConsole.h>
 #include <Engine/Window/WindowManager.h>
 #include <Engine/Renderer/RendererContext.h>
 #include <Editor/Renderer/ImGuiRenderer.h>
+#include <Editor/Project/ProjectInitializer.h>
+
 
 using namespace MAGE;
 
 int main(int argC, char** argV)
 {
+	ProjectInitializer::Get().Initialize("D:/Projects/MyProject/MyProject.mageproj");
+
 	SystemLog::Get().InitLogger<ConsoleSink>();
 
 	IndWindowDesc windowProps =
@@ -30,6 +33,9 @@ int main(int argC, char** argV)
 	{
 		window.PollEvents();
 		context.PrepareFrame();
+		
+		// Regular rendering calls in here
+		/* Do something*/
 
 		uiRenderer->BeginFrame();
 		uiRenderer->Render();

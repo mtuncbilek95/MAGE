@@ -14,7 +14,6 @@ namespace MAGE
 				return callback.target<void()>() == l.target<void()>();
 			}),
 			m_callbacks.end());
-
 	}
 
 	void ImGuiListener::Dispatch()

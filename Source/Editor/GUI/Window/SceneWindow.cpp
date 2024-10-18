@@ -24,7 +24,10 @@ namespace MAGE
 	void SceneWindow::Render()
 	{
 		ImGui::Begin("Scenery");
-		ImGui::Text("Hello, World!");
+		// Get the region avail for render texture.
+		// Send it to the secondary command buffer that will render the scene.
+		// Render the scene to the render texture.
+		// Put the VkImageView of the render texture to the ImGui::Image.
 		ImGui::End();
 	}
 }

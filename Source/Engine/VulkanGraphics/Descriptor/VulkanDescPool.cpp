@@ -6,10 +6,6 @@
 
 namespace MAGE
 {
-	VulkanDescPool::VulkanDescPool() : m_deviceRef(nullptr), m_props(), m_pool(VK_NULL_HANDLE)
-	{
-	}
-
 	VulkanDescPool::VulkanDescPool(const DescPoolProps& desc, VulkanDevice* device) : m_deviceRef(device),
 		m_props(desc), m_pool(VK_NULL_HANDLE)
 	{

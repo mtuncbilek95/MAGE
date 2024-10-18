@@ -24,7 +24,6 @@ namespace MAGE
 	class VulkanInstance final
 	{
 	public:
-		VulkanInstance() = default;
 		VulkanInstance(const InstanceProps& desc);
 		~VulkanInstance();
 

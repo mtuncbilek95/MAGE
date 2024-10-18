@@ -27,7 +27,6 @@ namespace MAGE
 	class VulkanImageView final
 	{
 	public:
-		VulkanImageView();
 		VulkanImageView(const ImageViewProps& desc, VulkanImage* image, VulkanDevice* device);
 		~VulkanImageView();
 

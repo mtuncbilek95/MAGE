@@ -1,4 +1,5 @@
 #include <Engine/Core/Core.h>
+#include <Engine/IO/PlatformConsole.h>
 #include <Engine/Window/WindowManager.h>
 #include <Engine/Renderer/RendererContext.h>
 #include <Editor/Renderer/ImGuiRenderer.h>
@@ -7,6 +8,8 @@ using namespace MAGE;
 
 int main()
 {
+	SystemLog::Get().InitLogger<>();
+
 	IndWindowDesc windowProps =
 	{
 		.windowRes = {1920, 1080},
@@ -26,15 +29,18 @@ int main()
 	while (!window.IsClosed())
 	{
 		window.PollEvents();
-
 		context.PrepareFrame();
+
 		uiRenderer->BeginFrame();
-
-		ImGui::ShowDemoWindow();
-
+		uiRenderer->Render();
 		uiRenderer->EndFrame();
+
 		context.SubmitFrame();
 	}
+
+	context.GetDevice()->WaitForIdle();
+	uiRenderer->Shutdown();
+	context.Shutdown();
 
 	return 0;
 }

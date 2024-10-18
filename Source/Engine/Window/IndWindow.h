@@ -39,12 +39,15 @@ namespace MAGE
 	class IndWindow final
 	{
 		using SizeCallback = Function<void(Math::Vec2u)>;
+		using PosCallback = Function<void(Math::Vec2i)>;
 	public:
 		IndWindow(const IndWindowDesc& desc);
 		~IndWindow();
 
-		void WindowResizeCallback(SizeCallback callback); // Mostly will be used with Swapchain.
-		void FrameResizeCallback(SizeCallback callback); // Mostly will be used with swapchain or other framebuffers.
+		void WindowResizeCallback(const SizeCallback& callback);
+		void FrameResizeCallback(const SizeCallback& callback);
+		void WindowPosCallback(const PosCallback& callback);
+
 		void PollEvents();
 
 		const Math::Vec2u& GetWindowRes() const { return m_WindowRes; }
@@ -79,5 +82,6 @@ namespace MAGE
 		String m_Title;
 
 		SizeCallback m_SizeCallback;
+		PosCallback m_PosCallback;
 	};
 }

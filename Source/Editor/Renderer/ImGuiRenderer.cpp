@@ -9,6 +9,10 @@
 #include <Engine/Window/WindowManager.h>
 #include <Engine/Renderer/RendererContext.h>
 
+#include "Editor/Helpers/ImGuiListener.h"
+#include "Editor/Helpers/ImGuiPanelRegistry.h"
+#include "Editor/GUI/Dock/ImGuiDock.h"
+
 namespace MAGE
 {
 #if defined(DELUSION_WINDOWS)
@@ -17,13 +21,17 @@ namespace MAGE
 	const VkFormat format[1] = { VK_FORMAT_B8G8R8A8_UNORM };
 #endif
 
+	ImGuiPanelRegistry& panelRegistry = ImGuiPanelRegistry::Get();
+	ImGuiListener& listener = ImGuiListener::Get();
+
 	ImGuiRenderer::ImGuiRenderer()
 	{
+		m_dock = panelRegistry.RegisterPanel<ImGuiDock>();
 	}
 
 	ImGuiRenderer::~ImGuiRenderer()
 	{
-		Shutdown();
+		m_dock->SetVisibility(false);
 	}
 
 	void ImGuiRenderer::Init()
@@ -41,6 +49,7 @@ namespace MAGE
 
 		// Win32 should trigger the scale factor.
 		io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
+
 
 		DescPoolProps poolProps = {};
 		poolProps.maxSets = 1000;
@@ -115,8 +124,17 @@ namespace MAGE
 
 	void ImGuiRenderer::Shutdown()
 	{
+		panelRegistry.ClearPanels();
+
 		ImGui_ImplVulkan_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext(m_context);
+
+		m_descPool.reset();
+	}
+
+	void ImGuiRenderer::Render()
+	{
+		listener.Dispatch();
 	}
 }

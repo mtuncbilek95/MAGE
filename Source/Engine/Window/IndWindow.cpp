@@ -57,7 +57,7 @@ namespace MAGE
 		glfwTerminate();
 	}
 
-	void IndWindow::WindowResizeCallback(SizeCallback callback)
+	void IndWindow::WindowResizeCallback(const SizeCallback& callback)
 	{
 		m_SizeCallback = callback;
 
@@ -69,7 +69,7 @@ namespace MAGE
 			});
 	}
 
-	void IndWindow::FrameResizeCallback(SizeCallback callback)
+	void IndWindow::FrameResizeCallback(const SizeCallback& callback)
 	{
 		//m_SizeCallback = callback;
 
@@ -80,6 +80,18 @@ namespace MAGE
 		//		indWindow->m_SizeCallback({ width, height });
 		//	});
 
+	}
+
+	void IndWindow::WindowPosCallback(const PosCallback& callback)
+	{
+		m_PosCallback = callback;
+
+		glfwSetWindowPosCallback(m_Window, [](GLFWwindow* window, i32 x, i32 y)
+			{
+				IndWindow* indWindow = static_cast<IndWindow*>(glfwGetWindowUserPointer(window));
+				indWindow->m_WindowPos = { x, y };
+				indWindow->m_PosCallback({ x, y });
+			});
 	}
 
 	void IndWindow::PollEvents()

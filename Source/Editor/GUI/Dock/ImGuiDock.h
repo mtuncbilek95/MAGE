@@ -9,30 +9,24 @@
 #pragma once
 
 #include <Engine/Core/Core.h>
-#include <imgui.h>
+
+#include "Editor/Core/ImGuiPanel.h"
 
 namespace MAGE
 {
-	class VulkanDescPool;
-	class ImGuiDock;
-
-	class ImGuiRenderer final
+	class ImGuiDock final : public ImGuiPanel
 	{
 	public:
-		ImGuiRenderer();
-		~ImGuiRenderer();
+		ImGuiDock();
+		~ImGuiDock() override;
 
-		void Init();
-		void BeginFrame();
-		void Render();
-		void EndFrame();
-		void Shutdown();
-
+		void Update() override;
+		void Render() override;
+		
 	private:
-		ImGuiContext* m_context = nullptr;
+		ImGuiPanel* m_menuBar = nullptr;
 
-		Owned<VulkanDescPool> m_descPool;
-
-		ImGuiDock* m_dock = nullptr;
+		bool m_isDirty = true;
+		Vector<ImGuiPanel*> m_defaultPanels;
 	};
 }

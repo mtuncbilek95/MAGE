@@ -50,6 +50,8 @@ namespace MAGE
 		// Win32 should trigger the scale factor.
 		io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
 
+		io.Fonts->AddFontFromFileTTF(R"(D:\Projects\MAGE\Resources\Fonts\Poppins\Regular.ttf)", 18.f);
+
 
 		DescPoolProps poolProps = {};
 		poolProps.maxSets = 1000;

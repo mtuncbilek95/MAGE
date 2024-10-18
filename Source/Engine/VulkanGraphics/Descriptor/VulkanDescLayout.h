@@ -32,6 +32,7 @@ namespace MAGE
 	class VulkanDescLayout final
 	{
 	public:
+		VulkanDescLayout();
 		VulkanDescLayout(const DescLayoutProps& desc, VulkanDevice* device);
 		~VulkanDescLayout();
 

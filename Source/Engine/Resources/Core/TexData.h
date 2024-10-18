@@ -9,13 +9,14 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
+#include "Engine/Memory/OwnedBuffer.h"
 
 namespace MAGE
 {
-	namespace PlatformConsole
+	struct TexData final
 	{
-		void ShowConsole();
-		void HideConsole();
-		void BlowConsole();
-	}
+		Math::Vec2u imageSize;
+		u32 channelCount;
+		OwnedBuffer data;
+	};
 }

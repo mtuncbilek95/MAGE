@@ -20,5 +20,11 @@ namespace MAGE
 		HWND consoleWindow = GetConsoleWindow();
 		ShowWindow(consoleWindow, SW_HIDE);
 	}
+
+	void PlatformConsole::BlowConsole()
+	{
+		HWND consoleWindow = GetConsoleWindow();
+		PostMessage(consoleWindow, WM_QUIT, 0, 0);
+	}
 }
 #endif // DELUSION_WINDOWS

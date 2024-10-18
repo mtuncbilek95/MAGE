@@ -18,6 +18,14 @@
 
 namespace MAGE
 {
+	struct SplitLog
+	{
+		String date;
+		String time;
+		spdlog::level::level_enum level;
+		String message;
+	};
+
 	class SystemLog final : public Singleton<SystemLog>
 	{
 	public:
@@ -27,19 +35,14 @@ namespace MAGE
 		template<typename T = void, typename = std::enable_if_t<std::is_void_v<T> || std::is_base_of_v<spdlog::sinks::sink, T>>>
 		auto InitLogger() -> typename std::conditional<std::is_void<T>::value, void, T*>::type
 		{
-			if (!firstInit)
-			{
-				// Create console sink
-				auto consoleSink = MakeShared<spdlog::sinks::stdout_color_sink_mt>();
-				consoleSink->set_level(spdlog::level::trace);
-				m_sinks.push_back(consoleSink);
+			// Create console sink
+			auto consoleSink = MakeShared<spdlog::sinks::stdout_color_sink_mt>();
+			consoleSink->set_level(spdlog::level::debug);
+			m_sinks.push_back(consoleSink);
 
-				auto fileSink = MakeShared<spdlog::sinks::basic_file_sink_mt>("../Logs/Output.log", true); // TODO: Change path
-				fileSink->set_level(spdlog::level::trace);
-				m_sinks.push_back(fileSink);
-
-				firstInit = true;
-			}
+			auto fileSink = MakeShared<spdlog::sinks::basic_file_sink_mt>("../Logs/Output.log", true); // TODO: Change path
+			fileSink->set_level(spdlog::level::debug);
+			m_sinks.push_back(fileSink);
 
 			// Add template sink to the vector
 			Shared<T> customSink;
@@ -52,7 +55,7 @@ namespace MAGE
 			m_logger = MakeShared<spdlog::logger>("SystemLog", m_sinks.begin(), m_sinks.end());
 
 			// Set log level to trace to log all levels
-			m_logger->set_level(spdlog::level::trace);
+			m_logger->set_level(spdlog::level::debug);
 			m_logger->flush_on(spdlog::level::err);  // Flush logs on error
 
 			spdlog::set_default_logger(m_logger);
@@ -66,12 +69,12 @@ namespace MAGE
 				return customSink.get();
 		}
 
-		static void AddLog(const String& log)
+		static void AddLog(const SplitLog& log)
 		{
 			Get().m_items.push_back(log);
 		}
 
-		static Vector<String>& GetLogs()
+		static Vector<SplitLog>& GetLogs()
 		{
 			return Get().m_items;
 		}
@@ -84,8 +87,33 @@ namespace MAGE
 	private:
 		Shared<spdlog::logger> m_logger;
 		Vector<spdlog::sink_ptr> m_sinks;
-		bool firstInit = false;
+		Vector<SplitLog> m_items;
+	};
 
-		Vector<String> m_items;
+	class ConsoleSink : public spdlog::sinks::base_sink<std::mutex>
+	{
+	public:
+		ConsoleSink() = default;
+		~ConsoleSink() = default;
+
+	protected:
+		void sink_it_(const spdlog::details::log_msg& msg) override
+		{
+			spdlog::memory_buf_t formatted;
+			this->formatter_->format(msg, formatted);
+
+			SplitLog splitter = {};
+			String log = fmt::to_string(formatted);
+			splitter.date = log.substr(1, 10);
+			splitter.time = log.substr(13, 8);
+			splitter.level = msg.level;
+			splitter.message = String(msg.payload.data(), msg.payload.size());
+
+			SystemLog::AddLog(splitter);
+		}
+
+		void flush_() override
+		{
+		}
 	};
 }

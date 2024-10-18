@@ -8,14 +8,13 @@
 
 #pragma once
 
-#include "Engine/Core/Core.h"
+#include <Engine/Core/Core.h>
 
 namespace MAGE
 {
-	namespace PlatformConsole
+	struct RootPaths final
 	{
-		void ShowConsole();
-		void HideConsole();
-		void BlowConsole();
-	}
+		String ProjectRoot;
+		String EngineRoot;
+	};
 }

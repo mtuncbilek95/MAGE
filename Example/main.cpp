@@ -6,9 +6,9 @@
 
 using namespace MAGE;
 
-int main()
+int main(int argC, char** argV)
 {
-	SystemLog::Get().InitLogger<>();
+	SystemLog::Get().InitLogger<ConsoleSink>();
 
 	IndWindowDesc windowProps =
 	{

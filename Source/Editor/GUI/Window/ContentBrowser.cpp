@@ -7,7 +7,6 @@ namespace MAGE
 {
 	ContentBrowser::ContentBrowser()
 	{
-
 	}
 
 	ContentBrowser::~ContentBrowser()
@@ -31,25 +30,25 @@ namespace MAGE
 		{
 			if (ImGui::MenuItem("Create Folder"))
 			{
-				spdlog::warn("Create Folder");
 			}
 			if (ImGui::MenuItem("Import File"))
 			{
-				spdlog::warn("Import File");
+			}
+			if (ImGui::MenuItem("Create Scene"))
+			{
 			}
 			ImGui::Separator();
+
 			if (ImGui::MenuItem("Create Script"))
 			{
-				spdlog::warn("Create Script");
 			}
+
 			ImGui::Separator();
 			if (ImGui::MenuItem("Create Material"))
 			{
-				spdlog::warn("Create Material");
 			}
 			if (ImGui::MenuItem("Create Shader"))
 			{
-				spdlog::warn("Create Shader");
 			}
 			ImGui::EndPopup();
 		}

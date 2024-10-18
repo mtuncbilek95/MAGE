@@ -59,6 +59,7 @@ namespace MAGE
 
 		void Show() { glfwShowWindow(m_Window); }
 		void Hide() { glfwHideWindow(m_Window); }
+		void Quit() { glfwSetWindowShouldClose(m_Window, true); }
 		void Destroy();
 
 #if defined(DELUSION_WINDOWS)

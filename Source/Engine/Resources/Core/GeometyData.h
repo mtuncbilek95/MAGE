@@ -9,13 +9,3 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-
-namespace MAGE
-{
-	namespace PlatformConsole
-	{
-		void ShowConsole();
-		void HideConsole();
-		void BlowConsole();
-	}
-}

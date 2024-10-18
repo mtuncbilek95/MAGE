@@ -27,6 +27,21 @@ namespace MAGE
 		{
 			if (ImGui::BeginMenu("File"))
 			{
+				if (ImGui::MenuItem("New Scene"))
+				{
+				}
+				if (ImGui::MenuItem("Open Scene"))
+				{
+				}
+				if (ImGui::MenuItem("Save Scene"))
+				{
+				}
+				ImGui::Separator();
+				if (ImGui::MenuItem("Exit"))
+				{
+					Manager::Window::Get().GetWindow().Quit();
+				}
+				
 				ImGui::EndMenu();
 			}
 

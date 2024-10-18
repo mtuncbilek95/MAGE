@@ -6,42 +6,10 @@
 #include <Engine/ErrorHandler/SystemLog.h>
 #include <Engine/IO/PlatformConsole.h>
 
-#include "Editor/Core/ConsoleSink.h"
-
 namespace MAGE
 {
-
-	struct LogSplit
-	{
-		String Date;
-		String Time;
-		String Level;
-		String Message;
-	};
-
-	LogSplit SplitLog(const String& log)
-	{
-		LogSplit split;
-		size_t first = log.find_first_of('[');
-		size_t last = log.find_first_of(']');
-		split.Date = log.substr(first, last - first + 1);
-
-		first = log.find_first_of('[', last);
-		last = log.find_first_of(']', first);
-		split.Time = log.substr(first, last - first + 1);
-
-		first = log.find_first_of('[', last);
-		last = log.find_first_of(']', first);
-		split.Level = log.substr(first, last - first + 1);
-
-		split.Message = log.substr(last + 1, log.size() - last);
-		return split;
-	}
-
 	EditorConsole::EditorConsole()
 	{
-		m_sink = SystemLog::Get().InitLogger<ConsoleSink>();
-		//PlatformConsole::HideConsole();
 	}
 
 	EditorConsole::~EditorConsole()
@@ -56,34 +24,73 @@ namespace MAGE
 			m_dirty = true;
 		}
 
+		if (SystemLog::GetLogs().size() > 1000)
+			SystemLog::GetLogs().clear();
 	}
 
 	void EditorConsole::Render()
 	{
 		ImGui::Begin("Console");
 
-		if (ImGui::BeginTable("ConsoleTable", 4, ImGuiTableFlags_Borders | ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX))
+		if (ImGui::BeginTable("ConsoleTable", 4, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX))
 		{
-			ImGui::TableSetupColumn("Date");
-			ImGui::TableSetupColumn("Time");
-			ImGui::TableSetupColumn("Level");
-			ImGui::TableSetupColumn("Message");
+			ImGui::TableSetupColumn("Date", ImGuiTableColumnFlags_WidthFixed, ImGui::CalcTextSize("XX:XX:XXXX").x + 20.0f);
+			ImGui::TableSetupColumn("Time", ImGuiTableColumnFlags_WidthFixed, ImGui::CalcTextSize("XX:XX:XX").x + 20.0f);
+			ImGui::TableSetupColumn("Level", ImGuiTableColumnFlags_WidthFixed, ImGui::CalcTextSize("Warning").x + 20.0f);
+			ImGui::TableSetupColumn("Message", ImGuiTableColumnFlags_WidthStretch);
+			
+			ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(10.0f, 5.0f));
+
 			ImGui::TableHeadersRow();
 
 			for (const auto& log : SystemLog::GetLogs())
 			{
-				auto split = SplitLog(log);
+				ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+				ImVec4 restColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+				ImVec4 textColor = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
+				String level;
 				ImGui::TableNextRow();
+				switch (log.level)
+				{
+				case spdlog::level::trace:
+					color = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
+					level = "Trace";
+					break;
+				case spdlog::level::debug:
+					color = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
+					level = "Debug";
+					break;
+				case spdlog::level::info:
+					color = ImVec4(0.0f, 100 / 255.f, 100 / 255.f, 1.0f);
+					level = "Info";
+					break;
+				case spdlog::level::warn:
+					color = ImVec4(1.0f, 1.0f, 0.0f, 1.0f);
+					level = "Warning";
+					break;
+				case spdlog::level::err:
+					color = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+					level = "Error";
+					break;
+				case spdlog::level::critical:
+					color = ImVec4(1.0f, 0.0f, 1.0f, 1.0f);
+					level = "Critical";
+					break;
+				default:
+					break;
+				}
+
 				ImGui::TableSetColumnIndex(0);
-				ImGui::TextUnformatted(split.Date.c_str());
+				ImGui::TextColored(textColor, log.date.c_str());
 				ImGui::TableSetColumnIndex(1);
-				ImGui::TextUnformatted(split.Time.c_str());
+				ImGui::TextColored(textColor, log.time.c_str());
 				ImGui::TableSetColumnIndex(2);
-				ImGui::TextUnformatted(split.Level.c_str());
+				ImGui::TextColored(color, level.c_str());
 				ImGui::TableSetColumnIndex(3);
-				ImGui::TextUnformatted(split.Message.c_str());
+				ImGui::TextColored(restColor, log.message.c_str());
 			}
 
+			ImGui::PopStyleVar();
 			ImGui::EndTable();
 		}
 

@@ -9,13 +9,12 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
+#include "Engine/Resources/Core/TexData.h"
 
 namespace MAGE
 {
-	namespace PlatformConsole
+	namespace Importer
 	{
-		void ShowConsole();
-		void HideConsole();
-		void BlowConsole();
+		TexData LoadTexture(const String& path);
 	}
 }

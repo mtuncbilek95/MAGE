@@ -10,6 +10,10 @@
 
 namespace MAGE
 {
+	VulkanDevice::VulkanDevice() : m_props(), m_device(VK_NULL_HANDLE), m_adapter(VK_NULL_HANDLE), m_instance(nullptr)
+	{
+	}
+
 	VulkanDevice::VulkanDevice(const DeviceProps& desc, VulkanInstance* instance) : m_props(desc), m_device(VK_NULL_HANDLE)
 		, m_adapter(instance->GetAdapter()), m_instance(instance->GetInstance())
 	{
@@ -125,6 +129,9 @@ namespace MAGE
 			else
 				brokenExtensions.push_back(extension.m_name);
 		}
+
+		for (auto& ext : workingExtensions)
+			spdlog::debug("{} is currently on run for VkDevice.", ext);
 
 		ErrorUtils::LogAssert(brokenExtensions.size() == 0, "VulkanDevice", "Your device does not support the bare minimum extensions. You need at least RTX2060 or equivalent.");
 

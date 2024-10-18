@@ -5,6 +5,10 @@
 
 namespace MAGE
 {
+	VulkanImage::VulkanImage() : m_deviceRef(nullptr), m_image(VK_NULL_HANDLE), m_imageMemory(VK_NULL_HANDLE), m_props(), m_ownedImage(false)
+	{
+	}
+
 	VulkanImage::VulkanImage(const ImageProps& desc, VulkanDevice* device) : m_deviceRef(device),
 		m_image(VK_NULL_HANDLE), m_imageMemory(VK_NULL_HANDLE), m_props(desc), m_ownedImage(true)
 	{

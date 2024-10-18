@@ -22,10 +22,10 @@ namespace MAGE
 		switch (messageSeverity)
 		{
 		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT:
-			spdlog::trace("{}", pCallbackData->pMessage);
+			spdlog::debug("{}", pCallbackData->pMessage);
 			break;
 		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
-			spdlog::info("{}", pCallbackData->pMessage);
+			spdlog::trace("{}", pCallbackData->pMessage);
 			break;
 		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
 			spdlog::warn("{}", pCallbackData->pMessage);
@@ -121,6 +121,11 @@ namespace MAGE
 				spdlog::warn("Layer not supported: {}", layer.m_name);
 		}
 
+		for (auto& layer : workingLayers)
+			spdlog::debug("{} is currently on run for VkInstance.", layer);
+		for (auto& ext : workingExtensions)
+			spdlog::debug("{} is currently on run for VkInstance.", ext);
+
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 		appInfo.pApplicationName = desc.appName.c_str();
@@ -215,7 +220,7 @@ namespace MAGE
 				return a.second.second < b.second.second;
 			});
 
-		spdlog::trace("Best device found: {}", bestDevice->first.c_str());
+		spdlog::info("Best device found: {}", bestDevice->first.c_str());
 		m_adapter = bestDevice->second.first;
 	}
 

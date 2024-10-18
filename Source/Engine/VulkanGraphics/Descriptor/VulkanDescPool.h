@@ -25,6 +25,7 @@ namespace MAGE
 	class VulkanDescPool final
 	{
 	public:
+		VulkanDescPool();
 		VulkanDescPool(const DescPoolProps& desc, VulkanDevice* device);
 		~VulkanDescPool();
 

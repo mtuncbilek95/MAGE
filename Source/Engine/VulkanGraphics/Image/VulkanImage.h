@@ -30,6 +30,7 @@ namespace MAGE
 	class VulkanImage final : public std::enable_shared_from_this<VulkanImage>
 	{
 	public:
+		VulkanImage();
 		VulkanImage(const ImageProps& desc, VulkanDevice* device);
 		VulkanImage(const ImageProps& desc, VkImage image, VulkanDevice* device);
 		~VulkanImage();

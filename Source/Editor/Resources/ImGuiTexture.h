@@ -8,14 +8,18 @@
 
 #pragma once
 
-#include "Engine/Core/Core.h"
+#include <Engine/Core/Core.h>
+#include <imgui.h>
 
 namespace MAGE
 {
-	namespace PlatformConsole
+	class ImGuiTexture final
 	{
-		void ShowConsole();
-		void HideConsole();
-		void BlowConsole();
-	}
+	public:
+		ImGuiTexture() = default;
+		~ImGuiTexture() = default;
+
+	private:
+		ImTextureID m_textureID = nullptr;
+	};
 }

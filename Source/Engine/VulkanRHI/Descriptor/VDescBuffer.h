@@ -15,10 +15,17 @@ namespace MAGE
 {
 	class VDescLayout;
 
+	struct DescBufferProps final
+	{
+		u32 insideBufferCount;
+		VDescLayout* layout;
+		VkBufferUsageFlags extraFlag;
+	};
+
 	class VDescBuffer final : VObject
 	{
 	public:
-		VDescBuffer(VDescLayout* layout, VDevice* device);
+		VDescBuffer(const DescBufferProps& desc, VDevice* device);
 		~VDescBuffer() override final;
 
 		inline VkBuffer GetBuffer() const { return m_buffer; }
@@ -28,6 +35,7 @@ namespace MAGE
 		inline u64 GetOffset() const { return m_offset; }
 
 		void MapMemory(RawBuffer buffer, u64 offset);
+		inline VkDeviceAddress GetAddress();
 		void Destroy() override final;
 
 	private:
@@ -35,7 +43,8 @@ namespace MAGE
 		VkDeviceMemory m_memory;
 		VkDeviceSize m_totalSize;
 		VkDeviceSize m_offset;
+		VkDeviceAddress m_address;
 
-		VDescLayout* m_layoutRef;
+		DescBufferProps m_props;
 	};
 }

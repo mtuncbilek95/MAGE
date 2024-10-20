@@ -16,7 +16,7 @@ namespace MAGE
 	constexpr T operator+(T lhs, T rhs)
 	{
 		using Type = std::underlying_type_t<T>;
-		return static_cast<T>(static_cast<Type>(lhs) + static_cast<Type>(rhs));
+		return static_cast<T>(static_cast<Type>(lhs) | static_cast<Type>(rhs));
 	}
 
 	template<typename T, typename = std::enable_if_t<std::is_enum_v<T>>>
@@ -89,7 +89,7 @@ namespace MAGE
 			return temp;
 		}
 
-		bool IsSet(T flag) const
+		b8 IsSet(T flag) const
 		{
 			return (m_mask & static_cast<Type>(flag)) == static_cast<Type>(flag);
 		}
@@ -125,7 +125,7 @@ namespace MAGE
 		}
 
 		operator Type() const { return m_mask; }
-		operator bool() const { return m_mask != 0; }
+		operator b8() const { return m_mask != 0; }
 
 	private:
 		Type m_mask;

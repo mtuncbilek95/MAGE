@@ -23,12 +23,12 @@ namespace MAGE
 			Window() = default;
 			~Window() override = default;
 
-			void InitWindow(const IndWindowDesc& props) { m_Window = MakeOwned<IndWindow>(props); }
-			void DestroyWindow() { m_Window->Destroy(); }
-			IndWindow& GetWindow() { return *m_Window; }
+			void InitWindow(const IndWindowDesc& props) { m_window = MakeOwned<IndWindow>(props); }
+			void DestroyWindow() { m_window->Destroy(); }
+			IndWindow& GetWindow() { return *m_window; }
 
 		private:
-			Owned<IndWindow> m_Window;
+			Owned<IndWindow> m_window;
 		};
 	}
 }

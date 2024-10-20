@@ -17,24 +17,24 @@ namespace MAGE
 		typedef void* buf;
 	public:
 		OwnedBuffer();
-		OwnedBuffer(buf pData, usize size);
-		OwnedBuffer(u8* pBegin, u8* pEnd);
-		OwnedBuffer(const OwnedBuffer& pOther);
-		OwnedBuffer(OwnedBuffer&& pOther) noexcept;
+		OwnedBuffer(buf data, usize size);
+		OwnedBuffer(u8* begin, u8* end);
+		OwnedBuffer(const OwnedBuffer& other);
+		OwnedBuffer(OwnedBuffer&& other) noexcept;
 		~OwnedBuffer();
 
-		OwnedBuffer& operator=(OwnedBuffer& pOther);
-		OwnedBuffer& operator=(OwnedBuffer&& pOther) noexcept;
+		OwnedBuffer& operator=(OwnedBuffer& other);
+		OwnedBuffer& operator=(OwnedBuffer&& other) noexcept;
 
-		buf Data() const { return mBufferData; }
-		usize Size() const { return mBufferSize; }
+		buf Data() const { return m_bufferData; }
+		usize Size() const { return m_bufferSize; }
 
-		operator bool() const { return mBufferData != nullptr; }
+		operator bool() const { return m_bufferData != nullptr; }
 
 	protected:
-		void Allocate(const buf pData, const usize size);
+		void Allocate(const buf data, const usize size);
 	private:
-		buf mBufferData;
-		usize mBufferSize;
+		buf m_bufferData;
+		usize m_bufferSize;
 	};
 } // namespace IOAlloc

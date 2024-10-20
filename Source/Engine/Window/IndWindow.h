@@ -45,44 +45,38 @@ namespace MAGE
 		~IndWindow();
 
 		void WindowResizeCallback(const SizeCallback& callback);
-		void FrameResizeCallback(const SizeCallback& callback);
 		void WindowPosCallback(const PosCallback& callback);
 
 		void PollEvents();
 
-		const Math::Vec2u& GetWindowRes() const { return m_WindowRes; }
-		const Math::Vec2i& GetWindowPos() const { return m_WindowPos; }
+		const Math::Vec2u& GetWindowRes() const { return m_windowRes; }
+		const Math::Vec2i& GetWindowPos() const { return m_windowPos; }
 		
-		String GetTitle() const { return m_Title; }
-		WindowMode GetMode() const { return m_Mode; }
-		bool IsClosed() const { return glfwWindowShouldClose(m_Window); }
+		String GetTitle() const { return m_title; }
+		WindowMode GetMode() const { return m_mode; }
+		bool IsClosed() const { return glfwWindowShouldClose(m_window); }
 
-		void Show() { glfwShowWindow(m_Window); }
-		void Hide() { glfwHideWindow(m_Window); }
-		void Quit() { glfwSetWindowShouldClose(m_Window, true); }
+		void Show() { glfwShowWindow(m_window); }
+		void Hide() { glfwHideWindow(m_window); }
+		void Quit() { glfwSetWindowShouldClose(m_window, true); }
 		void Destroy();
 
 #if defined(DELUSION_WINDOWS)
-		HWND GetNativeHandle() const { return glfwGetWin32Window(m_Window); }
+		HWND GetNativeHandle() const { return glfwGetWin32Window(m_window); }
 		HINSTANCE GetNativeInstance() const { return GetModuleHandle(nullptr); }
 #endif // DELUSION_WINDOWS
-
-#if defined(DELUSION_LINUX)
-		Window GetNativeHandle() const { return glfwGetX11Window(m_Window); }
-		Display* GetNativeInstance() const { return glfwGetX11Display(); }
-#endif // DELUSION_LINUX
-		GLFWwindow* GetGLFWWindow() const { return m_Window; }
+		GLFWwindow* GetGLFWWindow() const { return m_window; }
 
 	private:
-		GLFWwindow* m_Window;
+		GLFWwindow* m_window;
 
-		Math::Vec2u m_WindowRes;
-		Math::Vec2i m_WindowPos;
+		Math::Vec2u m_windowRes;
+		Math::Vec2i m_windowPos;
 
-		WindowMode m_Mode;
-		String m_Title;
+		WindowMode m_mode;
+		String m_title;
 
-		SizeCallback m_SizeCallback;
-		PosCallback m_PosCallback;
+		SizeCallback m_sizeCallback;
+		PosCallback m_posCallback;
 	};
 }

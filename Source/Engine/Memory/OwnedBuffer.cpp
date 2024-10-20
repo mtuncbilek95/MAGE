@@ -2,83 +2,83 @@
 
 namespace MAGE
 {
-	OwnedBuffer::OwnedBuffer() : mBufferData(nullptr), mBufferSize(0)
+	OwnedBuffer::OwnedBuffer() : m_bufferData(nullptr), m_bufferSize(0)
 	{
 	}
 
-	OwnedBuffer::OwnedBuffer(buf pData, usize size) : mBufferData(nullptr), mBufferSize(0)
+	OwnedBuffer::OwnedBuffer(buf data, usize size) : m_bufferData(nullptr), m_bufferSize(0)
 	{
-		Allocate(pData, size);
+		Allocate(data, size);
 	}
 
-	OwnedBuffer::OwnedBuffer(u8* pBegin, u8* pEnd)
+	OwnedBuffer::OwnedBuffer(u8* begin, u8* end) : m_bufferData(nullptr), m_bufferSize(0)
 	{
-		usize size = pEnd - pBegin;
+		usize size = end - begin;
 		if (size > 0)
 		{
-			mBufferData = new char[size];
-			std::memcpy(mBufferData, pBegin, size);
-			mBufferSize = size;
+			m_bufferData = new char[size];
+			std::memcpy(m_bufferData, begin, size);
+			m_bufferSize = size;
 		}
 	}
 
-	OwnedBuffer::OwnedBuffer(const OwnedBuffer& pOther) : mBufferData(nullptr), mBufferSize(0)
+	OwnedBuffer::OwnedBuffer(const OwnedBuffer& other) : m_bufferData(nullptr), m_bufferSize(0)
 	{
-		Allocate(pOther.mBufferData, pOther.mBufferSize);
+		Allocate(other.m_bufferData, other.m_bufferSize);
 	}
 
-	OwnedBuffer::OwnedBuffer(OwnedBuffer&& pOther) noexcept : mBufferData(pOther.mBufferData), mBufferSize(pOther.mBufferSize)
+	OwnedBuffer::OwnedBuffer(OwnedBuffer&& other) noexcept : m_bufferData(other.m_bufferData), m_bufferSize(other.m_bufferSize)
 	{
-		pOther.mBufferData = nullptr;
-		pOther.mBufferSize = 0;
+		other.m_bufferData = nullptr;
+		other.m_bufferSize = 0;
 	}
 
 	OwnedBuffer::~OwnedBuffer()
 	{
-		delete static_cast<char*>(mBufferData);
+		delete static_cast<char*>(m_bufferData);
 	}
 
-	OwnedBuffer& OwnedBuffer::operator=(OwnedBuffer& pOther)
+	OwnedBuffer& OwnedBuffer::operator=(OwnedBuffer& other)
 	{
-		if (this != &pOther)
+		if (this != &other)
 		{
 			void* newData = nullptr;
-			if (pOther.mBufferData && pOther.mBufferSize > 0)
+			if (other.m_bufferData && other.m_bufferSize > 0)
 			{
-				newData = new char[pOther.mBufferSize];
-				std::memcpy(newData, pOther.mBufferData, pOther.mBufferSize);
+				newData = new char[other.m_bufferSize];
+				std::memcpy(newData, other.m_bufferData, other.m_bufferSize);
 			}
 
-			delete static_cast<char*>(mBufferData);
+			delete static_cast<char*>(m_bufferData);
 
-			mBufferData = newData;
-			mBufferSize = pOther.mBufferSize;
+			m_bufferData = newData;
+			m_bufferSize = other.m_bufferSize;
 		}
 		return *this;
 	}
 
-	OwnedBuffer& OwnedBuffer::operator=(OwnedBuffer&& pOther) noexcept
+	OwnedBuffer& OwnedBuffer::operator=(OwnedBuffer&& other) noexcept
 	{
-		if (this != &pOther)
+		if (this != &other)
 		{
-			delete[] static_cast<char*>(mBufferData);
+			delete[] static_cast<char*>(m_bufferData);
 
-			mBufferData = pOther.mBufferData;
-			mBufferSize = pOther.mBufferSize;
+			m_bufferData = other.m_bufferData;
+			m_bufferSize = other.m_bufferSize;
 
-			pOther.mBufferData = nullptr;
-			pOther.mBufferSize = 0;
+			other.m_bufferData = nullptr;
+			other.m_bufferSize = 0;
 		}
 		return *this;
 	}
 
-	void OwnedBuffer::Allocate(const buf pData, const usize size)
+	void OwnedBuffer::Allocate(const buf data, const usize size)
 	{
-		if (pData && size > 0)
+		if (data && size > 0)
 		{
-			mBufferData = new char[size];
-			std::memcpy(mBufferData, pData, size);
-			mBufferSize = size;
+			m_bufferData = new char[size];
+			std::memcpy(m_bufferData, data, size);
+			m_bufferSize = size;
 		}
 	}
 } // namespace IOAlloc

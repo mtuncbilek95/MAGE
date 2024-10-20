@@ -4,10 +4,11 @@
 #include <backends/imgui_impl_vulkan.h>
 #include <backends/imgui_impl_glfw.h>
 
-#include <Engine/VulkanGraphics/Descriptor/VulkanDescPool.h>
+#include <Engine/VulkanRHI/Descriptor/VDescPool.h>
+#include <Engine/VulkanRHI/RenderPass/VRenderPass.h>
 
 #include <Engine/Window/WindowManager.h>
-#include <Engine/Renderer/RendererContext.h>
+#include <Engine/Rendering/RenderContext.h>
 
 #include "Editor/Helpers/ImGuiListener.h"
 #include "Editor/Helpers/ImGuiPanelRegistry.h"
@@ -36,7 +37,7 @@ namespace MAGE
 
 	void ImGuiRenderer::Init()
 	{
-		auto& renderer = Gfx::RendererContext::Get();
+		auto& renderer = Gfx::Context::Get();
 		m_context = ImGui::CreateContext();
 		ImGui::SetCurrentContext(m_context);
 
@@ -68,7 +69,7 @@ namespace MAGE
 			{VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000}
 		};
 
-		m_descPool = MakeOwned<VulkanDescPool>(poolProps, renderer.GetDevice());
+		m_descPool = MakeOwned<VDescPool>(poolProps, renderer.GetDevice());
 
 		auto instance = renderer.GetInstance();
 		auto device = renderer.GetDevice();
@@ -83,20 +84,9 @@ namespace MAGE
 		initInfo.DescriptorPool = m_descPool->GetPool();
 		initInfo.MinImageCount = 2;
 		initInfo.ImageCount = 3;
-		initInfo.RenderPass = nullptr;
+		initInfo.RenderPass = renderer.GetSwapchain()->GetRenderPass()->GetRenderPass();
 		initInfo.MinAllocationSize = 1024 * 1024;
-		initInfo.UseDynamicRendering = true;
-
-		VkPipelineRenderingCreateInfo renderingInfo = {};
-		renderingInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO;
-		renderingInfo.colorAttachmentCount = 1;
-		renderingInfo.depthAttachmentFormat = VK_FORMAT_UNDEFINED;
-		renderingInfo.pColorAttachmentFormats = format;
-		renderingInfo.viewMask = 0;
-		renderingInfo.stencilAttachmentFormat = VK_FORMAT_UNDEFINED;
-
-		initInfo.PipelineRenderingCreateInfo = renderingInfo;
-		initInfo.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
+		initInfo.UseDynamicRendering = false;
 
 		GLFWwindow* window = Manager::Window::Get().GetWindow().GetGLFWWindow();
 		ImGui_ImplGlfw_InitForVulkan(window, true);
@@ -120,19 +110,22 @@ namespace MAGE
 			ImGui::RenderPlatformWindowsDefault();
 		}
 
-		auto& renderer = Gfx::RendererContext::Get();
+		auto& renderer = Gfx::Context::Get();
 		ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), renderer.GetCmdBuffer()->GetCmdBuffer());
 	}
 
 	void ImGuiRenderer::Shutdown()
 	{
+		auto& renderer = Gfx::Context::Get();
+		renderer.GetDevice()->WaitForIdle();
+
 		panelRegistry.ClearPanels();
 
 		ImGui_ImplVulkan_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext(m_context);
 
-		m_descPool.reset();
+		m_descPool->Destroy();
 	}
 
 	void ImGuiRenderer::Render()

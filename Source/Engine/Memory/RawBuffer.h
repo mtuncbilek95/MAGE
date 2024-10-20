@@ -19,23 +19,23 @@ namespace MAGE
 		typedef void* buf;
 	public:
 		RawBuffer();
-		RawBuffer(buf pData, usize size);
-		RawBuffer(const RawBuffer& pOther);
-		RawBuffer(const OwnedBuffer& pOther);
+		RawBuffer(buf data, usize size);
+		RawBuffer(const RawBuffer& other);
+		RawBuffer(const OwnedBuffer& other);
 		~RawBuffer();
 
-		RawBuffer(RawBuffer&& pOther) = delete;
-		RawBuffer& operator=(RawBuffer&& pOther) = delete;
+		RawBuffer(RawBuffer&& other) = delete;
+		RawBuffer& operator=(RawBuffer&& other) = delete;
 
-		RawBuffer& operator=(const RawBuffer& pOther);
+		RawBuffer& operator=(const RawBuffer& other);
 
-		buf Data() const { return mBufferData; }
-		usize Size() const { return mBufferSize; }
+		buf Data() const { return m_bufferData; }
+		usize Size() const { return m_bufferSize; }
 
-		operator bool() const { return mBufferData != nullptr; }
+		operator bool() const { return m_bufferData != nullptr; }
 
 	private:
-		buf mBufferData;
-		usize mBufferSize;
+		buf m_bufferData;
+		usize m_bufferSize;
 	};
 }

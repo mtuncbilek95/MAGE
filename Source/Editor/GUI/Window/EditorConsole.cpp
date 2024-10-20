@@ -4,7 +4,6 @@
 #include <imgui_internal.h>
 
 #include <Engine/ErrorHandler/SystemLog.h>
-#include <Engine/IO/PlatformConsole.h>
 
 namespace MAGE
 {

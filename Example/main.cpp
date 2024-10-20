@@ -1,16 +1,12 @@
 #include <Engine/Core/Core.h>
 #include <Engine/Window/WindowManager.h>
-#include <Engine/Renderer/RendererContext.h>
+#include <Engine/Rendering/RenderContext.h>
 #include <Editor/Renderer/ImGuiRenderer.h>
-#include <Editor/Project/ProjectInitializer.h>
-
 
 using namespace MAGE;
 
 int main(int argC, char** argV)
 {
-	ProjectInitializer::Get().Initialize("D:/Projects/MyProject/MyProject.mageproj");
-
 	SystemLog::Get().InitLogger<ConsoleSink>();
 
 	IndWindowDesc windowProps =
@@ -22,7 +18,7 @@ int main(int argC, char** argV)
 	Manager::Window::Get().InitWindow(windowProps);
 	auto& window = Manager::Window::Get().GetWindow();
 
-	auto& context = Gfx::RendererContext::Get();
+	auto& context = Gfx::Context::Get();
 	context.Init();
 
 	auto uiRenderer = MakeOwned<ImGuiRenderer>();
@@ -33,18 +29,14 @@ int main(int argC, char** argV)
 	{
 		window.PollEvents();
 		context.PrepareFrame();
-		
-		// Regular rendering calls in here
-		/* Do something*/
 
 		uiRenderer->BeginFrame();
 		uiRenderer->Render();
 		uiRenderer->EndFrame();
-
+		
 		context.SubmitFrame();
 	}
 
-	context.GetDevice()->WaitForIdle();
 	uiRenderer->Shutdown();
 	context.Shutdown();
 

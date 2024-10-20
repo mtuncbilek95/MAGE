@@ -9,30 +9,19 @@
 #pragma once
 
 #include <Engine/Core/Core.h>
-#include <imgui.h>
 
 namespace MAGE
 {
-	class VDescPool;
-	class ImGuiDock;
-
-	class ImGuiRenderer final
+	class DomainBase
 	{
 	public:
-		ImGuiRenderer();
-		~ImGuiRenderer();
+		virtual ~DomainBase() = default;
 
-		void Init();
-		void BeginFrame();
-		void Render();
-		void EndFrame();
-		void Shutdown();
+		const String& GetName() const { return m_name; }
+		const String& GetPath() const { return m_path; }
 
-	private:
-		ImGuiContext* m_context = nullptr;
-
-		Owned<VDescPool> m_descPool;
-
-		ImGuiDock* m_dock = nullptr;
+	protected:
+		String m_name;
+		String m_path;
 	};
 }

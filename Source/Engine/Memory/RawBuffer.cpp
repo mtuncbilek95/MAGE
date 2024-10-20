@@ -3,32 +3,32 @@
 
 namespace MAGE
 {
-	RawBuffer::RawBuffer() : mBufferData(nullptr), mBufferSize(0)
+	RawBuffer::RawBuffer() : m_bufferData(nullptr), m_bufferSize(0)
 	{
 	}
 
-	RawBuffer::RawBuffer(buf pData, usize size) : mBufferData(pData), mBufferSize(size)
+	RawBuffer::RawBuffer(buf data, usize size) : m_bufferData(data), m_bufferSize(size)
 	{
 	}
 
-	RawBuffer::RawBuffer(const RawBuffer& pOther) : mBufferData(pOther.mBufferData), mBufferSize(pOther.mBufferSize)
+	RawBuffer::RawBuffer(const RawBuffer& other) : m_bufferData(other.m_bufferData), m_bufferSize(other.m_bufferSize)
 	{
 	}
 
-	RawBuffer::RawBuffer(const OwnedBuffer& pOther) : mBufferData(pOther.Data()), mBufferSize(pOther.Size())
+	RawBuffer::RawBuffer(const OwnedBuffer& other) : m_bufferData(other.Data()), m_bufferSize(other.Size())
 	{
 	}
 
 	RawBuffer::~RawBuffer()
 	{
-		mBufferData = nullptr;
-		mBufferSize = 0;
+		m_bufferData = nullptr;
+		m_bufferSize = 0;
 	}
 
-	RawBuffer& RawBuffer::operator=(const RawBuffer& pOther)
+	RawBuffer& RawBuffer::operator=(const RawBuffer& other)
 	{
-		mBufferData = pOther.mBufferData;
-		mBufferSize = pOther.mBufferSize;
+		m_bufferData = other.m_bufferData;
+		m_bufferSize = other.m_bufferSize;
 		return *this;
 	}
 }

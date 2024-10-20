@@ -41,6 +41,10 @@ using List = std::list<T>;
 template<typename K, typename V>
 using HashMap = std::unordered_map<K, V>;
 
+#include <span>
+template<typename T>
+using Span = std::span<T>;
+
 #include <memory>
 template<typename T>
 using Owned = std::unique_ptr<T>;

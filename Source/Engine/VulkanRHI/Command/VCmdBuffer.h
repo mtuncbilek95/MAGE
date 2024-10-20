@@ -10,8 +10,6 @@
 
 #include "../Abstraction/VObject.h"
 
-#include <span>
-
 namespace MAGE
 {
 	class VCmdPool;

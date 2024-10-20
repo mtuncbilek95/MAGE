@@ -85,6 +85,10 @@ namespace MAGE
 		Vector<ExtensionEntry> extensions;
 		Vector<const char*> workingExtensions;
 		extensions.push_back({ VK_KHR_SWAPCHAIN_EXTENSION_NAME, false });
+		extensions.push_back({ VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME, false });
+		extensions.push_back({ VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME, false });
+		extensions.push_back({ VK_EXT_DESCRIPTOR_BUFFER_EXTENSION_NAME, false });
+		extensions.push_back({ VK_KHR_MAINTENANCE3_EXTENSION_NAME, false });
 
 		//Check if the device supports the extensions
 		u32 extensionCount = 0;
@@ -117,6 +121,44 @@ namespace MAGE
 
 		ErrorUtils::LogAssert(brokenExtensions.size() == 0, "VDevice", "Your device does not support the bare minimum extensions. You need at least RTX2060 or equivalent.");
 
+		VkPhysicalDeviceDescriptorIndexingFeatures descriptorIndexing = {};
+		descriptorIndexing.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES;
+		descriptorIndexing.runtimeDescriptorArray = VK_TRUE;
+		descriptorIndexing.descriptorBindingPartiallyBound = VK_TRUE;
+		descriptorIndexing.descriptorBindingUpdateUnusedWhilePending = VK_TRUE;
+		descriptorIndexing.shaderInputAttachmentArrayDynamicIndexing = VK_TRUE;
+		descriptorIndexing.shaderUniformTexelBufferArrayDynamicIndexing = VK_TRUE;
+		descriptorIndexing.shaderStorageTexelBufferArrayDynamicIndexing = VK_TRUE;
+		descriptorIndexing.shaderUniformBufferArrayNonUniformIndexing = VK_TRUE;
+		descriptorIndexing.shaderSampledImageArrayNonUniformIndexing = VK_TRUE;
+		descriptorIndexing.shaderStorageBufferArrayNonUniformIndexing = VK_TRUE;
+		descriptorIndexing.shaderStorageImageArrayNonUniformIndexing = VK_TRUE;
+		descriptorIndexing.shaderInputAttachmentArrayNonUniformIndexing = VK_TRUE;
+		descriptorIndexing.shaderUniformTexelBufferArrayNonUniformIndexing = VK_TRUE;
+		descriptorIndexing.shaderStorageTexelBufferArrayNonUniformIndexing = VK_TRUE;
+		descriptorIndexing.descriptorBindingUniformBufferUpdateAfterBind = VK_TRUE;
+		descriptorIndexing.descriptorBindingSampledImageUpdateAfterBind = VK_TRUE;
+		descriptorIndexing.descriptorBindingStorageImageUpdateAfterBind = VK_TRUE;
+		descriptorIndexing.descriptorBindingStorageBufferUpdateAfterBind = VK_TRUE;
+		descriptorIndexing.descriptorBindingUniformTexelBufferUpdateAfterBind = VK_TRUE;
+		descriptorIndexing.descriptorBindingStorageTexelBufferUpdateAfterBind = VK_TRUE;
+		descriptorIndexing.descriptorBindingUpdateUnusedWhilePending = VK_TRUE;
+		descriptorIndexing.descriptorBindingPartiallyBound = VK_TRUE;
+		descriptorIndexing.descriptorBindingVariableDescriptorCount = VK_TRUE;
+		descriptorIndexing.runtimeDescriptorArray = VK_TRUE;
+
+		VkPhysicalDeviceBufferDeviceAddressFeatures bufferDeviceAddress = {};
+		bufferDeviceAddress.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES;
+		bufferDeviceAddress.bufferDeviceAddress = VK_TRUE;
+		bufferDeviceAddress.bufferDeviceAddressCaptureReplay = VK_TRUE;
+		bufferDeviceAddress.bufferDeviceAddressMultiDevice = VK_TRUE;
+		bufferDeviceAddress.pNext = &descriptorIndexing;
+
+		VkPhysicalDeviceDescriptorBufferFeaturesEXT descriptorBuffer = {};
+		descriptorBuffer.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_BUFFER_FEATURES_EXT;
+		descriptorBuffer.descriptorBuffer = VK_TRUE;
+		descriptorBuffer.pNext = &bufferDeviceAddress;
+
 		// Get all the device features related to adapter
 		VkPhysicalDeviceFeatures deviceFeatures;
 		vkGetPhysicalDeviceFeatures(m_adapter, &deviceFeatures);
@@ -128,7 +170,7 @@ namespace MAGE
 		deviceCreateInfo.pEnabledFeatures = &deviceFeatures;
 		deviceCreateInfo.enabledExtensionCount = static_cast<u32>(workingExtensions.size());
 		deviceCreateInfo.ppEnabledExtensionNames = workingExtensions.data();
-		deviceCreateInfo.pNext = nullptr;
+		deviceCreateInfo.pNext = &descriptorBuffer;
 
 		ErrorUtils::VkAssert(vkCreateDevice(m_adapter, &deviceCreateInfo, nullptr, &m_device), "VDevice");
 

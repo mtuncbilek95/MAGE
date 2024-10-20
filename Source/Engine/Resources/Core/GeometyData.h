@@ -9,3 +9,18 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
+
+namespace MAGE
+{
+	struct GeometryData final
+	{
+		Vector<Math::Vec3f> position;
+		Vector<Math::Vec3f> normal;
+		Vector<Math::Vec3f> tangent;
+		Vector<Math::Vec3f> bitangent;
+		Vector<Math::Vec2f> uv;
+		Vector<Math::Vec4f> color;
+
+		Vector<u32> indices;
+	};
+}

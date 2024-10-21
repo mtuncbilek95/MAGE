@@ -31,10 +31,13 @@ namespace MAGE
 		inline VkCommandBuffer GetCmdBuffer() const { return m_cmdBuffer; }
 
 		void BeginRecording(VkCommandBufferUsageFlags useFlag) const;
+		void BeginRecording(VRenderPass* renderPass, VFramebuffer* framebuffer) const;
 		void EndRecording() const;
 
-		void BeginRenderPass(VRenderPass* renderPass, VFramebuffer* framebuffer) const;
+		void BeginRenderPass(VRenderPass* renderPass, VFramebuffer* framebuffer, VkSubpassContents passFlag) const;
 		void EndRenderPass() const;
+
+		void ExecuteCommand(VCmdBuffer* buffer) const;
 
 		void Destroy() override final;
 

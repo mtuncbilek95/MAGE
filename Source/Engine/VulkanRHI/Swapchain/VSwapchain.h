@@ -46,6 +46,7 @@ namespace MAGE
 		VImageView* GetImageView(u32 index) const { return &*m_imageViews[index]; }
 		VRenderPass* GetRenderPass() const { return &*m_renderPass; }
 		VFramebuffer* GetFramebuffer(u32 index) const { return &*m_frameBuffers[index]; }
+		VFramebuffer* GetFramebuffer() const { return &*m_frameBuffers[m_currentFrame]; }
 
 		void Resize(Math::Vec2u newSize);
 		u32 AcquireNextImage(VSemaphore* semaphore, VFence* fence);
@@ -66,5 +67,7 @@ namespace MAGE
 
 		VkCommandPool m_resizePool;
 		VkCommandBuffer m_resizeBuffer;
+
+		u32 m_currentFrame = 0;
 	};
 }

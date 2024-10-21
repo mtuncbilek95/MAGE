@@ -37,12 +37,31 @@ namespace MAGE
 		ErrorUtils::VkAssert(vkBeginCommandBuffer(m_cmdBuffer, &beginInfo), "VCmdBuffer");
 	}
 
+	void VCmdBuffer::BeginRecording(VRenderPass* renderPass, VFramebuffer* framebuffer) const
+	{
+		ErrorUtils::VkAssert(vkResetCommandBuffer(m_cmdBuffer, 0), "VCmdBuffer");
+
+		VkCommandBufferInheritanceInfo inherit = {};
+		inherit.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO;
+		inherit.renderPass = renderPass->GetRenderPass();
+		inherit.framebuffer = framebuffer->GetBuffer();
+		inherit.subpass = 0;
+		inherit.occlusionQueryEnable = VK_FALSE;
+
+		VkCommandBufferBeginInfo begin = {};
+		begin.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+		begin.flags = VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT;
+		begin.pInheritanceInfo = &inherit;
+
+		ErrorUtils::VkAssert(vkBeginCommandBuffer(m_cmdBuffer, &begin), "VCmdBuffer");
+	}
+
 	void VCmdBuffer::EndRecording() const
 	{
 		ErrorUtils::VkAssert(vkEndCommandBuffer(m_cmdBuffer), "VCmdBuffer");
 	}
 
-	void VCmdBuffer::BeginRenderPass(VRenderPass* renderPass, VFramebuffer* framebuffer) const
+	void VCmdBuffer::BeginRenderPass(VRenderPass* renderPass, VFramebuffer* framebuffer, VkSubpassContents passFlag) const
 	{
 		VkRenderPassBeginInfo beginInfo = {};
 		beginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -60,12 +79,19 @@ namespace MAGE
 
 		beginInfo.pClearValues = &colorVal;
 
-		vkCmdBeginRenderPass(m_cmdBuffer, &beginInfo, VK_SUBPASS_CONTENTS_INLINE);
+		vkCmdBeginRenderPass(m_cmdBuffer, &beginInfo, passFlag);
 	}
 
 	void VCmdBuffer::EndRenderPass() const
 	{
 		vkCmdEndRenderPass(m_cmdBuffer);
+	}
+
+	void VCmdBuffer::ExecuteCommand(VCmdBuffer* buffer) const
+	{
+		VkCommandBuffer cmd = buffer->GetCmdBuffer();
+
+		vkCmdExecuteCommands(m_cmdBuffer, 1, &cmd);
 	}
 
 	void VCmdBuffer::Destroy()

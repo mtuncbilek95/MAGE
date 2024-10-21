@@ -69,12 +69,16 @@ namespace MAGE
 		m_device->ResetFence(&*m_acquireFence);
 
 		m_commandBuffers[m_reqImIndex]->BeginRecording(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
-		m_commandBuffers[m_reqImIndex]->BeginRenderPass(m_swapchain->GetRenderPass(), m_swapchain->GetFramebuffer(m_reqImIndex));
+		m_commandBuffers[m_reqImIndex]->BeginRenderPass(m_swapchain->GetRenderPass(), m_swapchain->GetFramebuffer(m_reqImIndex), VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS);
+	}
+
+	void Gfx::Context::Execute(VCmdBuffer* secBuffer)
+	{
+		m_commandBuffers[m_reqImIndex]->ExecuteCommand(secBuffer);
 	}
 
 	void Gfx::Context::SubmitFrame()
 	{
-		// Execute draw command buffers :)
 		m_commandBuffers[m_reqImIndex]->EndRenderPass();
 		m_commandBuffers[m_reqImIndex]->EndRecording();
 

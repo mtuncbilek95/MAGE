@@ -60,17 +60,19 @@ namespace MAGE
 				writeInfo.pImageInfo = &writeImageInformations[imageIndex];
 				writeInfo.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 				imageIndex++;
+				break;
 			}
 			case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER:
 			{
 				VkDescriptorBufferInfo bufferInfo = {};
 				bufferInfo.buffer = desc.entries[i].entry.uniform->GetBuffer();
-				bufferInfo.offset = desc.Entries[i].bufferOffset;
+				bufferInfo.offset = desc.entries[i].bufferOffset;
 				bufferInfo.range = desc.entries[i].entry.uniform->GetTotalSize();
 				writeBufferInformations[bufferIndex] = bufferInfo;
 				writeInfo.pBufferInfo = &writeBufferInformations[bufferIndex];
 				writeInfo.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 				bufferIndex++;
+				break;
 			}
 			default:
 				spdlog::warn("{} is not a valid descriptor type.", magic_enum::enum_name<VkDescriptorType>(desc.entries[i].type));

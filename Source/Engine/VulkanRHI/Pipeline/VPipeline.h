@@ -94,6 +94,7 @@ namespace MAGE
 
 	class VPipeline final : public VObject
 	{
+	public:
 		VPipeline(const GraphicsPipelineProps& desc, VDevice* device);
 		~VPipeline() override final;
 

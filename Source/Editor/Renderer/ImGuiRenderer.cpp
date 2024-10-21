@@ -6,6 +6,8 @@
 
 #include <Engine/VulkanRHI/Descriptor/VDescPool.h>
 #include <Engine/VulkanRHI/RenderPass/VRenderPass.h>
+#include <Engine/VulkanRHI/Command/VCmdPool.h>
+#include <Engine/VulkanRHI/Command/VCmdBuffer.h>
 
 #include <Engine/Window/WindowManager.h>
 #include <Engine/Rendering/RenderContext.h>
@@ -91,6 +93,14 @@ namespace MAGE
 		GLFWwindow* window = Manager::Window::Get().GetWindow().GetGLFWWindow();
 		ImGui_ImplGlfw_InitForVulkan(window, true);
 		ImGui_ImplVulkan_Init(&initInfo);
+
+		CmdPoolProps poolProp =
+		{
+			.queue = Gfx::Context::Get().GetGraphicsQueue(),
+			.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT
+		};
+		m_pool = MakeOwned<VCmdPool>(poolProp, Gfx::Context::Get().GetDevice());
+		m_buffer = m_pool->CreateCmdBuffer(VK_COMMAND_BUFFER_LEVEL_SECONDARY);
 	}
 
 	void ImGuiRenderer::BeginFrame()
@@ -110,8 +120,11 @@ namespace MAGE
 			ImGui::RenderPlatformWindowsDefault();
 		}
 
-		auto& renderer = Gfx::Context::Get();
-		ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), renderer.GetCmdBuffer()->GetCmdBuffer());
+		m_buffer->BeginRecording(Gfx::Context::Get().GetSwapchain()->GetRenderPass(), Gfx::Context::Get().GetSwapchain()->GetFramebuffer());
+		ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), m_buffer->GetCmdBuffer());
+		m_buffer->EndRecording();
+
+		Gfx::Context::Get().Execute(&*m_buffer);
 	}
 
 	void ImGuiRenderer::Shutdown()
@@ -126,6 +139,8 @@ namespace MAGE
 		ImGui::DestroyContext(m_context);
 
 		m_descPool->Destroy();
+		m_buffer->Destroy();
+		m_pool->Destroy();
 	}
 
 	void ImGuiRenderer::Render()

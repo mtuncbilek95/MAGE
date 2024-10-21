@@ -15,6 +15,8 @@ namespace MAGE
 {
 	class VDescPool;
 	class ImGuiDock;
+	class VCmdPool;
+	class VCmdBuffer;
 
 	class ImGuiRenderer final
 	{
@@ -34,5 +36,8 @@ namespace MAGE
 		Owned<VDescPool> m_descPool;
 
 		ImGuiDock* m_dock = nullptr;
+
+		Owned<VCmdPool> m_pool;
+		Owned<VCmdBuffer> m_buffer;
 	};
 }

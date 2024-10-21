@@ -229,6 +229,7 @@ namespace MAGE
 		ErrorUtils::VkAssert(vkAcquireNextImageKHR(m_rootDevice->GetDevice(), m_swapchain,
 			UINT64_MAX, semaphore ? semaphore->GetSemaphore() : VK_NULL_HANDLE, fence ? fence->GetFence() : VK_NULL_HANDLE, &imageIndex), "VSwapchain");
 
+		m_currentFrame = imageIndex;
 		return imageIndex;
 	}
 

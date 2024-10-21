@@ -32,6 +32,7 @@ namespace MAGE
 
 			void Init();
 			void PrepareFrame();
+			void Execute(VCmdBuffer* secBuffer);
 			void SubmitFrame();
 			void Shutdown();
 

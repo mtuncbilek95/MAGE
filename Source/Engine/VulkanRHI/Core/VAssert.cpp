@@ -207,7 +207,7 @@ namespace MAGE
 	u32 VkUtils::GetVkTextureSize(VkFormat format)
 	{
 		auto size = FORMAT_SIZE_MAP.find(format);
-		if (size != FORMAT_SIZE_MAP.end() || size->second == 0) [[unlikely]]
+		if (size == FORMAT_SIZE_MAP.end() || size->second == 0) [[unlikely]]
 		{
 			spdlog::critical("VkFormat not found in the map: {}", magic_enum::enum_name(format));
 			exit(-1);

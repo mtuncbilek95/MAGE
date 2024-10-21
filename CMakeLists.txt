@@ -34,5 +34,6 @@ add_subdirectory("External")
 add_subdirectory("Source/Engine")
 add_subdirectory("Source/Editor")
 	
-add_subdirectory("Example")
+add_subdirectory("Example/01-Editor")
+add_subdirectory("Example/02-Standalone")
 # ------------------------------------------------------------

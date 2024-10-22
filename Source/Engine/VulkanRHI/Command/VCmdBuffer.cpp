@@ -6,6 +6,9 @@
 #include "../Command/VCmdPool.h"
 #include "../Framebuffer/VFramebuffer.h"
 #include "../RenderPass/VRenderPass.h"
+#include "../Pipeline/VPipeline.h"
+#include "../Buffer/VStageBuffer.h"
+#include "../Buffer/VDstBuffer.h"
 
 namespace MAGE
 {
@@ -87,11 +90,55 @@ namespace MAGE
 		vkCmdEndRenderPass(m_cmdBuffer);
 	}
 
+	void VCmdBuffer::DrawIndexed(u32 indexCount, u32 indexOffset, u32 vertexOffset, u32 instanceOffset, u32 instanceCount) const
+	{
+		vkCmdDrawIndexed(m_cmdBuffer, indexCount, instanceCount, 0, vertexOffset, 0);
+	}
+
 	void VCmdBuffer::ExecuteCommand(VCmdBuffer* buffer) const
 	{
 		VkCommandBuffer cmd = buffer->GetCmdBuffer();
 
 		vkCmdExecuteCommands(m_cmdBuffer, 1, &cmd);
+	}
+
+	void VCmdBuffer::BindPipeline(VPipeline* pipeline) const
+	{
+		vkCmdBindPipeline(m_cmdBuffer, pipeline->GetBindPoint(), pipeline->GetPipeline());
+	}
+
+	void VCmdBuffer::BindDynamicState(VkViewport viewport, VkRect2D scissor) const
+	{
+	}
+
+	void VCmdBuffer::BindVertexBuffer(VDstBuffer* vertexBuffer) const
+	{
+		u64 offset = 0;
+		VkBuffer vBuffer = vertexBuffer->GetBuffer();
+		vkCmdBindVertexBuffers(m_cmdBuffer, 0, 1, &vBuffer, &offset);
+	}
+
+	void VCmdBuffer::BindIndexBuffer(VDstBuffer* indexBuffer, u32 offset) const
+	{
+		vkCmdBindIndexBuffer(m_cmdBuffer, indexBuffer->GetBuffer(), offset, VK_INDEX_TYPE_UINT32);
+	}
+
+	void VCmdBuffer::BindDescriptorBuffer(VDescBuffer* dscBuffer) const
+	{
+	}
+
+	void VCmdBuffer::CopyBufferToBuffer(VStageBuffer* srcBuffer, VDstBuffer* dstBuffer) const
+	{
+		VkBufferCopy copyInfo = {};
+		copyInfo.dstOffset = 0;
+		copyInfo.size = dstBuffer->GetTotalSize();
+		copyInfo.srcOffset = 0;
+
+		vkCmdCopyBuffer(m_cmdBuffer, srcBuffer->GetBuffer(), dstBuffer->GetBuffer(), 1, &copyInfo);
+	}
+
+	void VCmdBuffer::CopyImageToBuffer(VStageBuffer* srcBuffer, VDstBuffer* dstBuffer) const
+	{
 	}
 
 	void VCmdBuffer::Destroy()

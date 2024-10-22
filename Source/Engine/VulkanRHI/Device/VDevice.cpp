@@ -119,7 +119,10 @@ namespace MAGE
 				brokenExtensions.push_back(extension.m_name);
 		}
 
-		ErrorUtils::LogAssert(brokenExtensions.size() == 0, "VDevice", "Your device does not support the bare minimum extensions. You need at least RTX2060 or equivalent.");
+		for (auto& ext : brokenExtensions)
+			spdlog::error("{} has no support on this hardware specs", ext);
+
+		///ErrorUtils::LogAssert(brokenExtensions.size() == 0, "VDevice", "Your device does not support the bare minimum extensions. You need at least RTX2060 or equivalent.");
 
 		VkPhysicalDeviceDescriptorIndexingFeatures descriptorIndexing = {};
 		descriptorIndexing.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES;

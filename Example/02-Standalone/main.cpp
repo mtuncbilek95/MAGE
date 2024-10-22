@@ -14,14 +14,17 @@
 using namespace MAGE;
 
 struct Vertex {
-	Math::Vec3f Pos;  // Vertex position (x, y, z)
+	Math::Vec3f Pos;
+	Math::Vec3f Color;
 };
 
-std::vector<Vertex> triangle = {
-	{{  0.0f, -0.5f,  0.0f }},  // Bottom vertex
-	{{  0.5f,  0.5f,  0.0f }},  // Top-right vertex
-	{{ -0.5f,  0.5f,  0.0f }}   // Top-left vertex
+Vector<Vertex> triangle = {
+	{{  0.0f,  0.5f,  0.0f }, { 1.0f, 0.0f, 0.0f }},
+	{{  0.5f, -0.5f,  0.0f }, { 0.0f, 1.0f, 0.0f }},
+	{{ -0.5f, -0.5f,  0.0f }, { 0.0f, 0.0f, 1.0f }}
 };
+
+Vector<u32> indices = { 0, 1, 2 };
 
 int main(int argC, char** argV)
 {
@@ -29,7 +32,7 @@ int main(int argC, char** argV)
 
 	IndWindowDesc windowProps =
 	{
-		.windowRes = {1920, 1080},
+		.windowRes = {1280, 720},
 		.mode = WindowMode::Windowed,
 		.title = "TestWindow"
 	};
@@ -47,6 +50,8 @@ int main(int argC, char** argV)
 	auto pool = MakeOwned<VCmdPool>(poolProp, context.GetDevice());
 	auto cmdBuffer = pool->CreateCmdBuffer(VK_COMMAND_BUFFER_LEVEL_SECONDARY);
 	auto primBuffer = pool->CreateCmdBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+
+	auto testSem = context.GetDevice()->CreateSyncSemaphore();
 
 	ShaderProps vProp =
 	{
@@ -75,20 +80,20 @@ int main(int argC, char** argV)
 
 	InputBinding binding;
 	binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-	binding.attributes = { VK_FORMAT_R32G32B32_SFLOAT };
+	binding.attributes = { VK_FORMAT_R32G32B32_SFLOAT, VK_FORMAT_R32G32B32_SFLOAT };
 
 	pipelineProps.inputAssembler.bindings = { binding };
 
 	pipelineProps.viewportState.dynamicView = VK_FALSE;
 	pipelineProps.viewportState.viewport = VkViewport{
 		0.0f, 0.0f,
-		1920.f, 1080.f,
+		1280.f, 720.f,
 		0.0f, 1.0f
 	};
 	pipelineProps.viewportState.dynamicScissor = VK_FALSE;
 	pipelineProps.viewportState.scissor = VkRect2D{
 		{0, 0},  // offset (x, y)
-		{1920, 1080}  // extent (width, height)
+		{1280, 720}  // extent (width, height)
 	};
 
 	pipelineProps.rasterizerState.depthBiasEnable = VK_FALSE;
@@ -127,22 +132,39 @@ int main(int argC, char** argV)
 	pipelineProps.renderPass = context.GetSwapchain()->GetRenderPass();
 	auto pipeline = MakeOwned<VPipeline>(pipelineProps, context.GetDevice());
 
-	StageBufferProps stageProps =
+	StageBufferProps stageVertProps =
 	{
 		.sizeInBytes = sizeof(Vertex) * triangle.size()
 	};
-	auto sBuffer = MakeOwned<VStageBuffer>(stageProps, context.GetDevice());
+	StageBufferProps stageIndProps =
+	{
+		.sizeInBytes = sizeof(u32) * indices.size()
+	};
+	auto sVBuffer = MakeOwned<VStageBuffer>(stageVertProps, context.GetDevice());
+	auto sIBuffer = MakeOwned<VStageBuffer>(stageIndProps, context.GetDevice());
 
-	DstBufferProps dstProps =
+	DstBufferProps dstVertProps =
 	{
 		.sizeInBytes = sizeof(Vertex) * triangle.size(),
 		.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT
 	};
-	auto dstBuffer = MakeOwned<VDstBuffer>(dstProps, context.GetDevice());
+	DstBufferProps dstIndProps =
+	{
+		.sizeInBytes = sizeof(u32) * indices.size(),
+		.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT
+	};
+	auto dstVBuffer = MakeOwned<VDstBuffer>(dstVertProps, context.GetDevice());
+	auto dstIBuffer = MakeOwned<VDstBuffer>(dstIndProps, context.GetDevice());
 
-	sBuffer->MapMemory({ triangle.data(), sizeof(Vertex) * triangle.size() });
+	sVBuffer->MapMemory({ triangle.data(), sizeof(Vertex) * triangle.size() });
+	sIBuffer->MapMemory({ indices.data(), sizeof(Vertex) * triangle.size() });
 
+	primBuffer->BeginRecording(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+	primBuffer->CopyBufferToBuffer(&*sVBuffer, &*dstVBuffer);
+	primBuffer->CopyBufferToBuffer(&*sIBuffer, &*dstIBuffer);
+	primBuffer->EndRecording();
 
+	context.GetDevice()->SubmitQueue(context.GetGraphicsQueue(), &*primBuffer, nullptr, &*testSem, nullptr, VK_PIPELINE_STAGE_VERTEX_SHADER_BIT);
 
 	window.Show();
 	while (!window.IsClosed())
@@ -150,11 +172,28 @@ int main(int argC, char** argV)
 		window.PollEvents();
 		context.PrepareFrame();
 		cmdBuffer->BeginRecording(context.GetSwapchain()->GetRenderPass(), context.GetSwapchain()->GetFramebuffer());
-
+		cmdBuffer->BindPipeline(&*pipeline);
+		cmdBuffer->BindVertexBuffer(&*dstVBuffer);
+		cmdBuffer->BindIndexBuffer(&*dstIBuffer, 0);
+		cmdBuffer->DrawIndexed(3, 0, 0, 0, 1);
 		cmdBuffer->EndRecording();
 		context.Execute(&*cmdBuffer);
 		context.SubmitFrame();
 	}
+
+	context.GetDevice()->WaitForIdle();
+
+	cmdBuffer->Destroy();
+	primBuffer->Destroy();
+	pool->Destroy();
+	testSem->Destroy();
+	vShader->Destroy();
+	fShader->Destroy();
+	pipeline->Destroy();
+	sVBuffer->Destroy();
+	sIBuffer->Destroy();
+	dstVBuffer->Destroy();
+	dstIBuffer->Destroy();
 
 	context.Shutdown();
 

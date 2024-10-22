@@ -100,6 +100,7 @@ namespace MAGE
 
 		inline VkPipelineLayout GetLayout() const { return m_layout; }
 		inline VkPipeline GetPipeline() const { return m_pipeline; }
+		inline VkPipelineBindPoint GetBindPoint() const { return m_bindPoint; }
 
 		void Destroy() override final;
 

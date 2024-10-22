@@ -15,6 +15,10 @@ namespace MAGE
 	class VCmdPool;
 	class VRenderPass;
 	class VFramebuffer;
+	class VPipeline;
+	class VDstBuffer;
+	class VDescBuffer;
+	class VStageBuffer;
 
 	struct CmdBufferProps final
 	{
@@ -37,8 +41,17 @@ namespace MAGE
 		void BeginRenderPass(VRenderPass* renderPass, VFramebuffer* framebuffer, VkSubpassContents passFlag) const;
 		void EndRenderPass() const;
 
+		void DrawIndexed(u32 indexCount, u32 indexOffset, u32 vertexOffset, u32 instanceOffset, u32 instanceCount) const;
 		void ExecuteCommand(VCmdBuffer* buffer) const;
 
+		void BindPipeline(VPipeline* pipeline) const;
+		void BindDynamicState(VkViewport viewport, VkRect2D scissor) const;
+		void BindVertexBuffer(VDstBuffer* vertexBuffer) const;
+		void BindIndexBuffer(VDstBuffer* indexBuffer, u32 offset) const;
+		void BindDescriptorBuffer(VDescBuffer* dscBuffer) const;
+
+		void CopyBufferToBuffer(VStageBuffer* srcBuffer, VDstBuffer* dstBuffer) const;
+		void CopyImageToBuffer(VStageBuffer* srcBuffer, VDstBuffer* dstBuffer) const;
 		void Destroy() override final;
 
 	private:

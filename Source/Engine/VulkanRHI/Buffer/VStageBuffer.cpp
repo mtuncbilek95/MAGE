@@ -27,7 +27,7 @@ namespace MAGE
 		ErrorUtils::VkAssert(vkAllocateMemory(m_rootDevice->GetDevice(), &allocInfo, nullptr, &m_memory), "VStageBuffer");
 		ErrorUtils::VkAssert(vkBindBufferMemory(m_rootDevice->GetDevice(), m_buffer, m_memory, 0), "VStageBuffer");
 
-		m_totalSize = bufferInfo.size;
+		m_totalSize = desc.sizeInBytes;
 	}
 
 	VStageBuffer::~VStageBuffer()

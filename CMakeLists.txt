@@ -26,13 +26,15 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake")
 include(SetupConfig)
 SetupConfig()
 
-option(ENABLE_CATCH_TEST "Enable testing" OFF) # This one needs to be set ON or OFF in Build/${BuildType-OS}/CMakeCache.txt
+option(ENABLE_CATCH_TEST "Enable testing" ON) # This one needs to be set ON or OFF in Build/${BuildType-OS}/CMakeCache.txt
 # ------------------------------------------------------------
 
 # ----------------------- SUBDIRECTORIES ---------------------
 add_subdirectory("External")
 add_subdirectory("Source/Engine")
 add_subdirectory("Source/Editor")
+
+add_subdirectory("Tests")
 	
 add_subdirectory("Example/01-Editor")
 add_subdirectory("Example/02-Standalone")

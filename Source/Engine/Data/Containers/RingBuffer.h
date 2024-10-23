@@ -17,6 +17,10 @@ namespace MAGE
 	{
 		struct RingDeleter
 		{
+			RingDeleter() = default;
+			RingDeleter(const RingDeleter&) = delete;
+			RingDeleter(RingDeleter&&) = default;
+
 			void operator()(T* buffer) const { ::operator delete(buffer); }
 		};
 
@@ -59,18 +63,82 @@ namespace MAGE
 				++m_size;
 		}
 
+		void Push(T&& value) noexcept
+		{
+			new(m_data + m_head) T(std::move(value));
+
+			m_head = (m_head + 1) % m_capacity;
+
+			if (m_size == m_capacity)
+				m_tail = (m_tail + 1) % m_capacity;
+			else
+				++m_size;
+		}
+
+		template<typename...Args>
+		void Push(Args&&... args)
+		{
+			new(m_data + m_head) T(std::forward(args));
+
+			m_head = (m_head + 1) % m_capacity;
+
+			if (m_size == m_capacity)
+				m_tail = (m_tail + 1) % m_capacity;
+			else
+				++m_size;
+		}
+
+		void Pop(const T& value)
+		{
+
+		}
+
+		constexpr usize Capacity() const { return m_capacity; }
+		constexpr usize Size() const { return m_size; }
+
+		class Iterator
+		{
+		public:
+			Iterator(const RingBuffer& buffer, usize index) : m_buffer(buffer), m_index(index), m_iterateCount(0) {}
+
+			Iterator& operator++()
+			{
+				m_index = (m_index + 1) % m_buffer.m_capacity;
+				++m_iterateCount;
+				return *this;
+			}
+
+			const T& operator*() const 
+			{
+				return m_buffer.m_data[m_index];
+			}
+
+			bool operator!=(const Iterator& other) const
+			{
+				return m_iterateCount != other.m_iterateCount;
+			}
+		
+		private:
+			const RingBuffer& m_buffer;
+			usize m_index;
+			usize m_iterateCount;
+		};
+
+		Iterator begin() const { return Iterator(*this, m_head); }
+		Iterator end() const { return Iterator(*this, m_tail); }
+
 	private:
 		inline void Generate(usize capacity) { m_data = static_cast<T*>(::operator new(sizeof(T) * capacity)); }
 		inline void Kill()
 		{
-			Owned<T, RingDeleter> deleter(buffer, RingDeleter());
+			std::unique_ptr<T, RingDeleter> deleter(m_data, RingDeleter());
 
 			for (int i = 0; i < m_size; i++)
-				buffer[m_size - 1 - i].~T();
+				m_data[m_size - 1 - i].~T();
 		}
 
 	private:
-		T* data;
+		T* m_data;
 		usize m_capacity;
 		usize m_size;
 		usize m_head;

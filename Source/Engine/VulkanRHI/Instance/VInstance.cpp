@@ -128,9 +128,9 @@ namespace MAGE
 
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-		appInfo.pApplicationName = desc.appName.c_str();
+		appInfo.pApplicationName = desc.appName.CharString();
 		appInfo.applicationVersion = VK_MAKE_VERSION(desc.appVersion.x, desc.appVersion.y, desc.appVersion.z);
-		appInfo.pEngineName = desc.engineName.c_str();
+		appInfo.pEngineName = desc.engineName.CharString();
 		appInfo.engineVersion = VK_MAKE_VERSION(desc.engineVersion.x, desc.engineVersion.y, desc.engineVersion.z);
 		appInfo.apiVersion = VK_API_VERSION_1_3;
 
@@ -220,7 +220,7 @@ namespace MAGE
 				return a.second.second < b.second.second;
 			});
 
-		spdlog::info("Best device found: {}", bestDevice->first.c_str());
+		spdlog::info("Best device found: {}", bestDevice->first.CharString());
 		m_adapter = bestDevice->second.first;
 	}
 

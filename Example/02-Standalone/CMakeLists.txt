@@ -8,7 +8,7 @@ add_executable("02-Standalone" main.cpp ${SUBDIRECTORIES})
 
 # ---------------------- INCLUDE DIRECTORIES ----------------
 target_include_directories("02-Standalone" PRIVATE "${CMAKE_SOURCE_DIR}/Source")
-target_link_libraries("02-Standalone" PRIVATE Engine Editor)
+target_link_libraries("02-Standalone" PRIVATE Engine)
 # ------------------------------------------------------------
 
 # ---------------------- COMPILER FLAGS ----------------------

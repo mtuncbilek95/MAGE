@@ -59,6 +59,8 @@ namespace MAGE
 		{
 			m_commandBuffers.push_back(m_commandPool->CreateCmdBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY));
 		}
+
+		m_testPass = MakeOwned<ForwardPass>();
 	}
 
 	void Gfx::Context::PrepareFrame()
@@ -69,7 +71,7 @@ namespace MAGE
 		m_device->ResetFence(&*m_acquireFence);
 
 		m_commandBuffers[m_reqImIndex]->BeginRecording(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
-		m_commandBuffers[m_reqImIndex]->BeginRenderPass(m_swapchain->GetRenderPass(), m_swapchain->GetFramebuffer(m_reqImIndex), VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS);
+		m_commandBuffers[m_reqImIndex]->BeginRenderPass(m_testPass->GetRenderPass(), m_testPass->GetFramebuffer(m_reqImIndex), VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS);
 	}
 
 	void Gfx::Context::Execute(VCmdBuffer* secBuffer)
@@ -91,6 +93,8 @@ namespace MAGE
 	void Gfx::Context::Shutdown()
 	{
 		m_device->WaitForIdle();
+
+		m_testPass.reset();
 		
 		for (auto& cmd : m_commandBuffers)
 			cmd->Destroy();

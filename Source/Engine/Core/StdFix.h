@@ -12,12 +12,6 @@
 template<typename T, size_t N>
 using Array = std::array<T, N>;
 
-#include <string>
-using String = std::string;
-
-#include <string_view>
-using StringView = std::string_view;
-
 #include <vector>
 template<typename T>
 using Vector = std::vector<T>;

@@ -18,14 +18,6 @@
 
 namespace MAGE
 {
-	struct SplitLog
-	{
-		String date;
-		String time;
-		spdlog::level::level_enum level;
-		String message;
-	};
-
 	class SystemLog final : public Singleton<SystemLog>
 	{
 	public:
@@ -54,6 +46,8 @@ namespace MAGE
 
 			m_logger = MakeShared<spdlog::logger>("SystemLog", m_sinks.begin(), m_sinks.end());
 
+			// m_logger->sinks().push_back() TODO: USE THIS FUCKER
+			
 			// Set log level to trace to log all levels
 			m_logger->set_level(spdlog::level::debug);
 			m_logger->flush_on(spdlog::level::err);  // Flush logs on error
@@ -69,25 +63,10 @@ namespace MAGE
 				return customSink.get();
 		}
 
-		static void AddLog(const SplitLog& log)
-		{
-			Get().m_items.push_back(log);
-		}
-
-		static Vector<SplitLog>& GetLogs()
-		{
-			return Get().m_items;
-		}
-
-		static void ClearLogs()
-		{
-			Get().m_items.clear();
-		}
-
 	private:
 		Shared<spdlog::logger> m_logger;
 		Vector<spdlog::sink_ptr> m_sinks;
-		Vector<SplitLog> m_items;
+		//Vector<SplitLog> m_items;
 	};
 
 	class ConsoleSink : public spdlog::sinks::base_sink<std::mutex>
@@ -102,14 +81,14 @@ namespace MAGE
 			spdlog::memory_buf_t formatted;
 			this->formatter_->format(msg, formatted);
 
-			SplitLog splitter = {};
+			/*SplitLog splitter = {};
 			String log = fmt::to_string(formatted);
-			splitter.date = log.substr(1, 10);
-			splitter.time = log.substr(13, 8);
+			splitter.date = log.SubString(1, 10);
+			splitter.time = log.SubString(13, 8);
 			splitter.level = msg.level;
 			splitter.message = String(msg.payload.data(), msg.payload.size());
 
-			SystemLog::AddLog(splitter);
+			SystemLog::AddLog(splitter);*/
 		}
 
 		void flush_() override

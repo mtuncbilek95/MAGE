@@ -42,7 +42,7 @@ namespace MAGE
 			va_end(args);
 
 			// Show the message box
-			i32 code = MessageBoxA(nullptr, buffer, title.c_str(), MB_OKCANCEL | MB_ICONERROR);
+			i32 code = MessageBoxA(nullptr, buffer, title.CharString(), MB_OKCANCEL | MB_ICONERROR);
 
 #if defined(DELUSION_DEBUG)
 			if (code == IDOK)

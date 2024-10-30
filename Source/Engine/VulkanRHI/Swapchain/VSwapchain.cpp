@@ -40,17 +40,6 @@ namespace MAGE
 
 		ErrorUtils::VkAssert(vkAllocateCommandBuffers(m_rootDevice->GetDevice(), &commandBufferInfo, &m_resizeBuffer), "VSwapchain");
 
-		RenderPassProps passProps =
-		{
-			.hasColor = true,
-			.colorPass = { desc.format, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR },
-			.hasDepth = false,
-			.depthPass = {},
-			.clearColor = {0.1f, 0.2f, 0.3f, 1.f},
-			.depthValue = { 0.f, 0.f }
-		};
-		m_renderPass = MakeOwned<VRenderPass>(passProps, device);
-
 #if defined(DELUSION_WINDOWS)
 		VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {};
 		surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
@@ -71,11 +60,6 @@ namespace MAGE
 	{
 		if (newSize.x == 0 || newSize.y == 0)
 			return;
-
-		for (auto& buffer : m_frameBuffers)
-			buffer->Destroy();
-		m_frameBuffers.clear();
-		m_frameBuffers.shrink_to_fit();
 
 		for (auto& image : m_images)
 			image->Destroy();
@@ -212,14 +196,6 @@ namespace MAGE
 
 			ErrorUtils::VkAssert(vkQueueSubmit(m_props.graphicsQueue->GetQueue(), 1, &submitInfo, VK_NULL_HANDLE), "VSwapchain");
 			ErrorUtils::VkAssert(vkQueueWaitIdle(m_props.graphicsQueue->GetQueue()), "VSwapchain");
-
-			FramebufferProps bufferProp =
-			{
-				.imageView = &*m_imageViews[i],
-				.renderPass = &*m_renderPass
-
-			};
-			m_frameBuffers.push_back(MakeOwned<VFramebuffer>(bufferProp, m_rootDevice));
 		}
 	}
 
@@ -260,13 +236,6 @@ namespace MAGE
 			vkDestroyCommandPool(m_rootDevice->GetDevice(), m_resizePool, nullptr);
 			m_resizePool = VK_NULL_HANDLE;
 		}
-
-		for (auto& buffer : m_frameBuffers)
-			buffer->Destroy();
-		m_frameBuffers.clear();
-		m_frameBuffers.shrink_to_fit();
-
-		m_renderPass->Destroy();
 
 		for (auto& image : m_images)
 			image.reset();

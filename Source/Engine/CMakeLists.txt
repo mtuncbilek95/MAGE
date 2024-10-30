@@ -13,7 +13,7 @@ add_library(Engine STATIC ${SUBDIRECTORIES})
 
 # ------------------- INCLUDE DIRECTORIES --------------------
 target_include_directories(Engine PRIVATE "${CMAKE_SOURCE_DIR}/Source")
-target_link_libraries(Engine PUBLIC glfw glm::glm fmt spdlog magic_enum EnTT::EnTT stb)
+target_link_libraries(Engine PUBLIC glfw glm::glm fmt spdlog magic_enum EnTT::EnTT stb assimp)
 
 SetupVulkan(Engine)
 SetupGLFW(Engine)

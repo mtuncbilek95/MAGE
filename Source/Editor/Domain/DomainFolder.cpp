@@ -2,16 +2,15 @@
 
 namespace MAGE
 {
-	void DomainFolder::AddFolder(DomainFolder* folder)
+	DomainFolder::DomainFolder(const FolderProps& desc, DomainFolder* owner)
 	{
+		m_name = desc.fileName;
+		m_path = desc.filePath;
+		m_size = desc.fileSize;
+		m_parent = owner;
 	}
-	void DomainFolder::AddFile(DomainFile* file)
-	{
-	}
-	void DomainFolder::RemoveFolder(DomainFolder* folder)
-	{
-	}
-	void DomainFolder::RemoveFile(DomainFile* file)
+
+	DomainFolder::~DomainFolder()
 	{
 	}
 }

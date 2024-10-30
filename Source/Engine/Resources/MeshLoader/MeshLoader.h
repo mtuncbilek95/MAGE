@@ -8,10 +8,13 @@
 
 #pragma once
 
-#include "Definitions.h"
-#include "StdFix.h"
-#include "GlmFix.h"
-#include "Engine/Helpers/ByteConverter.h"
-#include "Engine/ErrorHandler/SystemLog.h"
-#include "Engine/Data/Containers/String.h"
-#include "Engine/Data/Containers/StringView.h"
+#include "Engine/Core/Core.h"
+#include "Engine/Resources/Core/GeometyData.h"
+
+namespace MAGE
+{
+	namespace Importer
+	{
+		Vector<GeometryData> LoadGeometry(const String& path);
+	}
+}

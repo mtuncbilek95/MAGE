@@ -31,7 +31,7 @@ namespace MAGE
 			VkPipelineShaderStageCreateInfo info = {};
 			info.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 			info.module = shader->GetShaderModule();
-			info.pName = shader->GetEntryPoint().c_str();
+			info.pName = shader->GetEntryPoint().CharString();
 			info.stage = shader->GetShaderStage();
 			sStages.push_back(info);
 		}

@@ -15,10 +15,8 @@ namespace MAGE
 	class VQueue;
 	class VImage;
 	class VImageView;
-	class VFramebuffer;
 	class VSemaphore;
 	class VFence;
-	class VRenderPass;
 
 	struct SwapchainProps final
 	{
@@ -44,9 +42,6 @@ namespace MAGE
 
 		VImage* GetImage(u32 index) const { return &*m_images[index]; }
 		VImageView* GetImageView(u32 index) const { return &*m_imageViews[index]; }
-		VRenderPass* GetRenderPass() const { return &*m_renderPass; }
-		VFramebuffer* GetFramebuffer(u32 index) const { return &*m_frameBuffers[index]; }
-		VFramebuffer* GetFramebuffer() const { return &*m_frameBuffers[m_currentFrame]; }
 
 		void Resize(Math::Vec2u newSize);
 		u32 AcquireNextImage(VSemaphore* semaphore, VFence* fence);
@@ -62,8 +57,6 @@ namespace MAGE
 
 		Vector<Owned<VImage>> m_images;
 		Vector<Owned<VImageView>> m_imageViews;
-		Vector<Owned<VFramebuffer>> m_frameBuffers;
-		Owned<VRenderPass> m_renderPass;
 
 		VkCommandPool m_resizePool;
 		VkCommandBuffer m_resizeBuffer;

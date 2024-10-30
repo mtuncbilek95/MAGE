@@ -23,7 +23,7 @@ namespace MAGE
 			if (result != VK_SUCCESS)
 			{
 				auto name = magic_enum::enum_name<VkResult>(result);
-				spdlog::critical("{0} - {1}",title, name);
+				spdlog::critical("{0} - {1}", std::string_view(title), name);
 				exit(-1);
 			}
 		}

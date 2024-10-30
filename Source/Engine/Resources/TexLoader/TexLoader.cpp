@@ -10,18 +10,18 @@ namespace MAGE
 	{
 		if (!PlatformFile::Exists(path))
 		{
-			spdlog::error("File not found at : {}", path);
+			spdlog::error("File not found at : {}", path.CharString());
 			return TexData();
 		}
 
 		TexData data;
 
 		i32 width, height, channels;
-		stbi_uc* image = stbi_load(path.c_str(), &width, &height, &channels, STBI_rgb_alpha);
+		stbi_uc* image = stbi_load(path.CharString(), &width, &height, &channels, STBI_rgb_alpha);
 
 		if (!image)
 		{
-			spdlog::error("Failed to load image at : {}", path);
+			spdlog::error("Failed to load image at : {}", path.CharString());
 			return TexData();
 		}
 

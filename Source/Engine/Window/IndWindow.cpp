@@ -25,7 +25,7 @@ namespace MAGE
 		}
 
 		// Create the window
-		m_window = glfwCreateWindow(m_windowRes.x, m_windowRes.y, m_title.c_str(), nullptr, nullptr);
+		m_window = glfwCreateWindow(m_windowRes.x, m_windowRes.y, m_title.CharString(), nullptr, nullptr);
 		ErrorUtils::LogAssert(m_window, "GLFW Error", "Failed to create GLFW window!");
 
 		// Set user pointer

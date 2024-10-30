@@ -9,27 +9,28 @@
 #pragma once
 
 #include <Engine/Core/Core.h>
+#include "../Domain/DomainBase.h"
 
 namespace MAGE
 {
 	class DomainFolder;
 
-	class DomainFile final
+	struct FileProps final
+	{
+		String fileName;
+		String filePath;
+		usize fileSize;
+	};
+
+	class DomainFile final : public DomainBase
 	{
 	public:
-		DomainFile() = default;
-		~DomainFile() = default;
+		DomainFile(const FileProps& desc, DomainFolder* folder);
+		~DomainFile() override final;
 
-		const String& GetName() const { return m_name; }
-		const String& GetPath() const { return m_path; }
+		DomainFolder* GetOwnerFolder() const { return m_ownerFolder; }
 
-		void SetName(const String& name) { m_name = name; }
-		void SetPath(const String& path) { m_path = path; }
-		
 	private:
-		String m_name;
-		String m_path;
-
-		DomainFolder* m_ownerFolder = nullptr;
+		DomainFolder* m_ownerFolder;
 	};
 }

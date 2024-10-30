@@ -20,6 +20,8 @@
 #include "Engine/VulkanRHI/Command/VCmdPool.h"
 #include "Engine/VulkanRHI/Command/VCmdBuffer.h"
 
+#include "Passes/ForwardPass.h"
+
 namespace MAGE
 {
 	namespace Gfx
@@ -44,6 +46,11 @@ namespace MAGE
 			VQueue* GetTransferQueue() const { return &*m_transferQueue; }
 			VCmdBuffer* GetCmdBuffer() const { return &*m_commandBuffers[m_reqImIndex]; }
 
+			ForwardPass* GetPass() const { return &*m_testPass; }
+
+			VRenderPass* GetRenderPass() const { return m_testPass->GetRenderPass(); }
+			VFramebuffer* GetFramebuffer() const { return m_testPass->GetFramebuffer(m_reqImIndex); }
+
 		private:
 			Owned<VInstance> m_instance;
 			Owned<VDevice> m_device;
@@ -56,11 +63,12 @@ namespace MAGE
 			
 			Vector<Owned<VSemaphore>> m_renderSemaphores;
 			Owned<VFence> m_acquireFence;
-
 			Owned<VCmdPool> m_commandPool;
 			Vector<Owned<VCmdBuffer>> m_commandBuffers;
 
 			u32 m_reqImIndex = 0;
+
+			Owned<ForwardPass> m_testPass;
 		};
 	}
 }

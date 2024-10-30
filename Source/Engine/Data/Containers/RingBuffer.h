@@ -63,36 +63,6 @@ namespace MAGE
 				++m_size;
 		}
 
-		void Push(T&& value) noexcept
-		{
-			new(m_data + m_head) T(std::move(value));
-
-			m_head = (m_head + 1) % m_capacity;
-
-			if (m_size == m_capacity)
-				m_tail = (m_tail + 1) % m_capacity;
-			else
-				++m_size;
-		}
-
-		template<typename...Args>
-		void Push(Args&&... args)
-		{
-			new(m_data + m_head) T(std::forward(args));
-
-			m_head = (m_head + 1) % m_capacity;
-
-			if (m_size == m_capacity)
-				m_tail = (m_tail + 1) % m_capacity;
-			else
-				++m_size;
-		}
-
-		void Pop(const T& value)
-		{
-
-		}
-
 		constexpr usize Capacity() const { return m_capacity; }
 		constexpr usize Size() const { return m_size; }
 
@@ -134,7 +104,20 @@ namespace MAGE
 			std::unique_ptr<T, RingDeleter> deleter(m_data, RingDeleter());
 
 			for (int i = 0; i < m_size; i++)
-				m_data[m_size - 1 - i].~T();
+			{
+				try
+				{
+					m_data[m_size - 1 - i].~T();
+				}
+				catch (const std::exception& e)
+				{
+					spdlog::critical("RingBuffer: {}", e.what());
+				}
+				catch (...)
+				{
+					spdlog::critical("RingBuffer: Unknown error!");
+				}
+			}
 		}
 
 	private:

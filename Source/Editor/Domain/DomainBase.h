@@ -19,9 +19,11 @@ namespace MAGE
 
 		const String& GetName() const { return m_name; }
 		const String& GetPath() const { return m_path; }
+		usize GetSize() const { return m_size; }
 
 	protected:
 		String m_name;
 		String m_path;
+		usize m_size;
 	};
 }

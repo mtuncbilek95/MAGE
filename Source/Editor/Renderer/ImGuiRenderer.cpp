@@ -27,6 +27,8 @@ namespace MAGE
 	ImGuiPanelRegistry& panelRegistry = ImGuiPanelRegistry::Get();
 	ImGuiListener& listener = ImGuiListener::Get();
 
+	Gfx::Context& gfxContext = Gfx::Context::Get();
+
 	ImGuiRenderer::ImGuiRenderer()
 	{
 		m_dock = panelRegistry.RegisterPanel<ImGuiDock>();
@@ -39,7 +41,6 @@ namespace MAGE
 
 	void ImGuiRenderer::Init()
 	{
-		auto& renderer = Gfx::Context::Get();
 		m_context = ImGui::CreateContext();
 		ImGui::SetCurrentContext(m_context);
 
@@ -71,11 +72,11 @@ namespace MAGE
 			{VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000}
 		};
 
-		m_descPool = MakeOwned<VDescPool>(poolProps, renderer.GetDevice());
+		m_descPool = MakeOwned<VDescPool>(poolProps, gfxContext.GetDevice());
 
-		auto instance = renderer.GetInstance();
-		auto device = renderer.GetDevice();
-		auto gQueue = renderer.GetGraphicsQueue();
+		auto instance = gfxContext.GetInstance();
+		auto device = gfxContext.GetDevice();
+		auto gQueue = gfxContext.GetGraphicsQueue();
 
 		ImGui_ImplVulkan_InitInfo initInfo = {};
 		initInfo.Instance = instance->GetInstance();
@@ -86,7 +87,7 @@ namespace MAGE
 		initInfo.DescriptorPool = m_descPool->GetPool();
 		initInfo.MinImageCount = 2;
 		initInfo.ImageCount = 3;
-		initInfo.RenderPass = renderer.GetSwapchain()->GetRenderPass()->GetRenderPass();
+		initInfo.RenderPass = gfxContext.GetRenderPass()->GetRenderPass();
 		initInfo.MinAllocationSize = 1024 * 1024;
 		initInfo.UseDynamicRendering = false;
 
@@ -96,10 +97,10 @@ namespace MAGE
 
 		CmdPoolProps poolProp =
 		{
-			.queue = Gfx::Context::Get().GetGraphicsQueue(),
+			.queue = gfxContext.GetGraphicsQueue(),
 			.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT
 		};
-		m_pool = MakeOwned<VCmdPool>(poolProp, Gfx::Context::Get().GetDevice());
+		m_pool = MakeOwned<VCmdPool>(poolProp, gfxContext.GetDevice());
 		m_buffer = m_pool->CreateCmdBuffer(VK_COMMAND_BUFFER_LEVEL_SECONDARY);
 	}
 
@@ -120,17 +121,16 @@ namespace MAGE
 			ImGui::RenderPlatformWindowsDefault();
 		}
 
-		m_buffer->BeginRecording(Gfx::Context::Get().GetSwapchain()->GetRenderPass(), Gfx::Context::Get().GetSwapchain()->GetFramebuffer());
+		m_buffer->BeginRecording(gfxContext.GetRenderPass(), gfxContext.GetFramebuffer());
 		ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), m_buffer->GetCmdBuffer());
 		m_buffer->EndRecording();
 
-		Gfx::Context::Get().Execute(&*m_buffer);
+		gfxContext.Execute(&*m_buffer);
 	}
 
 	void ImGuiRenderer::Shutdown()
 	{
-		auto& renderer = Gfx::Context::Get();
-		renderer.GetDevice()->WaitForIdle();
+		gfxContext.GetDevice()->WaitForIdle();
 
 		panelRegistry.ClearPanels();
 

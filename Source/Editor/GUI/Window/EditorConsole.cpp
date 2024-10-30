@@ -22,9 +22,6 @@ namespace MAGE
 			ImGui::SetWindowSize("Console", ImVec2(200, 50));
 			m_dirty = true;
 		}
-
-		if (SystemLog::GetLogs().size() > 1000)
-			SystemLog::GetLogs().clear();
 	}
 
 	void EditorConsole::Render()
@@ -42,7 +39,7 @@ namespace MAGE
 
 			ImGui::TableHeadersRow();
 
-			for (const auto& log : SystemLog::GetLogs())
+			/*for (const auto& log : SystemLog::GetLogs())
 			{
 				ImVec4 color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 				ImVec4 restColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -80,14 +77,14 @@ namespace MAGE
 				}
 
 				ImGui::TableSetColumnIndex(0);
-				ImGui::TextColored(textColor, log.date.c_str());
+				ImGui::TextColored(textColor, log.date.CharString());
 				ImGui::TableSetColumnIndex(1);
-				ImGui::TextColored(textColor, log.time.c_str());
+				ImGui::TextColored(textColor, log.time.CharString());
 				ImGui::TableSetColumnIndex(2);
-				ImGui::TextColored(color, level.c_str());
+				ImGui::TextColored(color, level.CharString());
 				ImGui::TableSetColumnIndex(3);
-				ImGui::TextColored(restColor, log.message.c_str());
-			}
+				ImGui::TextColored(restColor, log.message.CharString());
+			}*/
 
 			ImGui::PopStyleVar();
 			ImGui::EndTable();

@@ -16,3 +16,5 @@ Tools/CodeGen/Build
 Tools/CodeGen/Intermediate
 Tools/CodeGen/.vscode
 Tools/CodeGen/out
+Build-Debug/*
+Build-Release/*

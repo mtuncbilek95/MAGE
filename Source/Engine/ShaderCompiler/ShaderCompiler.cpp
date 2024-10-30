@@ -15,7 +15,7 @@ namespace MAGE
 	{
 		if (status != shaderc_compilation_status_success)
 		{
-			spdlog::error("[{0}:{1}] - {2}", title, magic_enum::enum_name(status), message);
+			spdlog::error("[{0}:{1}] - {2}", std::string_view(title), magic_enum::enum_name(status), std::string_view(message));
 			exit(-1);
 		}
 	}
@@ -73,10 +73,10 @@ namespace MAGE
 			throw std::runtime_error("Failed to read include '" + includeData->m_fullPath + "'!");
 
 		shaderc_include_result* result = &includeData->result;
-		result->content = includeData->m_content.data();
-		result->content_length = includeData->m_content.size();
-		result->source_name = includeData->m_fullPath.data();
-		result->source_name_length = includeData->m_fullPath.size();
+		result->content = includeData->m_content.Data();
+		result->content_length = includeData->m_content.Size();
+		result->source_name = includeData->m_fullPath.Data();
+		result->source_name_length = includeData->m_fullPath.Size();
 		result->user_data = includeData;
 
 		return result;
@@ -109,16 +109,16 @@ namespace MAGE
 		options.SetOptimizationLevel(shaderc_optimization_level_performance);
 		options.SetTargetSpirv(shaderc_spirv_version_1_6);
 
-		if (!includePath.empty())
+		if (!includePath.Empty())
 			options.SetIncluder(MakeOwned<ShaderIncluder>(includePath));
 
-		auto extensionSplit = shaderPath.find_last_of('.');
-		if (extensionSplit == String::npos)
+		auto extensionSplit = shaderPath.FindEndIndexOf(".");
+		if (extensionSplit == String::NPos)
 			throw std::runtime_error("Failed to find extension for shader '" + shaderPath + "'!");
 
-		auto stage = CheckStage(shaderPath.substr(extensionSplit + 1));
+		auto stage = CheckStage(shaderPath.SubString(extensionSplit + 1));
 
-		shaderc::PreprocessedSourceCompilationResult preResult = compiler.PreprocessGlsl(sourceCode.data(), stage, "", options);
+		shaderc::PreprocessedSourceCompilationResult preResult = compiler.PreprocessGlsl(sourceCode.Data(), stage, "", options);
 		ShaderAssert(preResult.GetCompilationStatus(), "PreResult", preResult.GetErrorMessage());
 
 		shaderc::SpvCompilationResult compResult = compiler.CompileGlslToSpv(preResult.begin(), stage, "", options);

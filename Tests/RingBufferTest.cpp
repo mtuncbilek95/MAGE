@@ -31,5 +31,5 @@ TEST_CASE("Iterator", "[RingBuffer]")
 
 	i32 counterIndex = 0;
 	for (auto& it : buffer)
-		REQUIRE(strcmp(it.c_str(), std::to_string(counterIndex).c_str()) == 0);
+		REQUIRE(strcmp(it.CharString(), std::to_string(counterIndex).c_str()) == 0);
 }

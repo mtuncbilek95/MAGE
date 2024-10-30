@@ -7,7 +7,7 @@ add_executable(Tests ${SOURCES})
 target_include_directories(Tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_include_directories(Tests PRIVATE "${CMAKE_SOURCE_DIR}/Source")
-target_link_libraries(Tests PRIVATE Engine Editor)
+target_link_libraries(Tests PRIVATE Engine)
 
 target_link_libraries(Tests PRIVATE Catch2::Catch2WithMain)
 

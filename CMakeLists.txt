@@ -27,6 +27,10 @@ include(SetupConfig)
 SetupConfig()
 
 option(ENABLE_CATCH_TEST "Enable testing" ON) # This one needs to be set ON or OFF in Build/${BuildType-OS}/CMakeCache.txt
+
+if(ENABLE_CATCH_TEST)
+	enable_testing()
+endif()
 # ------------------------------------------------------------
 
 # ----------------------- SUBDIRECTORIES ---------------------

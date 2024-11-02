@@ -89,6 +89,9 @@ namespace MAGE
 		extensions.push_back({ VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME, false });
 		extensions.push_back({ VK_EXT_DESCRIPTOR_BUFFER_EXTENSION_NAME, false });
 		extensions.push_back({ VK_KHR_MAINTENANCE3_EXTENSION_NAME, false });
+		extensions.push_back({ VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME, false});
+		extensions.push_back({ VK_EXT_DYNAMIC_RENDERING_UNUSED_ATTACHMENTS_EXTENSION_NAME, false});
+
 
 		//Check if the device supports the extensions
 		u32 extensionCount = 0;
@@ -122,7 +125,10 @@ namespace MAGE
 		for (auto& ext : brokenExtensions)
 			spdlog::error("{} has no support on this hardware specs", ext);
 
-		///ErrorUtils::LogAssert(brokenExtensions.size() == 0, "VDevice", "Your device does not support the bare minimum extensions. You need at least RTX2060 or equivalent.");
+		VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT dynamicRenderingUnusedAttachmentsFeatures = {};
+		dynamicRenderingUnusedAttachmentsFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_UNUSED_ATTACHMENTS_FEATURES_EXT;
+		dynamicRenderingUnusedAttachmentsFeatures.pNext = nullptr;
+		dynamicRenderingUnusedAttachmentsFeatures.dynamicRenderingUnusedAttachments = VK_TRUE;
 
 		VkPhysicalDeviceDescriptorIndexingFeatures descriptorIndexing = {};
 		descriptorIndexing.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES;
@@ -149,6 +155,7 @@ namespace MAGE
 		descriptorIndexing.descriptorBindingPartiallyBound = VK_TRUE;
 		descriptorIndexing.descriptorBindingVariableDescriptorCount = VK_TRUE;
 		descriptorIndexing.runtimeDescriptorArray = VK_TRUE;
+		descriptorIndexing.pNext = &dynamicRenderingUnusedAttachmentsFeatures;
 
 		VkPhysicalDeviceBufferDeviceAddressFeatures bufferDeviceAddress = {};
 		bufferDeviceAddress.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES;
@@ -162,6 +169,11 @@ namespace MAGE
 		descriptorBuffer.descriptorBuffer = VK_TRUE;
 		descriptorBuffer.pNext = &bufferDeviceAddress;
 
+		VkPhysicalDeviceDynamicRenderingFeaturesKHR dynamicRenderingFeatures = {};
+		dynamicRenderingFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_FEATURES_KHR;
+		dynamicRenderingFeatures.pNext = &descriptorBuffer;
+		dynamicRenderingFeatures.dynamicRendering = VK_TRUE;
+
 		// Get all the device features related to adapter
 		VkPhysicalDeviceFeatures deviceFeatures;
 		vkGetPhysicalDeviceFeatures(m_adapter, &deviceFeatures);
@@ -173,7 +185,7 @@ namespace MAGE
 		deviceCreateInfo.pEnabledFeatures = &deviceFeatures;
 		deviceCreateInfo.enabledExtensionCount = static_cast<u32>(workingExtensions.size());
 		deviceCreateInfo.ppEnabledExtensionNames = workingExtensions.data();
-		deviceCreateInfo.pNext = &descriptorBuffer;
+		deviceCreateInfo.pNext = &dynamicRenderingFeatures;
 
 		ErrorUtils::VkAssert(vkCreateDevice(m_adapter, &deviceCreateInfo, nullptr, &m_device), "VDevice");
 

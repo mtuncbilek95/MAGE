@@ -1,6 +1,7 @@
 #include "RenderContext.h"
 
 #include "Engine/Window/WindowManager.h"
+#include "Engine/Resources/ControlUnit/TransferBatch.h"
 
 #if defined(DELUSION_WINDOWS)
 VkFormat preFormat = VK_FORMAT_R8G8B8A8_UNORM;
@@ -36,7 +37,7 @@ namespace MAGE
 		SwapchainProps swapchainProps =
 		{
 			.format = preFormat,
-			.presentMode = VK_PRESENT_MODE_FIFO_KHR,
+			.presentMode = VK_PRESENT_MODE_FIFO_RELAXED_KHR,
 			.imageSize = Manager::Window::Get().GetWindow().GetWindowRes(),
 			.imageCount = 3,
 			.graphicsQueue = &*m_graphicsQueue
@@ -61,10 +62,14 @@ namespace MAGE
 		}
 
 		m_testPass = MakeOwned<ForwardPass>();
+
+		TransferBatch::Get().Init(&*m_transferQueue);
 	}
 
 	void Gfx::Context::PrepareFrame()
 	{
+		TransferBatch::Get().ExecuteThemAll();
+
 		m_reqImIndex = m_swapchain->AcquireNextImage(nullptr, &*m_acquireFence);
 
 		m_device->WaitForFence(&*m_acquireFence);
@@ -112,6 +117,5 @@ namespace MAGE
 		m_swapchain->Destroy();
 		m_device->Destroy();
 		m_instance->Destroy();
-
 	}
 }

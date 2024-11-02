@@ -93,12 +93,17 @@ int main(int argC, char** argV)
 
 	context.GetDevice()->SubmitQueue(context.GetTransferQueue(), &*transferBuffer, nullptr, &*testSem, nullptr, VK_PIPELINE_STAGE_VERTEX_SHADER_BIT);
 
+
+
 	window.Show();
 	while (!window.IsClosed())
 	{
 		window.PollEvents();
 		context.PrepareFrame();
-		cmdBuffer->BeginRecording(context.GetRenderPass(), context.GetFramebuffer());
+
+		RecordingProps recProp = {};
+		recProp.colorAttachments.push_back(VK_FORMAT_R8G8B8A8_UNORM);
+		cmdBuffer->BeginRecording(recProp);
 		cmdBuffer->BindPipeline(context.GetPass()->GetPipeline());
 		cmdBuffer->BindVertexBuffer(&*dstVBuffer);
 		cmdBuffer->BindIndexBuffer(&*dstIBuffer, 0);

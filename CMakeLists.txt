@@ -38,4 +38,5 @@ add_subdirectory("Tests")
 	
 add_subdirectory("Example/01-Editor")
 add_subdirectory("Example/02-Standalone")
+add_subdirectory("Example/03-General")
 # ------------------------------------------------------------

@@ -8,26 +8,18 @@
 
 #pragma once
 
-#include <Engine/Core/Core.h>
-
-#include "Editor/Core/ImGuiPanel.h"
+#include "Engine/Core/Core.h"
 
 namespace MAGE
 {
-	class MenuBar final : public ImGuiPanel
+	class IResource
 	{
 	public:
-		MenuBar();
-		~MenuBar() override;
+		virtual ~IResource() = default;
 
-		void Update() override;
-		void Render() override;
-
-		void HandlePosition(Math::Vec2i pos);
+		const String& GetPath() { return m_path; }
 
 	private:
-		bool m_isDrag = false;
-		Math::Vec2d m_clickOffset;
-		Math::Vec2i m_winPos;
+		String m_path;
 	};
 }

@@ -48,9 +48,6 @@ namespace MAGE
 
 			ForwardPass* GetPass() const { return &*m_testPass; }
 
-			VRenderPass* GetRenderPass() const { return m_testPass->GetRenderPass(); }
-			VFramebuffer* GetFramebuffer() const { return m_testPass->GetFramebuffer(m_reqImIndex); }
-
 		private:
 			Owned<VInstance> m_instance;
 			Owned<VDevice> m_device;

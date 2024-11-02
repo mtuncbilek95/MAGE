@@ -9,7 +9,8 @@
 
 namespace MAGE
 {
-	VPipeline::VPipeline(const GraphicsPipelineProps& desc, VDevice* device) : VObject(device), m_grapProps(desc), m_bindPoint(VK_PIPELINE_BIND_POINT_GRAPHICS)
+	VPipeline::VPipeline(const GraphicsPipelineProps& desc, VDevice* device) : VObject(device), m_grapProps(desc), 
+		m_bindPoint(VK_PIPELINE_BIND_POINT_GRAPHICS), m_layout(VK_NULL_HANDLE), m_pipeline(VK_NULL_HANDLE)
 	{
 		Vector<VkDescriptorSetLayout> dLayouts(desc.layouts.size(), VK_NULL_HANDLE);
 		for (u32 i = 0; i < dLayouts.size(); i++)
@@ -61,6 +62,7 @@ namespace MAGE
 			bindings.push_back(binding);
 		}
 
+		// VertexInputState
 		VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
 		vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 		vertexInputInfo.vertexBindingDescriptionCount = static_cast<u32>(bindings.size());
@@ -68,6 +70,7 @@ namespace MAGE
 		vertexInputInfo.vertexAttributeDescriptionCount = static_cast<u32>(attributes.size());
 		vertexInputInfo.pVertexAttributeDescriptions = attributes.data();
 
+		// InputAssemblyState
 		VkPipelineInputAssemblyStateCreateInfo inputAssembly = {};
 		inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
 		inputAssembly.topology = desc.inputAssembler.topology;
@@ -79,11 +82,13 @@ namespace MAGE
 		if (desc.viewportState.dynamicScissor)
 			dStates.push_back(VK_DYNAMIC_STATE_SCISSOR);
 
+		// DynamicPipelineState
 		VkPipelineDynamicStateCreateInfo dynamicState = {};
 		dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
 		dynamicState.dynamicStateCount = static_cast<u32>(dStates.size());
 		dynamicState.pDynamicStates = dStates.data();
 
+		// ViewportState
 		VkPipelineViewportStateCreateInfo viewportState = {};
 		viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
 		viewportState.viewportCount = 1;
@@ -91,6 +96,7 @@ namespace MAGE
 		viewportState.scissorCount = 1;
 		viewportState.pScissors = &desc.viewportState.scissor;
 
+		// RasterizationState
 		VkPipelineRasterizationStateCreateInfo rasterizer = {};
 		rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
 		rasterizer.depthClampEnable = VK_FALSE;
@@ -104,11 +110,13 @@ namespace MAGE
 		rasterizer.depthBiasClamp = desc.rasterizerState.depthBiasClamp;
 		rasterizer.depthBiasSlopeFactor = desc.rasterizerState.depthBiasSlopeFactor;
 
+		// MultisampleState
 		VkPipelineMultisampleStateCreateInfo multisampling = {};
 		multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
 		multisampling.sampleShadingEnable = VK_FALSE;
 		multisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
 
+		// ColorBlendAttachmentState
 		Vector<VkPipelineColorBlendAttachmentState> colorBlendAttachments;
 		for (auto& attachment : desc.blendState.attachments)
 		{
@@ -128,6 +136,7 @@ namespace MAGE
 			colorBlendAttachments.push_back(colorBlendAttachment);
 		}
 
+		// ColorBlendState
 		VkPipelineColorBlendStateCreateInfo colorBlending = {};
 		colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 		colorBlending.logicOpEnable = desc.blendState.logicOpEnable;
@@ -139,6 +148,7 @@ namespace MAGE
 		colorBlending.blendConstants[2] = 0.0f;
 		colorBlending.blendConstants[3] = 0.0f;
 
+		// DepthStencilState
 		VkPipelineDepthStencilStateCreateInfo depthstencil = {};
 		depthstencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
 		depthstencil.depthWriteEnable = desc.depthStencilState.depthWriteEnable;
@@ -150,6 +160,17 @@ namespace MAGE
 		depthstencil.maxDepthBounds = 1.0f;
 		depthstencil.front = desc.depthStencilState.front;
 		depthstencil.back = desc.depthStencilState.back;
+
+		// Dynamic Rendering Info
+		// It will be added to pNext of VkGraphicsPipelineCreateInfo
+		VkPipelineRenderingCreateInfo renderingInfo = {};
+		renderingInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO;
+		renderingInfo.colorAttachmentCount = desc.dynamicRendering.colorAttachments.size();
+		renderingInfo.pColorAttachmentFormats = desc.dynamicRendering.colorAttachments.data();
+		renderingInfo.depthAttachmentFormat = desc.dynamicRendering.depthAttachment;
+		renderingInfo.stencilAttachmentFormat = desc.dynamicRendering.stencilAttachment;
+		renderingInfo.pNext = nullptr;
+		renderingInfo.viewMask = desc.dynamicRendering.viewMask;
 
 		VkGraphicsPipelineCreateInfo pipelineInfo{};
 		pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
@@ -164,9 +185,9 @@ namespace MAGE
 		pipelineInfo.pColorBlendState = &colorBlending;
 		pipelineInfo.pDynamicState = dStates.size() > 0 ? &dynamicState : nullptr;
 		pipelineInfo.layout = m_layout;
-		pipelineInfo.renderPass = desc.renderPass->GetRenderPass();
+		pipelineInfo.renderPass = nullptr;
 		pipelineInfo.subpass = 0;
-		pipelineInfo.pNext = nullptr;
+		pipelineInfo.pNext = &renderingInfo;
 
 		ErrorUtils::VkAssert(vkCreateGraphicsPipelines(device->GetDevice(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_pipeline), "VulkanPipeline");
 	}

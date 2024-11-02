@@ -87,9 +87,14 @@ namespace MAGE
 		initInfo.DescriptorPool = m_descPool->GetPool();
 		initInfo.MinImageCount = 2;
 		initInfo.ImageCount = 3;
-		initInfo.RenderPass = gfxContext.GetRenderPass()->GetRenderPass();
+		initInfo.RenderPass = nullptr;
 		initInfo.MinAllocationSize = 1024 * 1024;
-		initInfo.UseDynamicRendering = false;
+		initInfo.UseDynamicRendering = true;
+
+		initInfo.PipelineRenderingCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO_KHR;
+		initInfo.PipelineRenderingCreateInfo.colorAttachmentCount = 1;
+		initInfo.PipelineRenderingCreateInfo.pColorAttachmentFormats = format;
+		initInfo.PipelineRenderingCreateInfo.viewMask = 0;
 
 		GLFWwindow* window = Manager::Window::Get().GetWindow().GetGLFWWindow();
 		ImGui_ImplGlfw_InitForVulkan(window, true);
@@ -121,7 +126,9 @@ namespace MAGE
 			ImGui::RenderPlatformWindowsDefault();
 		}
 
-		m_buffer->BeginRecording(gfxContext.GetRenderPass(), gfxContext.GetFramebuffer());
+		RecordingProps recProp = {};
+		recProp.colorAttachments.push_back(format[0]);
+		m_buffer->BeginRecording(recProp);
 		ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), m_buffer->GetCmdBuffer());
 		m_buffer->EndRecording();
 

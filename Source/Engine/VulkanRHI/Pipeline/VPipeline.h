@@ -80,6 +80,14 @@ namespace MAGE
 		f32 maxDepthBounds;
 	};
 
+	struct DynamicAttachments final
+	{
+		Vector<VkFormat> colorAttachments;
+		VkFormat depthAttachment = VK_FORMAT_UNDEFINED;
+		VkFormat stencilAttachment = VK_FORMAT_UNDEFINED;
+		u32 viewMask = 0;
+	};
+
 	struct GraphicsPipelineProps final
 	{
 		Vector<VDescLayout*> layouts;
@@ -89,7 +97,7 @@ namespace MAGE
 		RasterizerState rasterizerState;
 		BlendState blendState;
 		DepthStencilState depthStencilState;
-		VRenderPass* renderPass;
+		DynamicAttachments dynamicRendering;
 	};
 
 	class VPipeline final : public VObject

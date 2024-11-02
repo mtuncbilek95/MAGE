@@ -18,6 +18,7 @@ target_link_libraries(Engine PUBLIC glfw glm::glm fmt spdlog magic_enum EnTT::En
 SetupVulkan(Engine)
 SetupGLFW(Engine)
 DefineGlmMacros(Engine)
+AddStbMacros(Engine)
 
 if(WIN32)
 	include(SetupWindows)

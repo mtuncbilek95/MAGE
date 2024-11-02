@@ -42,11 +42,11 @@ namespace MAGE
 		m_windowPos = { ((mode->width - m_windowRes.x) / 2) + mode->width * monitorIndex, (mode->height - m_windowRes.y) / 2};
 		glfwSetWindowPos(m_window, m_windowPos.x, m_windowPos.y);
 
-		glfwSetWindowPosCallback(m_window, [](GLFWwindow* window, i32 x, i32 y)
+		/*glfwSetWindowPosCallback(m_window, [](GLFWwindow* window, i32 x, i32 y)
 			{
 				IndWindow* indWindow = static_cast<IndWindow*>(glfwGetWindowUserPointer(window));
 				indWindow->m_windowPos = { x, y };
-			});
+			});*/
 	}
 
 	IndWindow::~IndWindow()

@@ -20,13 +20,15 @@ namespace MAGE
 	{
 	public:
 		TransferBatch() = default;
-		~TransferBatch() = default;
+		~TransferBatch();
 
 		void Init(VQueue* pool);
 		void RegisterCmdBuffer(VCmdBuffer* buffer);
 		void ExecuteThemAll();
 
 		VCmdPool* GetTransferPool() const { return &*m_transferPool; }
+
+		void Destroy();
 
 	private:
 		bool HasPendingTransfer() const;

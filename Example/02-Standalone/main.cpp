@@ -15,13 +15,17 @@ using namespace MAGE;
 
 struct Vertex {
 	Math::Vec3f Pos;
-	Math::Vec3f Color;
+	Math::Vec3f Normal;
+	Math::Vec3f Tangent;
+	Math::Vec3f Bitangent;
+	Math::Vec4f Color;
+	Math::Vec2f UV;
 };
 
 Vector<Vertex> triangle = {
-	{{  0.0f,  0.5f,  0.0f }, { 1.0f, 0.0f, 0.0f }},
-	{{  0.5f, -0.5f,  0.0f }, { 0.0f, 1.0f, 0.0f }},
-	{{ -0.5f, -0.5f,  0.0f }, { 0.0f, 0.0f, 1.0f }}
+	{{  0.0f,  0.5f,  0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f }},
+	{{  0.5f, -0.5f,  0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }, { 0.0f, 0.0f }},
+	{{ -0.5f, -0.5f,  0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }, { 0.0f, 0.0f }}
 };
 
 Vector<u32> indices = { 0, 1, 2 };
@@ -92,8 +96,6 @@ int main(int argC, char** argV)
 	transferBuffer->EndRecording();
 
 	context.GetDevice()->SubmitQueue(context.GetTransferQueue(), &*transferBuffer, nullptr, &*testSem, nullptr, VK_PIPELINE_STAGE_VERTEX_SHADER_BIT);
-
-
 
 	window.Show();
 	while (!window.IsClosed())

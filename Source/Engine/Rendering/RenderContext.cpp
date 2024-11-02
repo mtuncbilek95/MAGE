@@ -100,7 +100,9 @@ namespace MAGE
 		m_device->WaitForIdle();
 
 		m_testPass.reset();
-		
+
+		TransferBatch::Get().Destroy();
+
 		for (auto& cmd : m_commandBuffers)
 			cmd->Destroy();
 

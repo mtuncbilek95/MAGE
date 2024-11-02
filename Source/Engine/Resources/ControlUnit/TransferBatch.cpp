@@ -4,12 +4,18 @@ namespace MAGE
 {
 	Gfx::Context& m_context = Gfx::Context::Get();
 
+	TransferBatch::~TransferBatch()
+	{
+		Destroy();
+	}
+
 	void TransferBatch::Init(VQueue* queue)
 	{
 		CmdPoolProps prop = {};
 		prop.queue = queue;
 		prop.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 		m_transferPool = MakeOwned<VCmdPool>(prop, m_context.GetDevice());
+		m_transferPrimary = m_transferPool->CreateCmdBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY);
 	}
 
 	void TransferBatch::RegisterCmdBuffer(VCmdBuffer* buffer)
@@ -38,6 +44,12 @@ namespace MAGE
 
 			m_refBuffers.clear();
 		}
+	}
+
+	void TransferBatch::Destroy()
+	{
+		m_transferPrimary->Destroy();
+		m_transferPool->Destroy();
 	}
 
 	bool TransferBatch::HasPendingTransfer() const

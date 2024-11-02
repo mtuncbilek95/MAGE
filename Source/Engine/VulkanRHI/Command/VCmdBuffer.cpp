@@ -54,7 +54,7 @@ namespace MAGE
 		inherit.occlusionQueryEnable = VK_FALSE;
 
 		VkCommandBufferInheritanceRenderingInfo rendering = {};
-		if (recordProp.onlyTransfer)
+		if (!recordProp.onlyTransfer)
 		{
 			rendering.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDERING_INFO;
 			rendering.colorAttachmentCount = recordProp.colorAttachments.size();

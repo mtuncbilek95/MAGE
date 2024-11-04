@@ -98,6 +98,8 @@ namespace MAGE
 		BlendState blendState;
 		DepthStencilState depthStencilState;
 		DynamicAttachments dynamicRendering;
+
+		VkPipelineCreateFlags initFlag;
 	};
 
 	class VPipeline final : public VObject

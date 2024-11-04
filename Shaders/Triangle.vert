@@ -9,8 +9,15 @@ layout(location = 5) in vec2 inUV;
 
 layout(location = 0) out vec4 outColor;
 
+layout(set = 0, binding = 0) uniform descBuffer
+{
+	mat4 model;
+	mat4 view;
+	mat4 proj;
+} mvp;
+
 void main()
 {
-	gl_Position = vec4(inPos.x, -inPos.y, inPos.z, 1.0);
+	gl_Position = mvp.proj * mvp.view * mvp.model * vec4(inPos.xyz, 1.0);
 	outColor = inColor;
 }

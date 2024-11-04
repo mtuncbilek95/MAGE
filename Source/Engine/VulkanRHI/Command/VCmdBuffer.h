@@ -21,6 +21,7 @@ namespace MAGE
 	class VStageBuffer;
 	class VImage;
 	class VImageView;
+	class VDescSet;
 
 	struct CmdBufferProps final
 	{
@@ -107,13 +108,14 @@ namespace MAGE
 		void DrawIndexed(u32 indexCount, u32 indexOffset, u32 vertexOffset, u32 instanceOffset, u32 instanceCount) const;
 
 		void ExecuteCommand(VCmdBuffer* buffer) const;
-		void KillThemAll(const Vector<VCmdBuffer*>& buffers) const;
+		void ExecuteCommands(const Vector<VCmdBuffer*>& buffers) const;
 
-		void BindPipeline(VPipeline* pipeline) const;
+		void BindPipeline(VPipeline* pipeline);
 		void BindDynamicState(VkViewport viewport, VkRect2D scissor) const;
 		void BindVertexBuffer(VDstBuffer* vertexBuffer) const;
 		void BindIndexBuffer(VDstBuffer* indexBuffer, u32 offset) const;
 		void BindDescriptorBuffer(VDescBuffer* dscBuffer) const;
+		void BindDescriptorSet(VDescSet* descSet);
 
 		void CopyBufferToBuffer(VStageBuffer* srcBuffer, VDstBuffer* dstBuffer) const;
 		void CopyBufferToImage(VStageBuffer* srcBuffer, VImage* dstBuffer) const;
@@ -129,5 +131,7 @@ namespace MAGE
 
 		VRenderPass* boundPass;
 		VFramebuffer* boundFrame;
+
+		VPipeline* boundPipeline;
 	};
 }

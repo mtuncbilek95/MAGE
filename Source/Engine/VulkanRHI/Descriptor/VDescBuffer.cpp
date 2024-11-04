@@ -4,6 +4,7 @@
 #include "../Core/VLoadFuncs.h"
 #include "../Device/VDevice.h"
 #include "../Descriptor/VDescLayout.h"
+#include "../Buffer/VCombinedBuffer.h"
 
 namespace MAGE
 {
@@ -22,6 +23,7 @@ namespace MAGE
 		deviceProperties2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2;
 		deviceProperties2.pNext = &descriptorBufferProperties;
 		vkGetPhysicalDeviceProperties2(m_rootDevice->GetAdapter(), &deviceProperties2);
+		m_descriptorSize = descriptorBufferProperties.uniformBufferDescriptorSize;
 
 		// Get layout size
 		VkDeviceSize memorySize;
@@ -34,12 +36,12 @@ namespace MAGE
 
 		VkBufferUsageFlags2CreateInfoKHR usageFlags = {};
 		usageFlags.sType = VK_STRUCTURE_TYPE_BUFFER_USAGE_FLAGS_2_CREATE_INFO_KHR;
-		usageFlags.usage = VK_BUFFER_USAGE_2_RESOURCE_DESCRIPTOR_BUFFER_BIT_EXT;
+		usageFlags.usage = VK_BUFFER_USAGE_2_RESOURCE_DESCRIPTOR_BUFFER_BIT_EXT | VK_BUFFER_USAGE_2_SHADER_DEVICE_ADDRESS_BIT_KHR;
 
 		VkBufferCreateInfo bufferInfo = {};
 		bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 		bufferInfo.size = memorySize * desc.insideBufferCount;
-		bufferInfo.usage = VK_BUFFER_USAGE_RESOURCE_DESCRIPTOR_BUFFER_BIT_EXT | VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT | desc.extraFlag;
+		bufferInfo.usage = VK_BUFFER_USAGE_RESOURCE_DESCRIPTOR_BUFFER_BIT_EXT | desc.extraFlag;
 		bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		bufferInfo.pNext = &usageFlags;
 
@@ -53,11 +55,17 @@ namespace MAGE
 		allocInfo.allocationSize = memRequirements.size;
 		allocInfo.memoryTypeIndex = device->FindMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
+		VkMemoryAllocateFlagsInfo allocationFlags = {};
+		allocationFlags.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_FLAGS_INFO;
+		allocationFlags.flags = VK_MEMORY_ALLOCATE_DEVICE_ADDRESS_BIT;
+
+		allocInfo.pNext = &allocationFlags;
+
 		ErrorUtils::VkAssert(vkAllocateMemory(m_rootDevice->GetDevice(), &allocInfo, nullptr, &m_memory), "VulkanDescBuffer");
 		ErrorUtils::VkAssert(vkBindBufferMemory(m_rootDevice->GetDevice(), m_buffer, m_memory, 0), "VulkanDescBuffer");
 
 		m_totalSize = bufferInfo.size;
-		m_offset = offsetSize;
+		m_offset = 0;
 	}
 
 	VDescBuffer::~VDescBuffer()
@@ -65,7 +73,12 @@ namespace MAGE
 		Destroy();
 	}
 
-	inline VkDeviceAddress VDescBuffer::GetAddress()
+	void VDescBuffer::MapMemory()
+	{
+		ErrorUtils::VkAssert(vkMapMemory(m_rootDevice->GetDevice(), m_memory, 0, m_totalSize, 0, reinterpret_cast<void**>(&m_mappedData)), "VCombinedBuffer");
+	}
+
+	VkDeviceAddress VDescBuffer::GetAddress()
 	{
 		VkBufferDeviceAddressInfo addressInfo = {};
 		addressInfo.sType = VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO;
@@ -74,12 +87,20 @@ namespace MAGE
 		return m_address;
 	}
 
-	void VDescBuffer::MapMemory(RawBuffer buffer, u64 offset)
+	void VDescBuffer::SetupData(VCombinedBuffer* buffer)
 	{
-		void* data;
-		ErrorUtils::VkAssert(vkMapMemory(m_rootDevice->GetDevice(), m_memory, offset, m_totalSize, 0, &data), "VulkanDescBuffer");
-		memcpy(data, buffer.Data(), buffer.Size());
-		vkUnmapMemory(m_rootDevice->GetDevice(), m_memory);
+		VkDescriptorAddressInfoEXT addrInfo = {};
+		addrInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_ADDRESS_INFO_EXT;
+		addrInfo.address = buffer->GetDeviceAddress();
+		addrInfo.range = buffer->GetTotalSize();
+		addrInfo.format = VK_FORMAT_UNDEFINED;
+
+		VkDescriptorGetInfoEXT getInfo = {};
+		getInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_GET_INFO_EXT;
+		getInfo.data.pUniformBuffer = &addrInfo;
+		getInfo.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+
+		GetDescriptorEXT(m_rootDevice->GetDevice(), &getInfo, m_descriptorSize, m_mappedData);
 	}
 
 	void VDescBuffer::Destroy()

@@ -3,6 +3,7 @@
 #include "../Core/VAssert.h"
 #include "../Core/VLoadFuncs.h"
 #include "../Device/VDevice.h"
+#include "../Descriptor/VDescBuffer.h"
 
 namespace MAGE
 {
@@ -32,6 +33,12 @@ namespace MAGE
 	VDescLayout::~VDescLayout()
 	{
 		Destroy();
+	}
+
+	Owned<VDescBuffer> VDescLayout::CreateDescBuffer(u32 bufferCount, VkBufferUsageFlags flags)
+	{
+		DescBufferProps prop = { bufferCount, this, flags };
+		return MakeOwned<VDescBuffer>(prop, m_rootDevice);
 	}
 
 	void VDescLayout::Destroy()

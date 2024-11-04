@@ -12,6 +12,8 @@
 
 namespace MAGE
 {
+	class VDescBuffer;
+
 	struct DescLayoutBinding final
 	{
 		u32 binding;
@@ -31,6 +33,8 @@ namespace MAGE
 	public:
 		VDescLayout(const DescLayoutProps& desc, VDevice* device);
 		~VDescLayout() override final;
+
+		Owned<VDescBuffer> CreateDescBuffer(u32 bufferCount, VkBufferUsageFlags flags);
 
 		inline VkDescriptorSetLayout GetLayout() const { return m_layout; }
 		inline VkDescriptorSetLayoutCreateFlags GetFlags() const { return m_props.initFlags; }

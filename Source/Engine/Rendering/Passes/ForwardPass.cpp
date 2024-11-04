@@ -25,7 +25,6 @@ namespace MAGE
 			{
 				.imageView = &*context.GetSwapchain()->GetImageView(i),
 				.renderPass = &*m_renderPass
-
 			};
 			m_framebuffers.push_back(MakeOwned<VFramebuffer>(bufferProp, context.GetDevice()));
 		}
@@ -48,7 +47,14 @@ namespace MAGE
 		};
 		m_fShader = MakeOwned<VShader>(fProp, context.GetDevice());
 
+		DescLayoutProps descProp = {};
+		descProp.initFlags = VK_DESCRIPTOR_SET_LAYOUT_CREATE_DESCRIPTOR_BUFFER_BIT_EXT; //VkDescriptorSetLayoutCreateFlags()
+		descProp.bindings.push_back({0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT });
+		m_descLayout = MakeOwned<VDescLayout>(descProp, context.GetDevice());
+
 		GraphicsPipelineProps pipelineProps;
+		pipelineProps.layouts.push_back(&*m_descLayout);
+		pipelineProps.initFlag = VK_PIPELINE_CREATE_DESCRIPTOR_BUFFER_BIT_EXT; //VkPipelineCreateFlags()
 
 		pipelineProps.shaderStages = { &*m_vShader, &*m_fShader };
 

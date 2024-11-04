@@ -10,6 +10,11 @@
 
 #include <Engine/VulkanRHI/Buffer/VStageBuffer.h>
 #include <Engine/VulkanRHI/Buffer/VDstBuffer.h>
+#include <Engine/VulkanRHI/Buffer/VCombinedBuffer.h>
+#include <Engine/VulkanRHI/Descriptor/VDescBuffer.h>
+
+#include <Engine/VulkanRHI/Descriptor/VDescPool.h>
+#include <Engine/VulkanRHI/Descriptor/VDescSet.h>
 
 using namespace MAGE;
 
@@ -23,15 +28,39 @@ struct Vertex {
 };
 
 Vector<Vertex> triangle = {
-	{{  0.0f,  0.5f,  0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f }},
-	{{  0.5f, -0.5f,  0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }, { 0.0f, 0.0f }},
-	{{ -0.5f, -0.5f,  0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }, { 0.0f, 0.0f }}
+	{{ -0.5f, -0.5f,  0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f }},
+	{{ -0.5f,  0.5f,  0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }, { 0.0f, 0.0f }},
+	{{  0.5f, -0.5f,  0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }, { 0.0f, 0.0f }},
+	{{  0.5f,  0.5f,  0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f }}
 };
 
-Vector<u32> indices = { 0, 1, 2 };
+struct MVP
+{
+	Math::Mat4f model;
+	Math::Mat4f view;
+	Math::Mat4f proj;
+};
+
+MVP testmvp = { Math::Mat4f(1.0f), Math::Mat4f(1.0f), Math::Mat4f(1.0f) };
+
+void DoMVP()
+{
+	testmvp.model = glm::translate(testmvp.model, glm::vec3(0.f, 0.f, 0.f));
+	testmvp.model = glm::rotate(testmvp.model, glm::radians(0.f), glm::vec3(1.0f, 0.0f, 0.0f));
+	testmvp.model = glm::rotate(testmvp.model, glm::radians(0.f), glm::vec3(0.0f, 1.0f, 0.0f));
+	testmvp.model = glm::rotate(testmvp.model, glm::radians(1.f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+	testmvp.proj = glm::perspective(glm::radians(74.0f), 1280.f / 720.f, 0.1f, 100.f);
+	testmvp.view = glm::lookAt(glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	testmvp.proj[1][1] *= -1;
+}
+
+Vector<u32> indices = { 0, 1, 2, 1, 3, 2 };
 
 int main(int argC, char** argV)
 {
+	DoMVP();
+
 	SystemLog::Get().InitLogger<ConsoleSink>();
 
 	IndWindowDesc windowProps =
@@ -97,9 +126,52 @@ int main(int argC, char** argV)
 
 	context.GetDevice()->SubmitQueue(context.GetTransferQueue(), &*transferBuffer, nullptr, &*testSem, nullptr, VK_PIPELINE_STAGE_VERTEX_SHADER_BIT);
 
+	auto descBuffer = context.GetPass()->GetLayout()->CreateDescBuffer(1, VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT);
+
+	CombinedBufferProps cbProp =
+	{
+		.sizeInBytes = sizeof(MVP),
+		.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT | VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT
+	};
+	auto uniformBuffer = MakeOwned<VCombinedBuffer>(cbProp, context.GetDevice());
+
+	uniformBuffer->MapMemory({ &testmvp, sizeof(MVP) });
+	descBuffer->MapMemory();
+	descBuffer->SetupData(&*uniformBuffer);
+
+	//DescPoolProps poolProp = {};
+	//poolProp.maxSets = 1;
+	//poolProp.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+	//poolProp.poolSizes.push_back({VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1});
+	//auto descPool = MakeOwned<VDescPool>(poolProp, context.GetDevice());
+
+	//DescSetProps setProp = {};
+	//setProp.layout = context.GetPass()->GetLayout();
+	//setProp.pool = &*descPool;
+	//auto descSet = MakeOwned<VDescSet>(setProp, context.GetDevice());
+
+	//VkDescriptorBufferInfo bufferInfo = {};
+	//bufferInfo.buffer = uniformBuffer->GetBuffer();
+	//bufferInfo.offset = 0;
+	//bufferInfo.range = sizeof(MVP);
+
+	//VkWriteDescriptorSet writeDescriptorSet = {};
+	//writeDescriptorSet.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+	//writeDescriptorSet.dstSet = descSet->GetSet();
+	//writeDescriptorSet.dstBinding = 0;
+	//writeDescriptorSet.dstArrayElement = 0;
+	//writeDescriptorSet.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+	//writeDescriptorSet.descriptorCount = 1;
+	//writeDescriptorSet.pBufferInfo = &bufferInfo;
+
+	//vkUpdateDescriptorSets(context.GetDevice()->GetDevice(), 1, &writeDescriptorSet, 0, nullptr);
+
 	window.Show();
 	while (!window.IsClosed())
 	{
+		DoMVP();
+		memcpy(uniformBuffer->GetData(), &testmvp, sizeof(MVP));
+
 		window.PollEvents();
 		context.PrepareFrame();
 
@@ -107,9 +179,11 @@ int main(int argC, char** argV)
 		recProp.colorAttachments.push_back(VK_FORMAT_R8G8B8A8_UNORM);
 		cmdBuffer->BeginRecording(recProp);
 		cmdBuffer->BindPipeline(context.GetPass()->GetPipeline());
+		//cmdBuffer->BindDescriptorSet(&*descSet);
+		cmdBuffer->BindDescriptorBuffer(&*descBuffer);
 		cmdBuffer->BindVertexBuffer(&*dstVBuffer);
 		cmdBuffer->BindIndexBuffer(&*dstIBuffer, 0);
-		cmdBuffer->DrawIndexed(3, 0, 0, 0, 1);
+		cmdBuffer->DrawIndexed(6, 0, 0, 0, 1);
 		cmdBuffer->EndRecording();
 		context.Execute(&*cmdBuffer);
 		context.SubmitFrame();
@@ -117,6 +191,10 @@ int main(int argC, char** argV)
 
 	context.GetDevice()->WaitForIdle();
 
+	//descSet->Destroy();
+	//descPool->Destroy();
+	descBuffer->Destroy();
+	uniformBuffer->Destroy();
 	cmdBuffer->Destroy();
 	transferBuffer->Destroy();
 	pool->Destroy();

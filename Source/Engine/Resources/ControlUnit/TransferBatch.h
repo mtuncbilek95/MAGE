@@ -37,6 +37,7 @@ namespace MAGE
 		Owned<VCmdPool> m_transferPool;
 		Owned<VCmdBuffer> m_transferPrimary;
 		Vector<VCmdBuffer*> m_refBuffers;
+		Owned<VSemaphore> m_signal;
 
 		mutable std::mutex m_mutex;
 	};

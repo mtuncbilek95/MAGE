@@ -187,6 +187,7 @@ namespace MAGE
 		pipelineInfo.layout = m_layout;
 		pipelineInfo.renderPass = nullptr;
 		pipelineInfo.subpass = 0;
+		pipelineInfo.flags = desc.initFlag;
 		pipelineInfo.pNext = &renderingInfo;
 
 		ErrorUtils::VkAssert(vkCreateGraphicsPipelines(device->GetDevice(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_pipeline), "VulkanPipeline");

@@ -13,46 +13,35 @@
 
 namespace MAGE
 {
-	class VDescLayout;
-	class VCombinedBuffer;
-
-	struct DescBufferProps final
+	struct CombinedBufferProps final
 	{
-		u32 insideBufferCount;
-		VDescLayout* layout;
-		VkBufferUsageFlags extraFlag;
+		usize sizeInBytes;
+		VkBufferUsageFlags usage;
 	};
 
-	class VDescBuffer final : VObject
+	class VCombinedBuffer final : public VObject
 	{
 	public:
-		VDescBuffer(const DescBufferProps& desc, VDevice* device);
-		~VDescBuffer() override final;
+		VCombinedBuffer(const CombinedBufferProps& desc, VDevice* device);
+		~VCombinedBuffer() override final;
 
 		inline VkBuffer GetBuffer() const { return m_buffer; }
 		inline VkDeviceMemory GetMemory() const { return m_memory; }
-
 		inline u64 GetTotalSize() const { return m_totalSize; }
-		inline u64 GetOffset() const { return m_offset; }
+		inline u8* GetData() const { return m_data; }
 
-		void MapMemory();
+		VkDeviceAddress GetDeviceAddress() const;
 
-		VkDeviceAddress GetAddress();
-
-		void SetupData(VCombinedBuffer* buffer);
+		void MapMemory(RawBuffer buffer);
 		void Destroy() override final;
 
 	private:
 		VkBuffer m_buffer;
 		VkDeviceMemory m_memory;
 		VkDeviceSize m_totalSize;
-		VkDeviceSize m_offset;
-		VkDeviceAddress m_address;
 
-		DescBufferProps m_props;
+		CombinedBufferProps m_props;
 
-		VkDeviceSize m_descriptorSize;
-
-		u8* m_mappedData;
+		u8* m_data;
 	};
 }

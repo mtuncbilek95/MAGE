@@ -11,6 +11,8 @@
 #include "../Buffer/VDstBuffer.h"
 #include "../Image/VImage.h"
 #include "../Image/VImageView.h"
+#include "../Descriptor/VDescBuffer.h"
+#include "../Descriptor/VDescSet.h"
 
 namespace MAGE
 {
@@ -178,7 +180,7 @@ namespace MAGE
 		vkCmdExecuteCommands(m_cmdBuffer, 1, &cmd);
 	}
 
-	void VCmdBuffer::KillThemAll(const Vector<VCmdBuffer*>& buffers) const
+	void VCmdBuffer::ExecuteCommands(const Vector<VCmdBuffer*>& buffers) const
 	{
 		Vector<VkCommandBuffer> vkCmdBuffers;
 
@@ -188,9 +190,10 @@ namespace MAGE
 		vkCmdExecuteCommands(m_cmdBuffer, vkCmdBuffers.size(), vkCmdBuffers.data());
 	}
 
-	void VCmdBuffer::BindPipeline(VPipeline* pipeline) const
+	void VCmdBuffer::BindPipeline(VPipeline* pipeline)
 	{
 		vkCmdBindPipeline(m_cmdBuffer, pipeline->GetBindPoint(), pipeline->GetPipeline());
+		boundPipeline = pipeline;
 	}
 
 	void VCmdBuffer::BindDynamicState(VkViewport viewport, VkRect2D scissor) const
@@ -211,6 +214,21 @@ namespace MAGE
 
 	void VCmdBuffer::BindDescriptorBuffer(VDescBuffer* dscBuffer) const
 	{
+		VkDescriptorBufferBindingInfoEXT info = {};
+		info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_BUFFER_BINDING_INFO_EXT;
+		info.usage = VK_BUFFER_USAGE_RESOURCE_DESCRIPTOR_BUFFER_BIT_EXT;
+		info.address = dscBuffer->GetAddress();
+		BindDescriptorEXT(m_cmdBuffer, 1, &info);
+
+		u32 index = 0;
+		u64 offset = dscBuffer->GetOffset();
+		SetDescriptorBufferOffsetEXT(m_cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, boundPipeline->GetLayout(), 0, 1, &index, &offset);
+	}
+
+	void VCmdBuffer::BindDescriptorSet(VDescSet* descSet)
+	{
+		VkDescriptorSet set = descSet->GetSet();
+		vkCmdBindDescriptorSets(m_cmdBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, boundPipeline->GetLayout(), 0, 1, &set, 0, 0);
 	}
 
 	void VCmdBuffer::CopyBufferToBuffer(VStageBuffer* srcBuffer, VDstBuffer* dstBuffer) const

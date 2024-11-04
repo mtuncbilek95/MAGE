@@ -19,6 +19,10 @@ extern PFN_vkGetDescriptorSetLayoutBindingOffsetEXT GetDescriptorSetLayoutBindin
 extern PFN_vkCreateDebugUtilsMessengerEXT CreateDebugMessengerEXT;
 extern PFN_vkDestroyDebugUtilsMessengerEXT DestroyDebugMessengerEXT;
 
+extern PFN_vkGetDescriptorEXT GetDescriptorEXT;
+extern PFN_vkCmdBindDescriptorBuffersEXT BindDescriptorEXT;
+extern PFN_vkCmdSetDescriptorBufferOffsetsEXT SetDescriptorBufferOffsetEXT;
+
 void LoadVulkanDeviceFunctions(VkDevice device);
 void LoadVulkanInstanceFunctions(VkInstance instance);
 

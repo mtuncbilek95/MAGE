@@ -89,9 +89,9 @@ namespace MAGE
 		extensions.push_back({ VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME, false });
 		extensions.push_back({ VK_EXT_DESCRIPTOR_BUFFER_EXTENSION_NAME, false });
 		extensions.push_back({ VK_KHR_MAINTENANCE3_EXTENSION_NAME, false });
+		extensions.push_back({ VK_KHR_MAINTENANCE_5_EXTENSION_NAME, false });
 		extensions.push_back({ VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME, false});
 		extensions.push_back({ VK_EXT_DYNAMIC_RENDERING_UNUSED_ATTACHMENTS_EXTENSION_NAME, false});
-
 
 		//Check if the device supports the extensions
 		u32 extensionCount = 0;

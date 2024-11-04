@@ -40,6 +40,7 @@ namespace MAGE
 		void* data;
 		ErrorUtils::VkAssert(vkMapMemory(m_rootDevice->GetDevice(), m_memory, 0, m_totalSize, 0, &data), "VStageBuffer");
 		memcpy(data, buffer.Data(), buffer.Size());
+		vkUnmapMemory(m_rootDevice->GetDevice(), m_memory);
 	}
 
 	void VStageBuffer::Destroy()

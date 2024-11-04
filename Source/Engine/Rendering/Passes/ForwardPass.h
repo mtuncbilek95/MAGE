@@ -16,6 +16,7 @@
 #include "Engine/VulkanRHI/Pipeline/VPipeline.h"
 #include "Engine/VulkanRHI/RenderPass/VRenderPass.h"
 #include "Engine/VulkanRHI/Framebuffer/VFramebuffer.h"
+#include "Engine/VulkanRHI/Descriptor/VDescLayout.h"
 
 namespace MAGE
 {
@@ -28,6 +29,7 @@ namespace MAGE
 		VRenderPass* GetRenderPass() const { return &*m_renderPass; }
 		VFramebuffer* GetFramebuffer(u32 index) const { return &*m_framebuffers[index]; }
 		VPipeline* GetPipeline() const { return &*m_pipeline; }
+		VDescLayout* GetLayout() const { return &*m_descLayout; }
 
 	private:
 		Owned<VRenderPass> m_renderPass;
@@ -37,5 +39,7 @@ namespace MAGE
 
 		Owned<VShader> m_vShader;
 		Owned<VShader> m_fShader;
+
+		Owned<VDescLayout> m_descLayout;
 	};
 }

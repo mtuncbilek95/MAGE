@@ -9,12 +9,23 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "Engine/Data/Memory/OwnedBuffer.h"
+#include "Engine/Objects/IObject.h"
 
 namespace MAGE
 {
-	struct ShaderCompiler final
+	class VDevice;
+
+	class VkObject : public IObject
 	{
-		static OwnedBuffer CompileShader(const String& shaderPath, const String& includePath = "", const String& entryPoint = "main");
+	public:
+		VkObject(VDevice* device);
+		virtual ~VkObject() override = default;
+
+		VDevice* GetRootDevice() const { return m_rootDevice; }
+
+		virtual void Destroy() override = 0;
+
+	protected:
+		VDevice* m_rootDevice;
 	};
 }

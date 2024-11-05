@@ -84,7 +84,7 @@ namespace MAGE
 		char& At(usize index) { return m_string.at(index); }
 		const char& At(usize index) const { return m_string.at(index); }
 		const char* CharString() const { return m_string.c_str(); }
-		const char* Data() { return m_string.data(); }
+		const char* Data() const { return m_string.data(); }
 		usize Length() const { return m_string.length(); }
 		usize Size() const { return m_string.size(); }
 		b8 Empty() const { return m_string.empty(); }

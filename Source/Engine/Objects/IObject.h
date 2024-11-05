@@ -9,12 +9,14 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "Engine/Data/Memory/OwnedBuffer.h"
 
 namespace MAGE
 {
-	struct ShaderCompiler final
+	class IObject
 	{
-		static OwnedBuffer CompileShader(const String& shaderPath, const String& includePath = "", const String& entryPoint = "main");
+	public:
+		virtual ~IObject() = default;
+
+		virtual void Destroy() = 0;
 	};
 }

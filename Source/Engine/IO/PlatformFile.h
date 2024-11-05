@@ -9,8 +9,8 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "Engine/Memory/RawBuffer.h"
-#include "Engine/Memory/OwnedBuffer.h"
+#include "Engine/Data/Memory/RawBuffer.h"
+#include "Engine/Data/Memory/OwnedBuffer.h"
 
 namespace MAGE
 {

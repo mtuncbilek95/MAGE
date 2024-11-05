@@ -9,7 +9,7 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "Engine/Helpers/Singleton.h"
+#include "Engine/Objects/Singleton.h"
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>

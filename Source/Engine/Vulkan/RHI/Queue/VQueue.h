@@ -31,6 +31,9 @@ namespace MAGE
 
 		inline vk::Queue GetVkQueue() const { return m_queue; }
 
+		inline u32 GetFamilyIndex() const { return m_props.familyIndex; }
+		inline vk::QueueFlagBits GetType() const { return m_props.flags; }
+
 		void Destroy() override final;
 
 	private:

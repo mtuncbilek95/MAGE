@@ -36,11 +36,11 @@ namespace MAGE
 		VQueue* graphicsQueue;
 	};
 
-	class Swapchain final : public VkObject
+	class VSwapchain final : public VkObject
 	{
 	public:
-		Swapchain(const SwapchainProps& desc, VDevice* device);
-		~Swapchain() override final;
+		VSwapchain(const SwapchainProps& desc, VDevice* device);
+		~VSwapchain() override final;
 
 		void Resize(const vk::Extent2D& newSize);
 

@@ -4,6 +4,7 @@
 #include <Engine/Vulkan/RHI/Instance/VInstance.h>
 #include <Engine/Vulkan/RHI/Device/VDevice.h>
 #include <Engine/Vulkan/RHI/Queue/VQueue.h>
+#include <Engine/Vulkan/RHI/Swapchain/VSwapchain.h>
 
 using namespace MAGE;
 
@@ -26,6 +27,9 @@ int main()
 	Owned<VQueue> gQueue = device->CreateQueue(vk::QueueFlagBits::eGraphics);
 	Owned<VQueue> cQueue = device->CreateQueue(vk::QueueFlagBits::eCompute);
 	Owned<VQueue> tQueue = device->CreateQueue(vk::QueueFlagBits::eTransfer);
+
+	Owned<VSwapchain> swapchain = MakeOwned<VSwapchain>(SwapchainProps(vk::Format::eR8G8B8A8Unorm, 
+		vk::PresentModeKHR::eFifoRelaxed, { 1280, 720 }, 2, &*gQueue), &*device);
 
 	window.Show();
 	while (!window.IsClosed())

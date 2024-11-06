@@ -183,6 +183,8 @@ namespace MAGE
 		m_transferQueueFamily.FillQueues(m_device);
 
 		m_loader.init(m_device);
+
+		m_memAllocator = MakeOwned<MemoryAllocator>(this);
 	}
 
 	VDevice::~VDevice()
@@ -190,20 +192,16 @@ namespace MAGE
 		Destroy();
 	}
 
-	u32 VDevice::FindMemoryType(u32 typeFilter, vk::MemoryPropertyFlagBits properties)
+	u32 VDevice::FindMemoryType(vk::MemoryPropertyFlags properties)
 	{
 		vk::PhysicalDeviceMemoryProperties memProperties;
 		m_adapter.getMemoryProperties(&memProperties);
 
 		for (u32 i = 0; i < memProperties.memoryTypeCount; i++)
-		{
-			if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties)
-			{
+			if ((memProperties.memoryTypes[i].propertyFlags & properties) == properties)
 				return i;
-			}
-		}
-		
-		return 0;
+
+		return u32_max;
 	}
 
 	Owned<VQueue> VDevice::CreateQueue(vk::QueueFlagBits queueType)
@@ -238,6 +236,8 @@ namespace MAGE
 
 	void VDevice::Destroy()
 	{
+		m_memAllocator->Destroy();
+
 		if (m_device != VK_NULL_HANDLE)
 		{
 			m_device.destroy();

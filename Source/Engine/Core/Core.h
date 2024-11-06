@@ -12,6 +12,7 @@
 #include "StdFix.h"
 #include "GlmFix.h"
 #include "Engine/Helpers/ByteConverter.h"
+#include "Engine/Helpers/BitMask.h"
 #include "Engine/ErrorHandler/SystemLog.h"
 #include "Engine/Data/Containers/String.h"
 #include "Engine/Data/Containers/StringView.h"

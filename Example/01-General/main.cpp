@@ -6,7 +6,11 @@
 #include <Engine/Vulkan/RHI/Queue/VQueue.h>
 #include <Engine/Vulkan/RHI/Swapchain/VSwapchain.h>
 
+#include <Engine/Vulkan/RHI/Buffer/VBuffer.h>
+
 using namespace MAGE;
+
+#include <iostream>
 
 int main()
 {
@@ -31,12 +35,22 @@ int main()
 	Owned<VSwapchain> swapchain = MakeOwned<VSwapchain>(SwapchainProps(vk::Format::eR8G8B8A8Unorm, 
 		vk::PresentModeKHR::eFifoRelaxed, { 1280, 720 }, 2, &*gQueue), &*device);
 
+	BufferProps bufferTestProp = BufferProps();
+	bufferTestProp.sizeInBytes = MiBToByte(200);
+	bufferTestProp.memory = device->GetAllocator()->GetAvailableMemory(AllocProps(bufferTestProp.sizeInBytes, vk::MemoryPropertyFlagBits::eDeviceLocal | vk::MemoryPropertyFlagBits::eHostVisible));
+	Owned<VBuffer> bufferTest1 = MakeOwned<VBuffer>(bufferTestProp, &*device);
+
 	window.Show();
 	while (!window.IsClosed())
 	{
 		window.PollEvents();
 	}
 	window.Hide();
+
+	bufferTest1->Destroy();
+	swapchain->Destroy();
+	device->Destroy();
+	instance->Destroy();
 
 	window.Destroy();
 }

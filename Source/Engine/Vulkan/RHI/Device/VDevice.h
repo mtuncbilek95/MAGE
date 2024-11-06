@@ -10,12 +10,14 @@
 
 #include "Engine/Core/Core.h"
 #include "Engine/Objects/IObject.h"
+#include "Engine/Vulkan/RHI/Memory/MemoryAllocator.h"
 #include <vulkan/vulkan.hpp>
 
 namespace MAGE
 {
 	class VInstance;
 	class VQueue;
+
 
 	struct DeviceProps final
 	{
@@ -69,10 +71,11 @@ namespace MAGE
 		inline vk::Instance GetVkInstance() const { return m_instance; }
 		inline vk::PhysicalDevice GetVkAdapter() const { return m_adapter; }
 
-		u32 FindMemoryType(u32 typeFilter, vk::MemoryPropertyFlagBits properties);
+		u32 FindMemoryType(vk::MemoryPropertyFlags properties);
 
 		Owned<VQueue> CreateQueue(vk::QueueFlagBits queueType);
 
+		MemoryAllocator* GetAllocator() const { return &*m_memAllocator; }
 		void Destroy() override final;
 		
 	private:
@@ -84,5 +87,7 @@ namespace MAGE
 		QueueFamily m_graphicsQueueFamily;
 		QueueFamily m_computeQueueFamily;
 		QueueFamily m_transferQueueFamily;
+
+		Owned<MemoryAllocator> m_memAllocator;
 	};
 }

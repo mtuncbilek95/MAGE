@@ -11,12 +11,22 @@
 #include "Engine/Core/Core.h"
 #include "Engine/Vulkan/Core/VkObject.h"
 #include "Engine/Data/Memory/RawBuffer.h"
+#include "Engine/Vulkan/RHI/Memory/VMemory.h"
+
 #include <vulkan/vulkan.hpp>
 
 namespace MAGE
 {
 	struct BufferProps final
 	{
+		BufferProps(usize size = MiBToByte(10), 
+			vk::BufferUsageFlags flag = vk::BufferUsageFlagBits::eVertexBuffer, 
+			VMemory* mem = nullptr) : sizeInBytes(size), usageFlags(flag), memory(mem)
+		{}
+
+		usize sizeInBytes;
+		vk::BufferUsageFlags usageFlags;
+		VMemory* memory;
 	};
 
 	class VBuffer final : public VkObject
@@ -26,9 +36,12 @@ namespace MAGE
 		~VBuffer() override final;
 
 		inline vk::Buffer GetVkBuffer() const { return m_buffer; }
-		inline vk::DeviceAddress GetVkAddress() const { return m_address; }
+		inline vk::DeviceMemory GetVkMemory() const { return m_props.memory->m_memory; }
+		inline u8* GetMappedData() const { return m_mappedData; }
 
-		void Map() const;
+		inline u64 GetMemoryOffset() const { return m_memoryOffset; }
+
+		void Map();
 		void Update(RawBuffer buffer);
 		void Unmap() const;
 
@@ -38,6 +51,7 @@ namespace MAGE
 		BufferProps m_props;
 
 		vk::Buffer m_buffer;
-		vk::DeviceAddress m_address;
+		u64 m_memoryOffset;
+		u8* m_mappedData;
 	};
 }

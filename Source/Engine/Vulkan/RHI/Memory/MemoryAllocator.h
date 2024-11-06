@@ -16,13 +16,21 @@ namespace MAGE
 {
 	class VMemory;
 
+	struct AllocProps final
+	{
+		AllocProps(usize size, vk::MemoryPropertyFlags type) : allocSize(size), memType(type) {}
+
+		usize allocSize;
+		vk::MemoryPropertyFlags memType;
+	};
+
 	class MemoryAllocator final : public VkObject
 	{
 	public:
 		MemoryAllocator(VDevice* device);
 		~MemoryAllocator() override final;
 
-		void AllocateMemory(usize allocSize);
+		VMemory* GetAvailableMemory(const AllocProps& allocDesc);
 		void FreeMemory(VMemory* memory, usize memSize, usize offset);
 
 		void Destroy() override final;

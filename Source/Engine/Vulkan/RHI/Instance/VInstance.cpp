@@ -227,6 +227,7 @@ namespace MAGE
 		if (m_instance != VK_NULL_HANDLE)
 		{
 			m_instance.destroy();
+			m_instance = VK_NULL_HANDLE;
 		}
 	}
 }

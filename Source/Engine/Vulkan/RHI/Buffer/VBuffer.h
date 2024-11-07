@@ -19,8 +19,8 @@ namespace MAGE
 {
 	struct BufferProps final
 	{
-		BufferProps(usize size = MiBToByte(10), 
-			vk::BufferUsageFlags flag = vk::BufferUsageFlagBits::eVertexBuffer, 
+		BufferProps(usize size = 0, 
+			vk::BufferUsageFlags flag = {},
 			VMemory* mem = nullptr) : sizeInBytes(size), usageFlags(flag), memory(mem)
 		{}
 
@@ -37,9 +37,14 @@ namespace MAGE
 
 		inline vk::Buffer GetVkBuffer() const { return m_buffer; }
 		inline vk::DeviceMemory GetVkMemory() const { return m_props.memory->m_memory; }
-		inline u8* GetMappedData() const { return m_props.memory->m_mappedData; }
+		inline vk::BufferUsageFlags GetVkUsage() const { return m_props.usageFlags; }
+		
+		vk::DeviceAddress GetVkAddress() const;
+		
+		inline usize GetMemoryOffset() const { return m_memoryOffset; }
+		inline usize GetTotalSize() const { return m_props.sizeInBytes; }
 
-		inline u64 GetMemoryOffset() const { return m_memoryOffset; }
+		inline u8* GetMappedData() const { return m_props.memory->m_mappedData; }
 
 		void Update(RawBuffer buffer) const;
 
@@ -49,6 +54,6 @@ namespace MAGE
 		BufferProps m_props;
 
 		vk::Buffer m_buffer;
-		u64 m_memoryOffset;
+		usize m_memoryOffset;
 	};
 }

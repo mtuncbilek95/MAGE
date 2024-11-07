@@ -10,7 +10,7 @@ namespace MAGE
 	{
 		vk::BufferCreateInfo bufferInfo = vk::BufferCreateInfo();
 		bufferInfo.size = desc.sizeInBytes;
-		bufferInfo.usage = desc.usageFlags;
+		bufferInfo.usage = vk::BufferUsageFlagBits::eShaderDeviceAddress | desc.usageFlags;
 
 		ErrorUtils::VkAssert(m_rootDevice->GetVkDevice().createBuffer(&bufferInfo, nullptr, &m_buffer), "VBuffer");
 
@@ -26,6 +26,14 @@ namespace MAGE
 	VBuffer::~VBuffer()
 	{
 		Destroy();
+	}
+
+	vk::DeviceAddress VBuffer::GetVkAddress() const
+	{
+		vk::BufferDeviceAddressInfo addressInfo = {};
+		addressInfo.buffer = m_buffer;
+		m_props.memory->m_address = m_rootDevice->GetVkDevice().getBufferAddress(&addressInfo);
+		return m_props.memory->m_address;
 	}
 
 	void VBuffer::Update(RawBuffer buffer) const

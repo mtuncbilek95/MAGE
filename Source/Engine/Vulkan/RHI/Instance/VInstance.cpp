@@ -218,12 +218,13 @@ namespace MAGE
 
 	void VInstance::Destroy()
 	{
+#if defined(DELUSION_DEBUG)
 		if (m_debugger != VK_NULL_HANDLE)
 		{
 			m_instance.destroyDebugUtilsMessengerEXT(m_debugger, nullptr, m_loader);
 			m_debugger = VK_NULL_HANDLE;
 		}
-
+#endif
 		if (m_instance != VK_NULL_HANDLE)
 		{
 			m_instance.destroy();

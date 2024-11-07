@@ -3,6 +3,13 @@
 ![example event parameter](https://github.com/mtuncbilek95/MAGE/actions/workflows/windows-build.yml/badge.svg)
 # M.A.G.E
 
+## NOTES ON PROJECT
+- Project continuously gets rework on Graphics Implementation. Because I'm trying new things. If you want results please check older commits.
+- Current version is using vulkan.hpp
+- I can change anything at anytime. Which means I can always start working from scratch on master. So I don't care what you think. I'm trying to learn.
+- Tried descriptor buffers. And its gonna take a long time to find a good implementation for it on general usage.
+- I have my own memory allocator design. It has issues but mostly its working fine with a little bit over allocation. But I will try to fix those on packaging since editor side has quite unexpected behaviours.
+
 Modern & Advanced Graphics Engine
 ## GOOD TO KNOW WHILE WORKING
 
@@ -19,7 +26,7 @@ Because I literally deep dived into not having layers on platform specific imple
 - [x] Vulkan Implementation
 - [ ] Job System for multi-thread behaviour
 - [x] Runtime Shader Compiler
-- [ ] Custom Memory Allocator
+- [x] Custom Memory Allocator
 - [ ] JSON Serialization
 - [ ] Encryption
 - [ ] Resource Control Mechanism

@@ -37,13 +37,11 @@ namespace MAGE
 
 		inline vk::Buffer GetVkBuffer() const { return m_buffer; }
 		inline vk::DeviceMemory GetVkMemory() const { return m_props.memory->m_memory; }
-		inline u8* GetMappedData() const { return m_mappedData; }
+		inline u8* GetMappedData() const { return m_props.memory->m_mappedData; }
 
 		inline u64 GetMemoryOffset() const { return m_memoryOffset; }
 
-		void Map();
-		void Update(RawBuffer buffer);
-		void Unmap() const;
+		void Update(RawBuffer buffer) const;
 
 		void Destroy() override final;
 
@@ -52,6 +50,5 @@ namespace MAGE
 
 		vk::Buffer m_buffer;
 		u64 m_memoryOffset;
-		u8* m_mappedData;
 	};
 }

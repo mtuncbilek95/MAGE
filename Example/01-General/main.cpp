@@ -12,6 +12,20 @@ using namespace MAGE;
 
 #include <iostream>
 
+struct Vertex
+{
+	Math::Vec3f pos;
+	Math::Vec4f color;
+};
+
+Vector<Vertex> square =
+{
+	{{ -0.5f, -0.5f, 0.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }},
+	{{ -0.5f,  0.5f, 0.0f }, { 0.0f, 0.0f, 0.0f, 1.0f }},
+	{{  0.5f,  0.5f, 0.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }},
+	{{  0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }}
+};
+
 int main()
 {
 	SystemLog::Get().InitLogger<ConsoleSink>();
@@ -36,9 +50,13 @@ int main()
 		vk::PresentModeKHR::eFifoRelaxed, { 1280, 720 }, 2, &*gQueue), &*device);
 
 	BufferProps bufferTestProp = BufferProps();
-	bufferTestProp.sizeInBytes = MiBToByte(200);
 	bufferTestProp.memory = device->GetAllocator()->GetAvailableMemory(AllocProps(bufferTestProp.sizeInBytes, vk::MemoryPropertyFlagBits::eDeviceLocal | vk::MemoryPropertyFlagBits::eHostVisible));
 	Owned<VBuffer> bufferTest1 = MakeOwned<VBuffer>(bufferTestProp, &*device);
+	bufferTest1->Update({ square.data(), square.size() * sizeof(Vertex) });
+
+	bufferTestProp.memory = device->GetAllocator()->GetAvailableMemory(AllocProps(bufferTestProp.sizeInBytes, vk::MemoryPropertyFlagBits::eDeviceLocal | vk::MemoryPropertyFlagBits::eHostVisible));
+	Owned<VBuffer> bufferTest2 = MakeOwned<VBuffer>(bufferTestProp, &*device);
+	bufferTest2->Update({ square.data(), square.size() * sizeof(Vertex) });
 
 	window.Show();
 	while (!window.IsClosed())
@@ -47,6 +65,7 @@ int main()
 	}
 	window.Hide();
 
+	bufferTest2->Destroy();
 	bufferTest1->Destroy();
 	swapchain->Destroy();
 	device->Destroy();

@@ -17,6 +17,9 @@ namespace MAGE
 
 		ErrorUtils::VkAssert(device->GetVkDevice().allocateMemory(&allocInfo, nullptr, &m_memory), "VMemory");
 
+		if(desc.memoryType & vk::MemoryPropertyFlagBits::eHostVisible)
+			ErrorUtils::VkAssert(device->GetVkDevice().mapMemory(m_memory, 0, vk::WholeSize, {}, reinterpret_cast<void**>(&m_mappedData)), "VMemory");
+
 		m_subMemories.emplace_back(desc.blockSize, false);
 	}
 
@@ -110,6 +113,7 @@ namespace MAGE
 	{
 		if (m_memory != VK_NULL_HANDLE)
 		{
+			m_rootDevice->GetVkDevice().unmapMemory(m_memory);
 			m_rootDevice->GetVkDevice().freeMemory(m_memory);
 			m_memory = VK_NULL_HANDLE;
 		}

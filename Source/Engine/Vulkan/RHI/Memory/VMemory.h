@@ -54,5 +54,7 @@ namespace MAGE
 		u64 m_freeSize;
 
 		Vector<SubMemory> m_subMemories;
+
+		u8* m_mappedData;
 	};
 }

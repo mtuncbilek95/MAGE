@@ -28,19 +28,9 @@ namespace MAGE
 		Destroy();
 	}
 
-	void VBuffer::Map()
+	void VBuffer::Update(RawBuffer buffer) const
 	{
-		//m_rootDevice->GetVkDevice().mapMemory(m_props.memory->m_memory, m_actualOffset, m_props.sizeInBytes, {}, m_mappedData);
-	}
-
-	void VBuffer::Update(RawBuffer buffer)
-	{
-		memcpy(m_mappedData, buffer.Data(), buffer.Size());
-	}
-
-	void VBuffer::Unmap() const
-	{
-		m_rootDevice->GetVkDevice().unmapMemory(m_props.memory->m_memory);
+		memcpy(m_props.memory->m_mappedData + m_memoryOffset, buffer.Data(), buffer.Size());
 	}
 
 	void VBuffer::Destroy()

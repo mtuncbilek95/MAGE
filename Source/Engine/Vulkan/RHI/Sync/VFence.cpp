@@ -18,7 +18,7 @@ namespace MAGE
 
 	void VFence::Wait() const
 	{
-		ErrorUtils::VkAssert(m_rootDevice->GetVkDevice().waitForFences(1, &m_fence, false, u64_max), "VFence");
+		ErrorUtils::VkAssert(m_rootDevice->GetVkDevice().waitForFences(1, &m_fence, true, u64_max), "VFence");
 	}
 
 	void VFence::Reset() const

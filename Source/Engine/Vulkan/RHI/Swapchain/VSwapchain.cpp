@@ -155,6 +155,23 @@ namespace MAGE
 		ErrorUtils::VkAssert(returnResult, "VSwapchain - Present");
 	}
 
+	void VSwapchain::Present(VSemaphore* waitSem) const
+	{
+		vk::Semaphore wait = waitSem->GetVkSemaphore();
+		vk::Result returnResult = {};
+
+		vk::PresentInfoKHR present = {};
+		present.pImageIndices = &m_requestedIndex;
+		present.swapchainCount = 1;
+		present.pSwapchains = &m_swapchain;
+		present.waitSemaphoreCount = 1;
+		present.pWaitSemaphores = &wait;
+		present.pResults = &returnResult;
+
+		ErrorUtils::VkAssert(m_props.graphicsQueue->GetVkQueue().presentKHR(&present), "VSwapchain");
+		ErrorUtils::VkAssert(returnResult, "VSwapchain - Present");
+	}
+
 	void VSwapchain::Destroy()
 	{
 		if (m_barrierFence != VK_NULL_HANDLE)

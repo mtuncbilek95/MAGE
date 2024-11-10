@@ -19,7 +19,7 @@ namespace MAGE
 
 	struct InputBinding final
 	{
-		vk::VertexInputRate inputRate = vk::VertexInputRate::eInstance;
+		vk::VertexInputRate inputRate = vk::VertexInputRate::eVertex;
 		Vector<vk::Format> attributes;
 	};
 
@@ -42,10 +42,10 @@ namespace MAGE
 	{
 		b8 depthBiasEnable = true;
 		f32 depthBiasConstantFactor = 0.0f;
-		f32 depthBiasClamp = 0.0f;
+		f32 depthBiasClamp = 1.0f;
 		f32 depthBiasSlopeFactor = 0.0f;
 		vk::PolygonMode polygonMode = vk::PolygonMode::eFill;
-		vk::CullModeFlags cullMode = vk::CullModeFlagBits::eBack;
+		vk::CullModeFlags cullMode = vk::CullModeFlagBits::eFront;
 		vk::FrontFace frontFace = vk::FrontFace::eClockwise;
 	};
 
@@ -64,15 +64,15 @@ namespace MAGE
 	struct BlendState final
 	{
 		b8 logicOpEnable = true;
-		vk::LogicOp logicOp = vk::LogicOp::eClear;
+		vk::LogicOp logicOp = vk::LogicOp::eCopy;
 		Vector<BlendStateAttachment> attachments;
 	};
 
 	struct DepthStencilState final
 	{
-		b8 depthTestEnable = true;
-		b8 depthWriteEnable = true;
-		vk::CompareOp depthCompareOp = vk::CompareOp::eNever;
+		b8 depthTestEnable = false;
+		b8 depthWriteEnable = false;
+		vk::CompareOp depthCompareOp = vk::CompareOp::eAlways;
 		b8 depthBoundsTestEnable = false;
 		b8 stencilTestEnable = false;
 		vk::StencilOpState front = vk::StencilOpState();
@@ -111,6 +111,7 @@ namespace MAGE
 
 		inline vk::PipelineLayout GetVkLayout() const { return m_layout; }
 		inline vk::Pipeline GetVkPipeline() const { return m_pipeline; }
+		inline vk::PipelineBindPoint GetVkBindPoint() const { return m_bindPoint; }
 
 		void Destroy() override final;
 

@@ -3,6 +3,8 @@
 #include "../Device/VDevice.h"
 #include "../Command/VCmdPool.h"
 #include "../Image/VImageView.h"
+#include "../Buffer/VBuffer.h"
+#include "../Pipeline/VPipeline.h"
 
 #include "Engine/Vulkan/Core/VkAssert.h"
 
@@ -133,6 +135,28 @@ namespace MAGE
 		barrier.subresourceRange = vk::ImageSubresourceRange(desc.aspectMask, desc.baseMipLevel, desc.levelCount, desc.baseArrayLayer, desc.layerCount);
 
 		m_buffer.pipelineBarrier(desc.srcPipeline, desc.dstPipeline, vk::DependencyFlags(), 0, nullptr, 0, nullptr, 1, &barrier);
+	}
+
+	void VCmdBuffer::BindPipeline(VPipeline* pipeline)
+	{
+		m_buffer.bindPipeline(pipeline->GetVkBindPoint(), pipeline->GetVkPipeline());
+	}
+
+	void VCmdBuffer::BindVertexBuffer(VBuffer* vBuffer) const
+	{
+		vk::Buffer buffer = vBuffer->GetVkBuffer();
+		u64 offset = 0;
+		m_buffer.bindVertexBuffers(0, 1, &buffer, &offset);
+	}
+
+	void VCmdBuffer::BindIndexBuffer(VBuffer* iBuffer) const
+	{
+		m_buffer.bindIndexBuffer(iBuffer->GetVkBuffer(), 0, vk::IndexType::eUint32);
+	}
+
+	void VCmdBuffer::DrawIndexed(u32 indexCount, u32 indexOffset, u32 vertexOffset, u32 instanceOffset, u32 instanceCount) const
+	{
+		m_buffer.drawIndexed(indexCount, instanceCount, 0, vertexOffset, 0);
 	}
 
 	void VCmdBuffer::Destroy()

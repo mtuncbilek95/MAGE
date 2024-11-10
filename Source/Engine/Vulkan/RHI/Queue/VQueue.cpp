@@ -14,9 +14,9 @@ namespace MAGE
 	
 	void VQueue::Submit(const Vector<VCmdBuffer*>& cmdBuffers, const Vector<VSemaphore*>& signals, const Vector<VSemaphore*>& waits, const Vector<vk::PipelineStageFlags>& dstFlags, VFence* fence) const
 	{
-		Vector<vk::CommandBuffer> cmds(cmdBuffers.size(), VK_NULL_HANDLE);
-		Vector<vk::Semaphore> signalSems(signals.size(), VK_NULL_HANDLE);
-		Vector<vk::Semaphore> waitSems(waits.size(), VK_NULL_HANDLE);
+		Vector<vk::CommandBuffer> cmds(cmdBuffers.size());
+		Vector<vk::Semaphore> signalSems(signals.size());
+		Vector<vk::Semaphore> waitSems(waits.size());
 
 		for (u32 i = 0; i < cmds.size(); i++)
 			cmds[i] = cmdBuffers[i]->GetVkCmdBuffer();
@@ -36,7 +36,25 @@ namespace MAGE
 		info.pSignalSemaphores = signalSems.data();
 		info.pWaitDstStageMask = dstFlags.data();
 
-		ErrorUtils::VkAssert(m_queue.submit(1, &info, fence ? fence->GetVkFence() : vk::Fence()), "VSemaphore");
+		ErrorUtils::VkAssert(m_queue.submit(1, &info, fence ? fence->GetVkFence() : vk::Fence()), "VQueue - Submit Multi");
+	}
+
+	void VQueue::Submit(VCmdBuffer* cmdBuffer, VSemaphore* signal, VSemaphore* wait, vk::PipelineStageFlags dstFlag, VFence* fence) const
+	{
+		vk::CommandBuffer cmd = cmdBuffer->GetVkCmdBuffer();
+		vk::Semaphore sig = signal ? signal->GetVkSemaphore() : nullptr;
+		vk::Semaphore waitSem = wait ? wait->GetVkSemaphore() : nullptr;
+
+		vk::SubmitInfo info = {};
+		info.commandBufferCount = 1;
+		info.pCommandBuffers = &cmd;
+		info.waitSemaphoreCount = wait ? 1 : 0;
+		info.pWaitSemaphores = &waitSem;
+		info.signalSemaphoreCount = signal ? 1 : 0;
+		info.pSignalSemaphores = &sig;
+		info.pWaitDstStageMask = &dstFlag;
+
+		ErrorUtils::VkAssert(m_queue.submit(1, &info, fence ? fence->GetVkFence() : vk::Fence()), "VQueue - Submit Single");
 	}
 
 	void VQueue::Destroy() {}

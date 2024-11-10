@@ -19,6 +19,7 @@ namespace MAGE
 	class VPipeline;
 	class VImageView;
 	class VImage;
+	class VBuffer;
 
 	struct CmdBufferProps final
 	{
@@ -98,6 +99,11 @@ namespace MAGE
 		void EndRendering() const;
 
 		void ImageBarrier(const ImageBarrierProps& desc) const;
+
+		void BindPipeline(VPipeline* pipeline);
+		void BindVertexBuffer(VBuffer* vBuffer) const;
+		void BindIndexBuffer(VBuffer* iBuffer) const;
+		void DrawIndexed(u32 indexCount, u32 indexOffset, u32 vertexOffset, u32 instanceOffset, u32 instanceCount) const;
 
 		void Destroy() override final;
 

@@ -57,6 +57,7 @@ namespace MAGE
 
 		u32 AcquireNextImage(VSemaphore* semaphore, VFence* fence);
 		void Present(const Vector<VSemaphore*>& waitSems) const;
+		void Present(VSemaphore* waitSem) const;
 		void Destroy() override final;
 
 	private:

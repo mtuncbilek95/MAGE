@@ -39,6 +39,7 @@ namespace MAGE
 		inline vk::QueueFlagBits GetType() const { return m_props.flags; }
 
 		void Submit(const Vector<VCmdBuffer*>& cmdBuffers, const Vector<VSemaphore*>& signals, const Vector<VSemaphore*>& waits, const Vector<vk::PipelineStageFlags>& dstFlags, VFence* fence) const;
+		void Submit(VCmdBuffer* cmdBuffer, VSemaphore* signal, VSemaphore* wait, vk::PipelineStageFlags dstFlag, VFence* fence) const;
 
 		void Destroy() override final;
 

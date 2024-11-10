@@ -8,7 +8,7 @@ namespace MAGE
 	VSemaphore::VSemaphore(VDevice* device) : VkObject(device)
 	{
 		vk::SemaphoreCreateInfo info = {};
-		ErrorUtils::VkAssert(device->GetVkDevice().createSemaphore(&info, nullptr, &m_semaphore), "VFence");
+		ErrorUtils::VkAssert(device->GetVkDevice().createSemaphore(&info, nullptr, &m_semaphore), "VSemaphore");
 	}
 
 	VSemaphore::~VSemaphore()

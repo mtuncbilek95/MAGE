@@ -12,10 +12,11 @@
 #include <Engine/Vulkan/RHI/Pipeline/VPipeline.h>
 #include <Engine/Vulkan/RHI/Shader/VShader.h>
 #include <Engine/Vulkan/RHI/Buffer/VBuffer.h>
+#include <Engine/Vulkan/RHI/Descriptor/VDescLayout.h>
+#include <Engine/Vulkan/RHI/Descriptor/VDescPool.h>
+#include <Engine/Vulkan/RHI/Descriptor/VDescSet.h>
 
 using namespace MAGE;
-
-#include <iostream>
 
 struct Vertex
 {
@@ -32,6 +33,26 @@ Vector<Vertex> square =
 };
 
 Vector<u32> indices = { 0, 1, 3, 1, 2, 3 };
+
+struct MVPStruct
+{
+	Math::Mat4f model;
+	Math::Mat4f view;
+	Math::Mat4f proj;
+};
+
+MVPStruct testmvp = { Math::Mat4f(1.0f), Math::Mat4f(1.0f), Math::Mat4f(1.0f) };
+
+void DoMVP()
+{
+	testmvp.model = glm::translate(testmvp.model, glm::vec3(0.f, 0.f, 0.f));
+	testmvp.model = glm::rotate(testmvp.model, glm::radians(0.f), glm::vec3(1.0f, 0.0f, 0.0f));
+	testmvp.model = glm::rotate(testmvp.model, glm::radians(0.f), glm::vec3(0.0f, 1.0f, 0.0f));
+	testmvp.model = glm::rotate(testmvp.model, glm::radians(1.f), glm::vec3(0.0f, 0.0f, 1.0f));
+	testmvp.proj = glm::perspective(glm::radians(74.0f), 1280.f / 720.f, 0.1f, 100.f);
+	testmvp.view = glm::lookAt(glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	testmvp.proj[1][1] *= -1;
+}
 
 int main()
 {
@@ -62,7 +83,7 @@ int main()
 		.createFlags = vk::CommandPoolCreateFlagBits::eResetCommandBuffer
 	};
 	Owned<VCmdPool> gPool = MakeOwned<VCmdPool>(gPoolProps, &*device);
-	
+
 	Vector<Owned<VCmdBuffer>> gPrimBuffers;
 	Vector<Owned<VSemaphore>> renderSemaphores;
 
@@ -83,7 +104,22 @@ int main()
 	shaderProp.shaderStage = vk::ShaderStageFlagBits::eFragment;
 	Owned<VShader> fShader = MakeOwned<VShader>(shaderProp, &*device);
 
+	DescLayoutProps descLayoutProp = {};
+	descLayoutProp.bindings = { { 0, vk::DescriptorType::eUniformBuffer, 1, vk::ShaderStageFlagBits::eVertex } };
+
+	Owned<VDescLayout> uniformLayout = MakeOwned<VDescLayout>(descLayoutProp, &*device);
+
+	DescPoolProps descPoolProp = {};
+	descPoolProp.maxSets = 1;
+	descPoolProp.poolSizes = { {vk::DescriptorType::eUniformBuffer, 1} };
+
+	Owned<VDescPool> uniformPool = MakeOwned<VDescPool>(descPoolProp, &*device);
+
+	DescSetProps setProp = { &*uniformLayout, &*uniformPool };
+	Owned<VDescSet> uniformSet = MakeOwned<VDescSet>(setProp, &*device);
+
 	GraphicsPipelineProps pipeProp = {};
+	pipeProp.layouts = { &*uniformLayout };
 	pipeProp.shaderStages = { &*vShader, &*fShader };
 	pipeProp.viewportState.viewport = vk::Viewport(0, 0, 1280, 720, 0.0f, 1.0f);
 	pipeProp.viewportState.scissor = vk::Rect2D({ 0,0 }, { 1280, 720 });
@@ -106,10 +142,21 @@ int main()
 	iBuffer->BindMemory(device->GetAllocator()->GetAvailableMemory(AllocProps(iBuffer->GetTotalSize(), vk::MemoryPropertyFlagBits::eDeviceLocal | vk::MemoryPropertyFlagBits::eHostVisible)));
 	iBuffer->Update({ indices.data(), bufferProp.sizeInBytes });
 
+	bufferProp.sizeInBytes = sizeof(MVPStruct);
+	bufferProp.usageFlags = vk::BufferUsageFlagBits::eUniformBuffer;
+	Owned<VBuffer> uBuffer = MakeOwned<VBuffer>(bufferProp, &*device);
+	uBuffer->BindMemory(device->GetAllocator()->GetAvailableMemory(AllocProps(uBuffer->GetTotalSize(), vk::MemoryPropertyFlagBits::eDeviceLocal | vk::MemoryPropertyFlagBits::eHostVisible)));
+
+	SetUpdateProps uUpdateProp = {};
+	uUpdateProp.entries = { {{&*uBuffer}, vk::DescriptorType::eUniformBuffer, 1, 0, 0, 0} };
+	uniformSet->UpdateData(uUpdateProp);
+
 	window.Show();
 	while (!window.IsClosed())
 	{
 		window.PollEvents();
+		DoMVP();
+		uBuffer->Update({ &testmvp, sizeof(MVPStruct) });
 
 		u32 imgIndex = swapchain->AcquireNextImage(nullptr, &*imgFence);
 		imgFence->Wait();
@@ -134,6 +181,8 @@ int main()
 		renderProp.viewMask = 0;
 		gPrimBuffers[imgIndex]->BeginRendering(renderProp);
 		gPrimBuffers[imgIndex]->BindPipeline(&*pipeline);
+		gPrimBuffers[imgIndex]->BindDescriptor(&*uniformSet);
+
 		gPrimBuffers[imgIndex]->BindVertexBuffer(&*vBuffer);
 		gPrimBuffers[imgIndex]->BindIndexBuffer(&*iBuffer);
 		gPrimBuffers[imgIndex]->DrawIndexed(indices.size(), 0, 0, 0, 1);
@@ -148,7 +197,7 @@ int main()
 
 		gQueue->Submit(&*gPrimBuffers[imgIndex], &*renderSemaphores[imgIndex], nullptr, vk::PipelineStageFlagBits::eColorAttachmentOutput, nullptr);
 
-		swapchain->Present(&*renderSemaphores[imgIndex] );
+		swapchain->Present(&*renderSemaphores[imgIndex]);
 	}
 	window.Hide();
 

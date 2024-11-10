@@ -9,7 +9,7 @@ namespace MAGE
 {
 	VDescBuffer::VDescBuffer(const DescBufferProps& desc, VDevice* device) : VkObject(device), m_props(desc), m_memory(nullptr), m_memoryOffset(0), m_layoutSize(0)
 	{
-		vk::PhysicalDeviceDescriptorBufferPropertiesEXT bufferProps = desc.layout->GetBufferProps();
+		/*vk::PhysicalDeviceDescriptorBufferPropertiesEXT bufferProps = desc.layout->GetBufferProps();
 		
 		m_rootDevice->GetVkDevice().getDescriptorSetLayoutSizeEXT(desc.layout->GetVkLayout(), &m_layoutSize);
 
@@ -35,7 +35,7 @@ namespace MAGE
 		u64 offset = m_memory->Allocate(memReq.size + memReq.alignment);
 		m_memoryOffset = offset + (offset % memReq.alignment == 0 ? 0 : (memReq.alignment - (offset % memReq.alignment)));
 
-		m_rootDevice->GetVkDevice().bindBufferMemory(m_buffer, m_memory->m_memory, m_memoryOffset);
+		m_rootDevice->GetVkDevice().bindBufferMemory(m_buffer, m_memory->m_memory, m_memoryOffset);*/
 	}
 
 	VDescBuffer::~VDescBuffer()
@@ -56,9 +56,8 @@ namespace MAGE
 		memcpy(m_memory->m_mappedData + m_memoryOffset, buffer.Data(), buffer.Size());
 	}
 
-	void VDescBuffer::SetupData(const Vector<VBuffer*>& buffers)
+	void VDescBuffer::SetupData(const SetupProps& dataProp)
 	{
-		// TODO: Implement this carefully.
 	}
 
 	void VDescBuffer::Destroy()

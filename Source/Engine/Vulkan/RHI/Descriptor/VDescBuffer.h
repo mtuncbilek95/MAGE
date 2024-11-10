@@ -59,7 +59,7 @@ namespace MAGE
 
 		void Update(RawBuffer buffer) const;
 
-		void SetupData(const Vector<VBuffer*>& buffers);
+		void SetupData(const SetupProps& dataProp);
 		void Destroy() override final;
 
 	private:

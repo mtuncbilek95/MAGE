@@ -5,6 +5,7 @@
 #include "../Image/VImageView.h"
 #include "../Buffer/VBuffer.h"
 #include "../Pipeline/VPipeline.h"
+#include "../Descriptor/VDescSet.h"
 
 #include "Engine/Vulkan/Core/VkAssert.h"
 
@@ -140,6 +141,13 @@ namespace MAGE
 	void VCmdBuffer::BindPipeline(VPipeline* pipeline)
 	{
 		m_buffer.bindPipeline(pipeline->GetVkBindPoint(), pipeline->GetVkPipeline());
+		m_boundPipeline = pipeline;
+	}
+
+	void VCmdBuffer::BindDescriptor(VDescSet* set)
+	{
+		vk::DescriptorSet ctx = set->GetVkSet();
+		m_buffer.bindDescriptorSets(m_boundPipeline->GetVkBindPoint(), m_boundPipeline->GetVkLayout(), 0, 1, &ctx, 0, 0);
 	}
 
 	void VCmdBuffer::BindVertexBuffer(VBuffer* vBuffer) const

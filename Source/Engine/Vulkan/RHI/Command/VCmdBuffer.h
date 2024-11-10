@@ -20,6 +20,7 @@ namespace MAGE
 	class VImageView;
 	class VImage;
 	class VBuffer;
+	class VDescSet;
 
 	struct CmdBufferProps final
 	{
@@ -101,6 +102,7 @@ namespace MAGE
 		void ImageBarrier(const ImageBarrierProps& desc) const;
 
 		void BindPipeline(VPipeline* pipeline);
+		void BindDescriptor(VDescSet* set);
 		void BindVertexBuffer(VBuffer* vBuffer) const;
 		void BindIndexBuffer(VBuffer* iBuffer) const;
 		void DrawIndexed(u32 indexCount, u32 indexOffset, u32 vertexOffset, u32 instanceOffset, u32 instanceCount) const;
@@ -111,5 +113,7 @@ namespace MAGE
 		CmdBufferProps m_props;
 
 		vk::CommandBuffer m_buffer;
+
+		VPipeline* m_boundPipeline;
 	};
 }

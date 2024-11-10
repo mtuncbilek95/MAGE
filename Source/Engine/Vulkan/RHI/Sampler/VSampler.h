@@ -16,11 +16,11 @@ namespace MAGE
 {
 	struct SamplerProps final
 	{
-		SamplerProps(vk::Filter magF, vk::Filter minF,
-			vk::SamplerMipmapMode mipMode , vk::SamplerAddressMode addressU,
-			vk::SamplerAddressMode addressV, vk::SamplerAddressMode addressW,
-			f32 mipBias, b8 aEnable, f32 maxA, b8 cEnable,
-			vk::CompareOp compOp, f32 minLod, f32 maxLod) : magFilter(magF), minFilter(minF), 
+		SamplerProps(vk::Filter magF = vk::Filter::eNearest, vk::Filter minF = vk::Filter::eNearest,
+			vk::SamplerMipmapMode mipMode = vk::SamplerMipmapMode::eLinear, vk::SamplerAddressMode addressU = vk::SamplerAddressMode::eRepeat,
+			vk::SamplerAddressMode addressV = vk::SamplerAddressMode::eRepeat, vk::SamplerAddressMode addressW = vk::SamplerAddressMode::eRepeat,
+			f32 mipBias = 0.0f, b8 aEnable = true, f32 maxA = 1.0f, b8 cEnable = true,
+			vk::CompareOp compOp = vk::CompareOp::eAlways, f32 minLod = 0.0f, f32 maxLod = 1.0f) : magFilter(magF), minFilter(minF),
 			mipmapMode(mipMode), addressModeU(addressU), addressModeV(addressV), addressModeW(addressW),
 			mipLodBias(mipBias), anisotropyEnable(aEnable), maxAnisotropy(maxA), compareEnable(cEnable),
 			compareOp(compOp), minLod(minLod), maxLod(maxLod)

@@ -14,6 +14,10 @@
 
 namespace MAGE
 {
+	class VCmdBuffer;
+	class VSemaphore;
+	class VFence;
+
 	struct QueueProps final
 	{
 		QueueProps(u32 index = 255, vk::QueueFlagBits flag = vk::QueueFlagBits::eGraphics) : 
@@ -33,6 +37,8 @@ namespace MAGE
 
 		inline u32 GetFamilyIndex() const { return m_props.familyIndex; }
 		inline vk::QueueFlagBits GetType() const { return m_props.flags; }
+
+		void Submit(const Vector<VCmdBuffer*>& cmdBuffers, const Vector<VSemaphore*>& signals, const Vector<VSemaphore*>& waits, const Vector<vk::PipelineStageFlags>& dstFlags, VFence* fence) const;
 
 		void Destroy() override final;
 

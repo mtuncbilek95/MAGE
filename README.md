@@ -3,32 +3,23 @@
 ![example event parameter](https://github.com/mtuncbilek95/MAGE/actions/workflows/windows-build.yml/badge.svg)
 # M.A.G.E
 
-## NOTES ON PROJECT
-- Project continuously gets rework on Graphics Implementation. Because I'm trying new things. If you want results please check older commits.
-- Current version is using vulkan.hpp
-- I can change anything at anytime. Which means I can always start working from scratch on master. So I don't care what you think. I'm trying to learn.
-- Tried descriptor buffers. And its gonna take a long time to find a good implementation for it on general usage.
-- I have my own memory allocator design. It has issues but mostly its working fine with a little bit over allocation. But I will try to fix those on packaging since editor side has quite unexpected behaviours.
-
 Modern & Advanced Graphics Engine
 ## GOOD TO KNOW WHILE WORKING
 
 - The Engine is written in C++20 and uses Vulkan API `v1.3.290.0` for rendering (Will support DX12 in future).
+- Current version is using vulkan.hpp
+- I have my own memory allocator design. It has issues but mostly its working fine with a little bit over allocation.
 - The Engine is still in development and not ready for production.
-- While running build generator for cmake, you will see a part where the cmake shows the excluded files. When working with Linux the excluded files needs to belong Win32API and 
-vice versa. This has been added to CMake with the aim of reducing macro controllers and boosting the compilation speed. **Edit:** It is still there but it's not that important anymore.
-Because I literally deep dived into not having layers on platform specific implementations. Couple things are still there for this excluding purpose but most of them are gone.
 
 ## IMPLEMENTED FEATURES
 - [x] Unit Test Environment (Catch2)
 - [x] Win32 Platform
 - [ ] Linux Platform
 - [x] Vulkan Implementation
-- [ ] Job System for multi-thread behaviour
+- [x] Job System for multi-thread behaviour
 - [x] Runtime Shader Compiler
 - [x] Custom Memory Allocator
 - [ ] JSON Serialization
-- [ ] Encryption
 - [ ] Resource Control Mechanism
 - [ ] Entity Component System
 - [ ] Editor Integration with ImGui
@@ -61,10 +52,18 @@ Because I literally deep dived into not having layers on platform specific imple
 - [ ] DX12 (Graphics SDK)
 - [ ] Nvidia Physx (Physics SDK)
 
+
+## ACTIVE VULKAN FEATURES
+- [x] Dynamic Rendering
+- [x] RenderPass & FrameBuffer
+- [x] Descriptor Buffer
+- [x] Descriptor Set
+- [x] Bindless Shaders
+
 ## THE AIM OF THE SYSTEM
-- Windows should work with DX12 no matter what. But for now I don't want the burnout with DX12, so VulkanSDK continues. If I could go the past, I would choose DX12 though.
+- I believe the only reason for DX12 would be Xbox support. I will continue my journey with Vulkan as much as possible.
 - Linux has no option other than VulkanSDK.
-- I already made cross platform support for both Linux and Windows. It's not that hard to make it. The hard part is to make them work together while doing lots of feature
+- I already made cross platform support for both Linux and Windows a time ago. It's not that hard to make it. The hard part is to make them work together while doing lots of feature
 implementations. So till I get the satisfaction on Win32, I won't touch the Linux part. The system already has the capability to run on Linux.
 - Main optimization workflow mostly will be on Windows since buying PS5 Dev Kit is not easy.
 - Current goal is not to create showreels but creating crash-less environment

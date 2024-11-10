@@ -17,7 +17,7 @@ namespace MAGE
 {
 	class VInstance;
 	class VQueue;
-
+	class VFence;
 
 	struct DeviceProps final
 	{
@@ -71,11 +71,15 @@ namespace MAGE
 		inline vk::Instance GetVkInstance() const { return m_instance; }
 		inline vk::PhysicalDevice GetVkAdapter() const { return m_adapter; }
 
+		MemoryAllocator* GetAllocator() const { return &*m_memAllocator; }
 		u32 FindMemoryType(vk::MemoryPropertyFlags properties);
 
 		Owned<VQueue> CreateQueue(vk::QueueFlagBits queueType);
 
-		MemoryAllocator* GetAllocator() const { return &*m_memAllocator; }
+		void WaitForFences(const Vector<VFence*>& fences) const;
+		void ResetFences(const Vector<VFence*>& fences) const;
+		void WaitForIdle() const;
+
 		void Destroy() override final;
 		
 	private:

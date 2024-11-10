@@ -44,6 +44,8 @@ namespace MAGE
 		void Destroy() override final;
 
 	private:
+		DescLayoutProps m_props;
+
 		vk::DescriptorSetLayout m_layout;
 	};
 }

@@ -6,7 +6,7 @@
 
 namespace MAGE
 {
-	VDescLayout::VDescLayout(const DescLayoutProps& desc, VDevice* device) : VkObject(device)
+	VDescLayout::VDescLayout(const DescLayoutProps& desc, VDevice* device) : VkObject(device), m_props(desc)
 	{
 		Vector<vk::DescriptorSetLayoutBinding> bindings(desc.bindings.size());
 

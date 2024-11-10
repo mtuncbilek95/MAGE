@@ -20,13 +20,11 @@ namespace MAGE
 	struct BufferProps final
 	{
 		BufferProps(usize size = 0, 
-			vk::BufferUsageFlags flag = {},
-			VMemory* mem = nullptr) : sizeInBytes(size), usageFlags(flag), memory(mem)
+			vk::BufferUsageFlags flag = {}) : sizeInBytes(size), usageFlags(flag)
 		{}
 
 		usize sizeInBytes;
 		vk::BufferUsageFlags usageFlags;
-		VMemory* memory;
 	};
 
 	class VBuffer final : public VkObject
@@ -36,22 +34,24 @@ namespace MAGE
 		~VBuffer() override final;
 
 		inline vk::Buffer GetVkBuffer() const { return m_buffer; }
-		inline vk::DeviceMemory GetVkMemory() const { return m_props.memory->m_memory; }
+		inline vk::DeviceMemory GetVkMemory() const { return m_memory->m_memory; }
 		inline vk::BufferUsageFlags GetVkUsage() const { return m_props.usageFlags; }
 		
 		vk::DeviceAddress GetVkAddress() const;
 		
 		inline usize GetMemoryOffset() const { return m_memoryOffset; }
 		inline usize GetTotalSize() const { return m_props.sizeInBytes; }
+		inline u8* GetMappedData() const { return m_memory->m_mappedData; }
 
-		inline u8* GetMappedData() const { return m_props.memory->m_mappedData; }
+		usize GetRequestedSize() const;
 
+		void BindMemory(VMemory* memory);
 		void Update(RawBuffer buffer) const;
-
 		void Destroy() override final;
 
 	private:
 		BufferProps m_props;
+		VMemory* m_memory;
 
 		vk::Buffer m_buffer;
 		usize m_memoryOffset;

@@ -4,6 +4,8 @@
 #include "../Image/VImage.h"
 #include "../Image/VImageView.h"
 #include "../Queue/VQueue.h"
+#include "../Sync/VFence.h"
+#include "../Sync/VSemaphore.h"
 
 #include "Engine/Vulkan/Core/VkAssert.h"
 #include "Engine/Window/WindowManager.h"
@@ -122,6 +124,35 @@ namespace MAGE
 			ErrorUtils::VkAssert(m_rootDevice->GetVkDevice().waitForFences(1, &m_barrierFence, false, UINT64_MAX), "VSwapchain");
 			ErrorUtils::VkAssert(m_rootDevice->GetVkDevice().resetFences(1, &m_barrierFence), "VSwapchain");
 		}
+	}
+
+	u32 VSwapchain::AcquireNextImage(VSemaphore* semaphore, VFence* fence)
+	{
+		ErrorUtils::VkAssert(m_rootDevice->GetVkDevice().acquireNextImageKHR(m_swapchain, u64_max, 
+			semaphore ? semaphore->GetVkSemaphore() : vk::Semaphore(), fence ? fence->GetVkFence() : vk::Fence(), &m_requestedIndex), "VSwapchain");
+
+		return m_requestedIndex;
+	}
+
+	void VSwapchain::Present(const Vector<VSemaphore*>& waitSems) const
+	{
+		Vector<vk::Semaphore> waits(waitSems.size(), VK_NULL_HANDLE);
+
+		for (u32 i = 0; i < waits.size(); i++)
+			waits[i] = waitSems[i]->GetVkSemaphore();
+
+		vk::Result returnResult = {};
+
+		vk::PresentInfoKHR present = {};
+		present.pImageIndices = &m_requestedIndex;
+		present.swapchainCount = 1;
+		present.pSwapchains = &m_swapchain;
+		present.waitSemaphoreCount = waits.size();
+		present.pWaitSemaphores = waits.data();
+		present.pResults = &returnResult;
+
+		ErrorUtils::VkAssert(m_props.graphicsQueue->GetVkQueue().presentKHR(&present), "VSwapchain");
+		ErrorUtils::VkAssert(returnResult, "VSwapchain - Present");
 	}
 
 	void VSwapchain::Destroy()

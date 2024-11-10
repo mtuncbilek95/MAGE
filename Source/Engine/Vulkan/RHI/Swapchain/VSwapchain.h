@@ -47,14 +47,16 @@ namespace MAGE
 		inline vk::SurfaceKHR GetVkSurface() const { return m_surface; }
 		inline vk::SwapchainKHR GetVkSwapchain() const { return m_swapchain; }
 
-		inline vk::Format GetFormat() const { return m_props.imageFormat; }
-		inline vk::PresentModeKHR GetPresentMode() const { return m_props.presentMode; }
+		inline vk::Format GetVkFormat() const { return m_props.imageFormat; }
+		inline vk::PresentModeKHR GetVkPresentMode() const { return m_props.presentMode; }
 		inline const vk::Extent2D& GetImageSize() const { return m_props.imageSize; }
 		inline u32 GetBufferCount() const { return m_props.imageCount; }
 
 		VImage* GetSwapchainImage() const { return &*m_images[m_requestedIndex]; }
 		VImageView* GetSwapchainView() const { return &*m_views[m_requestedIndex]; }
 
+		u32 AcquireNextImage(VSemaphore* semaphore, VFence* fence);
+		void Present(const Vector<VSemaphore*>& waitSems) const;
 		void Destroy() override final;
 
 	private:

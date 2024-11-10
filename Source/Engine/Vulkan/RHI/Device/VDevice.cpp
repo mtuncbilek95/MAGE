@@ -1,6 +1,7 @@
 #include "VDevice.h"
 #include "../Instance/VInstance.h"
 #include "../Queue/VQueue.h"
+#include "../Sync/VFence.h"
 
 #include "Engine/Vulkan/Core/VkAssert.h"
 
@@ -232,6 +233,31 @@ namespace MAGE
 		default:
 			throw std::runtime_error("Queue type not supported!");
 		}
+	}
+
+	void VDevice::WaitForFences(const Vector<VFence*>& fences) const
+	{
+		Vector<vk::Fence> ctx(fences.size(), VK_NULL_HANDLE);
+
+		for (u32 i = 0; i < ctx.size(); i++)
+			ctx[i] = fences[i]->GetVkFence();
+
+		ErrorUtils::VkAssert(m_device.waitForFences(ctx.size(), ctx.data(), false, u64_max), "VFence");
+	}
+
+	void VDevice::ResetFences(const Vector<VFence*>& fences) const
+	{
+		Vector<vk::Fence> ctx(fences.size(), VK_NULL_HANDLE);
+
+		for (u32 i = 0; i < ctx.size(); i++)
+			ctx[i] = fences[i]->GetVkFence();
+
+		ErrorUtils::VkAssert(m_device.resetFences(ctx.size(), ctx.data()), "VFence");
+	}
+
+	void VDevice::WaitForIdle() const
+	{
+		m_device.waitIdle();
 	}
 
 	void VDevice::Destroy()

@@ -7,7 +7,7 @@ Modern & Advanced Graphics Engine
 ## GOOD TO KNOW WHILE WORKING
 
 - The Engine is written in C++20 and uses Vulkan API `v1.3.290.0` for rendering (Will support DX12 in future).
-- Current version is using vulkan.hpp
+- hpp is way too heavy. I'm going back to C version of Vulkan.
 - I have my own memory allocator design. It has issues but mostly its working fine with a little bit over allocation.
 - The Engine is still in development and not ready for production.
 

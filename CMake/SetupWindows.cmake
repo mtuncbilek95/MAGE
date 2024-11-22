@@ -3,5 +3,5 @@ function(SetupDX12 TARGET)
 endfunction()
 
 function(SetupWin32 TARGET)
-	target_link_libraries(${TARGET} PUBLIC user32.lib gdi32.lib shell32.lib Setupapi.lib)
+	target_link_libraries(${TARGET} PUBLIC user32.lib gdi32.lib shell32.lib Setupapi.lib windowscodecs.lib)
 endfunction()

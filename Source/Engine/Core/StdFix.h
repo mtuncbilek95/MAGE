@@ -10,34 +10,44 @@
 
 #include <array>
 template<typename T, size_t N>
-using Array = std::array<T, N>;
+using array = std::array<T, N>;
+
+#include <string>
+using string = std::string;
+
+#include <string_view>
+using stringView = std::string_view;
 
 #include <vector>
 template<typename T>
-using Vector = std::vector<T>;
+using vector = std::vector<T>;
 
 #include <map>
 template<typename K, typename V>
-using Map = std::map<K, V>;
+using map = std::map<K, V>;
 
 template<typename K, typename V>
-using Pair = std::pair<K, V>;
+using pair = std::pair<K, V>;
+
+#include <queue>
+template<typename T>
+using queue = std::queue<T>;
 
 #include <set>
 template<typename T>
-using Set = std::set<T>;
+using set = std::set<T>;
 
 #include <list>
 template<typename T>
 using List = std::list<T>;
 
 #include <unordered_map>
-template<typename K, typename V>
-using HashMap = std::unordered_map<K, V>;
+template<typename K, typename V, typename...Args>
+using hashmap = std::unordered_map<K, V, Args...>;
 
 #include <span>
 template<typename T>
-using Span = std::span<T>;
+using span = std::span<T>;
 
 #include <memory>
 template<typename T>
@@ -63,5 +73,6 @@ Shared<T> MakeShared(Args&&... args)
 
 #include <functional>
 template<typename T>
-using Function = std::function<T>;
-using VoidFunction = std::function<void*>;
+using function = std::function<T>;
+using voidPtrFunc = std::function<void*>;
+using voidFunc = std::function<void()>;

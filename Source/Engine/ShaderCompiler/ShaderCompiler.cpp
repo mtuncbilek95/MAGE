@@ -1,6 +1,6 @@
 #include "ShaderCompiler.h"
 
-#include "Engine/IO/PlatformFile.h"
+#include "Engine/Platform/PlatformFile.h"
 
 #include <shaderc/shaderc.hpp>
 #include <magic_enum.hpp>
@@ -8,14 +8,16 @@
 #include <iostream>
 #include <filesystem>
 #include <fstream>
+#include <map>
+#include <memory>
 
 namespace MAGE
 {
-	void ShaderAssert(shaderc_compilation_status status, const String& title, const String& message)
+	void ShaderAssert(shaderc_compilation_status status, const std::string& title, const std::string& message)
 	{
 		if (status != shaderc_compilation_status_success)
 		{
-			spdlog::error("[{0}:{1}] - {2}", std::string_view(title), magic_enum::enum_name(status), std::string_view(message));
+			spdlog::error("[{0}:{1}] - {2}", title, magic_enum::enum_name(status), message);
 			exit(-1);
 		}
 	}
@@ -25,26 +27,26 @@ namespace MAGE
 		struct IncludeData
 		{
 			shaderc_include_result result = {};
-			String m_fullPath;
-			String m_content;
+			std::string m_fullPath;
+			std::string m_content;
 		};
 
 	public:
-		ShaderIncluder(const String& path);
+		ShaderIncluder(const std::string& path);
 		~ShaderIncluder() override = default;
 
 		shaderc_include_result* GetInclude(const char* requestedSource, shaderc_include_type type, const char* requestingSource, u64 includeDepth) override;
 		void ReleaseInclude(shaderc_include_result* data) override;
 
 	private:
-		String ResolveInclude(const String& requestedSource) const;
+		std::string ResolveInclude(const std::string& requestedSource) const;
 
-		String m_includePath;
+		std::string m_includePath;
 	};
 
 	shaderc_shader_kind CheckStage(const std::string& extensionName)
 	{
-		static Map<std::string, shaderc_shader_kind> stageMap = {
+		static std::map<std::string, shaderc_shader_kind> stageMap = {
 			{ "vert", shaderc_glsl_vertex_shader },       { "frag", shaderc_glsl_fragment_shader },
 			{ "comp", shaderc_glsl_compute_shader },      { "geom", shaderc_glsl_geometry_shader },
 			{ "tesc", shaderc_glsl_tess_control_shader }, { "tese", shaderc_glsl_tess_evaluation_shader },
@@ -59,7 +61,7 @@ namespace MAGE
 		else throw std::runtime_error("Failed to find shader stage for extension '" + extensionName + "'!");
 	}
 
-	ShaderIncluder::ShaderIncluder(const String& path) : m_includePath(path)
+	ShaderIncluder::ShaderIncluder(const std::string& path) : m_includePath(path)
 	{
 	}
 
@@ -73,10 +75,10 @@ namespace MAGE
 			throw std::runtime_error("Failed to read include '" + includeData->m_fullPath + "'!");
 
 		shaderc_include_result* result = &includeData->result;
-		result->content = includeData->m_content.Data();
-		result->content_length = includeData->m_content.Size();
-		result->source_name = includeData->m_fullPath.Data();
-		result->source_name_length = includeData->m_fullPath.Size();
+		result->content = includeData->m_content.data();
+		result->content_length = includeData->m_content.size();
+		result->source_name = includeData->m_fullPath.data();
+		result->source_name_length = includeData->m_fullPath.size();
 		result->user_data = includeData;
 
 		return result;
@@ -87,16 +89,16 @@ namespace MAGE
 		delete static_cast<IncludeData*>(data->user_data);
 	}
 
-	String ShaderIncluder::ResolveInclude(const String& requestedSource) const
+	std::string ShaderIncluder::ResolveInclude(const std::string& requestedSource) const
 	{
 		std::string path = m_includePath + requestedSource;
 		if (PlatformFile::Exists(path)) return path;
 		else throw std::runtime_error("Failed to resolve include '" + path + "'!");
 	}
 
-	OwnedBuffer ShaderCompiler::CompileShader(const String& shaderPath, const String& includePath, const String& entryPoint)
+	OwnedBuffer ShaderCompiler::CompileShader(const std::string& shaderPath, const std::string& includePath, const std::string& entryPoint)
 	{
-		String sourceCode;
+		std::string sourceCode;
 		if(!PlatformFile::Read(shaderPath, sourceCode))
 			throw std::runtime_error("Failed to read shader '" + shaderPath + "'!");
 
@@ -109,16 +111,16 @@ namespace MAGE
 		options.SetOptimizationLevel(shaderc_optimization_level_performance);
 		options.SetTargetSpirv(shaderc_spirv_version_1_6);
 
-		if (!includePath.Empty())
-			options.SetIncluder(MakeOwned<ShaderIncluder>(includePath));
+		if (!includePath.empty())
+			options.SetIncluder(std::make_unique<ShaderIncluder>(includePath));
 
-		auto extensionSplit = shaderPath.FindEndIndexOf(".");
-		if (extensionSplit == String::NPos)
+		auto extensionSplit = shaderPath.rfind('.');
+		if (extensionSplit == string::npos)
 			throw std::runtime_error("Failed to find extension for shader '" + shaderPath + "'!");
 
-		auto stage = CheckStage(shaderPath.SubString(extensionSplit + 1));
+		auto stage = CheckStage(shaderPath.substr(extensionSplit + 1));
 
-		shaderc::PreprocessedSourceCompilationResult preResult = compiler.PreprocessGlsl(sourceCode.Data(), stage, "", options);
+		shaderc::PreprocessedSourceCompilationResult preResult = compiler.PreprocessGlsl(sourceCode.data(), stage, "", options);
 		ShaderAssert(preResult.GetCompilationStatus(), "PreResult", preResult.GetErrorMessage());
 
 		shaderc::SpvCompilationResult compResult = compiler.CompileGlslToSpv(preResult.begin(), stage, "", options);

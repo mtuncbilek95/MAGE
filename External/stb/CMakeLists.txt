@@ -22,4 +22,5 @@ target_include_directories(stb INTERFACE ${stb_SOURCE_DIR})
 
 function(AddStbMacros TARGET)
 	target_compile_definitions(${TARGET} PUBLIC STB_IMAGE_IMPLEMENTATION)
+	target_compile_definitions(${TARGET} PUBLIC STB_IMAGE_WRITE_IMPLEMENTATION)
 endfunction()

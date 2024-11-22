@@ -9,12 +9,12 @@ namespace MAGE
 	namespace ErrorUtils
 	{
 #if defined(DELUSION_WINDOWS)
-		const String Handler::GetErrorString()
+		string Handler::GetErrorString()
 		{
 			// Get error code from the system
 			DWORD errorID = GetLastError();
 			if (errorID == 0)
-				return String();
+				return std::string();
 
 			LPSTR messageBuffer = nullptr;
 
@@ -23,14 +23,14 @@ namespace MAGE
 				nullptr, errorID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, nullptr);
 
 			// Buffer it up
-			String message(messageBuffer, size);
+			std::string message(messageBuffer, size);
 
 			// Free the buffer
 			LocalFree(messageBuffer);
 			return message;
 		}
 
-		void Handler::PlatformMessage(const String& title, const char* message, ...)
+		void Handler::PlatformMessage(const string& title, const char* message, ...)
 		{
 			// Format the message
 			va_list args;
@@ -42,7 +42,7 @@ namespace MAGE
 			va_end(args);
 
 			// Show the message box
-			i32 code = MessageBoxA(nullptr, buffer, title.CharString(), MB_OKCANCEL | MB_ICONERROR);
+			i32 code = MessageBoxA(nullptr, buffer, title.c_str(), MB_OKCANCEL | MB_ICONERROR);
 
 #if defined(DELUSION_DEBUG)
 			if (code == IDOK)
@@ -51,17 +51,8 @@ namespace MAGE
 				ExitProcess(-99);
 #else
 			ExitProcess(-99);
-#endif // DELUSION_DEBUG
+#endif
 		}
-#else
-		const String Handler::GetErrorString()
-		{
-			return String();
-		}
-
-		void Handler::PlatformMessage(const String& title, const char* message, ...)
-		{
-		}
-#endif // DELUSION_WINDOWS
 	}
+#endif
 }

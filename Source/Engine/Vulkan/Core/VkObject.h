@@ -18,7 +18,7 @@ namespace MAGE
 	class VkObject : public IObject
 	{
 	public:
-		VkObject(VDevice* device);
+		VkObject(VDevice* device) : m_rootDevice(device) {}
 		virtual ~VkObject() override = default;
 
 		VDevice* GetRootDevice() const { return m_rootDevice; }

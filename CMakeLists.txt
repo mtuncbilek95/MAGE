@@ -37,7 +37,9 @@ endif()
 add_subdirectory("External")
 add_subdirectory("Source/Engine")
 
-add_subdirectory("Tests")
+#add_subdirectory("Tests")
 	
-add_subdirectory("Example/01-General")
+add_subdirectory("Example/01-HelloTriangle")
+add_subdirectory("Example/02-RotatingSquare")
+add_subdirectory("Example/03-ResourceManagement")
 # ------------------------------------------------------------

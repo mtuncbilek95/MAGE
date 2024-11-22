@@ -10,19 +10,19 @@
 
 #include "Engine/Core/Core.h"
 
-#include <vulkan/vulkan.hpp>
+#include <vulkan/vulkan.h>
 #include <magic_enum.hpp>
 
 namespace MAGE
 {
 	namespace ErrorUtils
 	{
-		static inline void VkAssert(vk::Result result, const String& objectTitle)
+		static inline void VkAssert(VkResult result, const std::string& objectTitle)
 		{
-			if (result != vk::Result::eSuccess)
+			if (result != VK_SUCCESS)
 			{
 				auto name = magic_enum::enum_name(result);
-				spdlog::critical("{0} - {1}", std::string_view(objectTitle), name);
+				spdlog::critical("{0} - {1}", objectTitle, name);
 				exit(-1);
 			}
 		}

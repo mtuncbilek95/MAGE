@@ -12,21 +12,24 @@
 
 namespace MAGE
 {
-	template<Arithmetic T>
-	inline constexpr T MBToByte(T mb) { return mb * 1000.0 * 1000.0; }
-	template<Arithmetic T>
-	inline constexpr T KBToByte(T kb) { return kb * 1000.0; }
-	template<Arithmetic T>
-	inline constexpr T ByteToKB(T bytes) { return bytes / 1000.0; }
-	template<Arithmetic T>
-	inline constexpr T ByteToMB(T bytes) { return bytes / 1000.0 / 1000.0; }
+	namespace ByteConv
+	{
+		template<Arithmetic T>
+		inline constexpr T MBToByte(T mb) { return mb * 1000.0 * 1000.0; }
+		template<Arithmetic T>
+		inline constexpr T KBToByte(T kb) { return kb * 1000.0; }
+		template<Arithmetic T>
+		inline constexpr T ByteToKB(T bytes) { return bytes / 1000.0; }
+		template<Arithmetic T>
+		inline constexpr T ByteToMB(T bytes) { return bytes / 1000.0 / 1000.0; }
 
-	template<Arithmetic T>
-	inline constexpr T MiBToByte(T mib) { return mib << 20; }
-	template<Arithmetic T>
-	inline constexpr T KiBToByte(T mib) { return mib << 10; }
-	template<Arithmetic T>
-	inline constexpr T ByteToKiB(T bytes) { return bytes >> 10; }
-	template<Arithmetic T>
-	inline constexpr T ByteToMiB(T bytes) { return bytes >> 20; }
-} // namespace Helpers
+		template<Arithmetic T>
+		inline constexpr T MiBToByte(T mib) { return mib << 20; }
+		template<Arithmetic T>
+		inline constexpr T KiBToByte(T mib) { return mib << 10; }
+		template<Arithmetic T>
+		inline constexpr T ByteToKiB(T bytes) { return bytes >> 10; }
+		template<Arithmetic T>
+		inline constexpr T ByteToMiB(T bytes) { return bytes >> 20; }
+	}
+}

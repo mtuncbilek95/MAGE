@@ -9,39 +9,29 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
+#include "Engine/Objects/IObject.h"
+#include "Engine/Monitor/Monitor.h"
 
 #include <GLFW/glfw3.h>
 #include <glfw/glfw3native.h>
 
 namespace MAGE
 {
-	enum class WindowMode
+	struct WindowProps final
 	{
-		Windowed,
-		Borderless
+		string windowTitle;
+		Math::Vec2u windowSize;
+		Math::Vec2i windowPos;
+		b8 isWindowed;
 	};
 
-	/**
-	 * @struct IndWindowDesc
-	 * @brief Initialization descriptor for independent window.
-	 */
-	struct IndWindowDesc final
+	class IndWindow final : public IObject
 	{
-		Math::Vec2u windowRes;
-		WindowMode mode;
-		String title;
-	};
+		using SizeCallback = function<void(Math::Vec2u)>;
+		using PosCallback = function<void(Math::Vec2i)>;
 
-	/**
-	 * @class IndWindow
-	 * @brief GLFW based independent window for standalone purposes.
-	 */
-	class IndWindow final
-	{
-		using SizeCallback = Function<void(Math::Vec2u)>;
-		using PosCallback = Function<void(Math::Vec2i)>;
 	public:
-		IndWindow(const IndWindowDesc& desc);
+		IndWindow(const WindowProps& desc);
 		~IndWindow();
 
 		void WindowResizeCallback(const SizeCallback& callback);
@@ -49,34 +39,30 @@ namespace MAGE
 
 		void PollEvents();
 
-		const Math::Vec2u& GetWindowRes() const { return m_windowRes; }
-		const Math::Vec2i& GetWindowPos() const { return m_windowPos; }
-		
-		String GetTitle() const { return m_title; }
-		WindowMode GetMode() const { return m_mode; }
-		bool IsClosed() const { return glfwWindowShouldClose(m_window); }
+		const Math::Vec2u& GetWindowRes() const { return m_props.windowSize; }
+		const Math::Vec2i& GetWindowPos() const { return m_props.windowPos; }
 
-		void Show() { glfwShowWindow(m_window); }
-		void Hide() { glfwHideWindow(m_window); }
-		void Quit() { glfwSetWindowShouldClose(m_window, true); }
-		void Destroy();
+		string GetWindowName() const { return m_props.windowTitle; }
+		b8 GetIsWindowed() const { return m_props.isWindowed; }
+		b8 IsClosed() const { return glfwWindowShouldClose(m_handle); }
 
 #if defined(DELUSION_WINDOWS)
-		HWND GetNativeHandle() const { return glfwGetWin32Window(m_window); }
+		HWND GetNativeHandle() const { return glfwGetWin32Window(m_handle); }
 		HINSTANCE GetNativeInstance() const { return GetModuleHandle(nullptr); }
 #endif // DELUSION_WINDOWS
-		GLFWwindow* GetGLFWWindow() const { return m_window; }
+		GLFWwindow* GetGLFWWindow() const { return m_handle; }
+
+		void Show() const;
+		void Hide() const;
+		void Destroy() override final;
 
 	private:
-		GLFWwindow* m_window;
+		WindowProps m_props;
+		GLFWwindow* m_handle;
 
-		Math::Vec2u m_windowRes;
-		Math::Vec2i m_windowPos;
+		SizeCallback m_sizeFunc;
+		PosCallback m_posFunc;
 
-		WindowMode m_mode;
-		String m_title;
-
-		SizeCallback m_sizeCallback;
-		PosCallback m_posCallback;
+		vector<Monitor> m_allMonitors;
 	};
 }

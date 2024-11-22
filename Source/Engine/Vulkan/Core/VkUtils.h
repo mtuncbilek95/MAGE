@@ -9,12 +9,12 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include <vulkan/vulkan.hpp>
+#include <vulkan/vulkan.h>
 
 namespace MAGE
 {
 	namespace VkUtils
 	{
-		u32 GetVkTextureSize(vk::Format format);
+		u32 GetVkTextureSize(VkFormat format);
 	}
 }

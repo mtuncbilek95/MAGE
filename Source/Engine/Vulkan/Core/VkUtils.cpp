@@ -4,83 +4,107 @@
 
 namespace MAGE
 {
-	HashMap<vk::Format, u32> MakeFormatSizeMap()
+	std::unordered_map<VkFormat, u32> MakeFormatSizeMap()
 	{
-		HashMap<vk::Format, u32> map;
-		for (auto format : magic_enum::enum_values<vk::Format>())
+		std::unordered_map<VkFormat, u32> map;
+		for (auto format : magic_enum::enum_values<VkFormat>())
 		{
 			u32 size = 0;
-			if (format == vk::Format::eR4G4UnormPack8 || format == vk::Format::eS8Uint) size = 1;
-			else if (format >= vk::Format::eR4G4B4A4UnormPack16 && format <= vk::Format::eA1R5G5B5UnormPack16)
+			if (format == VK_FORMAT_R4G4_UNORM_PACK8 || format == VK_FORMAT_S8_UINT) size = 1;
+			else if (format >= VK_FORMAT_R4G4B4A4_UNORM_PACK16 && format <= VK_FORMAT_A1R5G5B5_UNORM_PACK16)
 				size = 2;
-			else if (format >= vk::Format::eR8Unorm && format <= vk::Format::eR8Srgb) size = 1;
-			else if (format >= vk::Format::eR8G8Unorm && format <= vk::Format::eR8G8Srgb) size = 2;
-			else if (format >= vk::Format::eR8G8B8Unorm && format <= vk::Format::eB8G8R8Srgb) size = 3;
-			else if (format >= vk::Format::eR8G8B8A8Unorm && format <= vk::Format::eA2B10G10R10SintPack32)
+			else if (format >= VK_FORMAT_R8_UNORM && format <= VK_FORMAT_R8_SRGB) size = 1;
+			else if (format >= VK_FORMAT_R8G8_UNORM && format <= VK_FORMAT_R8G8_SRGB) size = 2;
+			else if (format >= VK_FORMAT_R8G8B8_UNORM && format <= VK_FORMAT_B8G8R8_SRGB) size = 3;
+			else if (format >= VK_FORMAT_R8G8B8A8_UNORM && format <= VK_FORMAT_A2B10G10R10_SINT_PACK32)
 				size = 4;
-			else if (format >= vk::Format::eR16Unorm && format <= vk::Format::eR16Sfloat) size = 2;
-			else if (format >= vk::Format::eR16G16Unorm && format <= vk::Format::eR16G16Sfloat) size = 4;
-			else if (format >= vk::Format::eR16G16B16Unorm && format <= vk::Format::eR16G16B16Sfloat) size = 6;
-			else if (format >= vk::Format::eR16G16B16A16Unorm && format <= vk::Format::eR16G16B16A16Sfloat)
+			else if (format >= VK_FORMAT_R16_UNORM && format <= VK_FORMAT_R16_SFLOAT) size = 2;
+			else if (format >= VK_FORMAT_R16G16_UNORM && format <= VK_FORMAT_R16G16_SFLOAT) size = 4;
+			else if (format >= VK_FORMAT_R16G16B16_UNORM && format <= VK_FORMAT_R16G16B16_SFLOAT) size = 6;
+			else if (format >= VK_FORMAT_R16G16B16A16_UNORM && format <= VK_FORMAT_R16G16B16A16_SFLOAT)
 				size = 8;
-			else if (format >= vk::Format::eR32Uint && format <= vk::Format::eR32Sfloat) size = 4;
-			else if (format >= vk::Format::eR32G32Uint && format <= vk::Format::eR32G32Sfloat) size = 8;
-			else if (format >= vk::Format::eR32G32B32Uint && format <= vk::Format::eR32G32B32Sfloat) size = 12;
-			else if (format >= vk::Format::eR32G32B32A32Uint && format <= vk::Format::eR32G32B32A32Sfloat)
+			else if (format >= VK_FORMAT_R32_UINT && format <= VK_FORMAT_R32_SFLOAT) size = 4;
+			else if (format >= VK_FORMAT_R32G32_UINT && format <= VK_FORMAT_R32G32_SFLOAT) size = 8;
+			else if (format >= VK_FORMAT_R32G32B32_UINT && format <= VK_FORMAT_R32G32B32_SFLOAT) size = 12;
+			else if (format >= VK_FORMAT_R32G32B32A32_UINT && format <= VK_FORMAT_R32G32B32A32_SFLOAT)
 				size = 16;
-			else if (format >= vk::Format::eR64Uint && format <= vk::Format::eR64Sfloat) size = 8;
-			else if (format >= vk::Format::eR64G64Uint && format <= vk::Format::eR64G64Sfloat) size = 16;
-			else if (format >= vk::Format::eR64G64B64Uint && format <= vk::Format::eR64G64B64Sfloat) size = 24;
-			else if (format >= vk::Format::eR64G64B64A64Uint && format <= vk::Format::eR64G64B64A64Sfloat)
+			else if (format >= VK_FORMAT_R64_UINT && format <= VK_FORMAT_R64_SFLOAT) size = 8;
+			else if (format >= VK_FORMAT_R64G64_UINT && format <= VK_FORMAT_R64G64_SFLOAT) size = 16;
+			else if (format >= VK_FORMAT_R64G64B64_UINT && format <= VK_FORMAT_R64G64B64_SFLOAT) size = 24;
+			else if (format >= VK_FORMAT_R64G64B64A64_UINT && format <= VK_FORMAT_R64G64B64A64_SFLOAT)
 				size = 32;
-			else if (format == vk::Format::eB10G11R11UfloatPack32 || format == vk::Format::eE5B9G9R9UfloatPack32
-				|| format == vk::Format::eX8D24UnormPack32 || format == vk::Format::eD32Sfloat
-				|| format == vk::Format::eD24UnormS8Uint)
+			else if (format == VK_FORMAT_B10G11R11_UFLOAT_PACK32 || format == VK_FORMAT_E5B9G9R9_UFLOAT_PACK32
+				|| format == VK_FORMAT_X8_D24_UNORM_PACK32 || format == VK_FORMAT_D32_SFLOAT
+				|| format == VK_FORMAT_D24_UNORM_S8_UINT)
 				size = 4;
-			else if (format == vk::Format::eD16Unorm) size = 2;
-			else if (format == vk::Format::eD16UnormS8Uint) size = 3;
-			else if (format == vk::Format::eD32SfloatS8Uint) size = 5;
-			else if (format == vk::Format::eBc1RgbUnormBlock || format == vk::Format::eBc1RgbSrgbBlock
-				|| format == vk::Format::eBc1RgbaUnormBlock || format == vk::Format::eBc1RgbaSrgbBlock
-				|| format == vk::Format::eBc4SnormBlock || format == vk::Format::eBc4UnormBlock)
+			else if (format == VK_FORMAT_D16_UNORM) size = 2;
+			else if (format == VK_FORMAT_D16_UNORM_S8_UINT) size = 3;
+			else if (format == VK_FORMAT_D32_SFLOAT_S8_UINT) size = 5;
+			else if (format == VK_FORMAT_BC1_RGB_UNORM_BLOCK || format == VK_FORMAT_BC1_RGB_SRGB_BLOCK
+				|| format == VK_FORMAT_BC1_RGBA_UNORM_BLOCK || format == VK_FORMAT_BC1_RGBA_SRGB_BLOCK
+				|| format == VK_FORMAT_BC4_SNORM_BLOCK || format == VK_FORMAT_BC4_UNORM_BLOCK)
 				size = 8;
-			else if (format == vk::Format::eBc2SrgbBlock || format == vk::Format::eBc2UnormBlock
-				|| format == vk::Format::eBc3SrgbBlock || format == vk::Format::eBc3UnormBlock
-				|| format == vk::Format::eBc5SnormBlock || format == vk::Format::eBc5UnormBlock
-				|| format == vk::Format::eBc6HSfloatBlock || format == vk::Format::eBc6HUfloatBlock
-				|| format == vk::Format::eBc7SrgbBlock || format == vk::Format::eBc7UnormBlock)
+			else if (format == VK_FORMAT_BC2_SRGB_BLOCK || format == VK_FORMAT_BC2_UNORM_BLOCK
+				|| format == VK_FORMAT_BC3_SRGB_BLOCK || format == VK_FORMAT_BC3_UNORM_BLOCK
+				|| format == VK_FORMAT_BC5_SNORM_BLOCK || format == VK_FORMAT_BC5_UNORM_BLOCK
+				|| format == VK_FORMAT_BC6H_SFLOAT_BLOCK || format == VK_FORMAT_BC6H_UFLOAT_BLOCK
+				|| format == VK_FORMAT_BC7_SRGB_BLOCK || format == VK_FORMAT_BC7_UNORM_BLOCK)
 				size = 16;
-			else if (format == vk::Format::eEtc2R8G8B8UnormBlock || format == vk::Format::eEtc2R8G8B8SrgbBlock
-				|| format == vk::Format::eEtc2R8G8B8A1UnormBlock
-				|| format == vk::Format::eEtc2R8G8B8A1SrgbBlock
-				|| format == vk::Format::eEtc2R8G8B8A8UnormBlock
-				|| format == vk::Format::eEtc2R8G8B8A8SrgbBlock || format == vk::Format::eEacR11UnormBlock
-				|| format == vk::Format::eEacR11SnormBlock || format == vk::Format::eEacR11G11UnormBlock
-				|| format == vk::Format::eEacR11G11SnormBlock)
+			else if (format == VK_FORMAT_ETC2_R8G8B8_UNORM_BLOCK || format == VK_FORMAT_ETC2_R8G8B8_SRGB_BLOCK
+				|| format == VK_FORMAT_ETC2_R8G8B8A1_UNORM_BLOCK
+				|| format == VK_FORMAT_ETC2_R8G8B8A1_SRGB_BLOCK
+				|| format == VK_FORMAT_ETC2_R8G8B8A8_UNORM_BLOCK
+				|| format == VK_FORMAT_ETC2_R8G8B8A8_SRGB_BLOCK || format == VK_FORMAT_EAC_R11_UNORM_BLOCK
+				|| format == VK_FORMAT_EAC_R11_SNORM_BLOCK || format == VK_FORMAT_EAC_R11G11_UNORM_BLOCK
+				|| format == VK_FORMAT_EAC_R11G11_SNORM_BLOCK)
 				size = 16;
-			else if (format == vk::Format::eAstc4x4UnormBlock || format == vk::Format::eAstc4x4SfloatBlock
-				|| format == vk::Format::eAstc4x4SrgbBlock || format == vk::Format::eAstc5x4UnormBlock
-				|| format == vk::Format::eAstc5x4SfloatBlock || format == vk::Format::eAstc5x4SrgbBlock
-				|| format == vk::Format::eAstc5x5UnormBlock || format == vk::Format::eAstc5x5SfloatBlock
-				|| format == vk::Format::eAstc5x5SrgbBlock || format == vk::Format::eAstc6x5UnormBlock
-				|| format == vk::Format::eAstc6x5SfloatBlock || format == vk::Format::eAstc6x5SrgbBlock
-				|| format == vk::Format::eAstc6x6UnormBlock || format == vk::Format::eAstc6x6SfloatBlock
-				|| format == vk::Format::eAstc6x6SrgbBlock || format == vk::Format::eAstc8x5UnormBlock
-				|| format == vk::Format::eAstc8x5SfloatBlock || format == vk::Format::eAstc8x5SrgbBlock
-				|| format == vk::Format::eAstc8x6UnormBlock || format == vk::Format::eAstc8x6SfloatBlock
-				|| format == vk::Format::eAstc8x6SrgbBlock || format == vk::Format::eAstc8x8UnormBlock
-				|| format == vk::Format::eAstc8x8SfloatBlock || format == vk::Format::eAstc8x8SrgbBlock
-				|| format == vk::Format::eAstc10x5UnormBlock || format == vk::Format::eAstc10x5SfloatBlock
-				|| format == vk::Format::eAstc10x5SrgbBlock || format == vk::Format::eAstc10x6UnormBlock
-				|| format == vk::Format::eAstc10x6SfloatBlock || format == vk::Format::eAstc10x6SrgbBlock
-				|| format == vk::Format::eAstc10x8UnormBlock || format == vk::Format::eAstc10x8SfloatBlock
-				|| format == vk::Format::eAstc10x8SrgbBlock || format == vk::Format::eAstc10x10UnormBlock
-				|| format == vk::Format::eAstc10x10SfloatBlock || format == vk::Format::eAstc10x10SrgbBlock
-				|| format == vk::Format::eAstc12x10UnormBlock
-				|| format == vk::Format::eAstc12x10SfloatBlock || format == vk::Format::eAstc12x10SrgbBlock
-				|| format == vk::Format::eAstc12x12UnormBlock
-				|| format == vk::Format::eAstc12x12SfloatBlock || format == vk::Format::eAstc12x12SrgbBlock)
+			else if (format == VK_FORMAT_ASTC_4x4_UNORM_BLOCK || format == VK_FORMAT_ASTC_4x4_SFLOAT_BLOCK
+				|| format == VK_FORMAT_ASTC_4x4_SRGB_BLOCK || format == VK_FORMAT_ASTC_5x4_UNORM_BLOCK
+				|| format == VK_FORMAT_ASTC_5x4_SFLOAT_BLOCK || format == VK_FORMAT_ASTC_5x4_SRGB_BLOCK
+				|| format == VK_FORMAT_ASTC_5x5_UNORM_BLOCK || format == VK_FORMAT_ASTC_5x5_SFLOAT_BLOCK
+				|| format == VK_FORMAT_ASTC_5x5_SRGB_BLOCK || format == VK_FORMAT_ASTC_6x5_UNORM_BLOCK
+				|| format == VK_FORMAT_ASTC_6x5_SFLOAT_BLOCK || format == VK_FORMAT_ASTC_6x5_SRGB_BLOCK
+				|| format == VK_FORMAT_ASTC_6x6_UNORM_BLOCK || format == VK_FORMAT_ASTC_6x6_SFLOAT_BLOCK
+				|| format == VK_FORMAT_ASTC_6x6_SRGB_BLOCK || format == VK_FORMAT_ASTC_8x5_UNORM_BLOCK
+				|| format == VK_FORMAT_ASTC_8x5_SFLOAT_BLOCK || format == VK_FORMAT_ASTC_8x5_SRGB_BLOCK
+				|| format == VK_FORMAT_ASTC_8x6_UNORM_BLOCK || format == VK_FORMAT_ASTC_8x6_SFLOAT_BLOCK
+				|| format == VK_FORMAT_ASTC_8x6_SRGB_BLOCK || format == VK_FORMAT_ASTC_8x8_UNORM_BLOCK
+				|| format == VK_FORMAT_ASTC_8x8_SFLOAT_BLOCK || format == VK_FORMAT_ASTC_8x8_SRGB_BLOCK
+				|| format == VK_FORMAT_ASTC_10x5_UNORM_BLOCK || format == VK_FORMAT_ASTC_10x5_SFLOAT_BLOCK
+				|| format == VK_FORMAT_ASTC_10x5_SRGB_BLOCK || format == VK_FORMAT_ASTC_10x6_UNORM_BLOCK
+				|| format == VK_FORMAT_ASTC_10x6_SFLOAT_BLOCK || format == VK_FORMAT_ASTC_10x6_SRGB_BLOCK
+				|| format == VK_FORMAT_ASTC_10x8_UNORM_BLOCK || format == VK_FORMAT_ASTC_10x8_SFLOAT_BLOCK
+				|| format == VK_FORMAT_ASTC_10x8_SRGB_BLOCK || format == VK_FORMAT_ASTC_10x10_UNORM_BLOCK
+				|| format == VK_FORMAT_ASTC_10x10_SFLOAT_BLOCK || format == VK_FORMAT_ASTC_10x10_SRGB_BLOCK
+				|| format == VK_FORMAT_ASTC_12x10_UNORM_BLOCK
+				|| format == VK_FORMAT_ASTC_12x10_SFLOAT_BLOCK || format == VK_FORMAT_ASTC_12x10_SRGB_BLOCK
+				|| format == VK_FORMAT_ASTC_12x12_UNORM_BLOCK || format == VK_FORMAT_ASTC_12x12_SRGB_BLOCK
+				|| format == VK_FORMAT_ASTC_12x12_SFLOAT_BLOCK)
 				size = 16;
+			else if (format == VK_FORMAT_PVRTC1_2BPP_UNORM_BLOCK_IMG
+				|| format == VK_FORMAT_PVRTC1_2BPP_SRGB_BLOCK_IMG
+				|| format == VK_FORMAT_PVRTC1_4BPP_SRGB_BLOCK_IMG
+				|| format == VK_FORMAT_PVRTC1_4BPP_UNORM_BLOCK_IMG
+				|| format == VK_FORMAT_PVRTC2_2BPP_SRGB_BLOCK_IMG
+				|| format == VK_FORMAT_PVRTC2_2BPP_UNORM_BLOCK_IMG
+				|| format == VK_FORMAT_PVRTC2_4BPP_SRGB_BLOCK_IMG
+				|| format == VK_FORMAT_PVRTC2_4BPP_UNORM_BLOCK_IMG)
+				size = 8;
+			else if (format == VK_FORMAT_B10X6G10X6R10X6G10X6_422_UNORM_4PACK16
+				|| format == VK_FORMAT_G10X6B10X6G10X6R10X6_422_UNORM_4PACK16
+				|| format == VK_FORMAT_R10X6G10X6B10X6A10X6_UNORM_4PACK16
+				|| format == VK_FORMAT_R12X4G12X4B12X4A12X4_UNORM_4PACK16
+				|| format == VK_FORMAT_G12X4B12X4G12X4R12X4_422_UNORM_4PACK16
+				|| format == VK_FORMAT_B12X4G12X4R12X4G12X4_422_UNORM_4PACK16
+				|| format == VK_FORMAT_G16B16G16R16_422_UNORM
+				|| format == VK_FORMAT_B16G16R16G16_422_UNORM)
+				size = 8;
+			else if (format == VK_FORMAT_G10X6_B10X6_R10X6_3PLANE_420_UNORM_3PACK16
+				|| format == VK_FORMAT_G10X6_B10X6R10X6_2PLANE_420_UNORM_3PACK16
+				|| format == VK_FORMAT_G10X6_B10X6_R10X6_3PLANE_422_UNORM_3PACK16
+				|| format == VK_FORMAT_G10X6_B10X6R10X6_2PLANE_422_UNORM_3PACK16
+				|| format == VK_FORMAT_G10X6_B10X6_R10X6_3PLANE_444_UNORM_3PACK16)
+				size = 6;
 
 			map[format] = size;
 		}
@@ -88,9 +112,9 @@ namespace MAGE
 		return map;
 	}
 
-	const HashMap<vk::Format, u32> FORMAT_SIZE_MAP = MakeFormatSizeMap();
+	const std::unordered_map<VkFormat, u32> FORMAT_SIZE_MAP = MakeFormatSizeMap();
 
-	u32 VkUtils::GetVkTextureSize(vk::Format format)
+	u32 VkUtils::GetVkTextureSize(VkFormat format)
 	{
 		auto size = FORMAT_SIZE_MAP.find(format);
 		if (size == FORMAT_SIZE_MAP.end() || size->second == 0) [[unlikely]]

@@ -20,8 +20,8 @@ namespace MAGE
 		 */
 		struct Handler final
 		{
-			static const String GetErrorString();
-			static void PlatformMessage(const String& title, const char* message, ...);
+			static string GetErrorString();
+			static void PlatformMessage(const string& title, const char* message, ...);
 		};
 
 		/**
@@ -29,10 +29,10 @@ namespace MAGE
 		 * @note In release mode it just closes the app with no log.
 		 */
 		template<typename...Args>
-		inline constexpr void LogAssert(b8 condition, const String& title, const String& message, Args&&...args)
+		inline constexpr void LogAssert(b8 condition, const string& title, const string& message, Args&&...args)
 		{
 			if (!condition)
-				Handler::PlatformMessage(title, message.CharString(), std::forward<Args>(args)...);
+				Handler::PlatformMessage(title, message.c_str(), std::forward<Args>(args)...);
 		}
 	} // namespace ErrorChecker
 }

@@ -9,12 +9,12 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "Engine/Data/Memory/OwnedBuffer.h"
+#include "Engine/Memory/OwnedBuffer.h"
 
 namespace MAGE
 {
 	struct ShaderCompiler final
 	{
-		static OwnedBuffer CompileShader(const String& shaderPath, const String& includePath = "", const String& entryPoint = "main");
+		static OwnedBuffer CompileShader(const std::string& shaderPath, const std::string& includePath = "", const std::string& entryPoint = "main");
 	};
 }

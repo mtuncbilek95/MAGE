@@ -21,13 +21,13 @@ namespace MAGE
 
 		static T& Get()
 		{
-			if (!m_Instance)
-				m_Instance = MakeShared<T>();
+			if (!m_instance)
+				m_instance = MakeShared<T>();
 
-			return *m_Instance;
+			return *m_instance;
 		}
 
 	private:
-		inline static Shared<T> m_Instance = nullptr;
+		inline static Shared<T> m_instance = nullptr;
 	};
 }

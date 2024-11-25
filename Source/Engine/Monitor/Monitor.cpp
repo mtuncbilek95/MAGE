@@ -52,6 +52,8 @@ namespace MAGE
         for (auto& prop : monitorPropsList)
             if (prop.isPrimary)
                 return Monitor(prop);
+
+        return Monitor();
 	}
 
 	vector<Monitor> MonitorHelper::GetAllMonitors()

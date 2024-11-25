@@ -9,12 +9,25 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "Engine/Resource/Core/GeometyData.h"
+
+#include <thread>
+#include <atomic>
 
 namespace MAGE
 {
-	namespace Importer
+	class JobSystem;
+
+	class WorkerThread final
 	{
-		vector<GeometryData> LoadGeometry(const string& path);
-	}
+	public:
+		WorkerThread(JobSystem* js);
+		~WorkerThread();
+
+		void ThreadRun();
+
+	private:
+		JobSystem* m_system;
+		std::thread m_thread;
+		std::atomic<bool> m_terminate;
+	};
 }

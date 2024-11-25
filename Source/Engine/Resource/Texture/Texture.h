@@ -9,7 +9,7 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "../Core/IResource.h"
+#include "../Core/Resource.h"
 
 #include "Engine/Vulkan/Buffer/VBuffer.h"
 #include "Engine/Vulkan/Image/VImage.h"
@@ -24,17 +24,19 @@ namespace MAGE
 		u32 channelCount = 4;
 	};
 
-	class Texture : public IResource
+	class Texture : public Resource
 	{
 	public:
-		Texture();
+		Texture(const TextureProps& texDesc, const ResourceProps& resDesc);
 		virtual ~Texture() override;
 
-		virtual void LoadTexture();
-		virtual void UnloadTexture();
+		virtual void GenerateTexture();
 
-		void Serialize() override;
-		void Deserialize() override;
+		virtual bool Load() override;
+		virtual bool Unload() override;
+
+		virtual void Serialize(const path& absPath) override;
+		virtual void Deserialize(const path& relPath) override;
 
 		void Destroy() override final;
 

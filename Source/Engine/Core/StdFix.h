@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include <filesystem>
+using path = std::filesystem::path;
+
 #include <array>
 template<typename T, size_t N>
 using array = std::array<T, N>;

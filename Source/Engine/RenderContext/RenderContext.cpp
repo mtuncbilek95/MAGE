@@ -55,27 +55,19 @@ namespace MAGE
 		{
 			m_imageSemaphores.push_back(MakeOwned<VSemaphore>(&*m_device));
 			m_presentSemaphores.push_back(MakeOwned<VSemaphore>(&*m_device));
-			m_inflightFences.push_back(MakeOwned<VFence>(true, &*m_device));
+			m_inflightFences.push_back(MakeOwned<VFence>(false, &*m_device));
 			m_presentBuffers.push_back(m_presentPool->CreateCmdBuffer());
 		}
 
 		m_window->Show();
 	}
 
-	void RenderContext::RegisterExecution(const voidFunc& exec, VCmdBuffer* buffer)
-	{
-		m_commands.push_back(std::make_pair(buffer, exec));
-	}
-
 	void RenderContext::PrepareFrame()
 	{
 		m_window->PollEvents();
-
+		
 		// TODO: Do transfer work first
 		// TODO: Do compute? second
-
-		m_inflightFences[m_nextIndex]->Wait();
-		m_inflightFences[m_nextIndex]->Reset();
 
 		m_nextIndex = m_swapchain->AcquireNextImage(&*m_imageSemaphores[m_currentIndex], nullptr);
 		m_presentBuffers[m_nextIndex]->BeginRecord(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
@@ -106,18 +98,6 @@ namespace MAGE
 
 	void RenderContext::SubmitFrame()
 	{
-		if (m_commands.size() > 0)
-		{
-			vector<VCmdBuffer*> buffers;
-			for (auto& cmd : m_commands)
-			{
-				cmd.second();
-				buffers.push_back(cmd.first);
-			}
-
-			m_presentBuffers[m_nextIndex]->ExecuteCommands(buffers);
-		}
-
 		m_presentBuffers[m_nextIndex]->EndRendering();
 
 		ImageBarrierProps barrier = {};
@@ -133,6 +113,9 @@ namespace MAGE
 
 		m_gQueue->Submit({ &*m_presentBuffers[m_nextIndex] }, { &*m_imageSemaphores[m_currentIndex] }, { &*m_presentSemaphores[m_nextIndex] }, &*m_inflightFences[m_nextIndex], VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
 		m_swapchain->Present({ &*m_presentSemaphores[m_nextIndex] });
+
+		m_inflightFences[m_nextIndex]->Wait();
+		m_inflightFences[m_nextIndex]->Reset();
 
 		m_currentIndex = m_nextIndex;
 	}

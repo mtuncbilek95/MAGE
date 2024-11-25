@@ -1,28 +1,16 @@
 #include "Texture.h"
 
 #include "Engine/Platform/PlatformFile.h"
-#include "Engine/Resource/TexLoader/TexLoader.h"
 #include "Engine/RenderContext/RenderContext.h"
 
 namespace MAGE
 {
-	Texture::Texture()
+	Texture::Texture(const TextureProps& texDesc, const ResourceProps& resDesc) : Resource(resDesc), m_texProps(texDesc)
 	{
 	}
 
-	Texture::~Texture()
+	void Texture::GenerateTexture()
 	{
-		Destroy();
-	}
-
-	void Texture::LoadTexture()
-	{
-		if (!PlatformFile::Exists(m_resProps.absolutePath))
-		{
-			spdlog::error("\"{}\" is not a valid path.", m_resProps.absolutePath);
-			return;
-		}
-
 		BufferProps stageProp =
 		{
 			.sizeInBytes = static_cast<usize>(m_texProps.texSize.x * m_texProps.texSize.y * m_texProps.texSize.z * m_texProps.channelCount),
@@ -31,32 +19,39 @@ namespace MAGE
 		m_stage = MakeOwned<VBuffer>(stageProp, Context::GetMainDevice());
 		m_stage->BindMemory(Context::GetMainAllocator()->GetAvailableMemory(AllocProps(m_stage->GetRequestedSize(), VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT)));
 
-		OwnedBuffer buffer;
-		PlatformFile::Read(m_resProps.absolutePath, buffer);
-		m_stage->Update(buffer, 0);
+		//ResourceHandler::ReadResourceFile(m_resProps.relativePath, m_resProps.data);
+		m_stage->Update(m_resProps.data, 0);
 	}
 
-	void Texture::UnloadTexture()
+	bool Texture::Load()
 	{
+		return false;
 	}
 
-	void Texture::Serialize()
+	bool Texture::Unload()
 	{
+		return false;
 	}
 
-	void Texture::Deserialize()
+	void Texture::Serialize(const path& absPath)
 	{
+		Resource::Serialize(absPath);
+
+
+	}
+
+	void Texture::Deserialize(const path& relPath)
+	{
+		Resource::Deserialize(relPath);
 	}
 
 	void Texture::Destroy()
 	{
 		if (m_stage)
-			m_stage->Destroy();
-
+			m_stage.reset();
 		if (m_image)
-			m_image->Destroy();
-
+			m_image.reset();
 		if (m_view)
-			m_view->Destroy();
+			m_view.reset();
 	}
 }

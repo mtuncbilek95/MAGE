@@ -27,7 +27,7 @@ namespace MAGE
 	{
 	public:
 		VBuffer(const BufferProps& desc, VDevice* device);
-		~VBuffer();
+		~VBuffer() override final;
 
 		inline VkBuffer GetVkBuffer() const { return m_buffer; }
 		inline VkDeviceMemory GetVkMemory() const { return m_memory->m_memory; }

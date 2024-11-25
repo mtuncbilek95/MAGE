@@ -88,7 +88,7 @@ namespace MAGE
 	{
 	public:
 		VCmdBuffer(const CmdBufferProps& desc, VDevice* device);
-		~VCmdBuffer();
+		~VCmdBuffer() override final;
 
 		inline VkCommandBuffer GetVkCmdBuffer() const { return m_buffer; }
 

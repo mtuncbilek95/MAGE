@@ -9,13 +9,18 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "Engine/Resource/Core/IResource.h"
-#include "Engine/Resource/Texture/Texture.h"
+
+#include <atomic>
 
 namespace MAGE
 {
-	namespace Helper
+	class Spinlock final
 	{
-		Texture* CreateTexture(const ResourceProps& resDesc, const TextureProps& texDesc);
-	}
+	public:
+		void Lock();
+		void Unlock();
+
+	private:
+		std::atomic_flag m_flag = ATOMIC_FLAG_INIT;
+	};
 }

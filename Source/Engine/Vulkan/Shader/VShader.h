@@ -27,7 +27,7 @@ namespace MAGE
 	{
 	public:
 		VShader(const ShaderProps& desc, VDevice* device);
-		~VShader();
+		~VShader() override final;
 
 		inline VkShaderModule GetVkShaderModule() const { return m_shaderModule; }
 		inline VkShaderStageFlagBits GetVkShaderStage() const { return m_props.shaderStage; }

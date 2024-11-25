@@ -13,8 +13,11 @@
 
 namespace MAGE
 {
-	struct TexData final
+	struct Imagery final
 	{
-		
+		Math::Vec2u imageSize;
+		u32 channelCount = 4;
+		u32 depthBit = 8;
+		OwnedBuffer buffer;
 	};
 }

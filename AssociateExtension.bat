@@ -3,7 +3,7 @@
 set SCRIPT_DIR=%~dp0
 
 :: Define the application path relative to the script directory
-set APP_PATH="%SCRIPT_DIR%Build-Debug\Example\01-General\01-General.exe"
+set APP_PATH="%SCRIPT_DIR%Build-Debug\Example\03-ResourceManagement\03-ResourceManagement.exe"
 
 :: Set the file extension
 set EXTENSION=.mproject

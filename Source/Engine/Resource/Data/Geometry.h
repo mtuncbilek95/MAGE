@@ -9,12 +9,27 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "Engine/Resource/Core/TexData.h"
 
 namespace MAGE
 {
-	namespace Importer
+	struct Vertex final
 	{
-		OwnedBuffer LoadTexture(const string& path);
-	}
+		Math::Vec3f position;
+		Math::Vec3f normal;
+		Math::Vec3f tangent;
+		Math::Vec3f bitangent;
+		Math::Vec4f color;
+		Math::Vec2f uv;
+	};
+
+	struct BoneWeight final
+	{
+
+	};
+
+	struct Geometry final
+	{
+		vector<Vertex> vertices;
+		vector<u32> indices;
+	};
 }

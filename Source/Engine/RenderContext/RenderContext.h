@@ -31,7 +31,6 @@ namespace MAGE
 		~RenderContext() override final = default;
 
 		void GenerateContext();
-		void RegisterExecution(const voidFunc& exec, VCmdBuffer* buffer);
 
 		void PrepareFrame();
 		void ExecuteFrame(const vector<VCmdBuffer*>& buffers);
@@ -42,6 +41,10 @@ namespace MAGE
 		VDevice* GetDevice() const { return &*m_device; }
 		VAllocator* GetAllocator() const { return &*m_alloc; }
 		VSwapchain* GetSwapchain() const { return &*m_swapchain; }
+
+		VQueue* GetGraphicsQueue() const { return &*m_gQueue; }
+		VQueue* GetTransferQueue() const { return &*m_tQueue; }
+		VQueue* GetComputeQueue() const { return &*m_cQueue; }
 
 	private:
 		Owned<IndWindow> m_window;
@@ -64,8 +67,6 @@ namespace MAGE
 
 		u32 m_currentIndex = 0;
 		u32 m_nextIndex = 0;
-
-		vector<pair<VCmdBuffer*, voidFunc>> m_commands;
 	};
 
 	namespace Context

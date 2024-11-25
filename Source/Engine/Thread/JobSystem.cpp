@@ -13,6 +13,8 @@ namespace MAGE
 		WaitForIdle();
 
 		m_shutdownFlag.store(true, std::memory_order_release);
+		m_waiter.notify_all();
+
 		for (auto worker : m_workers) {
 			delete worker;
 		}
@@ -24,12 +26,18 @@ namespace MAGE
 		m_jobQueue.push(fnc);
 		m_pendingCount.fetch_add(1, std::memory_order_release);
 		m_lock.Unlock();
+
+		m_waiter.notify_all();
 	}
 
 	void JobSystem::WaitForIdle() const
 	{
-		while (m_pendingCount.load(std::memory_order_acquire) > 0)
-		{
-		}
+		while (m_pendingCount.load(std::memory_order_acquire) > 0) {}
+	}
+
+	void JobSystem::Shutdown()
+	{
+		m_shutdownFlag.store(true, std::memory_order_release);
+		m_waiter.notify_all();
 	}
 }

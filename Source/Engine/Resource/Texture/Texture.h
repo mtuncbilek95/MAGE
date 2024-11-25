@@ -9,7 +9,7 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "../Core/Resource.h"
+#include "Engine/Resource/Core/Resource.h"
 
 #include "Engine/Vulkan/Buffer/VBuffer.h"
 #include "Engine/Vulkan/Image/VImage.h"
@@ -26,17 +26,13 @@ namespace MAGE
 
 	class Texture : public Resource
 	{
+		friend class TextureSerializer;
+
 	public:
-		Texture(const TextureProps& texDesc, const ResourceProps& resDesc);
+		Texture(const ResourceProps& resDesc);
 		virtual ~Texture() override;
 
 		virtual void GenerateTexture();
-
-		virtual bool Load() override;
-		virtual bool Unload() override;
-
-		virtual void Serialize(const path& absPath) override;
-		virtual void Deserialize(const path& relPath) override;
 
 		void Destroy() override final;
 

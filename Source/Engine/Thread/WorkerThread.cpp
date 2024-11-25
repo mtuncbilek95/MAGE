@@ -16,8 +16,17 @@ namespace MAGE
 
 	void WorkerThread::ThreadRun()
 	{
-		while (!m_terminate.load(std::memory_order_acquire) && !m_system->m_shutdownFlag.load(std::memory_order_acquire))
+		while (!m_terminate.load(std::memory_order_acquire) || !m_system->m_shutdownFlag.load(std::memory_order_acquire))
 		{
+			{
+				std::unique_lock<std::mutex> lock(m_system->m_waitLock);
+				m_system->m_waiter.wait(lock, [this] {
+					return m_terminate.load(std::memory_order_acquire) ||
+						m_system->m_shutdownFlag.load(std::memory_order_acquire) ||
+						!m_system->m_jobQueue.empty();
+					});
+			}
+
 			m_system->m_lock.Lock();
 			if (!m_system->m_jobQueue.empty())
 			{

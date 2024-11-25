@@ -15,6 +15,7 @@
 #include <Engine/Vulkan/Descriptor/VDescSet.h>
 #include <Engine/Vulkan/Pipeline/VPipeline.h>
 #include <Engine/Vulkan/Buffer/VBuffer.h>
+#include <Engine/Thread/JobSystem.h>
 
 using namespace MAGE;
 
@@ -42,6 +43,8 @@ struct MVPStruct
 
 int main(int argC, char** argV)
 {
+	JobSystem jobs(16);
+
 	WindowProps windProp =
 	{
 		.windowTitle = "Hello Triangle",
@@ -91,43 +94,59 @@ int main(int argC, char** argV)
 
 	vector<Owned<VCmdBuffer>> gPrimBuffers;
 	vector<Owned<VSemaphore>> gRenderSemaphores;
+	Owned<VFence> gImgFence;
 
-	for (u32 i = 0; i < gSwapchain->GetImageCount(); i++)
-	{
-		gPrimBuffers.push_back(gPool->CreateCmdBuffer());
-		gRenderSemaphores.push_back(MakeOwned<VSemaphore>(&*gDevice));
-	}
-	Owned<VFence> gImgFence = MakeOwned<VFence>(false, &*gDevice);
+	jobs.SubmitJob([&]() {
+		for (u32 i = 0; i < gSwapchain->GetImageCount(); i++)
+		{
+			gPrimBuffers.push_back(gPool->CreateCmdBuffer());
+			gRenderSemaphores.push_back(MakeOwned<VSemaphore>(&*gDevice));
+		}
+		});
 
-	ShaderProps shaderProp = {};
-	shaderProp.shaderPath = R"(D:\Projects\MAGE\Shaders\HelloTriangle.vert)";
-	shaderProp.shaderStage = VK_SHADER_STAGE_VERTEX_BIT;
-	Owned<VShader> vShader = MakeOwned<VShader>(shaderProp, &*gDevice);
+	jobs.SubmitJob([&]() {
+		gImgFence = MakeOwned<VFence>(false, &*gDevice);
+		});
 
-	shaderProp.shaderPath = R"(D:\Projects\MAGE\Shaders\HelloTriangle.frag)";
-	shaderProp.shaderStage = VK_SHADER_STAGE_FRAGMENT_BIT;
-	Owned<VShader> fShader = MakeOwned<VShader>(shaderProp, &*gDevice);
+	Owned<VShader> vShader;
+	Owned<VShader> fShader;
+	Owned<VPipeline> pipeline;
 
-	DescLayoutProps descLayoutProp = {};
-	descLayoutProp.bindings = { { 0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT } };
+	jobs.SubmitJob([&]() {
+		ShaderProps shaderProp = {};
+		shaderProp.shaderPath = R"(D:\Projects\MAGE\Shaders\HelloTriangle.vert)";
+		shaderProp.shaderStage = VK_SHADER_STAGE_VERTEX_BIT;
+		vShader = MakeOwned<VShader>(shaderProp, &*gDevice);
 
-	GraphicsPipelineProps pipeProp = {};
-	pipeProp.shaderStages = { &*vShader, &*fShader };
-	pipeProp.viewportState.viewport = vk::Viewport(0, 0, 1600, 900, 0.0f, 1.0f);
-	pipeProp.viewportState.scissor = vk::Rect2D({ 0,0 }, { 1600, 900 });
-	pipeProp.inputAssembler.bindings = { {VK_VERTEX_INPUT_RATE_VERTEX, {VK_FORMAT_R32G32B32_SFLOAT, VK_FORMAT_R32G32B32A32_SFLOAT}} };
-	pipeProp.dynamicRendering.colorAttachments = { VK_FORMAT_R8G8B8A8_UNORM };
-	pipeProp.blendState.attachments = { BlendStateAttachment() };
+		shaderProp.shaderPath = R"(D:\Projects\MAGE\Shaders\HelloTriangle.frag)";
+		shaderProp.shaderStage = VK_SHADER_STAGE_FRAGMENT_BIT;
+		fShader = MakeOwned<VShader>(shaderProp, &*gDevice);
 
-	Owned<VPipeline> pipeline = MakeOwned<VPipeline>(pipeProp, &*gDevice);
+		GraphicsPipelineProps pipeProp = {};
+		pipeProp.shaderStages = { &*vShader, &*fShader };
+		pipeProp.viewportState.viewport = vk::Viewport(0, 0, 1600, 900, 0.0f, 1.0f);
+		pipeProp.viewportState.scissor = vk::Rect2D({ 0,0 }, { 1600, 900 });
+		pipeProp.inputAssembler.bindings = { {VK_VERTEX_INPUT_RATE_VERTEX, {VK_FORMAT_R32G32B32_SFLOAT, VK_FORMAT_R32G32B32A32_SFLOAT}} };
+		pipeProp.dynamicRendering.colorAttachments = { VK_FORMAT_R8G8B8A8_UNORM };
+		pipeProp.blendState.attachments = { BlendStateAttachment() };
 
-	BufferProps bufferProp = {};
-	bufferProp.sizeInBytes = sizeof(Vertex) * square.size() + indices.size() * sizeof(u32);
-	bufferProp.usageFlags = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
-	Owned<VBuffer> vBuffer = MakeOwned<VBuffer>(bufferProp, &*gDevice);
-	vBuffer->BindMemory(gAlloc->GetAvailableMemory(AllocProps(vBuffer->GetRequestedSize(), VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT | VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT)));
-	vBuffer->Update({ square.data(), sizeof(Vertex) * square.size() }, 0);
-	vBuffer->Update({ indices.data(), indices.size() * sizeof(u32) }, sizeof(Vertex) * square.size());
+		pipeline = MakeOwned<VPipeline>(pipeProp, &*gDevice);
+		});
+
+	Owned<VBuffer> vBuffer;
+
+	jobs.SubmitJob([&]() {
+		BufferProps bufferProp = {};
+		bufferProp.sizeInBytes = sizeof(Vertex) * square.size() + indices.size() * sizeof(u32);
+		bufferProp.usageFlags = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
+
+		vBuffer = MakeOwned<VBuffer>(bufferProp, &*gDevice);
+		vBuffer->BindMemory(gAlloc->GetAvailableMemory(AllocProps(vBuffer->GetRequestedSize(), VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT | VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT)));
+		vBuffer->Update({ square.data(), sizeof(Vertex) * square.size() }, 0);
+		vBuffer->Update({ indices.data(), indices.size() * sizeof(u32) }, sizeof(Vertex) * square.size());
+		});
+
+	jobs.WaitForIdle();
 
 	window.Show();
 	while (!window.IsClosed())
@@ -176,5 +195,4 @@ int main(int argC, char** argV)
 	window.Hide();
 
 	gDevice->WaitForIdle();
-
 }

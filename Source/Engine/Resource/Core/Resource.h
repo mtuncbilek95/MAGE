@@ -44,12 +44,6 @@ namespace MAGE
 		Resource(const ResourceProps& desc);
 		virtual ~Resource();
 
-		virtual bool Load() = 0;
-		virtual bool Unload() = 0;
-
-		virtual void Serialize(const path& absPath);
-		virtual void Deserialize(const path& relPath);
-
 		virtual void Destroy() override = 0;
 
 	protected:

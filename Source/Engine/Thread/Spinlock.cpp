@@ -4,9 +4,7 @@ namespace MAGE
 {
 	void Spinlock::Lock()
 	{
-		while (m_flag.test_and_set(std::memory_order_acquire))
-		{
-		}
+		while (m_flag.test_and_set(std::memory_order_acquire)) {}
 	}
 
 	void Spinlock::Unlock()

@@ -20,7 +20,6 @@ namespace MAGE
 	{
 	public:
 		static void ReadFileFromDisk(const string& aPath, const string& relExtPath, ResourceProps& props);
-		static void ReadResourceFile(const string& fPath, OwnedBuffer& buffer);
 		static void ReadGeometryDisk(const string& fPath, Geometry& buffer);
 		static void ReadTextureDisk(const string& fPath, Imagery& buffer);
 	};

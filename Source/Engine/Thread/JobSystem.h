@@ -24,6 +24,7 @@ namespace MAGE
 
 		void SubmitJob(const function<void()>& fnc);
 		void WaitForIdle() const;
+		void Shutdown();
 
 	private:
 		queue<function<void()>> m_jobQueue;
@@ -31,6 +32,8 @@ namespace MAGE
 
 		std::atomic<int> m_pendingCount;
 		std::atomic<bool> m_shutdownFlag;
+		std::condition_variable m_waiter;
+		std::mutex m_waitLock;
 
 		Spinlock m_lock;
 	};

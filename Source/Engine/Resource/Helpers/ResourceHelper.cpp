@@ -58,48 +58,9 @@ namespace MAGE
 		props.resourceName = newPath.stem().string();
 		props.relativePath = (Config::GetAppConfig().projectPath / relExtPath).string();
 		props.guid = Guid::GenerateID();
-		props.lastModified = DayTime::GetCurrentTime();
+		props.lastModified = DayTime::GetCurrentDayTime();
 		props.type = GetResourceType(newPath);
 		props.sizeInBytes = std::filesystem::file_size(newPath);
-
-		switch (props.type)
-		{
-			case ResourceType::Texture:
-				// Read with framework
-				// Write as binary
-				break;
-			case ResourceType::Mesh:
-				// Read with framework
-				// Write as binary
-				break;
-			case ResourceType::Shader:
-				// Read as string
-				// write as binary
-				break;
-			case ResourceType::Script:
-				// Copy
-				break;
-			case ResourceType::Font:
-				// Read with framework
-				// Write as binary
-				break;
-			case ResourceType::Audio:
-				// Read with framework
-				// Write as binary
-				break;
-			default:
-				spdlog::critical("You fucked up!");
-				break;
-		}
-	}
-
-	void ResourceHandler::ReadResourceFile(const string& relPath, OwnedBuffer& buffer)
-	{
-		path newPath = Config::GetAppConfig().projectPath;
-		newPath /= relPath;
-
-		if (!PlatformFile::Read(newPath.string(), buffer))
-			spdlog::error("Failed to load from {}", relPath);
 	}
 
 	void ResourceHandler::ReadTextureDisk(const string& fPath, Imagery& buffer)
@@ -110,7 +71,7 @@ namespace MAGE
 
 		buffer.channelCount = channels;
 		buffer.imageSize = { static_cast<u32>(width), static_cast<u32>(height) };
-		buffer.buffer = OwnedBuffer(data, static_cast<u64>(width * height * 8 * channels));
+		buffer.buffer = OwnedBuffer(data, static_cast<u64>(width * height * buffer.depthBit * channels));
 	}
 
 	void ResourceHandler::ReadGeometryDisk(const string& fPath, Geometry& buffer)

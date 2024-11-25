@@ -5,7 +5,7 @@
 
 namespace MAGE
 {
-	Texture::Texture(const TextureProps& texDesc, const ResourceProps& resDesc) : Resource(resDesc), m_texProps(texDesc)
+	Texture::Texture(const ResourceProps& resDesc) : Resource(resDesc)
 	{
 	}
 
@@ -21,28 +21,6 @@ namespace MAGE
 
 		//ResourceHandler::ReadResourceFile(m_resProps.relativePath, m_resProps.data);
 		m_stage->Update(m_resProps.data, 0);
-	}
-
-	bool Texture::Load()
-	{
-		return false;
-	}
-
-	bool Texture::Unload()
-	{
-		return false;
-	}
-
-	void Texture::Serialize(const path& absPath)
-	{
-		Resource::Serialize(absPath);
-
-
-	}
-
-	void Texture::Deserialize(const path& relPath)
-	{
-		Resource::Deserialize(relPath);
 	}
 
 	void Texture::Destroy()

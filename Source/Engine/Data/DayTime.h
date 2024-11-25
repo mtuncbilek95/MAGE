@@ -39,7 +39,7 @@ namespace MAGE
 		u8 GetMinute() const { return m_minute; }
 		u8 GetSecond() const { return m_second; }
 
-		static DayTime GetCurrentTime();
+		static DayTime GetCurrentDayTime();
 
 		string ToString() const;
 

@@ -16,6 +16,7 @@ namespace MAGE
 	{
 	public:
 		DayTime() = default;
+		DayTime(const string& val);
 		~DayTime() = default;
 
 		DayTime operator=(const DayTime& other)

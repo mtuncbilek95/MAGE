@@ -9,44 +9,31 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "Engine/Data/Guid.h"
-#include "Engine/Data/DayTime.h"
 #include "Engine/Objects/IObject.h"
-#include "Engine/Memory/OwnedBuffer.h"
+
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 namespace MAGE
 {
-	enum class ResourceType
-	{
-		Unknown,
-		Texture,
-		Mesh,
-		Shader,
-		Font,
-		Audio,
-		Script
-	};
-
-	struct ResourceProps
-	{
-		Guid guid;
-		string resourceName;
-		string relativePath;
-		usize sizeInBytes;
-		ResourceType type;
-		DayTime lastModified;
-		OwnedBuffer data;
-	};
-
 	class Resource : public IObject
 	{
 	public:
-		Resource(const ResourceProps& desc);
-		virtual ~Resource();
+		Resource(const json& desc);
+		virtual ~Resource() = default;
+
+		string GetResourceName() const { return m_props["Properties"]["Name"].get<string>(); }
+		string GetGuid() const { return m_props["Properties"]["ID"].get<string>(); }
+		string GetLastModified() const { return m_props["Properties"]["LastModified"].get<string>(); }
+		string GetPath() const { return m_props["Properties"]["Path"].get<string>(); }
+		string GetType() const { return m_props["Properties"]["Type"].get<string>(); }
+
+		virtual void Serialize() = 0;
+		virtual void Deserialize() = 0;
 
 		virtual void Destroy() override = 0;
 
 	protected:
-		ResourceProps m_resProps;
+		json m_props;
 	};
 }

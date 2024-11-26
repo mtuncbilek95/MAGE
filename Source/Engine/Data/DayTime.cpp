@@ -9,6 +9,10 @@ namespace MAGE
 {
 	const array<string, 12> monthsInString = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
 
+	DayTime::DayTime(const string& val)
+	{
+	}
+
 	string DayTime::GetMonthName() const
 	{
 		return monthsInString[m_month - 1];

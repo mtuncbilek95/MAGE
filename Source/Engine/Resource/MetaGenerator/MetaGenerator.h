@@ -9,15 +9,23 @@
 #pragma once
 
 #include "Engine/Core/Core.h"
-#include "Engine/Memory/OwnedBuffer.h"
+
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 namespace MAGE
 {
-	struct Imagery final
+	class Resource;
+
+	class MetaHandler final
 	{
-		Math::Vec2u imageSize;
-		u32 channelCount = 4;
-		u32 depthBit = 8;
-		OwnedBuffer buffer;
+	public:
+		static json GetResourceMeta(const path& srcPath, const path& dstPath);
+	};
+
+	class ResourceHandler final
+	{
+	public:
+		static Shared<Resource> GetResourceData(const path& srcPath, const path& dstPath);
 	};
 }

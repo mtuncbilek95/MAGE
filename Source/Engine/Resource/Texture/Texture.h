@@ -29,16 +29,16 @@ namespace MAGE
 		friend class TextureSerializer;
 
 	public:
-		Texture(const ResourceProps& resDesc);
+		Texture(const json& desc);
 		virtual ~Texture() override;
 
-		virtual void GenerateTexture();
+		virtual void GenerateBuffer();
 
+		void Serialize() override final;
+		void Deserialize() override final;
 		void Destroy() override final;
 
-	private:
-		TextureProps m_texProps;
-
+	protected:
 		Owned<VBuffer> m_stage;
 		Owned<VImage> m_image;
 		Owned<VImageView> m_view;

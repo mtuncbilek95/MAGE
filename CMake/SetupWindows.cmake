@@ -1,4 +1,4 @@
-function(SetupDX12 TARGET)
+function(SetupD3D TARGET)
 	target_link_libraries(${TARGET} PUBLIC d3d11.lib d3d12.lib dxgi.lib dxguid.lib)
 endfunction()
 

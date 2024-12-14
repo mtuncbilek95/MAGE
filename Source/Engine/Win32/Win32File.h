@@ -15,7 +15,7 @@
 
 namespace Mage
 {
-	struct PlatformFile
+	struct Win32File
 	{
 	private:
 		typedef SharedMemory shareBuf;

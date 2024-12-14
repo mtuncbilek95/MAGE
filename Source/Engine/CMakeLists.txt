@@ -22,7 +22,7 @@ AddStbMacros(Engine)
 
 if(WIN32)
 	include(SetupWindows)
-    SetupDX12(Engine)
+    SetupD3D(Engine)
     SetupWin32(Engine)
 endif()
 # ------------------------------------------------------------

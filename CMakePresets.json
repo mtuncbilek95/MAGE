@@ -2,7 +2,7 @@
   "version": 3,
   "configurePresets": [
     {
-      "binaryDir": "${sourceDir}/${presetName}",
+      "binaryDir": "${sourceDir}/Build/${presetName}",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "cl.exe",
         "CMAKE_CXX_COMPILER": "cl.exe"
@@ -18,24 +18,8 @@
       "name": "windows-base"
     },
     {
-      "binaryDir": "${sourceDir}/Build/${presetName}",
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "gcc",
-        "CMAKE_CXX_COMPILER": "g++"
-      },
-      "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Linux"
-      },
-      "generator": "Ninja",
-      "hidden": true,
-      "installDir": "${sourceDir}/Install/${presetName}",
-      "name": "linux-base"
-    },
-    {
-      "name": "Build-Debug",
-      "displayName": "Build-Debug",
+      "name": "Debug",
+      "displayName": "Debug",
       "inherits": "windows-base",
       "architecture": {
         "value": "x64",
@@ -46,9 +30,9 @@
       }
     },
     {
-      "name": "Build-Release",
-      "displayName": "Build-Release",
-      "inherits": "Build-Debug",
+      "name": "Release",
+      "displayName": "Release",
+      "inherits": "Debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }

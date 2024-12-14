@@ -8,36 +8,37 @@
 
 #pragma once
 
-#include "Engine/Core/Core.h"
-#include "Engine/Objects/IObject.h"
-#include "Engine/Monitor/Monitor.h"
+#include "Engine/Definitions/Definitions.h"
+#include "Engine/Definitions/StdNames.h"
+#include "Engine/Definitions/GlmNames.h"
+#include "Engine/Containers/IObject.h"
 
-#include <GLFW/glfw3.h>
+#include <glfw/glfw3.h>
 #include <glfw/glfw3native.h>
 
-namespace MAGE
+namespace Mage
 {
 	struct WindowProps final
 	{
-		string windowTitle;
-		Math::Vec2u windowSize;
-		Math::Vec2i windowPos;
-		b8 isWindowed;
+		string windowTitle = "DefaultWindow";
+		Math::Vec2u windowSize = { 1920, 1080 };
+		Math::Vec2i windowPos = { 0, 0 };
+		b8 isWindowed = true;
 	};
 
 	class IndWindow final : public IObject
 	{
-		using SizeCallback = function<void(Math::Vec2u)>;
-		using PosCallback = function<void(Math::Vec2i)>;
-
 	public:
-		IndWindow(const WindowProps& desc);
-		~IndWindow();
+		IndWindow() = default;
+		~IndWindow() override final;
 
-		void WindowResizeCallback(const SizeCallback& callback);
-		void WindowPosCallback(const PosCallback& callback);
+		void Initialize(const WindowProps& desc);
+		void PollEvents() { glfwPollEvents(); }
 
-		void PollEvents();
+		void Show() const { glfwShowWindow(m_handle); }
+		void Hide() const { glfwHideWindow(m_handle); }
+
+		void Destroy() override final;
 
 		const Math::Vec2u& GetWindowRes() const { return m_props.windowSize; }
 		const Math::Vec2i& GetWindowPos() const { return m_props.windowPos; }
@@ -46,23 +47,15 @@ namespace MAGE
 		b8 GetIsWindowed() const { return m_props.isWindowed; }
 		b8 IsClosed() const { return glfwWindowShouldClose(m_handle); }
 
-#if defined(DELUSION_WINDOWS)
+#if defined(MAGE_WINDOWS)
 		HWND GetNativeHandle() const { return glfwGetWin32Window(m_handle); }
 		HINSTANCE GetNativeInstance() const { return GetModuleHandle(nullptr); }
-#endif // DELUSION_WINDOWS
-		GLFWwindow* GetGLFWWindow() const { return m_handle; }
+#endif
 
-		void Show() const;
-		void Hide() const;
-		void Destroy() override final;
+		GLFWwindow* GetGLFWWindow() const { return m_handle; }
 
 	private:
 		WindowProps m_props;
 		GLFWwindow* m_handle;
-
-		SizeCallback m_sizeFunc;
-		PosCallback m_posFunc;
-
-		vector<Monitor> m_allMonitors;
 	};
 }

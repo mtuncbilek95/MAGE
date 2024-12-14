@@ -1,7 +1,7 @@
 ﻿cmake_minimum_required(VERSION 3.26)
 
 # ----------------------- PROJECT NAME -----------------------
-project("MAGE:Delusion")
+project("Mage")
 # ------------------------------------------------------------
 
 # ----------------------- CXX FLAGS --------------------------
@@ -26,7 +26,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake")
 include(SetupConfig)
 SetupConfig()
 
-option(ENABLE_CATCH_TEST "Enable testing" ON) # This one needs to be set ON or OFF in Build/${BuildType-OS}/CMakeCache.txt
+option(ENABLE_CATCH_TEST "Enable testing" ON)
 
 if(ENABLE_CATCH_TEST)
 	enable_testing()
@@ -37,9 +37,5 @@ endif()
 add_subdirectory("External")
 add_subdirectory("Source/Engine")
 
-#add_subdirectory("Tests")
-	
-add_subdirectory("Example/01-HelloTriangle")
-add_subdirectory("Example/02-RotatingSquare")
-add_subdirectory("Example/03-ResourceManagement")
+add_subdirectory("Examples/01-Startup")
 # ------------------------------------------------------------
